@@ -1,0 +1,219 @@
+@@meta
+file: 6-komma-meister.html
+title: Komma-Meister
+level: Profis
+nr: 6
+total: 20
+subtitle: Knifflige Sätze: mal zwei oder drei Kommas, mal gar keins. Setze alle und prüfe dann!
+lead: Solche Sätze warten auf dich:
+id: meister
+desc: Setze alle Kommas im Satz und prüfe dann. Vorsicht, Fallen!
+sample: Der Tag, als es schneite, …
+drag: no
+@@tipp
+Ein Nebensatz kann <b>vorn</b>, <b>hinten</b> oder <b>mitten im Satz</b> stehen. Steht er mittendrin, braucht er zwei Kommas: eins davor und eins dahinter. Vorsicht bei <b>als</b> und <b>wie</b>: Folgt kein Nebensatz mit Verb am Ende, steht kein Komma: Ich bin größer als du.
+@@examples
+      <div class="ex neb" style="--tilt:-1.5deg"><div class="ex-head"><b>mittendrin</b><span>zwei Kommas</span></div><div class="ex-body">Der Tag<span class="cm">,</span> <span class="a">als</span> es schneite<span class="cm">,</span> war schön.</div></div>
+      <div class="ex auf" style="--tilt:1deg"><div class="ex-head"><b>beides</b><span>zwei Kommas</span></div><div class="ex-body">Ich weiß<span class="cm">,</span> <span class="w neb">dass</span> du <span class="a">Rot</span><span class="cm">,</span> <span class="a">Blau</span> und <span class="a">Grün</span> magst.</div></div>
+      <div class="ex kein" style="--tilt:-.5deg"><div class="ex-head"><b>Vergleich</b><span>kein Komma</span></div><div class="ex-body">Ich bin größer als du.</div></div>
+@@howto
+        <li><span>Lies den Satz. Tippe auf jedes Kästchen, in das ein Komma gehört. Tippst du noch einmal, verschwindet das Komma wieder.</span></li>
+        <li><span>Manche Sätze brauchen zwei oder drei Kommas. Manche brauchen gar keins.</span></li>
+        <li><span>Bist du fertig? Dann tippe auf <b>Prüfen</b>.</span></li>
+@@board
+    <div class="bench">
+      <p class="lbl">Setze alle Kommas. Tippe dann auf Prüfen.</p>
+      <p class="sentence commas toggle" id="sentence"></p>
+      <p class="help" id="count" aria-live="polite"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Das Komma: gemeinsame Farben ---------- */
+.auf{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.neb{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.kein{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.komma{--c:var(--sun-deep);--cd:var(--sun-deep);--cs:var(--sun-soft)}
+.neutral{--cs:var(--paper)}
+.w{color:var(--c);font-weight:700}
+.cm{color:var(--sun-deep);font-weight:700;font-size:1.3em;line-height:.8}
+.ex-head b{font-size:clamp(1.05rem,2.8vw,1.5rem)}
+.ex-body{font-size:clamp(1rem,2.6vw,1.4rem);line-height:1.3;font-weight:400}
+.ex-body .a{font-weight:700}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.5}
+.bpic{margin:0;font-size:clamp(2.2rem,6vw,3rem);line-height:1.2}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.3rem;color:var(--c)}
+.review .neutral li b.w{color:var(--bonus)}
+.bubble .cm,.review .cm{font-size:1.2em}
+.review li b.cm{color:var(--sun-deep)}
+.vb{border-bottom:3px solid var(--bonus)}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+/* ---------- Komma-Stellen zum Antippen ---------- */
+.commas{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;row-gap:6px;margin-top:8px}
+.commas .wd{display:inline-flex;align-items:center;white-space:nowrap}
+.cgap{appearance:none;border:none;background:none;width:48px;height:56px;padding:0;margin:0 -5px;display:inline-grid;place-items:center;cursor:pointer;border-radius:12px}
+.cgap i{display:block;width:26px;height:34px;border:3px dashed var(--ink-soft);opacity:.55;border-radius:10px;transition:border-color .12s ease,background-color .12s ease}
+@media (hover:hover){.cgap:hover i{opacity:1;border-color:var(--sun);background:var(--sun-soft)}}
+.cgap.hint i{opacity:1;border-color:var(--sun);background:var(--sun-soft);animation:glow 1.1s ease-in-out infinite}
+.cgap.set{pointer-events:none}
+.cgap.set i{border:3px solid var(--sun);background:var(--sun-soft);opacity:1;position:relative}
+.cgap.set i::after{content:",";position:absolute;inset:0;display:grid;place-items:center;font-style:normal;font-weight:700;color:var(--sun-deep);font-size:1.25em;line-height:.6;padding-bottom:.35em}
+.commas.solved .cgap{width:.32em;height:auto;margin:0;pointer-events:none}
+.commas.solved .cgap i{display:none}
+.commas.solved .cgap.set{width:auto;margin-right:.3em;color:var(--sun-deep);font-size:1.3em;line-height:1;font-weight:700}
+.commas.solved .cgap.set::after{content:","}
+.k0{font-size:.85rem;background:var(--card-edge);border-radius:6px;padding:0 7px;margin-left:8px;vertical-align:middle}
+@media (hover:none){.k0{display:none}}
+/* ---------- Komma-Meister ---------- */
+.toggle .cgap.set{pointer-events:auto}
+.toggle.solved .cgap{pointer-events:none}
+#check.hint{animation:glow 1.1s ease-in-out infinite}
+@@data
+/* Aufbau: [der richtige Satz mit allen Kommas, Tipp für den Satz]
+   Das Spiel nimmt die Kommas heraus. Sätze ohne Komma sind Fallen. */
+const SENTENCES = [
+  ['Die Nachricht, dass der Zirkus kommt, freut alle Kinder.',
+   'Der Nebensatz mit <b>dass</b> steht mitten im Satz. Er braucht ein Komma davor und eins dahinter.'],
+  ['Die Frage, ob wir gewinnen, ist noch offen.',
+   'Der Nebensatz mit <b>ob</b> steht mitten im Satz. Er braucht ein Komma davor und eins dahinter.'],
+  ['An dem Tag, als ich Geburtstag hatte, schneite es.',
+   'Der Nebensatz mit <b>als</b> steht mitten im Satz. Er endet mit dem Verb <b>hatte</b>. Davor und dahinter steht ein Komma.'],
+  ['Mein Hund bellt, wenn es klingelt, immer sehr laut.',
+   'Der Nebensatz mit <b>wenn</b> steht mitten im Satz. Er endet mit dem Verb <b>klingelt</b>. Davor und dahinter steht ein Komma.'],
+  ['Ich packe Badehose, Handtuch und Sonnencreme ein, weil wir ins Freibad gehen.',
+   'Hier gibt es eine Aufzählung mit drei Teilen und einen Nebensatz mit <b>weil</b>. Vor <b>und</b> steht kein Komma.'],
+  ['Wenn die Sonne scheint, spielen Mia, Ben, Ole und Ida draußen.',
+   'Der Nebensatz mit <b>wenn</b> steht vorn. Er endet mit dem Verb <b>scheint</b>. Dann werden vier Namen aufgezählt.'],
+  ['Mama sagt, dass wir Milch, Eier und Mehl brauchen.',
+   'Vor <b>dass</b> steht ein Komma. Im Nebensatz steckt eine Aufzählung mit drei Teilen.'],
+  ['Als wir im Zoo waren, sahen wir Giraffen, Elefanten und Pinguine.',
+   'Der Nebensatz mit <b>als</b> steht vorn. Er endet mit dem Verb <b>waren</b>. Dann folgt eine Aufzählung mit drei Teilen.'],
+  ['Ich weiß nicht, ob ich Geige, Flöte oder Klavier lernen soll.',
+   'Vor <b>ob</b> steht ein Komma. Im Nebensatz steckt eine Aufzählung mit <b>oder</b>.'],
+  ['Ich glaube, dass er sich freut, wenn wir ihn besuchen.',
+   'Hier gibt es zwei Nebensätze: einen mit <b>dass</b> und einen mit <b>wenn</b>. Vor jedem Bindewort steht ein Komma.'],
+  ['Weil es so heiß war, fragte ich, ob wir ein Eis bekommen.',
+   'Hier gibt es zwei Nebensätze. Der erste mit <b>weil</b> steht vorn und endet mit <b>war</b>. Vor <b>ob</b> steht das zweite Komma.'],
+  ['Ob das Wetter schön wird, wissen wir erst morgen.',
+   'Der Nebensatz mit <b>ob</b> steht vorn. Er endet mit dem Verb <b>wird</b>. Dahinter steht das Komma.'],
+  ['Dass du mir geholfen hast, finde ich sehr nett.',
+   'Der Nebensatz mit <b>dass</b> steht vorn. Er endet mit dem Verb <b>hast</b>. Dahinter steht das Komma.'],
+  ['Im Herbst sammeln wir bunte Blätter, glatte Kastanien, kleine Eicheln und dicke Nüsse.',
+   'Hier werden vier Dinge aufgezählt. Jedes Teil besteht aus zwei Wörtern. Vor <b>und</b> steht kein Komma.'],
+  ['Der Clown stolpert, wackelt, fällt hin und steht lachend wieder auf.',
+   'Hier wird aufgezählt, was der Clown alles tut. Es sind vier Teile. Vor <b>und</b> steht kein Komma.'],
+  ['Mein Bruder ist größer als ich.',
+   'Hier vergleicht <b>als</b> nur zwei Personen. Es folgt kein Nebensatz mit Verb am Ende. Der Satz braucht kein Komma.'],
+  ['Lina schwimmt so schnell wie ein Fisch.',
+   'Das ist ein Vergleich mit <b>wie</b>. Es gibt keinen Nebensatz und keine Aufzählung. Der Satz braucht kein Komma.'],
+  ['Im Sommer fahren Oma und Opa mit dem Zug ans Meer.',
+   'Hier werden nur zwei Personen mit <b>und</b> verbunden. Einen Nebensatz gibt es nicht. Der Satz braucht kein Komma.'],
+  ['Als Torwart trägt Ben dicke Handschuhe.',
+   'Hier leitet <b>als</b> keinen Nebensatz ein. Es gibt nur ein Verb: <b>trägt</b>. Der Satz braucht kein Komma.'],
+  ['Heute spielen wir zuerst Fangen und dann Verstecken.',
+   'Hier werden nur zwei Spiele mit <b>und</b> verbunden. Der Satz braucht kein Komma.']
+];
+const BINDS = ['weil', 'dass', 'wenn', 'als', 'ob'];
+
+const GAME = {
+  id: 'meister',
+  unit: 'Sätze',
+  next: null,
+  review: () => {
+    const half = Math.ceil(all.length / 2), li = s => `<li>${full(s)}</li>`;
+    return `<div class="review c2"><div class="col neutral"><ul>${all.slice(0, half).map(li).join('')}</ul></div>
+      <div class="col neutral"><ul>${all.slice(half).map(li).join('')}</ul></div></div>`;
+  }
+};
+@@js
+/* ---------- Spiel: Komma-Meister ---------- */
+let all = [], queue = [], cur = null;
+const gapEl = i => $(`.cgap[data-i="${i}"]`);
+/* Ein Bindewort ist lila, wenn es einen Nebensatz einleitet: nach einem Komma oder am Anfang eines Satzes mit Komma */
+const isBind = (s, i) => BINDS.includes(s.words[i].toLowerCase()) && s.commas.length > 0 && (i === 0 || s.commas.includes(i - 1));
+const word = (s, i) => isBind(s, i) ? `<b class="w neb">${s.words[i]}</b>` : s.words[i];
+const full = s => s.words.map((w, i) => word(s, i) + (s.commas.includes(i) ? '<b class="cm">,</b>' : '')).join(' ');
+const NUM = ['kein Komma', 'ein Komma', 'zwei Kommas', 'drei Kommas', 'vier Kommas'];
+
+function startGame() {
+  all = SENTENCES.map(([text, tip]) => {
+    const raw = text.split(' '), commas = [];
+    const words = raw.map((w, i) => { if (w.endsWith(',')) { commas.push(i); return w.slice(0, -1); } return w; });
+    return { words, commas, tip, misses: 0 };
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Setze alle Kommas im Satz. Tippe dann auf „Prüfen“. Vorsicht: Manche Sätze brauchen gar kein Komma!');
+  show('game');
+  next();
+}
+
+function showCount() {
+  const n = cur.set.length;
+  $('#count').textContent = n === 0 ? 'Du hast noch kein Komma gesetzt.' : `Du hast ${NUM[n] || n + ' Kommas'} gesetzt.`;
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  cur.set = [];
+  $('#check').classList.remove('hint');
+  const box = $('#sentence');
+  box.classList.remove('solved');
+  box.innerHTML = cur.words.map((w, i) => `<span class="wd">${w}` + (i < cur.words.length - 1
+    ? `<button class="cgap" data-i="${i}" aria-pressed="false" aria-label="Komma nach „${w}“"><i></i></button>` : '') + '</span>').join('');
+  showCount();
+}
+
+function toggle(i, el) {
+  if (state.busy || !cur) return;
+  const on = !cur.set.includes(i);
+  cur.set = on ? cur.set.concat(i) : cur.set.filter(x => x !== i);
+  el.classList.toggle('set', on);
+  el.classList.remove('hint');
+  el.setAttribute('aria-pressed', String(on));
+  sfx.pick();
+  showCount();
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const btn = $('#check');
+  const missing = cur.commas.filter(i => !cur.set.includes(i)), extra = cur.set.filter(i => !cur.commas.includes(i));
+  if (missing.length || extra.length) {
+    const tip = miss(cur, btn);
+    if (!tip) {
+      say(extra.length && !missing.length ? 'Fast! Ein Komma ist hier zu viel. Welches gehört nicht hin?'
+        : !extra.length ? 'Fast! Es fehlt noch mindestens ein Komma. Such Aufzählungen und Bindewörter.'
+        : 'Noch nicht ganz. Such Aufzählungen und die Bindewörter <b>weil, dass, wenn, als, ob</b>. Wo endet der Nebensatz?', 'think');
+      return;
+    }
+    /* Tipp: falsche Kommas verschwinden, die fehlenden Stellen leuchten */
+    extra.forEach(i => { const el = gapEl(i); el.classList.remove('set'); el.setAttribute('aria-pressed', 'false'); wobble(el); });
+    cur.set = cur.set.filter(i => cur.commas.includes(i));
+    missing.forEach(i => gapEl(i).classList.add('hint'));
+    if (!missing.length) btn.classList.add('hint');
+    showCount();
+    say(`Tipp: ${cur.tip} ${missing.length ? 'Tippe auf die leuchtenden Kästchen und dann auf „Prüfen“.' : 'Ich habe die Kommas weggenommen. Tippe jetzt auf „Prüfen“.'}`, 'think');
+    return;
+  }
+  state.busy = true;
+  btn.classList.remove('hint');
+  const last = cur.commas.length ? gapEl(cur.commas[cur.commas.length - 1]) : btn;
+  solve(cur, last, cur.commas.length ? 'sun' : 'teal');
+  $('#sentence').classList.add('solved');
+  $('#count').textContent = '';
+  const n = cur.commas.length;
+  say(`${pick(PRAISE, 'praise')} ${n ? `Hier stehen ${NUM[n]}:`.replace('stehen ein', 'steht ein') : 'Dieser Satz braucht kein Komma:'} ${full(cur)}`, 'happy');
+  later(next, 3000);
+}
+
+$('#sentence').addEventListener('click', e => {
+  const g = e.target.closest('.cgap');
+  if (g) toggle(+g.dataset.i, g);
+});
+$('#check').addEventListener('click', check);

@@ -1,0 +1,10 @@
+@@meta
+slug: kurze-lange-vokale
+title: Kurze und lange Vokale
+subtitle: Sechs Spiele rund um kurze und lange Vokale. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Bildern: Du hörst, ob der Vokal kurz oder lang ist. Je 15 Wörter.
+lead2: Ohne Bilder: ck oder k, tz oder z, ie oder i, mit h oder ohne. Je 20 Wörter.
+lead3: Knifflige Wörter zum Selberschreiben. 20 Wörter.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Wörtern, dazu die Lösungen.
+@@tipp
+Vokale sind <b>a, e, i, o, u</b> und <b>ä, ö, ü</b>. Sprich ein Wort laut: Klingt der Vokal <b>kurz</b> und knapp wie in <b>Sonne</b>? Dann folgen oft zwei gleiche Mitlaute, ein <b>ck</b> oder ein <b>tz</b>. Kannst du ihn <b>lang</b> ziehen wie in <b>Nase</b>? Dann steht danach nur ein Mitlaut. Ein langes i schreibst du meist <b>ie</b>.

@@ -24,7 +24,7 @@ RECHTSCHREIBUNG = [
     (13, 'verlaengern', 'Verlängern', '↔️', 'b oder p, d oder t, g oder k? Verlängere das Wort.'),
     (14, 'ableiten', 'Ableiten', '🌳', 'ä oder e, äu oder eu? Suche ein verwandtes Wort.'),
     (15, 'kurze-lange-vokale', 'Kurze und lange Vokale', '👂', 'Kurz oder lang? Genau hinhören und richtig schreiben.'),
-    (16, 's-ss-eszett', 's, ss oder ß?', '🐍', 's, ss oder ß?'),
+    (16, 's-ss-eszett', 's, ss oder ß?', '🐍', 'Summt oder zischt das s? Ist der Vokal kurz oder lang?'),
     (17, 'das-oder-dass', 'das oder dass?', '🔍', 'Mit der Ersatzprobe richtig entscheiden.'),
     (18, 'nominalisierungen', 'Nomen aus Verben und Adjektiven', '🔠', 'Wann schreibt man Verben und Adjektive groß?'),
     (19, 'komma', 'Das Komma', '✏️', 'Kommas bei Aufzählungen und Nebensätzen.'),

@@ -1,0 +1,182 @@
+@@meta
+file: 3-pronomen-memory.html
+title: Pronomen-Memory
+level: Anfänger
+nr: 3
+total: 15
+subtitle: Ich, du, er, wir oder ihr? Finde zu jedem Pronomen den passenden Satz.
+lead: Das Verb zeigt dir, welches Pronomen passt:
+id: memory
+desc: Finde die Paare aus Pronomen und Verb.
+sample: ich + … bin müde.
+drag: no
+@@tipp
+Zu jedem Pronomen gehört eine eigene Form des Verbs: <b>ich</b> bin, <b>du</b> bist, <b>er</b> ist, <b>wir</b> sind, <b>ihr</b> seid. Sprich den Satz leise: Klingt er richtig?
+@@examples
+      <div class="ex sp" style="--tilt:-1.5deg"><div class="ex-head"><b>ich</b></div><div class="ex-body"><span class="a">Ich</span> bin müde.</div></div>
+      <div class="ex sp" style="--tilt:1deg"><div class="ex-head"><b>du</b></div><div class="ex-body"><span class="a">Du</span> hast Zeit.</div></div>
+      <div class="ex sp" style="--tilt:-.5deg"><div class="ex-head"><b>ihr</b></div><div class="ex-body"><span class="a">Ihr</span> seht alles.</div></div>
+@@howto
+        <li><span>Tippe eine grünblaue Karte an. Sie dreht sich um und zeigt ein Pronomen.</span></li>
+        <li><span>Tippe dann eine gelbe Karte an. Sie zeigt einen Satz, bei dem das Pronomen fehlt.</span></li>
+        <li><span>Passen Pronomen und Verb zusammen? Dann bleibt das Paar offen. Wenn nicht, drehen sich die Karten wieder um.</span></li>
+@@board
+    <p class="round" id="round">Runde 1 von 3</p>
+    <div class="memo" id="memo"></div>
+@@tray
+@@css
+/* ---------- Pronomen: gemeinsame Farben und Bausteine ---------- */
+.er{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.sie{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.es{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.pl{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.sp{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.ex-body .pr{display:block;font-weight:400;font-size:.8em;color:var(--ink-soft);margin-top:6px}
+.howto li > span{flex:1}
+.review h3{font-size:1.2rem;color:var(--c)}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.review.c1{grid-template-columns:minmax(0,1fr)}
+@media (max-width:760px){.review.c4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.1rem);line-height:1.5}
+.gap{display:inline-block;min-width:2.4em;padding:0 .3em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);line-height:1.25;text-align:center}
+.gap.filled{border-style:solid;border-color:var(--c);background:var(--c);color:#fff;min-width:0;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,2.4vw,24px);max-width:760px;margin:0 auto}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:clamp(74px,10vw,96px);padding:6px 4px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(1.6rem,4.4vw,2.2rem);line-height:1.1}
+.tile small{font-size:clamp(.82rem,2.2vw,1.05rem);line-height:1.15}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+/* ---------- Memory ---------- */
+.vb{--c:var(--sun);--cd:var(--sun-deep);--cs:var(--sun-soft)}
+.memo{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:14px;perspective:1200px}
+@media (max-width:860px){.memo{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:520px){.memo{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}}
+.mcard{appearance:none;border:none;background:none;padding:0;height:clamp(118px,16vw,146px);cursor:pointer;border-radius:18px}
+.mcard .inner{position:relative;display:block;width:100%;height:100%;transition:transform .4s ease;transform-style:preserve-3d}
+.mcard.open .inner{transform:rotateY(180deg)}
+.mcard .back,.mcard .face{position:absolute;inset:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 4px 0 var(--cd),0 10px 18px var(--lift)}
+.mcard .back{background:var(--c);color:#fff}
+.mcard.vb .back{color:var(--on-sun)}
+.mcard .back b{font-size:1.7rem;line-height:1.2}
+.mcard .back small{font-size:1rem;font-weight:700}
+.mcard .face{background:var(--card);border:4px solid var(--c);transform:rotateY(180deg);padding:4px 6px}
+.mcard .word{font-weight:700;font-size:clamp(1.15rem,2.5vw,1.5rem);line-height:1.2;color:var(--ink);text-align:center}
+.mcard.sp .word{font-size:clamp(1.9rem,4.4vw,2.5rem);color:var(--c)}
+.mcard.found{cursor:default}
+.mcard.found .face{background:var(--cs)}
+@media (hover:hover){.mcard:not(.open):hover .inner{transform:translateY(-3px)}}
+@@data
+/* Aufbau: Jede Runde übt ein Verb. Darunter stehen fünf Paare: [Pronomen, Rest des Satzes].
+   In einer Runde darf jede Verbform nur zu einem Pronomen passen. */
+const ROUNDS = [
+  { verb: 'sein', pairs: [
+    ['ich', 'bin müde.'],
+    ['du',  'bist mutig.'],
+    ['er',  'ist stark.'],
+    ['wir', 'sind Freunde.'],
+    ['ihr', 'seid schnell.'] ] },
+  { verb: 'haben', pairs: [
+    ['ich', 'habe Durst.'],
+    ['du',  'hast Zeit.'],
+    ['er',  'hat Hunger.'],
+    ['wir', 'haben Ferien.'],
+    ['ihr', 'habt Glück.'] ] },
+  { verb: 'sehen', pairs: [
+    ['ich', 'sehe einen Vogel.'],
+    ['du',  'siehst müde aus.'],
+    ['er',  'sieht einen Film.'],
+    ['wir', 'sehen das Meer.'],
+    ['ihr', 'seht alles.'] ] }
+];
+
+const GAME = {
+  id: 'memory',
+  unit: 'Paare',
+  next: { href: '4-wer-ist-gemeint.html', title: 'Wer ist gemeint?' },
+  /* Sterne nach Versuchen: Jedes Paar braucht mindestens einen Versuch. */
+  stars: () => { const extra = tries - state.total; return extra <= 9 ? 3 : extra <= 18 ? 2 : 1; },
+  note: stars => stars === 3
+    ? `Du hast nur ${tries} Versuche gebraucht. Starkes Gedächtnis!`
+    : `Du hast ${tries} Versuche gebraucht. Spiel nochmal, dann findest du die Paare noch schneller!`,
+  review: () => `<div class="review">${rounds.map(r =>
+    `<div class="col sp"><h3>${r.verb}</h3><ul>${r.items.map(w => `<li><b>${cap(w.p)}</b> ${w.rest}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Pronomen-Memory ---------- */
+const KIND = { p: 'Pronomen', v: 'Satz' };
+const cap = s => s[0].toUpperCase() + s.slice(1);
+let rounds = [], round = 0, cards = [], open = [], tries = 0, left = 0;
+const closedLabel = c => `${KIND[c.kind]}-Karte, verdeckt`;
+const text = c => c.kind === 'p' ? c.w.p : '… ' + c.w.rest;
+
+function startGame() {
+  rounds = ROUNDS.map(r => ({ verb: r.verb, items: r.pairs.map(p => ({ p: p[0], rest: p[1], misses: 0 })) }));
+  resetState(rounds.reduce((n, r) => n + r.items.length, 0));
+  round = 0; tries = 0;
+  startRound();
+  say('Dreh zwei Karten um: ein Pronomen und einen Satz. Passen sie zusammen?');
+  show('game');
+}
+
+function startRound() {
+  open = []; left = rounds[round].items.length;
+  cards = shuffle(rounds[round].items.flatMap(w => [{ w, kind: 'p' }, { w, kind: 'v' }]));
+  $('#round').textContent = `Runde ${round + 1} von ${rounds.length}: das Verb „${rounds[round].verb}“`;
+  $('#memo').innerHTML = cards.map((c, i) =>
+    `<button class="mcard ${c.kind === 'p' ? 'sp' : 'vb'}" data-i="${i}" aria-label="${closedLabel(c)}">
+      <span class="inner">
+        <span class="back" aria-hidden="true"><b>${c.kind === 'p' ? '?' : '…'}</b><small>${KIND[c.kind]}</small></span>
+        <span class="face" aria-hidden="true"><span class="word">${text(c)}</span></span>
+      </span></button>`).join('');
+}
+
+$('#memo').addEventListener('click', e => {
+  const el = e.target.closest('.mcard');
+  if (!el || state.busy) return;
+  const c = cards[+el.dataset.i];
+  if (c.open || c.found) return;
+  sfx.pick();
+  c.open = true;
+  el.classList.add('open');
+  el.setAttribute('aria-label', `${KIND[c.kind]}: ${text(c)}`);
+  open.push({ c, el });
+  if (open.length < 2) return;
+
+  tries++;
+  const [a, b] = open; open = [];
+  state.busy = true;
+  if (a.c.w === b.c.w) {
+    a.c.found = b.c.found = true;
+    later(() => {
+      a.el.classList.add('found'); b.el.classList.add('found');
+      solve(a.c.w, b.el, 'teal');
+      say(`${pick(PRAISE, 'praise')} <span class="pill sp">${cap(a.c.w.p)}</span> ${a.c.w.rest}`, 'happy');
+      state.busy = false;
+      if (--left === 0) roundDone();
+    }, 450);
+  } else {
+    const same = a.c.kind === b.c.kind;
+    const p = a.c.kind === 'p' ? a.c.w : b.c.w, v = a.c.kind === 'v' ? a.c.w : b.c.w;
+    say(same
+      ? `Das sind zwei ${KIND[a.c.kind]}-Karten. Dreh eine grünblaue und eine gelbe Karte um!`
+      : `„${cap(p.p)} ${v.rest}“ Das klingt noch nicht richtig. Merk dir, wo die Karten liegen!`, 'think');
+    later(() => {
+      [a, b].forEach(o => { o.c.open = false; o.el.classList.remove('open'); o.el.setAttribute('aria-label', closedLabel(o.c)); });
+      state.busy = false;
+    }, 1900);
+  }
+});
+
+function roundDone() {
+  state.busy = true;
+  if (round < rounds.length - 1) {
+    later(() => { round++; startRound(); say(`Runde geschafft! Jetzt kommt das Verb „${rounds[round].verb}“.`, 'happy'); state.busy = false; }, 1600);
+  } else later(finish, 1300);
+}

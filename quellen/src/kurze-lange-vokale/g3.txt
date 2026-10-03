@@ -1,0 +1,179 @@
+@@meta
+file: 3-langes-i-gesucht.html
+title: Langes i gesucht
+level: Anfänger
+nr: 3
+total: 15
+subtitle: In welchen Wörtern hörst du ein langes i? Finde sie alle, denn dort schreibst du ie.
+lead: Ein langes i schreibst du meist ie. Ein kurzes i schreibst du nur i:
+id: suchen
+desc: Finde alle Bilder mit einem langen i.
+sample: 🐝 B_ne → Biene
+drag: no
+@@tipp
+Sprich das Wort laut. Hörst du ein <b>langes i</b> wie in „Biiiene“? Dann schreibst du meist <b>ie</b>. Hörst du ein <b>kurzes i</b> wie in „Kind“? Dann schreibst du nur <b>i</b>.
+@@examples
+      <div class="ex la" style="--tilt:-1.5deg"><div class="ex-head"><b>lang</b><span>ie</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🐝</span>B<span class="vl">ie</span>ne</div></div>
+      <div class="ex ku" style="--tilt:1deg"><div class="ex-head"><b>kurz</b><span>i</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🧒</span>K<span class="vk">i</span>nd</div></div>
+      <div class="ex la" style="--tilt:-.5deg"><div class="ex-head"><b>lang</b><span>ie</span></div><div class="ex-body"><span class="emo" aria-hidden="true">✉️</span>Br<span class="vl">ie</span>f</div></div>
+@@howto
+        <li>Du siehst sechs Bilder. Bei jedem Wort fehlt das i oder das ie. Sprich jedes Wort laut.</li>
+        <li>Tippe alle Karten an, in denen du ein langes i hörst. Dort setzt die Eule ein ie ein.</li>
+        <li>Erwischst du ein kurzes i, ist das nicht schlimm: Die Karte zeigt dir das Wort und du suchst weiter.</li>
+@@board
+    <p class="round" id="round">Runde 1 von 5</p>
+    <div class="field" id="field"></div>
+@@tray
+@@css
+/* ---------- Kurz und lang: Farben und Zeichen (im ganzen Thema gleich) ---------- */
+.ku{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.la{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.vk,.vl{position:relative;display:inline-block;line-height:1}
+.vk{color:var(--die)}.vl{color:var(--der)}
+.vk::after,.vl::after{content:"";position:absolute;bottom:-.02em;background:currentColor}
+.vk::after{left:50%;width:.2em;height:.2em;margin-left:-.1em;border-radius:50%}
+.vl::after{left:.04em;right:.04em;height:.11em;border-radius:.06em}
+.pill .vk,.pill .vl{color:#fff}
+.pill{padding-bottom:.1em}
+.gap{display:inline-block;width:.9em;border-bottom:3px solid currentColor;margin:0 2px}
+.sym{display:inline-block;background:currentColor;vertical-align:middle;margin-right:.35em}
+.sym.dot{width:.42em;height:.42em;border-radius:50%}
+.sym.bar{width:1.1em;height:.2em;border-radius:.1em}
+.speakbtn{appearance:none;border:3px solid var(--card-edge);background:var(--card);color:var(--ink);border-radius:999px;min-height:48px;padding:4px 16px;font-weight:700;font-size:1rem;cursor:pointer;box-shadow:0 3px 0 var(--card-edge);margin:6px 0 0 6px;vertical-align:middle}
+.speakbtn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--card-edge)}
+/* ---------- Langes i gesucht ---------- */
+.field{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:14px}
+@media (max-width:520px){.field{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.scard{appearance:none;background:var(--card);border:4px solid var(--card-edge);border-radius:18px;min-height:clamp(118px,17vw,150px);padding:8px 6px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;
+  box-shadow:0 4px 0 var(--card-edge),0 10px 18px var(--lift);touch-action:manipulation;transition:transform .14s ease,border-color .16s ease,background-color .16s ease}
+.scard .pic{font-size:clamp(2.2rem,6vw,3rem);line-height:1.15}
+.scard .word{font-weight:700;font-size:clamp(1.5rem,3.4vw,2rem);line-height:1.3;color:var(--ink)}
+@media (hover:hover){.scard:not(:disabled):hover{transform:translateY(-3px)}}
+.scard:active:not(:disabled){transform:translateY(2px)}
+.scard.shown{border-color:var(--c);background:var(--cs);cursor:default;box-shadow:0 4px 0 var(--cd)}
+.scard.ku.shown{opacity:.8;box-shadow:none}
+.scard .tag{font-size:.95rem;font-weight:700;color:var(--c);line-height:1.1}
+.scard.hint{animation:glow 1.1s ease-in-out infinite}
+.review li{font-weight:700}
+@@data
+/* Aufbau: [Wort, Bild] – das i oder ie steht in eckigen Klammern und wird auf der Karte als Lücke gezeigt.
+   LONG: Wörter mit langem i (ie), sie werden gesucht. SHORT: Wörter mit kurzem i. Beide Listen brauchen 15 Wörter. */
+const LONG = [
+  ['B[ie]ne',   '🐝'],
+  ['Z[ie]ge',   '🐐'],
+  ['Fl[ie]ge',  '🪰'],
+  ['Br[ie]f',   '✉️'],
+  ['Sp[ie]gel', '🪞'],
+  ['Zw[ie]bel', '🧅'],
+  ['St[ie]fel', '👢'],
+  ['v[ie]r',    '4️⃣'],
+  ['s[ie]ben',  '7️⃣'],
+  ['Sp[ie]l',   '🎲'],
+  ['Pap[ie]r',  '📄'],
+  ['Klav[ie]r', '🎹'],
+  ['F[ie]ber',  '🤒'],
+  ['L[ie]be',   '❤️'],
+  ['Z[ie]l',    '🏁']
+];
+const SHORT = [
+  ['K[i]nd',      '🧒'],
+  ['R[i]ng',      '💍'],
+  ['F[i]lm',      '🎬'],
+  ['St[i]ft',     '✏️'],
+  ['M[i]lch',     '🥛'],
+  ['P[i]nsel',    '🖌️'],
+  ['[I]nsel',     '🏝️'],
+  ['W[i]nd',      '💨'],
+  ['B[i]rne',     '🍐'],
+  ['Sch[i]rm',    '☂️'],
+  ['H[i]rsch',    '🦌'],
+  ['F[i]nger',    '☝️'],
+  ['B[i]ld',      '🖼️'],
+  ['K[i]rche',    '⛪'],
+  ['K[i]ste',     '📦']
+];
+/* So viele Wörter mit langem i liegen in den fünf Runden (zusammen 15). Jede Runde hat 6 Karten. */
+const LONG_PER_ROUND = [3, 2, 4, 3, 3];
+const CARDS_PER_ROUND = 6;
+
+const GAME = {
+  id: 'suchen',
+  next: { href: '4-kurz-oder-lang-entscheider.html', title: 'Kurz-oder-lang-Entscheider' },
+  review: () => `<div class="review c2">${[['la', 'Langes i: ie', longs], ['ku', 'Kurzes i: i', shorts]].map(c =>
+    `<div class="col ${c[0]}"><h3>${c[1]}</h3><ul>${c[2].map(w => `<li>${w.emoji} ${w.marked}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Langes i gesucht ---------- */
+const GAP = '<i class="gap"></i>';
+let longs = [], shorts = [], rounds = [], round = 0, cards = [], left = 0, roundMiss = { misses: 0 };
+const item = (w, long) => ({ long, emoji: w[1], misses: 0, plain: w[0].replace(/[\[\]]/g, ''),
+  gapped: w[0].replace(/\[.+?\]/, GAP),
+  marked: w[0].replace(/\[(.+?)\]/, `<span class="${long ? 'vl' : 'vk'}">$1</span>`) });
+
+function startGame() {
+  longs = LONG.map(w => item(w, true)); shorts = SHORT.map(w => item(w, false));
+  const L = shuffle(longs.slice()), S = shuffle(shorts.slice());
+  rounds = shuffle(LONG_PER_ROUND.slice()).map(n => shuffle([...L.splice(0, n), ...S.splice(0, CARDS_PER_ROUND - n)]));
+  resetState(longs.length);
+  round = 0;
+  startRound();
+  say('Sprich jedes Wort laut. Tippe alle Karten an, in denen du ein <b>langes i</b> hörst.');
+  show('game');
+}
+
+function startRound() {
+  cards = rounds[round];
+  left = cards.filter(c => c.long).length;
+  roundMiss = { misses: 0 };
+  $('#round').textContent = `Runde ${round + 1} von ${rounds.length}`;
+  $('#field').innerHTML = cards.map((c, i) =>
+    `<button class="scard" data-i="${i}" aria-label="Bildkarte ${c.plain}">
+      <span class="pic" aria-hidden="true">${c.emoji}</span><span class="word" aria-hidden="true">${c.gapped}</span></button>`).join('');
+}
+
+function reveal(c, el) {
+  c.shown = true;
+  el.classList.remove('hint');
+  el.classList.add('shown', c.long ? 'la' : 'ku');
+  el.disabled = true;
+  el.querySelector('.word').innerHTML = c.marked;
+  el.insertAdjacentHTML('beforeend', `<span class="tag" aria-hidden="true">${c.long ? 'langes i' : 'kurzes i'}</span>`);
+  el.setAttribute('aria-label', `${c.plain}, ${c.long ? 'langes i, mit ie' : 'kurzes i, nur i'}`);
+}
+
+$('#field').addEventListener('click', e => {
+  const el = e.target.closest('.scard');
+  if (!el || state.busy) return;
+  const c = cards[+el.dataset.i];
+  if (c.shown) return;
+  if (c.long) {
+    reveal(c, el);
+    solve(c, el, 'der');
+    say(`${pick(PRAISE, 'praise')} <span class="pill la">${c.marked}</span> Du hörst ein langes i. Darum schreibst du <b>ie</b>.`, 'happy');
+    if (--left === 0) roundDone();
+    return;
+  }
+  const hint = miss(roundMiss, el);
+  reveal(c, el);
+  let txt = `<span class="pill ku">${c.marked}</span> Hier ist das i kurz. Ein kurzes i schreibst du nur <b>i</b>. Such weiter nach dem langen i!`;
+  if (hint) {
+    const i = cards.findIndex(x => x.long && !x.shown);
+    if (i >= 0) { cards[i].misses = 1; $(`.scard[data-i="${i}"]`).classList.add('hint'); txt += ' Tipp: Sprich das Wort auf der leuchtenden Karte. Dort kannst du das i lang ziehen.'; }
+  }
+  say(txt, 'think');
+});
+
+function roundDone() {
+  state.busy = true;
+  later(() => {
+    cards.forEach((c, i) => { if (!c.shown) reveal(c, $(`.scard[data-i="${i}"]`)); });
+    if (round < rounds.length - 1) {
+      say('Runde geschafft! Die anderen Wörter haben ein <b>kurzes i</b>. Schau sie dir an. Gleich kommen neue Karten.', 'happy');
+      later(() => { round++; startRound(); state.busy = false; say('Neue Karten! Wo hörst du ein <b>langes i</b>?'); }, 3200);
+    } else {
+      say('Alle gefunden! Die anderen Wörter haben ein <b>kurzes i</b>.', 'happy');
+      later(finish, 2400);
+    }
+  }, 900);
+}

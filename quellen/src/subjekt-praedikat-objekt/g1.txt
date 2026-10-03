@@ -1,0 +1,253 @@
+@@meta
+file: 1-subjekt-oder-praedikat.html
+title: Subjekt oder Prädikat?
+level: Anfänger
+nr: 1
+total: 15
+subtitle: In jedem Satz ist ein Satzglied gelb markiert. Ist es das Subjekt oder das Prädikat? Sortiere die Karten in zwei Körbe.
+lead: Das Prädikat ist im Spiel pink, das Subjekt ist blau:
+id: koerbe
+desc: Sortiere die Karten in zwei Körbe.
+sample: Der Hund vergräbt einen Knochen. → Subjekt
+drag: yes
+@@tipp
+Das <b>Prädikat</b> ist das Verb im Satz. Es sagt, was jemand tut: Oma <b>kocht</b>. Das <b>Subjekt</b> sagt, wer es tut. Du findest es mit der Frage <b>Wer oder was?</b> Wer oder was kocht? → <b>Oma</b>.
+@@examples
+      <div class="ex kP" style="--tilt:-1.5deg"><div class="ex-head"><b>Prädikat</b><span>Was tut jemand?</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🍲</span>Oma <span class="a">kocht</span> eine Suppe.</div></div>
+      <div class="ex kS" style="--tilt:1deg"><div class="ex-head"><b>Subjekt</b><span>Wer oder was?</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🍲</span><span class="a">Oma</span> kocht eine Suppe.</div></div>
+      <div class="ex kP" style="--tilt:-.5deg"><div class="ex-head"><b>Prädikat</b><span>mit zwei Teilen</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🚗</span>Papa <span class="a">hat</span> das Auto <span class="a">gewaschen</span>.</div></div>
+@@howto
+        <li><span>Tippe eine Karte an und lies den Satz. Schau auf die gelb markierten Wörter.</span></li>
+        <li><span>Sagen sie, <b>was jemand tut</b>? Dann tippe auf den pinken Korb <b>Prädikat</b>. Sagen sie, <b>wer</b> es tut? Dann tippe auf den blauen Korb <b>Subjekt</b>. Du kannst die Karte auch in den Korb ziehen.</span></li>
+        <li><span>Passt es, verschwindet die Karte. Passt es nicht, probierst du einfach den anderen Korb.</span></li>
+@@board
+    <p class="round" id="round">Runde 1 von 3</p>
+    <div class="words with-pics" id="words"></div>
+@@tray
+    <div class="tray">
+      <div class="baskets">
+        <button class="basket kP" data-kind="P" aria-pressed="false"><b>Prädikat</b><span>Was tut jemand?</span></button>
+        <button class="basket kS" data-kind="S" aria-pressed="false"><b>Subjekt</b><span>Wer oder was?</span></button>
+      </div>
+    </div>
+@@css
+/* ---------- Subjekt, Prädikat, Objekte: feste Farben und Satz-Blöcke ---------- */
+.kP{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.kS{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.kD{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.kA{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.kZ{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.kO{--c:var(--sun);--cd:var(--sun-deep);--cs:var(--sun-soft)}
+.pill.kO,.pen.kO,.ex.kO .ex-head{color:var(--on-sun)}
+.ex-head b{font-size:clamp(1rem,2.5vw,1.4rem);min-width:0;max-width:100%}
+.ex-head span{font-size:.95rem}
+.ex-body{font-size:clamp(1.05rem,2.7vw,1.45rem)}
+.bubble .pill{margin:2px 0;white-space:normal}
+.zpic{font-size:2.8rem;line-height:1.1;margin:0 0 10px}
+.sent{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:12px 10px;margin:8px 0 4px}
+.stop{font-weight:700;font-size:2rem;line-height:1;align-self:flex-end;margin:0 0 10px -6px}
+.blk{appearance:none;background:var(--card);border:3px solid var(--card-edge);border-radius:14px;min-height:60px;padding:6px 14px;color:var(--ink);font-family:inherit;
+  font-weight:700;font-size:clamp(1.5rem,3.4vw,1.9rem);line-height:1.2;cursor:pointer;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 4px 0 var(--card-edge),0 10px 18px var(--lift);transition:transform .14s ease,border-color .14s ease,background-color .14s ease}
+.blk small{display:none;font-size:.85rem;font-weight:700;color:var(--ink-soft);line-height:1.1;margin-top:2px}
+.blk.on{border-color:var(--c);background:var(--cs);box-shadow:0 4px 0 var(--cd);cursor:default}
+.blk.on small{display:block}
+.blk.selected{border-color:var(--sun);background:var(--sun-soft);transform:translateY(-5px)}
+.blk.hint{animation:glow 1.1s ease-in-out infinite}
+.review.c1{grid-template-columns:1fr}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.8;padding:2px 0}
+.review .pill{white-space:normal;font-size:1rem}
+.review h3{line-height:1.9}
+.review .col.plain{background:var(--card);border:3px solid var(--card-edge)}
+/* ---------- Subjekt oder Prädikat? ---------- */
+.review li{line-height:1.4}
+.review h3{font-size:1.3rem;color:var(--c);line-height:1.3}
+.words{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:860px){.words{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.words{grid-template-columns:minmax(0,1fr);gap:10px}}
+.with-pics .word-card{min-height:150px}
+.word-card .pic{font-size:2.4rem}
+.word-card .word{font-size:1.5rem;line-height:1.45;overflow-wrap:normal}
+mark{background:var(--sun-soft);color:inherit;border-bottom:4px solid var(--sun);border-radius:6px 6px 0 0;padding:0 4px}
+@media (max-width:560px){
+  .with-pics .word-card{min-height:76px;flex-direction:row;justify-content:flex-start;gap:12px;padding:8px 14px}
+  .word-card .pic{font-size:2rem}
+  .word-card .word{text-align:left}
+  .word-card.done{display:none}
+  .coach{position:sticky;bottom:calc(108px + env(safe-area-inset-bottom,0px));z-index:6;background:var(--paper);margin:0 -14px;padding:8px 14px 0}
+}
+.baskets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,4vw,40px);max-width:680px;margin:0 auto}
+.basket{appearance:none;border:none;border-radius:14px 14px 30px 30px;background:var(--c);color:#fff;min-height:clamp(84px,12vw,108px);font-family:inherit;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:inset 0 10px 0 rgba(255,255,255,.22),0 6px 0 var(--cd),0 12px 22px var(--lift);
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .16s ease,box-shadow .16s ease}
+.basket b{font-size:clamp(1.5rem,4.4vw,2.1rem);line-height:1.15}
+.basket span{font-size:1.05rem}
+.basket.selected,.basket.drop-over{transform:translateY(-6px);box-shadow:inset 0 10px 0 rgba(255,255,255,.22),0 0 0 5px var(--sun),0 14px 24px var(--lift)}
+.basket.hint{animation:glow 1.1s ease-in-out infinite}
+@@data
+/* Aufbau: [Bild, Satzglieder …, markiertes Satzglied]
+   Jedes Satzglied steht so da, wie es mitten im Satz geschrieben wird (also „der Hund“). Dahinter steht nach | die Art:
+   S = Subjekt, P = Prädikat (bei zwei Teilen beide mit P), - = anderes Satzglied.
+   Der letzte Eintrag sagt, was gelb markiert wird: 'S' oder 'P'. Immer 5 Karten bilden eine Runde. */
+const SENTENCES = [
+  ['🐕', 'der Hund|S', 'vergräbt|P', 'einen Knochen|-', 'S'],
+  ['🐈', 'der Kater|S', 'fängt|P', 'eine Maus|-', 'P'],
+  ['🍲', 'Oma|S', 'kocht|P', 'eine Suppe|-', 'S'],
+  ['⚽', 'den Ball|-', 'schießt|P', 'Tim|S', 'S'],
+  ['📖', 'Lena|S', 'liest|P', 'ein Buch|-', 'P'],
+  ['🐦', 'der Vogel|S', 'sucht|P', 'einen Wurm|-', 'P'],
+  ['🚗', 'Papa|S', 'hat|P', 'das Auto|-', 'gewaschen|P', 'P'],
+  ['🍎', 'einen Apfel|-', 'isst|P', 'das Mädchen|S', 'S'],
+  ['🐎', 'das Pferd|S', 'frisst|P', 'Heu|-', 'S'],
+  ['🎨', 'Mia|S', 'hat|P', 'ein Bild|-', 'gemalt|P', 'P'],
+  ['🐄', 'der Bauer|S', 'melkt|P', 'die Kuh|-', 'P'],
+  ['✉️', 'den Brief|-', 'öffnet|P', 'Jonas|S', 'S'],
+  ['⛄', 'der Junge|S', 'hat|P', 'einen Schneemann|-', 'gebaut|P', 'P'],
+  ['🐿️', 'das Eichhörnchen|S', 'sammelt|P', 'Nüsse|-', 'S'],
+  ['🎵', 'die Lehrerin|S', 'singt|P', 'ein Lied|-', 'P']
+];
+const CARDS_PER_ROUND = 5;
+
+const GAME = {
+  id: 'koerbe',
+  unit: 'Sätze',
+  next: { href: '2-farb-markierer.html', title: 'Farb-Markierer' },
+  review: () => `<div class="review c2">${['P', 'S'].map(k =>
+    `<div class="col k${k}"><h3>${ROLE[k].name}</h3><ul>${all.filter(s => s.k === k).map(s => `<li>${s.parts.map(p => p.r === k ? `<b>${p.text}</b>` : p.text).join(' ')}.</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Gemeinsam: Satzglieder, Farben und Fragen ---------- */
+const ROLE = {
+  P: { name: 'Prädikat', art: 'das', short: 'Prädikat', q: 'Was tut jemand?', col: 'die' },
+  S: { name: 'Subjekt', art: 'das', short: 'Subjekt', q: 'Wer oder was?', col: 'der' },
+  D: { name: 'Dativobjekt', art: 'das', short: 'Dativobjekt', q: 'Wem?', col: 'das' },
+  A: { name: 'Akkusativobjekt', art: 'das', short: 'Akkusativobjekt', q: 'Wen oder was?', col: 'bonus' },
+  Z: { name: 'Bestimmung der Zeit', art: 'die', short: 'Zeit', q: 'Wann?', col: 'teal' },
+  O: { name: 'Bestimmung des Ortes', art: 'die', short: 'Ort', q: 'Wo?', col: 'sun' }
+};
+const PRON = ['ihm', 'ihn', 'ihr', 'mir', 'mich', 'dir', 'dich'];
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const STOP = '<span class="stop" aria-hidden="true">.</span>';
+/* Liest eine Zeile der Liste: Einträge mit | sind Satzglieder, alles andere ist Zusatz (Bild, gesuchtes Satzglied). */
+function read(row, id) {
+  const s = { id, info: row.filter(x => !x.includes('|')), misses: 0, done: false };
+  s.parts = row.filter(x => x.includes('|')).map((x, i) => { const [t, r, shown] = x.split('|'); return { t, r, shown, i, text: i === 0 ? cap(t) : t }; });
+  return s;
+}
+const twoPart = s => s.parts.filter(p => p.r === 'P').length > 1;
+const answer = (s, r) => s.parts.filter(p => p.r === r).map(p => p.t).join(' … ');
+const the = r => `${ROLE[r].art} <b>${ROLE[r].name}</b>`;
+const rolePill = r => `<span class="pill k${r}">${ROLE[r].name}</span>`;
+const colored = (s, roles) => s.parts.map(p => roles.includes(p.r) ? `<span class="pill k${p.r}">${p.text}</span>` : p.text).join(' ') + '.';
+/* Baut die Frage nach einem Satzglied, z. B. „Wem schenkt Oma einen Roller?“ */
+function ask(s, r) {
+  if (r === 'P') return ROLE.P.q;
+  const P = s.parts.filter(p => p.r === 'P'), rest = s.parts.filter(p => p.r !== 'P' && p.r !== r);
+  const rank = p => p.r === 'S' ? 0 : PRON.includes(p.t) ? 1 : 2 + 'ZDO-A'.indexOf(p.r);
+  rest.sort((a, b) => rank(a) - rank(b));
+  return [ROLE[r].q.slice(0, -1), P[0].t, ...rest.map(p => p.t), ...P.slice(1).map(p => p.t)].join(' ') + '?';
+}
+const blkHTML = (p, r) => `<button class="blk${r ? ' on k' + r : ''}" data-i="${p.i}">${p.text}<small>${r ? ROLE[r].short : ''}</small></button>`;
+const blkEl = i => $(`#sent .blk[data-i="${i}"]`);
+function paint(el, r) { el.className = 'blk on k' + r; el.querySelector('small').textContent = ROLE[r].short; }
+const reviewAll = (list, roles) => `<div class="review c1"><div class="col plain"><h3>${roles.map(rolePill).join(' ')}</h3><ul>${list.map(s => `<li>${colored(s, roles)}</li>`).join('')}</ul></div></div>`;
+
+/* ---------- Spiel: Subjekt oder Prädikat? ---------- */
+let all = [], rounds = [], round = 0, left = 0, selCard = null, selKind = null;
+const byId = id => all.find(s => s.id === id);
+const cardEl = id => $(`.word-card[data-id="${id}"]`);
+const basketEl = k => $(`.basket[data-kind="${k}"]`);
+const marked = s => s.parts.map(p => p.r === s.k ? `<mark>${p.text}</mark>` : p.text).join(' ') + '.';
+
+function startGame() {
+  all = SENTENCES.map((row, i) => { const s = read(row, 's' + i); s.k = s.info[1]; return s; });
+  /* In jeder Runde liegen Karten für beide Körbe */
+  const n = Math.ceil(all.length / CARDS_PER_ROUND);
+  rounds = Array.from({ length: n }, () => []);
+  let r = 0;
+  ['P', 'S'].forEach(k => shuffle(all.filter(s => s.k === k)).forEach(s => { rounds[r % n].push(s); r++; }));
+  rounds.forEach(shuffle);
+  resetState(all.length);
+  round = 0;
+  startRound();
+  say('Tippe eine Karte an. Schau dann genau auf die gelb markierten Wörter.');
+  show('game');
+}
+
+function startRound() {
+  selCard = selKind = null; left = rounds[round].length;
+  $('#round').textContent = `Runde ${round + 1} von ${rounds.length}`;
+  $('#words').innerHTML = rounds[round].map(s =>
+    `<button class="word-card" data-id="${s.id}" aria-pressed="false" style="--tilt:${(Math.random() * 2 - 1).toFixed(2)}deg">
+      <span class="pic" aria-hidden="true">${s.info[0]}</span><span class="word">${marked(s)}</span></button>`).join('');
+  renderSelection();
+}
+
+function renderSelection() {
+  $$('.word-card').forEach(el => {
+    const on = el.dataset.id === selCard;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+  });
+  $$('.basket').forEach(el => {
+    const on = el.dataset.kind === selKind;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+    el.classList.remove('hint');
+  });
+  const s = selCard && byId(selCard);
+  if (s && s.misses >= 2) basketEl(s.k).classList.add('hint');
+}
+
+function tapCard(id) {
+  const s = byId(id);
+  if (!s || s.done || state.busy) return;
+  if (selKind) { attempt(id, selKind); return; }
+  selCard = selCard === id ? null : id;
+  sfx.pick(); renderSelection();
+  if (selCard) say(`Markiert ist <b>${answer(s, s.k)}</b>. Sagt das, <b>was jemand tut</b>? Oder sagt es, <b>wer</b> etwas tut?`);
+}
+function tapBasket(k) {
+  if (state.busy) return;
+  if (selCard) { attempt(selCard, k); return; }
+  selKind = selKind === k ? null : k;
+  sfx.pick(); renderSelection();
+  if (selKind) say(`Auf welcher Karte ist ${the(k)} markiert? Tippe sie an.`);
+}
+
+function attempt(id, k) {
+  const s = byId(id);
+  if (!s || s.done) return;
+  if (s.k !== k) {
+    miss(s, cardEl(id));
+    wobble(basketEl(k));
+    selCard = id; selKind = null;
+    renderSelection();
+    say(s.misses < 2 ? `Fast! Frag einmal: <b>${ask(s, 'S')}</b> Ist die Antwort gelb markiert?`
+      : s.k === 'S'
+        ? `Tipp: ${ask(s, 'S')} – <span class="pill kS">${answer(s, 'S')}</span>. Die Antwort auf <b>Wer oder was?</b> ist das Subjekt.`
+        : `Tipp: <span class="pill kP">${answer(s, 'P')}</span> sagt, was jemand tut. Das Verb im Satz ist das Prädikat.`, 'think');
+    return;
+  }
+  const card = cardEl(id);
+  selCard = selKind = null;
+  renderSelection();
+  card.classList.add('vanish');
+  later(() => { card.classList.remove('vanish'); card.classList.add('done'); card.disabled = true; }, 330);
+  solve(s, basketEl(k), ROLE[k].col);
+  say(`${pick(PRAISE, 'praise')} <span class="pill k${k}">${answer(s, k)}</span> ist ${the(k)}: ${colored(s, [k])}`, 'happy');
+  if (--left === 0) {
+    state.busy = true;
+    if (round < rounds.length - 1) later(() => { round++; startRound(); state.busy = false; say('Runde geschafft! Hier kommen neue Karten.', 'happy'); }, 2000);
+    else later(finish, 1800);
+  }
+}
+
+$('#words').addEventListener('click', e => {
+  if (suppressClick) return;
+  const c = e.target.closest('.word-card');
+  if (c) tapCard(c.dataset.id);
+});
+$$('.basket').forEach(b => b.addEventListener('click', () => { if (!suppressClick) tapBasket(b.dataset.kind); }));
+enableDrag('.word-card:not(.done)', '.basket', (card, basket) => attempt(card.dataset.id, basket.dataset.kind));

@@ -1,0 +1,10 @@
+@@meta
+slug: alphabet-ordnen
+title: Alphabet und Wörterbuch
+subtitle: Sechs Spiele rund um das ABC und das Wörterbuch. Such dir aus, wo du anfangen möchtest!
+lead1: Mit ABC-Leiste, Bildern und farbigen Buchstaben. Je 15 Aufgaben.
+lead2: Zweiter und dritter Buchstabe, Umlaute und Leitwörter. Je 20 Wörter.
+lead3: Die Grundform finden und selbst schreiben. 20 Wörter.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Wörtern, dazu die Lösungen.
+@@tipp
+Im Wörterbuch stehen die Wörter nach dem <b>ABC</b>. Ist der erste Buchstabe gleich, schaust du auf den zweiten, dann auf den dritten: Bach → Bein → Bild. <b>ä, ö, ü</b> zählen wie a, o, u. Du suchst immer die <b>Grundform</b>: Bäume → Baum, gesungen → singen.

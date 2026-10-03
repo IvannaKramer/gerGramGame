@@ -1,0 +1,226 @@
+@@meta
+file: 4-kurz-oder-lang-entscheider.html
+title: Kurz-oder-lang-Entscheider
+level: Fortgeschrittene
+nr: 4
+total: 20
+subtitle: Erst hören, dann schreiben: Entscheide, ob der Vokal kurz oder lang ist, und fülle dann die Lücke.
+lead: Die Länge des Vokals verrät dir, wie es weitergeht:
+id: entscheider
+desc: Erst kurz oder lang entscheiden, dann die Lücke füllen.
+sample: Zu_er → kurz → Zucker
+drag: no
+@@tipp
+Nach einem <b>kurzen</b> Vokal schreibst du <b>ck</b>, <b>tz</b> oder einen <b>doppelten Mitlaut</b>. Nach einem <b>langen</b> Vokal schreibst du <b>k</b>, <b>z</b> oder nur <b>einen Mitlaut</b>. Ein langes i schreibst du meist <b>ie</b>.
+@@examples
+      <div class="ex ku" style="--tilt:-1.5deg"><div class="ex-head"><b>kurz</b><span>ck</span></div><div class="ex-body">J<span class="vk">a</span><span class="a">ck</span>e</div></div>
+      <div class="ex la" style="--tilt:1deg"><div class="ex-head"><b>lang</b><span>ie</span></div><div class="ex-body">T<span class="vl a">ie</span>r</div></div>
+      <div class="ex ku" style="--tilt:-.5deg"><div class="ex-head"><b>kurz</b><span>tz</span></div><div class="ex-body">K<span class="vk">a</span><span class="a">tz</span>e</div></div>
+@@howto
+        <li>Lies den Hinweis und das Wort mit der Lücke. Sprich das gesuchte Wort laut.</li>
+        <li>Entscheide: Ist der Vokal kurz oder lang? Tippe auf den passenden Knopf.</li>
+        <li>Jetzt weißt du, was in die Lücke gehört. Tippe die richtigen Buchstaben an.</li>
+@@board
+    <div class="bench" id="bench">
+      <p class="lbl">Welches Wort ist gesucht?</p>
+      <p class="clue" id="clue"></p>
+      <p class="gapword" id="word"></p>
+      <p class="badge-row"><span id="len"></span></p>
+      <button type="button" class="speakbtn" id="speak" hidden>🔊 Anhören</button>
+    </div>
+@@tray
+    <div class="tray">
+      <p class="ask" id="ask"></p>
+      <div class="opts" id="opts"></div>
+    </div>
+@@css
+/* ---------- Kurz und lang: Farben und Zeichen (im ganzen Thema gleich) ---------- */
+.ku{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.la{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.vk,.vl{position:relative;display:inline-block;line-height:1}
+.vk{color:var(--die)}.vl{color:var(--der)}
+.vk::after,.vl::after{content:"";position:absolute;bottom:-.02em;background:currentColor}
+.vk::after{left:50%;width:.2em;height:.2em;margin-left:-.1em;border-radius:50%}
+.vl::after{left:.04em;right:.04em;height:.11em;border-radius:.06em}
+.pill .vk,.pill .vl{color:#fff}
+.pill{padding-bottom:.1em}
+.gap{display:inline-block;width:.9em;border-bottom:3px solid currentColor;margin:0 2px}
+.sym{display:inline-block;background:currentColor;vertical-align:middle;margin-right:.35em}
+.sym.dot{width:.42em;height:.42em;border-radius:50%}
+.sym.bar{width:1.1em;height:.2em;border-radius:.1em}
+.speakbtn{appearance:none;border:3px solid var(--card-edge);background:var(--card);color:var(--ink);border-radius:999px;min-height:48px;padding:4px 16px;font-weight:700;font-size:1rem;cursor:pointer;box-shadow:0 3px 0 var(--card-edge);margin:6px 0 0 6px;vertical-align:middle}
+.speakbtn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--card-edge)}
+/* ---------- Kurz-oder-lang-Entscheider ---------- */
+.phase-title{font-size:clamp(1.15rem,2.4vw,1.5rem)}
+.progress{flex:1 1 180px;min-width:160px}
+.nt{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.clue{margin:2px auto 6px;font-size:clamp(1.1rem,3vw,1.3rem);max-width:40ch}
+.gapword{margin:0;font-weight:700;font-size:clamp(2.1rem,8vw,3.4rem);line-height:1.35}
+.slot{display:inline-grid;place-items:center;min-width:1.5em;height:1.2em;margin:0 3px;padding:0 .1em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);font-size:.85em;vertical-align:.04em}
+.slot.filled{border-color:transparent;background:var(--c);color:#fff;min-width:0;padding:0 .14em;margin:0 2px;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.badge-row{margin:4px 0 0;min-height:2rem;font-size:1.1rem}
+.ask{margin:0 0 8px;text-align:center;font-weight:700;color:var(--ink-soft);font-size:1.05rem}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,4vw,36px);max-width:620px;margin:0 auto}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:clamp(76px,11vw,96px);padding:6px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);touch-action:manipulation;transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(1.8rem,6vw,2.5rem);line-height:1.05;display:inline-flex;align-items:center}
+.tile small{font-size:1rem;line-height:1.15}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+.review li{font-weight:700}
+.review li span.r{font-weight:400;color:var(--ink-soft)}
+@@data
+/* Aufbau: [Wort, Länge, Hinweis] – Länge: 'k' = kurzer Vokal, 'l' = langer Vokal.
+   Der betonte Vokal steht in eckigen Klammern. In runden Klammern steht, was in die Lücke gehört
+   (ck oder k, tz oder z, doppelter oder einfacher Mitlaut). Fehlt die runde Klammer, ist der Vokal selbst die Lücke (i oder ie).
+   Der Hinweis sagt, welches Wort gemeint ist. Er darf das Wort selbst nicht enthalten. */
+const WORDS = [
+  ['Z[u](ck)er',      'k', 'Damit wird der Tee süß.'],
+  ['B[ä](ck)er',      'k', 'Bei ihm kaufst du Brot und Brötchen.'],
+  ['Br[ü](ck)e',      'k', 'Darauf kommst du über den Fluss.'],
+  ['qu[a](k)en',      'l', 'Das machen die Frösche am Teich.'],
+  ['H[a](k)en',       'l', 'Daran hängst du deine Jacke auf.'],
+  ['M[ü](tz)e',       'k', 'Sie hält im Winter deinen Kopf warm.'],
+  ['Pf[ü](tz)e',      'k', 'Nach dem Regen kannst du hineinspringen.'],
+  ['Sch[a](tz)',      'k', 'Piraten vergraben ihn auf einer Insel.'],
+  ['Kap[u](z)e',      'l', 'Sie hängt hinten an der Jacke und schützt den Kopf vor Regen.'],
+  ['[O](z)ean',       'l', 'So heißt ein riesiges Meer.'],
+  ['W[ie]se',         'l', 'Dort wachsen Gras und Blumen.'],
+  ['R[ie]se',         'l', 'Im Märchen ist er so groß wie ein Haus.'],
+  ['D[ie]nstag',      'l', 'Dieser Tag kommt nach dem Montag.'],
+  ['W[i]nter',        'k', 'In dieser Jahreszeit ist es am kältesten.'],
+  ['H[i]mmel',        'k', 'Dort oben ziehen die Wolken.'],
+  ['schw[i](mm)en',   'k', 'Das machst du im Freibad im tiefen Becken.'],
+  ['kl[e](tt)ern',    'k', 'So kommst du auf einen Baum hinauf.'],
+  ['N[a](d)el',       'l', 'Damit nähst du einen Knopf an.'],
+  ['F[e](d)er',       'l', 'Vögel haben viele davon.'],
+  ['schl[a](f)en',    'l', 'Das machst du nachts in deinem Bett.']
+];
+
+const GAME = {
+  id: 'entscheider',
+  next: { href: '5-das-verschwundene-h.html', title: 'Das verschwundene h' },
+  review: () => `<div class="review c2">${['k', 'l'].map(k =>
+    `<div class="col ${CLS[k]}"><h3>${k === 'k' ? 'Kurzer Vokal' : 'Langer Vokal'}</h3><ul>${all.filter(w => w.kind === k).map(w => `<li>${w.marked} <span class="r">(${w.fill})</span></li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Kurz-oder-lang-Entscheider ---------- */
+const KIND = { k: 'kurz', l: 'lang' };
+const CLS = { k: 'ku', l: 'la' };
+let all = [], queue = [], cur = null, step = 1, options = [];
+
+/* Vorlesen als Zusatz: Das Spiel geht auch ohne Sprachausgabe. */
+const canSpeak = (() => { try { return 'speechSynthesis' in window && typeof SpeechSynthesisUtterance === 'function'; } catch (e) { return false; } })();
+function speak(text) {
+  if (!canSpeak) return;
+  try {
+    const voices = speechSynthesis.getVoices();
+    const de = voices.find(v => /^de([-_]|$)/i.test(v.lang));
+    if (voices.length && !de) { say('Vorlesen geht auf diesem Gerät leider nicht. Sprich das Wort selbst laut.'); return; }
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'de-DE'; u.rate = .8; if (de) u.voice = de;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  } catch (e) { /* ohne Sprachausgabe weiterspielen */ }
+}
+
+/* Welche zwei Möglichkeiten gibt es für die Lücke? [kurze Schreibung, lange Schreibung] */
+function pairFor(fill) {
+  if (fill === 'ck' || fill === 'k') return ['ck', 'k'];
+  if (fill === 'tz' || fill === 'z') return ['tz', 'z'];
+  if (fill === 'i' || fill === 'ie') return ['i', 'ie'];
+  return [fill[0] + fill[0], fill[0]];
+}
+function ruleText(w) {
+  const [short, long] = w.pair;
+  if (short === 'i') return w.kind === 'l' ? 'Ein langes i schreibst du meist <b>ie</b>.' : 'Ein kurzes i schreibst du nur <b>i</b>.';
+  if (short === 'ck' || short === 'tz') return w.kind === 'k' ? `Nach einem kurzen Vokal schreibst du <b>${short}</b>.` : `Nach einem langen Vokal schreibst du <b>${long}</b>, nie ${short}.`;
+  return w.kind === 'k' ? `Nach einem kurzen Vokal wird der Mitlaut verdoppelt: <b>${short}</b>.` : `Nach einem langen Vokal steht nur ein <b>${long}</b>.`;
+}
+
+function startGame() {
+  all = WORDS.map(w => {
+    const vowel = w[0].match(/\[(.+?)\]/)[1], par = w[0].match(/\((.+?)\)/);
+    const fill = par ? par[1] : vowel.toLowerCase();
+    const mark = `<span class="${w[1] === 'k' ? 'vk' : 'vl'}">$1</span>`;
+    const slot = '<span class="slot" id="slot">?</span>';
+    return { kind: w[1], clue: w[2], fill, pair: pairFor(fill), sound: par ? vowel.toLowerCase() : 'i', vowelGap: !par, misses: 0,
+      plain: w[0].replace(/[\[\]()]/g, ''),
+      marked: w[0].replace(/\[(.+?)\]/, mark).replace(/[()]/g, ''),
+      gapped: par ? w[0].replace(/\(.+?\)/, slot).replace(/[\[\]]/g, '') : w[0].replace(/\[.+?\]/, slot),
+      solved: par ? w[0].replace(/\[(.+?)\]/, mark).replace(/\((.+?)\)/, `<span class="slot filled ${CLS[w[1]]}" id="slot">$1</span>`)
+                  : w[0].replace(/\[(.+?)\]/, `<span class="slot filled ${CLS[w[1]]}" id="slot">$1</span>`) };
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  $('#speak').hidden = !canSpeak;
+  say('Lies den Hinweis und sprich das gesuchte Wort laut. Ist der Vokal kurz oder lang?');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false; step = 1;
+  $('#clue').textContent = cur.clue;
+  $('#word').innerHTML = cur.gapped;
+  $('#len').innerHTML = '';
+  $('#ask').innerHTML = cur.vowelGap ? 'Schritt 1: Ist das <b>i</b> in der Lücke kurz oder lang?' : `Schritt 1: Ist das <b>${cur.sound}</b> vor der Lücke kurz oder lang?`;
+  $('#opts').innerHTML =
+    `<button class="tile ku" data-v="k" aria-label="kurz"><b><i class="sym dot" aria-hidden="true"></i>kurz</b><span class="kbd" aria-hidden="true">1</span></button>
+     <button class="tile la" data-v="l" aria-label="lang"><b><i class="sym bar" aria-hidden="true"></i>lang</b><span class="kbd" aria-hidden="true">2</span></button>`;
+}
+
+function chooseLength(k) {
+  const tile = $(`.tile[data-v="${k}"]`);
+  if (!tile) return;
+  if (k !== cur.kind) {
+    const hint = miss(cur, tile);
+    if (hint) $(`.tile[data-v="${cur.kind}"]`).classList.add('hint');
+    say(hint
+      ? (cur.kind === 'l' ? `Tipp: Sprich das Wort ganz langsam. Das <b>${cur.sound}</b> kannst du lang ziehen. Es ist <b>lang</b>.`
+                          : `Tipp: Sprich das Wort ganz langsam. Das <b>${cur.sound}</b> klingt kurz und knapp. Es ist <b>kurz</b>.`)
+      : `Hmm, hör noch einmal genau hin. Sprich das Wort laut: Kannst du das <b>${cur.sound}</b> lang ziehen?`, 'think');
+    return;
+  }
+  sfx.pick();
+  step = 2;
+  $('#len').innerHTML = `<span class="pill ${CLS[k]}"><i class="sym ${k === 'k' ? 'dot' : 'bar'}" aria-hidden="true"></i>${KIND[k]}er Vokal</span>`;
+  $('#ask').innerHTML = 'Schritt 2: Was gehört in die Lücke?';
+  options = shuffle(cur.pair.slice());
+  $('#opts').innerHTML = options.map((l, i) =>
+    `<button class="tile nt" data-l="${l}" aria-label="${l}"><b>${l}</b><span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+  say(`Genau, das ${cur.sound} ist <b>${KIND[k]}</b>. Was schreibst du nach einem ${KIND[k]}en ${cur.vowelGap ? 'i' : 'Vokal'}?`.replace('nach einem langen i', 'für ein langes i').replace('nach einem kurzen i', 'für ein kurzes i'), 'happy');
+}
+
+function chooseLetters(l) {
+  const tile = $(`.tile[data-l="${l}"]`);
+  if (!tile) return;
+  if (l !== cur.fill) {
+    const hint = miss(cur, tile);
+    if (hint) $(`.tile[data-l="${cur.fill}"]`).classList.add('hint');
+    say(hint ? `Tipp: ${ruleText(cur)} Der leuchtende Baustein passt.`
+      : `Das passt noch nicht. Denk daran: Der Vokal ist <b>${KIND[cur.kind]}</b>. Was folgt daraus?`, 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.tile').forEach(t => t.classList.remove('hint'));
+  $('#word').innerHTML = cur.solved;
+  solve(cur, $('#slot'), cur.kind === 'k' ? 'die' : 'der');
+  say(`${pick(PRAISE, 'praise')} <span class="pill ${CLS[cur.kind]}">${cur.marked}</span> ${ruleText(cur)}`, 'happy');
+  later(next, 2300);
+}
+
+$('#opts').addEventListener('click', e => {
+  if (state.busy || !cur) return;
+  const t = e.target.closest('.tile');
+  if (!t) return;
+  if (t.dataset.v) chooseLength(t.dataset.v); else chooseLetters(t.dataset.l);
+});
+$('#speak').addEventListener('click', () => { if (cur) speak(cur.plain); });
+document.addEventListener('keydown', e => {
+  if (!gameOn() || state.busy || !cur || !/^[12]$/.test(e.key)) return;
+  if (step === 1) chooseLength(e.key === '1' ? 'k' : 'l'); else chooseLetters(options[+e.key - 1]);
+});

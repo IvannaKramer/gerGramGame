@@ -1,0 +1,10 @@
+@@meta
+slug: ableiten
+title: Ableiten: ä oder e, äu oder eu?
+subtitle: Sechs Spiele rund um die Wortfamilien. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Bildern und mit Hilfe beim Ableiten. Je 15 Wörter.
+lead2: Ohne Bilder: Du suchst das verwandte Wort selbst. Je 20 Aufgaben.
+lead3: Schwierige Wörter in Sätzen selbst schreiben. 20 Sätze.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Wörtern, dazu die Lösungen.
+@@tipp
+<b>ä</b> und <b>e</b> klingen oft gleich, <b>äu</b> und <b>eu</b> auch. Der Trick: Suche ein <b>verwandtes Wort</b>! Gibt es eins mit <b>a</b>, schreibst du <b>ä</b>: Bälle kommt von Ball. Gibt es eins mit <b>au</b>, schreibst du <b>äu</b>: Bäume kommt von Baum. Findest du keins, schreibst du meistens e oder eu: Feld, Leute.

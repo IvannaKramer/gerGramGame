@@ -1,0 +1,155 @@
+@@meta
+file: 6-grundform-profi.html
+title: Grundform-Profi
+level: Profis
+nr: 6
+total: 20
+subtitle: Im Text steht ein Wort in veränderter Form. Unter welchem Wort schlägst du im Wörterbuch nach?
+lead: Im Wörterbuch steht jedes Wort nur in seiner Grundform:
+id: grundform
+desc: Schreibe die Grundform, die im Wörterbuch steht.
+sample: die Bäume → Baum
+drag: no
+@@tipp
+Im Wörterbuch stehen die Wörter in der <b>Grundform</b>. Nomen stehen in der <b>Einzahl</b>: Bäume → Baum. Verben stehen in der Grundform mit <b>-en</b>: sie hat gespielt → spielen. Adjektive stehen <b>ungesteigert</b>: schneller → schnell.
+@@examples
+      <div class="ex nom" style="--tilt:-1.5deg"><div class="ex-head"><b>Nomen</b><span>Einzahl</span></div><div class="ex-body">die Bäume<span class="arrow" aria-hidden="true">▼</span><span class="a">Baum</span></div></div>
+      <div class="ex vrb" style="--tilt:1deg"><div class="ex-head"><b>Verb</b><span>Grundform</span></div><div class="ex-body">sie hat gespielt<span class="arrow" aria-hidden="true">▼</span><span class="a">spielen</span></div></div>
+      <div class="ex adj" style="--tilt:-.5deg"><div class="ex-head"><b>Adjektiv</b><span>ungesteigert</span></div><div class="ex-body">schneller<span class="arrow" aria-hidden="true">▼</span><span class="a">schnell</span></div></div>
+@@howto
+        <li>Lies die Wörter aus dem Text. Überlege: Ist es ein Nomen, ein Verb oder ein Adjektiv?</li>
+        <li>Schreibe die Grundform in das Feld. Nur ein Wort, ohne Artikel! Nomen schreibst du groß, Verben und Adjektive klein.</li>
+        <li>Tippe auf „Prüfen“ oder drücke die Enter-Taste. Stimmt es noch nicht, bekommst du einen Tipp.</li>
+@@board
+    <div class="bench">
+      <p class="lbl">Im Text steht</p>
+      <p class="from" id="from"></p>
+      <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M5 13l7 7 7-7"/></svg>
+      <p class="lbl"><label for="answer">Im Wörterbuch suche ich</label></p>
+      <form class="write" id="form" autocomplete="off">
+        <input id="answer" type="text" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" maxlength="20">
+      </form>
+      <div class="keys" id="keys" aria-label="Besondere Buchstaben">
+        <button type="button" class="keycap">ä</button><button type="button" class="keycap">ö</button><button type="button" class="keycap">ü</button><button type="button" class="keycap">ß</button>
+      </div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check" type="submit" form="form">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Grundform-Profi ---------- */
+.nom{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.vrb{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.adj{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.ex-head b{font-size:clamp(1rem,2.6vw,1.4rem)}
+.ex-head span{font-size:.9rem}
+.bench .from{color:var(--ink)}
+.write{display:flex;justify-content:center;align-items:center;margin-top:6px;font-weight:700;font-size:clamp(1.6rem,5.4vw,2.5rem)}
+.write input{font:inherit;color:var(--ink);background:var(--paper);border:3px solid var(--card-edge);border-radius:14px;padding:4px 14px;width:min(100%,10em);min-height:60px;text-align:center}
+.write input:focus{outline:none;border-color:var(--sun);box-shadow:0 0 0 4px var(--sun-soft)}
+.write input.good{border-color:var(--c);background:var(--cs)}
+.keys{display:flex;justify-content:center;gap:8px;margin-top:12px}
+.keycap{appearance:none;min-width:48px;min-height:48px;border:3px solid var(--card-edge);background:var(--card);border-radius:12px;font-weight:700;font-size:1.3rem;cursor:pointer;box-shadow:0 3px 0 var(--card-edge)}
+.keycap:active{transform:translateY(2px);box-shadow:0 1px 0 var(--card-edge)}
+@@data
+/* Aufbau: [Form im Text, Grundform im Wörterbuch, Wortart]
+   Wortart: 'nom' = Nomen, 'vrb' = Verb, 'adj' = Adjektiv. Die Regeln stehen darunter.
+   Wichtig: Die Grundform muss eindeutig sein und ist immer genau ein Wort. */
+const WORDS = [
+  ['die Städte',       'Stadt',   'nom'],
+  ['die Gänse',        'Gans',    'nom'],
+  ['die Kräuter',      'Kraut',   'nom'],
+  ['die Türme',        'Turm',    'nom'],
+  ['die Wölfe',        'Wolf',    'nom'],
+  ['die Dächer',       'Dach',    'nom'],
+  ['die Bücher',       'Buch',    'nom'],
+  ['er lief',          'laufen',  'vrb'],
+  ['sie hat gesungen', 'singen',  'vrb'],
+  ['sie aß',           'essen',   'vrb'],
+  ['du liest',         'lesen',   'vrb'],
+  ['er hat gewusst',   'wissen',  'vrb'],
+  ['er fährt',         'fahren',  'vrb'],
+  ['sie nahm',         'nehmen',  'vrb'],
+  ['größer',           'groß',    'adj'],
+  ['am höchsten',      'hoch',    'adj'],
+  ['älter',            'alt',     'adj'],
+  ['kürzer',           'kurz',    'adj'],
+  ['am klügsten',      'klug',    'adj'],
+  ['wärmer',           'warm',    'adj']
+];
+/* Aufbau: Kürzel: [Überschrift, erster Hinweis, Tipp nach zwei Fehlversuchen, Merksatz bei richtiger Antwort] */
+const RULES = {
+  nom: ['Nomen: Einzahl', 'Fast! Das ist ein Nomen. Wie heißt es, wenn es nur <b>eins</b> ist?',
+        'Tipp: Nomen stehen in der <b>Einzahl</b> im Wörterbuch. Oft verschwindet dabei der Umlaut: die Bäume → Baum.',
+        'Nomen stehen in der Einzahl im Wörterbuch.'],
+  vrb: ['Verben: Grundform', 'Fast! Das ist ein Verb. Frage: Was <b>tun</b> wir? Wir …',
+        'Tipp: Verben stehen in der <b>Grundform</b> mit <b>-en</b> im Wörterbuch: sie hat gespielt → spielen, er fiel → fallen.',
+        'Verben stehen in der Grundform im Wörterbuch.'],
+  adj: ['Adjektive: ungesteigert', 'Fast! Das ist ein gesteigertes Adjektiv. Wie heißt es ohne Steigerung?',
+        'Tipp: Adjektive stehen <b>ungesteigert</b> im Wörterbuch. Die Endung fällt weg, oft auch der Umlaut: schneller → schnell, am längsten → lang.',
+        'Adjektive stehen ungesteigert im Wörterbuch.']
+};
+
+const GAME = {
+  id: 'grundform',
+  next: null,
+  review: () => `<div class="review">${Object.keys(RULES).map(k =>
+    `<div class="col ${k}"><h3>${RULES[k][0]}</h3><ul>${all.filter(w => w.k === k).map(pairLi).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Grundform-Profi ---------- */
+let all = [], queue = [], cur = null;
+const input = $('#answer');
+
+function startGame() {
+  all = WORDS.map(w => ({ ez: w[0], mz: w[1], k: w[2], misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Unter welchem Wort schlägst du nach? Schreibe die Grundform in das Feld.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#from').textContent = cur.ez;
+  input.value = ''; input.readOnly = false; input.className = '';
+  input.focus({ preventScroll: true });
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const v = input.value.trim().replace(/\s+/g, ' ').replace(/^(der|die|das) /i, '');
+  if (!v) { say('Schreibe zuerst die Grundform in das Feld.'); input.focus(); return; }
+  if (v !== cur.mz) {
+    if (v.toLowerCase() === cur.mz.toLowerCase()) {
+      wobble(input);
+      say(cur.k === 'nom' ? 'Fast richtig! Denk daran: Nomen schreibt man groß.' : 'Fast richtig! Denk daran: Verben und Adjektive schreibt man klein.', 'think');
+    } else {
+      miss(cur, input);
+      say(cur.misses === 1 ? RULES[cur.k][1]
+        : cur.misses === 2 ? RULES[cur.k][2]
+        : `So ist es richtig: <span class="pill ${cur.k}">${cur.mz}</span> Schreibe das Wort genau so ab.`, 'think');
+    }
+    input.focus();
+    return;
+  }
+  state.busy = true;
+  input.value = cur.mz; input.readOnly = true; input.classList.add('good', cur.k);
+  solve(cur, input, cur.k === 'nom' ? 'der' : cur.k === 'vrb' ? 'die' : 'das');
+  say(`${pick(PRAISE, 'praise')} <b>${cur.ez}</b> → <span class="pill ${cur.k}">${cur.mz}</span> ${RULES[cur.k][3]}`, 'happy');
+  later(next, 2100);
+}
+
+$('#form').addEventListener('submit', e => { e.preventDefault(); check(); });
+$('#keys').addEventListener('click', e => {
+  const k = e.target.closest('.keycap');
+  if (!k || input.readOnly) return;
+  const a = input.selectionStart ?? input.value.length, b = input.selectionEnd ?? a;
+  input.value = input.value.slice(0, a) + k.textContent + input.value.slice(b);
+  input.focus();
+  input.setSelectionRange(a + 1, a + 1);
+});

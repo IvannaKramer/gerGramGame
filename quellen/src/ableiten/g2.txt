@@ -1,0 +1,192 @@
+@@meta
+file: 2-wortfamilien-suche.html
+title: Wortfamilien-Suche
+level: Anfänger
+nr: 2
+total: 15
+subtitle: Im Wort ist eine Lücke. Suche zuerst ein verwandtes Wort, dann weißt du, was hineingehört!
+lead: Das verwandte Wort verrät dir, wie du schreibst:
+id: suche
+desc: Suche das verwandte Wort, dann wähle den Laut.
+sample: 🥨 B_cker → backen → ä
+drag: no
+@@tipp
+Verwandte Wörter gehören zur selben <b>Wortfamilie</b>. Sie haben etwas miteinander zu tun: Der <b>Bäcker</b> kann <b>backen</b>. Findest du ein verwandtes Wort mit <b>a</b>, schreibst du <b>ä</b>. Findest du eins mit <b>au</b>, schreibst du <b>äu</b>. Findest du keins, schreibst du <b>e</b> oder <b>eu</b>.
+@@examples
+      <div class="ex ka" style="--tilt:-1.5deg"><div class="ex-head"><b>ä</b><span>von a</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🥨</span>backen<span class="arrow" aria-hidden="true">▼</span>B<span class="a">ä</span>cker</div></div>
+      <div class="ex kau" style="--tilt:1deg"><div class="ex-head"><b>äu</b><span>von au</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🦹</span>rauben<span class="arrow" aria-hidden="true">▼</span>R<span class="a">äu</span>ber</div></div>
+      <div class="ex keu" style="--tilt:-.5deg"><div class="ex-head"><b>eu</b><span>kein Wort mit au</span></div><div class="ex-body"><span class="emo" aria-hidden="true">👥</span>kein verwandtes Wort<span class="arrow" aria-hidden="true">▼</span>L<span class="a">eu</span>te</div></div>
+@@howto
+        <li>Schau dir das Bild an und lies das Wort mit der Lücke.</li>
+        <li>Unten stehen zwei Wörter. Ist eins davon verwandt? Tippe es an. Passt keins, tippe auf „Keins passt“.</li>
+        <li>Tippe dann den Laut an, der in die Lücke gehört.</li>
+@@board
+    <div class="bench" id="bench">
+      <span class="bpic" id="pic" aria-hidden="true"></span>
+      <p class="lbl">Was fehlt in der Lücke?</p>
+      <p class="gapword" id="word"></p>
+      <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M5 13l7 7 7-7"/></svg>
+      <p class="lbl">Verwandtes Wort</p>
+      <p class="ext" id="ext"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <p class="ask" id="ask"></p>
+      <div class="opts" id="opts"></div>
+    </div>
+@@css
+/* ---------- Wortfamilien-Suche ---------- */
+.ka{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.ke{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.kau{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.keu{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.hit{color:var(--c);background:var(--cs);border-radius:8px;padding:0 .08em}
+.bpic{display:block;font-size:clamp(2.6rem,8vw,3.6rem);line-height:1.15}
+.gapword{margin:0 0 4px;font-weight:700;font-size:clamp(2rem,7vw,3.2rem);line-height:1.25}
+.slot{display:inline-grid;place-items:center;min-width:1.1em;height:1.2em;margin:0 3px;padding:0 .1em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);font-size:.85em;vertical-align:.04em}
+.slot.filled{border-color:transparent;background:var(--c);color:#fff;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.ext{margin:0;min-height:1.5em;font-weight:700;font-size:clamp(1.6rem,5.4vw,2.4rem);line-height:1.3}
+.ext .ph,.ext .none{font-weight:400;font-size:1.05rem;color:var(--ink-soft)}
+.ext .none{font-weight:700;font-size:1.25rem}
+.ext u{text-decoration:underline;text-decoration-color:var(--sun);text-decoration-thickness:5px;text-underline-offset:6px}
+.ask{margin:0 0 8px;text-align:center;font-weight:700;color:var(--ink-soft);font-size:1.05rem}
+.opts{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(8px,2vw,18px);max-width:860px;margin:0 auto}
+.opt{appearance:none;position:relative;flex:1 1 180px;max-width:270px;background:var(--card);border:3px solid var(--card-edge);border-radius:16px;min-height:62px;padding:8px 26px 8px 12px;cursor:pointer;
+  font-weight:700;font-size:clamp(1.35rem,3.4vw,1.7rem);line-height:1.15;box-shadow:0 5px 0 var(--card-edge),0 10px 18px var(--lift);touch-action:manipulation;transition:transform .12s ease,opacity .2s ease}
+.opt.none{border-style:dashed;font-size:clamp(1.15rem,3vw,1.35rem);color:var(--ink-soft)}
+.opt:active{transform:translateY(3px);box-shadow:0 2px 0 var(--card-edge)}
+.opt .kbd{background:var(--paper);color:var(--ink-soft)}
+.opt.limp{opacity:.4;cursor:default;box-shadow:none}
+.opt.hint,.tile.hint{animation:glow 1.1s ease-in-out infinite}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-width:clamp(96px,22vw,140px);min-height:clamp(62px,10vw,84px);padding:4px 10px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);
+  touch-action:manipulation;transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(2rem,6vw,2.7rem);line-height:1}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.review.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.review.c4 li{font-size:1.05rem}
+@media (max-width:760px){.review.c4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.review.c4{grid-template-columns:1fr}}
+@media (max-width:560px){.opts.words .opt{flex:1 1 40%;min-height:54px}.opts.words .opt.none{flex-basis:100%;max-width:none}}
+@@data
+/* Aufbau: [Wort mit Lücke (_), Laut in der Lücke, Bild, verwandtes Wort mit a/au (oder '' = es gibt keins), [Wörter, die NICHT verwandt sind]]
+   Bei ä/äu: ein verwandtes und ein falsches Wort. Bei e/eu: zwei falsche Wörter, richtig ist dann „Keins passt“. */
+const WORDS = [
+  ['B_cker',     'ä',  '🥨', 'backen',   ['baden']],
+  ['G_rtner',    'ä',  '🌷', 'Garten',   ['Gabel']],
+  ['k_lter',     'ä',  '🥶', 'kalt',     ['Kanne']],
+  ['er schl_ft', 'ä',  '😴', 'schlafen', ['schlau']],
+  ['F_nster',    'e',  '🪟', '',         ['Fahne', 'fangen']],
+  ['K_rze',      'e',  '🕯️', '',         ['Karte', 'Karton']],
+  ['Schn_cke',   'e',  '🐌', '',         ['Schnabel', 'Schrank']],
+  ['Gesch_nk',   'e',  '🎁', '',         ['Schaf', 'Schal']],
+  ['R_ber',      'äu', '🦹', 'rauben',   ['Raupe']],
+  ['tr_men',     'äu', '💭', 'Traum',    ['Traube']],
+  ['Str_cher',   'äu', '🌿', 'Strauch',  ['Staub']],
+  ['L_fer',      'äu', '🏃', 'laufen',   ['Laub']],
+  ['L_te',       'eu', '👥', '',         ['Laus', 'Laune']],
+  ['t_er',       'eu', '💎', '',         ['Tau', 'tauchen']],
+  ['Z_gnis',     'eu', '📜', '',         ['Zaun', 'Zauber']]
+];
+/* Laute: CSS-Klasse (Farbe), Name der Farbe für die Funken, Überschrift */
+const SOUNDS = { 'ä': ['ka', 'der', 'ä (von a)'], 'e': ['ke', 'die', 'e (kein Wort mit a)'], 'äu': ['kau', 'das', 'äu (von au)'], 'eu': ['keu', 'bonus', 'eu (kein Wort mit au)'] };
+const PAIRS = { 'ä': ['ä', 'e'], 'e': ['ä', 'e'], 'äu': ['äu', 'eu'], 'eu': ['äu', 'eu'] };
+
+const GAME = {
+  id: 'suche',
+  next: { href: '3-merkwort-koerbe.html', title: 'Merkwort-Körbe' },
+  review: () => `<div class="review c4">${Object.keys(SOUNDS).map(s =>
+    `<div class="col ${SOUNDS[s][0]}"><h3>${SOUNDS[s][2]}</h3><ul>${all.filter(w => w.l === s).map(w =>
+      `<li>${w.rel ? `<span>${w.rel} →</span> ` : ''}<b>${w.full}</b></li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Wortfamilien-Suche ---------- */
+let all = [], queue = [], cur = null, step = 1, options = [];
+const cls = l => SOUNDS[l][0];
+const colored = w => w.gap.replace('_', `<b class="hit ${cls(w.l)}">${w.l}</b>`);
+const qmark = w => w.gap.replace('_', '?');
+/* a oder au im verwandten Wort unterstreichen */
+const markRel = w => w.rel.replace(w.base === 'au' ? /au/i : /a/i, '<u>$&</u>');
+
+function startGame() {
+  all = WORDS.map(w => ({ gap: w[0], l: w[1], emoji: w[2], rel: w[3], wrong: w[4], base: PAIRS[w[1]][0] === 'ä' ? 'a' : 'au',
+    full: w[0].replace('_', w[1]), misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Gibt es ein verwandtes Wort? Tippe es an. Wenn keins der beiden Wörter passt, tippe auf „Keins passt“.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false; step = 1;
+  $('#pic').textContent = cur.emoji;
+  $('#word').innerHTML = cur.gap.replace('_', '<span class="slot" id="slot">?</span>');
+  $('#ext').innerHTML = '<span class="ph">Suche unten ein verwandtes Wort.</span>';
+  $('#ask').textContent = 'Welches Wort ist verwandt?';
+  options = shuffle([...(cur.rel ? [{ ok: true, text: cur.rel }] : []), ...cur.wrong.map(t => ({ ok: false, text: t }))]);
+  options.push({ ok: !cur.rel, text: 'Keins passt', none: true });
+  $('#opts').className = 'opts words';
+  $('#opts').innerHTML = options.map((o, i) =>
+    `<button class="opt${o.none ? ' none' : ''}" data-i="${i}">${o.text}<span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+}
+
+function chooseWord(i) {
+  const o = options[i], el = $(`.opt[data-i="${i}"]`);
+  if (!o || !el || el.disabled) return;
+  if (!o.ok) {
+    const hint = miss(cur, el);
+    el.disabled = true; el.classList.add('limp');
+    if (hint) $(`.opt[data-i="${options.findIndex(x => x.ok)}"]`).classList.add('hint');
+    say(hint ? (cur.rel ? `Tipp: Verwandte Wörter haben etwas miteinander zu tun. Das leuchtende Wort gehört zu <b>${qmark(cur)}</b>.`
+        : `Tipp: Keins der Wörter hat etwas mit <b>${qmark(cur)}</b> zu tun. Tippe auf das leuchtende Feld.`)
+      : o.none ? `Doch, eins der beiden Wörter ist mit <b>${qmark(cur)}</b> verwandt. Welches hat damit zu tun?`
+      : `<b>${o.text}</b> sieht ähnlich aus, hat aber mit <b>${qmark(cur)}</b> nichts zu tun. Die Bedeutung muss passen.`, 'think');
+    return;
+  }
+  sfx.pick();
+  step = 2;
+  $('#ext').innerHTML = cur.rel ? markRel(cur) : `<span class="none">kein verwandtes Wort mit ${cur.base}</span>`;
+  $('#ask').textContent = 'Was gehört in die Lücke?';
+  $('#opts').className = 'opts';
+  $('#opts').innerHTML = PAIRS[cur.l].map((l, k) =>
+    `<button class="tile ${cls(l)}" data-l="${l}" aria-label="${l}"><b>${l}</b><span class="kbd" aria-hidden="true">${k + 1}</span></button>`).join('');
+  say(cur.rel ? `Genau! <b>${markRel(cur)}</b> gehört zur selben Wortfamilie. Du siehst ein <b>${cur.base}</b>. Was schreibst du also in die Lücke?`
+    : `Genau! Es gibt kein verwandtes Wort mit <b>${cur.base}</b>. Was schreibst du dann in die Lücke?`, 'happy');
+}
+
+function chooseLetter(l) {
+  const tile = $(`.tile[data-l="${l}"]`);
+  if (!tile) return;
+  if (l !== cur.l) {
+    const hint = miss(cur, tile);
+    if (hint) $(`.tile[data-l="${cur.l}"]`).classList.add('hint');
+    say(hint ? (cur.rel ? `Tipp: Das verwandte Wort <b>${cur.rel}</b> hat ein <b>${cur.base}</b>. Darum schreibst du <b>${cur.l}</b>. Der leuchtende Laut ist richtig.`
+        : `Tipp: Ohne verwandtes Wort mit <b>${cur.base}</b> schreibst du <b>${cur.l}</b>. Der leuchtende Laut ist richtig.`)
+      : (cur.rel ? `Hmm, schau auf das verwandte Wort: <b>${markRel(cur)}</b>. Aus ${cur.base} wird …?`
+        : `Hmm, denk an die Regel: Nur wenn es ein verwandtes Wort mit ${cur.base} gibt, schreibst du ${PAIRS[cur.l][0]}.`), 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.tile').forEach(t => t.classList.remove('hint'));
+  const slot = $('#slot');
+  slot.textContent = cur.l; slot.className = 'slot filled ' + cls(cur.l);
+  solve(cur, slot, SOUNDS[cur.l][1]);
+  say(`${pick(PRAISE, 'praise')} ` + (cur.rel ? `${cur.rel} → <span class="pill ${cls(cur.l)}">${cur.full}</span> mit <b>${cur.l}</b>.`
+    : `<span class="pill ${cls(cur.l)}">${cur.full}</span> mit <b>${cur.l}</b>, denn es gibt kein verwandtes Wort mit ${cur.base}.`), 'happy');
+  later(next, 2100);
+}
+
+$('#opts').addEventListener('click', e => {
+  if (state.busy || !cur) return;
+  const o = e.target.closest('.opt'), t = e.target.closest('.tile');
+  if (o) chooseWord(+o.dataset.i); else if (t) chooseLetter(t.dataset.l);
+});
+document.addEventListener('keydown', e => {
+  if (!gameOn() || state.busy || !cur || !/^[1-3]$/.test(e.key)) return;
+  if (step === 1) chooseWord(+e.key - 1);
+  else if (e.key !== '3') chooseLetter(PAIRS[cur.l][+e.key - 1]);
+});

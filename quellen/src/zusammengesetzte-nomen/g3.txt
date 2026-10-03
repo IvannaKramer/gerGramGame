@@ -1,0 +1,146 @@
+@@meta
+file: 3-artikel-chef.html
+title: Artikel-Chef
+level: Anfänger
+nr: 3
+total: 15
+subtitle: Zwei Nomen, zwei Artikel. Aber welcher Artikel gehört zum neuen Wort?
+lead: Das Grundwort ist der Chef. Sein Artikel gilt für das ganze Wort:
+id: artikel
+desc: Welcher Artikel gehört zum neuen Wort?
+sample: das Haus + der Schlüssel
+drag: no
+@@tipp
+Bei zusammengesetzten Nomen ist das <b>Grundwort</b> der Chef. Es steht <b>hinten</b> und bestimmt den Artikel: das Haus + <b>die</b> Tür = <b>die</b> Haustür. Der Artikel vom vorderen Wort fällt weg.
+@@examples
+      <div class="ex der" style="--tilt:-1.5deg"><div class="ex-body"><span class="p">das Haus + <u>der</u> Schlüssel</span><span class="arrow" aria-hidden="true">▼</span><span class="a">der Hausschlüssel</span></div></div>
+      <div class="ex die" style="--tilt:1deg"><div class="ex-body"><span class="p">der Tisch + <u>die</u> Lampe</span><span class="arrow" aria-hidden="true">▼</span><span class="a">die Tischlampe</span></div></div>
+      <div class="ex das" style="--tilt:-.5deg"><div class="ex-body"><span class="p">der Wind + <u>das</u> Rad</span><span class="arrow" aria-hidden="true">▼</span><span class="a">das Windrad</span></div></div>
+@@howto
+        <li>Lies die beiden Nomen mit ihren Artikeln.</li>
+        <li>Schau auf das Grundwort. Es steht hinten. Welchen Artikel hat es?</li>
+        <li>Tippe unten auf den Artikel für das neue Wort: der, die oder das.</li>
+@@board
+    <div class="bench">
+      <div class="eq" id="eq"></div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="arts" id="arts">
+        <button class="art-btn der" data-a="der"><b>der</b><span class="kbd" aria-hidden="true">1</span></button>
+        <button class="art-btn die" data-a="die"><b>die</b><span class="kbd" aria-hidden="true">2</span></button>
+        <button class="art-btn das" data-a="das"><b>das</b><span class="kbd" aria-hidden="true">3</span></button>
+      </div>
+    </div>
+@@css
+/* ---------- Artikel-Chef ---------- */
+.bw{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.gw{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.ex-body .p{display:block;font-weight:400;font-size:.8em}
+.ex-body .p u{text-decoration:none;font-weight:700;color:var(--c)}
+.ex-body .arrow{display:block;color:var(--ink-soft);font-size:1rem;line-height:1.1}
+.eqparts{display:flex;justify-content:center;align-items:stretch;gap:clamp(6px,2vw,18px);flex-wrap:wrap}
+.pcard{display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--card);border:3px solid var(--c);border-radius:16px;padding:0 clamp(8px,2.4vw,18px) 8px;min-width:min(42%,200px);overflow:hidden}
+.pcard small{align-self:stretch;margin:0 calc(-1 * clamp(8px,2.4vw,18px)) 6px;background:var(--c);color:#fff;font-weight:700;font-size:clamp(.85rem,2.3vw,1rem);padding:2px 8px}
+.pcard .w{font-weight:700;font-size:clamp(1.5rem,4.4vw,2.1rem);line-height:1.2}
+.pcard .w i{font-style:normal;border-radius:8px;padding:0 .12em}
+.pcard.chef.show .w i{background:var(--ac);color:#fff}
+.pcard.hint{animation:glow 1.1s ease-in-out infinite}
+.eqparts .plus{align-self:center;font-weight:700;font-size:1.8rem;color:var(--ink-soft)}
+.eq .down{width:30px;height:30px;color:var(--ink-soft);display:block;margin:8px auto 4px}
+.result{margin:0;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:4px 12px;font-weight:700;font-size:clamp(1.7rem,6vw,2.9rem);line-height:1.25}
+.result .pic{font-size:.9em}
+.aslot{display:inline-grid;place-items:center;min-width:2em;height:1.3em;padding:0 .2em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);font-size:.85em}
+.aslot.filled{border-color:transparent;background:var(--c);color:#fff;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.arts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,3vw,30px);max-width:700px;margin:0 auto}
+.art-btn{appearance:none;border:none;position:relative;border-radius:18px;background:var(--c);color:#fff;min-height:clamp(72px,11vw,96px);cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);touch-action:manipulation;transition:transform .12s ease,box-shadow .12s ease}
+.art-btn b{font-size:clamp(1.8rem,5.4vw,2.6rem);line-height:1}
+.art-btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.art-btn.hint{animation:glow 1.1s ease-in-out infinite}
+.review li span{display:block;font-size:.85em;color:var(--ink-soft)}
+@@data
+/* Aufbau: [Bestimmungswort mit Artikel, Grundwort mit Artikel, Bild (darf leer sein)]
+   Das neue Wort bekommt den Artikel vom Grundwort. Die beiden Artikel sind hier immer verschieden. */
+const WORDS = [
+  ['das Haus',    'der Schlüssel', '🔑'],
+  ['die Stadt',   'der Bus',       '🚌'],
+  ['das Papier',  'der Korb',      '🗑️'],
+  ['das Stroh',   'der Hut',       '👒'],
+  ['das Dach',    'der Boden',     ''],
+  ['der Tisch',   'die Lampe',     '💡'],
+  ['das Telefon', 'die Nummer',    '📞'],
+  ['der Fuß',     'die Spur',      '👣'],
+  ['das Handy',   'die Hülle',     '📱'],
+  ['der Wald',    'die Hütte',     '🌲'],
+  ['der Garten',  'das Tor',       ''],
+  ['der Wind',    'das Rad',       '🌬️'],
+  ['die Hand',    'das Tuch',      ''],
+  ['der Stern',   'das Bild',      '✨'],
+  ['die Luft',    'das Schiff',    '']
+];
+
+const GAME = {
+  id: 'artikel',
+  next: { href: '4-woerter-baukasten.html', title: 'Wörter-Baukasten' },
+  review: () => `<div class="review">${['der', 'die', 'das'].map(a =>
+    `<div class="col ${a}"><ul>${all.filter(w => w.art === a).map(w => `<li><b>${a} ${w.word}</b><span>${w.a1} ${w.bw} + ${w.art} ${w.gw}</span></li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Artikel-Chef ---------- */
+let all = [], queue = [], cur = null;
+const btn = a => $(`.art-btn[data-a="${a}"]`);
+
+function startGame() {
+  all = WORDS.map(w => {
+    const [a1, bw] = w[0].split(' '), [art, gw] = w[1].split(' ');
+    return { a1, bw, art, gw, emoji: w[2], word: bw + gw.toLowerCase(), misses: 0 };
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Welcher Artikel gehört zum neuen Wort? Schau auf das Grundwort. Es ist der Chef!');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $$('.art-btn').forEach(b => b.classList.remove('hint'));
+  $('#eq').innerHTML = `<div class="eqparts">
+      <span class="pcard bw"><small>Bestimmungswort</small><span class="w">${cur.a1} ${cur.bw}</span></span>
+      <span class="plus" aria-hidden="true">+</span>
+      <span class="pcard gw chef" id="chef" style="--ac:var(--${cur.art})"><small>Grundwort</small><span class="w"><i>${cur.art}</i> ${cur.gw}</span></span>
+    </div>
+    <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M5 13l7 7 7-7"/></svg>
+    <p class="result"><span class="aslot" id="aslot">?</span><span>${cur.word}</span>${cur.emoji ? `<span class="pic" aria-hidden="true">${cur.emoji}</span>` : ''}</p>`;
+}
+
+function choose(a) {
+  if (state.busy || !cur) return;
+  if (a !== cur.art) {
+    const hint = miss(cur, btn(a));
+    if (hint) { btn(cur.art).classList.add('hint'); $('#chef').classList.add('hint'); }
+    say(hint
+      ? `Tipp: Das Grundwort steht hinten. Es heißt <b>${cur.art} ${cur.gw}</b>. Also heißt es auch <b>${cur.art}</b> ${cur.word}.`
+      : a === cur.a1
+        ? `Fast! <b>${a}</b> gehört zu ${cur.bw}. Das ist aber nur das Bestimmungswort. Schau auf das Grundwort!`
+        : 'Hmm, das passt noch nicht. Schau auf das Grundwort. Es steht hinten.', 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.art-btn').forEach(b => b.classList.remove('hint'));
+  const chef = $('#chef'); chef.classList.remove('hint'); chef.classList.add('show');
+  const slot = $('#aslot'); slot.textContent = cur.art; slot.className = 'aslot filled ' + cur.art;
+  solve(cur, slot, cur.art);
+  say(`${pick(PRAISE, 'praise')} Das Grundwort ist der Chef: <b>${cur.art} ${cur.gw}</b> → <span class="pill ${cur.art}">${cur.art} ${cur.word}</span>`, 'happy');
+  later(next, 2000);
+}
+
+$('#arts').addEventListener('click', e => { const b = e.target.closest('.art-btn'); if (b) choose(b.dataset.a); });
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-3]$/.test(e.key)) return;
+  choose(['der', 'die', 'das'][+e.key - 1]);
+});

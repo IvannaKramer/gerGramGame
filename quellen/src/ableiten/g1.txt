@@ -1,0 +1,146 @@
+@@meta
+file: 1-umlaut-zauber.html
+title: Umlaut-Zauber
+level: Anfänger
+nr: 1
+total: 15
+subtitle: Aus eins werden viele. Was passiert dabei mit a und au? Und was mit e und eu?
+lead: Jeder Laut hat im Spiel seine eigene Farbe:
+id: zauber
+desc: Aus a wird ä, aus au wird äu. Wähle den Laut.
+sample: 🌳 der Baum → viele Bäume
+drag: no
+@@tipp
+In der Mehrzahl wird aus <b>a</b> oft <b>ä</b> und aus <b>au</b> oft <b>äu</b>: der Ball → viele Bälle, der Baum → viele Bäume. Steht im Wort schon <b>e</b> oder <b>eu</b>, dann bleibt es so: das Bett → viele Betten, der Freund → viele Freunde.
+@@examples
+      <div class="ex ka" style="--tilt:-1.5deg"><div class="ex-head"><b>a → ä</b></div><div class="ex-body"><span class="emo" aria-hidden="true">⚽</span>der Ball<span class="arrow" aria-hidden="true">▼</span>viele B<span class="a">ä</span>lle</div></div>
+      <div class="ex kau" style="--tilt:1deg"><div class="ex-head"><b>au → äu</b></div><div class="ex-body"><span class="emo" aria-hidden="true">🌳</span>der Baum<span class="arrow" aria-hidden="true">▼</span>viele B<span class="a">äu</span>me</div></div>
+      <div class="ex ke" style="--tilt:-.5deg"><div class="ex-head"><b>e bleibt e</b></div><div class="ex-body"><span class="emo" aria-hidden="true">🛏️</span>das Bett<span class="arrow" aria-hidden="true">▼</span>viele B<span class="a">e</span>tten</div></div>
+@@howto
+        <li>Lies das Wort oben. Schau genau auf den unterstrichenen Laut.</li>
+        <li>Unten steht die Mehrzahl mit einer Lücke. Sprich sie laut.</li>
+        <li>Tippe den Laut an, der in die Lücke gehört.</li>
+@@board
+    <div class="bench" id="bench">
+      <span class="bpic" id="pic" aria-hidden="true"></span>
+      <p class="lbl">Eins</p>
+      <p class="base" id="base"></p>
+      <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M5 13l7 7 7-7"/></svg>
+      <p class="lbl">Viele</p>
+      <p class="gapword" id="word"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="letters" id="letters"></div>
+    </div>
+@@css
+/* ---------- Umlaut-Zauber ---------- */
+.ka{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.ke{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.kau{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.keu{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.hit{color:var(--c);background:var(--cs);border-radius:8px;padding:0 .08em}
+.bpic{display:block;font-size:clamp(2.6rem,8vw,3.6rem);line-height:1.15}
+.base{margin:0 0 4px;font-weight:700;font-size:clamp(1.8rem,6vw,2.6rem);line-height:1.25}
+.base u{text-decoration:underline;text-decoration-color:var(--sun);text-decoration-thickness:5px;text-underline-offset:6px}
+.gapword{margin:0 0 4px;font-weight:700;font-size:clamp(2rem,7vw,3.2rem);line-height:1.25}
+.slot{display:inline-grid;place-items:center;min-width:1.1em;height:1.2em;margin:0 3px;padding:0 .1em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);font-size:.85em;vertical-align:.04em}
+.slot.filled{border-color:transparent;background:var(--c);color:#fff;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.letters{display:flex;justify-content:center;gap:clamp(12px,4vw,28px)}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-width:clamp(96px,22vw,140px);min-height:clamp(66px,10vw,84px);padding:4px 10px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);
+  touch-action:manipulation;transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(2rem,6vw,2.7rem);line-height:1}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+.review.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.review.c4 li{font-size:1.05rem}
+@media (max-width:760px){.review.c4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.review.c4{grid-template-columns:1fr}}
+@@data
+/* Aufbau: [Einzahl, Bild, Mehrzahl mit Lücke (_), Laut in der Lücke]
+   In der Einzahl steht der Laut, auf den es ankommt, in eckigen Klammern. */
+const WORDS = [
+  ['der B[a]ll',       '⚽', 'viele B_lle',      'ä'],
+  ['die H[a]nd',       '✋', 'zwei H_nde',       'ä'],
+  ['der Z[a]hn',       '🦷', 'viele Z_hne',      'ä'],
+  ['das Bl[a]tt',      '🍁', 'viele Bl_tter',    'ä'],
+  ['das B[e]tt',       '🛏️', 'viele B_tten',     'e'],
+  ['der St[e]rn',      '⭐', 'viele St_rne',     'e'],
+  ['das Z[e]lt',       '⛺', 'viele Z_lte',      'e'],
+  ['der B[e]rg',       '⛰️', 'viele B_rge',      'e'],
+  ['der B[au]m',       '🌳', 'viele B_me',       'äu'],
+  ['die M[au]s',       '🐭', 'viele M_se',       'äu'],
+  ['das H[au]s',       '🏠', 'viele H_ser',      'äu'],
+  ['die F[au]st',      '✊', 'zwei F_ste',       'äu'],
+  ['der Fr[eu]nd',     '👫', 'zwei Fr_nde',      'eu'],
+  ['das F[eu]er',      '🔥', 'viele F_er',       'eu'],
+  ['das Flugz[eu]g',   '✈️', 'viele Flugz_ge',   'eu']
+];
+/* Laute: CSS-Klasse (Farbe), Name der Farbe für die Funken, Überschrift */
+const SOUNDS = { 'ä': ['ka', 'der', 'ä (von a)'], 'e': ['ke', 'die', 'e (bleibt e)'], 'äu': ['kau', 'das', 'äu (von au)'], 'eu': ['keu', 'bonus', 'eu (bleibt eu)'] };
+const PAIRS = { 'ä': ['ä', 'e'], 'e': ['ä', 'e'], 'äu': ['äu', 'eu'], 'eu': ['äu', 'eu'] };
+
+const GAME = {
+  id: 'zauber',
+  next: { href: '2-wortfamilien-suche.html', title: 'Wortfamilien-Suche' },
+  review: () => `<div class="review c4">${Object.keys(SOUNDS).map(s =>
+    `<div class="col ${SOUNDS[s][0]}"><h3>${SOUNDS[s][2]}</h3><ul>${all.filter(w => w.l === s).map(w =>
+      `<li><span>${w.plain} →</span> <b>${w.full}</b></li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Umlaut-Zauber ---------- */
+let all = [], queue = [], cur = null;
+const cls = l => SOUNDS[l][0];
+const colored = w => w.gap.replace('_', `<b class="hit ${cls(w.l)}">${w.l}</b>`);
+
+function startGame() {
+  all = WORDS.map(w => ({ base: w[0], plain: w[0].replace(/[\[\]]/g, ''), from: (w[0].match(/\[(.+)\]/) || [])[1], emoji: w[1], gap: w[2], l: w[3],
+    full: w[2].replace('_', w[3]), misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Lies das Wort oben und sprich die Mehrzahl laut. Welcher Laut gehört in die Lücke?');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#pic').textContent = cur.emoji;
+  $('#base').innerHTML = cur.base.replace(/\[(.+)\]/, '<u>$1</u>');
+  $('#word').innerHTML = cur.gap.replace('_', '<span class="slot" id="slot">?</span>');
+  $('#letters').innerHTML = PAIRS[cur.l].map((l, i) =>
+    `<button class="tile ${cls(l)}" data-l="${l}" aria-label="${l}"><b>${l}</b><span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+}
+
+/* Die Regel als Satz, z. B. „Aus a wird ä“ oder „e bleibt e“ */
+const rule = w => w.from === w.l ? `<b>${w.l}</b> bleibt <b>${w.l}</b>` : `Aus <b>${w.from}</b> wird <b>${w.l}</b>`;
+
+function choose(l) {
+  if (state.busy || !cur) return;
+  const tile = $(`.tile[data-l="${l}"]`);
+  if (!tile) return;
+  if (l !== cur.l) {
+    const hint = miss(cur, tile);
+    if (hint) $(`.tile[data-l="${cur.l}"]`).classList.add('hint');
+    say(hint ? `Tipp: In <b>${cur.plain}</b> steht ein <b>${cur.from}</b>. ${rule(cur)}. Der leuchtende Laut ist richtig.`
+      : `Hmm, schau noch einmal auf das Wort oben: <b>${cur.plain}</b>. Welcher Laut ist unterstrichen?`, 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.tile').forEach(t => t.classList.remove('hint'));
+  const slot = $('#slot');
+  slot.textContent = cur.l; slot.className = 'slot filled ' + cls(cur.l);
+  solve(cur, slot, SOUNDS[cur.l][1]);
+  say(`${pick(PRAISE, 'praise')} ${rule(cur)}: ${cur.plain} → <span class="pill ${cls(cur.l)}">${cur.full}</span>`, 'happy');
+  later(next, 2000);
+}
+
+$('#letters').addEventListener('click', e => { const t = e.target.closest('.tile'); if (t) choose(t.dataset.l); });
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !cur || !/^[12]$/.test(e.key)) return;
+  choose(PAIRS[cur.l][+e.key - 1]);
+});

@@ -1,0 +1,144 @@
+@@meta
+file: 1-baustein-detektiv.html
+title: Baustein-Detektiv
+level: Anfänger
+nr: 1
+total: 15
+subtitle: Wörter bestehen aus Bausteinen. Findest du den gesuchten Baustein?
+lead: Jeder Baustein hat im Spiel seine eigene Farbe:
+id: detektiv
+desc: Tippe den gesuchten Baustein im Wort an.
+sample: 📦 Ver·pack·ung
+drag: no
+@@tipp
+Der <b>Wortstamm</b> ist der wichtigste Baustein. Du findest ihn auch in verwandten Wörtern: <b>pack</b>en, ver<b>pack</b>en, die Ver<b>pack</b>ung. Die <b>Vorsilbe</b> steht vor dem Wortstamm, die <b>Nachsilbe</b> steht dahinter.
+@@examples
+      <div class="ex vs" style="--tilt:-1.5deg"><div class="ex-head"><b>Vorsilbe</b><span>vorne</span></div><div class="ex-body"><span class="emo" aria-hidden="true">📦</span><span class="a">Ver</span>packung</div></div>
+      <div class="ex ws" style="--tilt:1deg"><div class="ex-head"><b>Wortstamm</b><span>der Kern</span></div><div class="ex-body"><span class="emo" aria-hidden="true">📦</span>Ver<span class="a">pack</span>ung</div></div>
+      <div class="ex ns" style="--tilt:-.5deg"><div class="ex-head"><b>Nachsilbe</b><span>hinten</span></div><div class="ex-body"><span class="emo" aria-hidden="true">📦</span>Verpack<span class="a">ung</span></div></div>
+@@howto
+        <li>Lies das Wort. Es ist schon in seine Bausteine zerlegt.</li>
+        <li>Die Eule sagt dir, welchen Baustein sie sucht: die Vorsilbe, den Wortstamm oder die Nachsilbe. Das verwandte Wort hilft dir.</li>
+        <li>Tippe den passenden Baustein an. Ist er richtig, bekommen alle Bausteine ihre Farbe.</li>
+@@board
+    <div class="bench">
+      <p class="pic" id="pic" aria-hidden="true"></p>
+      <p class="ask" id="ask"></p>
+      <div class="blocks" id="blocks"></div>
+      <p class="help" id="rel"></p>
+    </div>
+@@tray
+@@css
+/* ---------- Baustein-Detektiv ---------- */
+.vs{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.ws{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.ns{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.t{color:var(--c)}
+.ex-head b{font-size:clamp(1rem,2.9vw,1.5rem)}
+.bench .pic{margin:0;font-size:3rem;line-height:1.15}
+.bench .ask{margin:2px 0 14px;font-size:1.25rem;font-weight:700}
+.bench .ask .pill{font-size:1.3rem;padding:2px 14px}
+.blocks{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 6px}
+.blk{appearance:none;position:relative;border:3px solid var(--card-edge);background:var(--paper);border-radius:14px;min-height:76px;min-width:56px;
+  padding:6px clamp(8px,2.2vw,20px) 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 5px 0 var(--card-edge),0 10px 18px var(--lift);transition:transform .12s ease,background-color .16s ease,border-color .16s ease}
+.blk b{font-size:clamp(1.6rem,6vw,2.9rem);line-height:1.15}
+.blk small{font-size:.85rem;font-weight:700;line-height:1.1;min-height:1.1em;visibility:hidden}
+.blk:active:not(:disabled){transform:translateY(3px)}
+@media (hover:hover){.blk:hover:not(:disabled){border-color:var(--sun)}}
+.blk.on{background:var(--c);border-color:var(--c);color:#fff;box-shadow:0 5px 0 var(--cd),0 10px 18px var(--lift);cursor:default}
+.blk.on small{visibility:visible}
+.blk.on .kbd{display:none}
+.blk.hint{animation:glow 1.1s ease-in-out infinite;border-color:var(--sun)}
+.blk .kbd{background:var(--card-edge);top:-10px;right:-6px}
+.bench .help b{color:var(--ink)}
+.review.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.review.c3 li{font-size:1.05rem}
+@media (max-width:700px){.review.c3{grid-template-columns:1fr}}
+@@data
+/* Aufbau: [Wort in Bausteinen (mit · getrennt), Art der Bausteine, gesuchter Baustein, Bild, verwandtes Wort]
+   Art der Bausteine: v = Vorsilbe, s = Wortstamm, n = Nachsilbe – ein Buchstabe pro Baustein.
+   Gesucht wird je fünfmal die Vorsilbe, der Wortstamm und die Nachsilbe. */
+const WORDS = [
+  ['Ver·pack·ung',    'vsn', 'v', '📦', 'packen'],
+  ['un·glaub·lich',   'vsn', 'v', '😲', 'glauben'],
+  ['Vor·name',        'vs',  'v', '✍️', 'der Name'],
+  ['Be·stell·ung',    'vsn', 'v', '🛒', 'bestellen'],
+  ['Ent·spann·ung',   'vsn', 'v', '🛀', 'spannen'],
+  ['Er·zähl·ung',     'vsn', 's', '📖', 'erzählen'],
+  ['Schön·heit',      'sn',  's', '🌹', 'schön'],
+  ['Ver·kauf',        'vs',  's', '🏷️', 'kaufen'],
+  ['un·freund·lich',  'vsn', 's', '😠', 'der Freund'],
+  ['Er·find·ung',     'vsn', 's', '💡', 'finden'],
+  ['Wohn·ung',        'sn',  'n', '🏠', 'wohnen'],
+  ['Krank·heit',      'sn',  'n', '🤒', 'krank'],
+  ['Zer·stör·ung',    'vsn', 'n', '💥', 'stören'],
+  ['Be·lohn·ung',     'vsn', 'n', '🏅', 'der Lohn'],
+  ['Wild·nis',        'sn',  'n', '🌴', 'wild']
+];
+/* Aufbau: Kürzel: [Name, Farbe, „Tippe … an“, „… ist …“, Tipp nach zwei Fehlversuchen] */
+const KINDS = {
+  v: ['Vorsilbe',  'vs', 'die Vorsilbe',  'die Vorsilbe',  'Tipp: Die <b>Vorsilbe</b> steht ganz vorne, vor dem Wortstamm.'],
+  s: ['Wortstamm', 'ws', 'den Wortstamm', 'der Wortstamm', 'Tipp: Den <b>Wortstamm</b> findest du auch im verwandten Wort.'],
+  n: ['Nachsilbe', 'ns', 'die Nachsilbe', 'die Nachsilbe', 'Tipp: Die <b>Nachsilbe</b> steht ganz hinten, nach dem Wortstamm.']
+};
+
+const GAME = {
+  id: 'detektiv',
+  next: { href: '2-wortfamilien-haeuser.html', title: 'Wortfamilien-Häuser' },
+  review: () => `<div class="review c3">${Object.keys(KINDS).map(k =>
+    `<div class="col ${KINDS[k][1]}"><h3>${KINDS[k][0]} gesucht</h3><ul>${all.filter(w => w.ask === k).map(w => `<li>${colored(w)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Baustein-Detektiv ---------- */
+let all = [], queue = [], cur = null;
+const colored = w => w.parts.map((p, i) => `<span class="t ${KINDS[w.kinds[i]][1]}">${p}</span>`).join('');
+const pill = (w, i) => `<span class="pill ${KINDS[w.kinds[i]][1]}">${w.parts[i]}</span>`;
+
+function startGame() {
+  all = WORDS.map(w => {
+    const parts = w[0].split('·');
+    return { parts, kinds: w[1].split(''), ask: w[2], emoji: w[3], rel: w[4], word: parts.join(''), misses: 0 };
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Welchen Baustein suche ich? Tippe ihn im Wort an!');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  const k = KINDS[cur.ask];
+  $('#pic').textContent = cur.emoji;
+  $('#ask').innerHTML = `Tippe ${k[2].split(' ')[0]} <span class="pill ${k[1]}">${k[0]}</span> an:`;
+  $('#blocks').innerHTML = cur.parts.map((p, i) =>
+    `<button class="blk ${KINDS[cur.kinds[i]][1]}" data-i="${i}" aria-label="Baustein ${p}"><b>${p}</b><small>${KINDS[cur.kinds[i]][0]}</small><span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+  $('#rel').innerHTML = `Verwandtes Wort: <b>${cur.rel}</b>`;
+}
+
+function choose(i) {
+  const el = $$('.blk')[i];
+  if (state.busy || !cur || !el) return;
+  const want = cur.kinds.indexOf(cur.ask), k = KINDS[cur.ask];
+  if (i !== want) {
+    const hint = miss(cur, el);
+    if (hint) $$('.blk')[want].classList.add('hint');
+    say(hint ? `${k[4]} Der leuchtende Baustein ist richtig.`
+      : `<b>${cur.parts[i]}</b> ist ${KINDS[cur.kinds[i]][3]}. Ich suche ${k[2]}. Probier es noch einmal!`, 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.blk').forEach(b => { b.classList.remove('hint'); b.classList.add('on'); b.disabled = true; });
+  solve(cur, el, cur.ask === 'v' ? 'der' : cur.ask === 's' ? 'das' : 'die');
+  say(`${pick(PRAISE, 'praise')} ${pill(cur, want)} ist ${k[3]} von <b>${colored(cur)}</b>.`, 'happy');
+  later(next, 2000);
+}
+
+$('#blocks').addEventListener('click', e => { const b = e.target.closest('.blk'); if (b) choose(+b.dataset.i); });
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-3]$/.test(e.key)) return;
+  choose(+e.key - 1);
+});

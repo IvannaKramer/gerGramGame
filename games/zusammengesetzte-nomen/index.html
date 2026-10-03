@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zusammengesetzte Nomen: 6 Lernspiele</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Grandstander:wght@600;800&display=swap">
+<style>
+:root{
+  --f-display:'Grandstander','Trebuchet MS','Segoe UI',system-ui,sans-serif;
+  --f-text:'Andika','Segoe UI','Helvetica Neue',Arial,sans-serif;
+  --on-sun:#2A2308;
+
+  --paper:#F5F9FD; --rule:#D5E3F1; --ink:#22304A; --ink-soft:#56657F;
+  --card:#FFFFFF; --card-edge:#D9E1EB; --lift:rgba(34,48,74,.14);
+  --sun:#FFB627; --sun-deep:#D98E00; --sun-soft:#FFF2CF;
+  --der:#2B6BE0; --der-deep:#1C4DA8; --der-soft:#E4EDFF;
+  --die:#DE3A76; --die-deep:#A8285A; --die-soft:#FFE4EE;
+  --das:#1A8C4B; --das-deep:#116536; --das-soft:#DCF3E5;
+  --owl:#8A5A3B; --owl-wing:#6E4630; --owl-belly:#EBCDA5;
+  --bubble:#FFFFFF;
+  --bonus:#7A4FD8; --bonus-deep:#5B34B0; --bonus-soft:#EEE7FF;
+  --sky-top:#D3E7FF; --sky-bot:#F3F8FF; --cloud:#FFFFFF;
+  --ground:#EBD9B4; --ground-edge:#D2B77F;
+  --block:#F5DFAE; --block-edge:#D6AE5E;
+  --scrim:rgba(245,249,253,.9);
+  color-scheme:light;
+
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#161D2E; --rule:#222C42; --ink:#EEF2FA; --ink-soft:#A6B2C8;
+    --card:#222C43; --card-edge:#34405B; --lift:rgba(0,0,0,.45);
+    --sun:#FFC247; --sun-deep:#C98A00; --sun-soft:#3E3217;
+    --der:#3F7DEB; --der-deep:#2456B8; --der-soft:#1B2A4D;
+    --die:#E74E86; --die-deep:#B03062; --die-soft:#43192C;
+    --das:#23A05A; --das-deep:#157040; --das-soft:#163826;
+    --owl:#9C6A48; --owl-wing:#7A5036; --owl-belly:#E6C79E;
+    --bubble:#26314B;
+    --bonus:#9D7FF0; --bonus-deep:#6E4FCC; --bonus-soft:#2E2650;
+    --sky-top:#1A2542; --sky-bot:#253360; --cloud:#34436A;
+    --ground:#4A3F2A; --ground-edge:#6B5A38;
+    --block:#5A4A2C; --block-edge:#8A7240;
+    --scrim:rgba(22,29,46,.92);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#161D2E; --rule:#222C42; --ink:#EEF2FA; --ink-soft:#A6B2C8;
+  --card:#222C43; --card-edge:#34405B; --lift:rgba(0,0,0,.45);
+  --sun:#FFC247; --sun-deep:#C98A00; --sun-soft:#3E3217;
+  --der:#3F7DEB; --der-deep:#2456B8; --der-soft:#1B2A4D;
+  --die:#E74E86; --die-deep:#B03062; --die-soft:#43192C;
+  --das:#23A05A; --das-deep:#157040; --das-soft:#163826;
+  --owl:#9C6A48; --owl-wing:#7A5036; --owl-belly:#E6C79E;
+  --bubble:#26314B;
+  --bonus:#9D7FF0; --bonus-deep:#6E4FCC; --bonus-soft:#2E2650;
+  --sky-top:#1A2542; --sky-bot:#253360; --cloud:#34436A;
+  --ground:#4A3F2A; --ground-edge:#6B5A38;
+  --block:#5A4A2C; --block-edge:#8A7240;
+  --scrim:rgba(22,29,46,.92);
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{
+  margin:0; color:var(--ink); font-family:var(--f-text); font-size:1.15rem; line-height:1.5;
+  background-color:var(--paper);
+  background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);
+  -webkit-tap-highlight-color:transparent;
+}
+button{font:inherit;color:inherit}
+:focus-visible{outline:4px solid var(--sun);outline-offset:4px}
+:focus:not(:focus-visible){outline:none}
+
+.der{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.die{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.das{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:20px clamp(14px,3vw,32px) 28px}
+.screen{display:none}
+.screen.active{display:block}
+
+/* ---------- Eule ---------- */
+.owl{display:block;transition:transform .25s ease}
+.owl .eyes-happy{display:none}
+.owl.happy .eyes-open{display:none}
+.owl.happy .eyes-happy{display:inline}
+.owl.happy{animation:hop .5s ease}
+.owl.think{transform:rotate(-9deg)}
+@keyframes hop{0%,100%{transform:translateY(0)}40%{transform:translateY(-12px)}}
+
+/* ---------- Startseite ---------- */
+.hero{display:flex;align-items:center;gap:clamp(12px,3vw,28px);margin:6px 0 24px}
+.hero .owl{width:clamp(88px,14vw,132px);flex:none}
+.title{font-family:var(--f-display);font-weight:800;font-size:clamp(2.4rem,7vw,4.2rem);line-height:1;margin:0 0 10px;letter-spacing:-.01em}
+.subtitle{margin:0;font-size:clamp(1.15rem,2.4vw,1.45rem);color:var(--ink-soft);max-width:34ch}
+.phases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.phase{appearance:none;text-align:left;background:var(--card);border:3px solid var(--card-edge);border-radius:22px;
+  padding:18px 18px 16px;box-shadow:0 5px 0 var(--card-edge);cursor:pointer;display:flex;flex-direction:column;gap:4px;
+  transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease}
+.phase:hover:not(:disabled){transform:translateY(-3px);border-color:var(--sun)}
+.phase:active:not(:disabled){transform:translateY(3px);box-shadow:0 2px 0 var(--card-edge)}
+.phase.next{border-color:var(--sun);box-shadow:0 5px 0 var(--sun-deep)}
+.phase .num{font-weight:700;color:var(--ink-soft);font-size:1rem}
+.phase .name{font-family:var(--f-display);font-weight:800;font-size:1.75rem;line-height:1.1}
+.phase .desc{color:var(--ink-soft)}
+.phase .sample{font-size:1.45rem;font-weight:700;min-height:2.3rem;margin-top:4px}
+.phase .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:12px}
+.phase .go{background:var(--sun);color:var(--on-sun);font-weight:700;padding:8px 16px;border-radius:999px;box-shadow:0 3px 0 var(--sun-deep);font-size:1.05rem}
+.phase:disabled{cursor:not-allowed;background:transparent;border-style:dashed;box-shadow:none;opacity:.7}
+.phase:disabled .go{background:none;box-shadow:none;color:var(--ink-soft);padding:8px 0;display:inline-flex;align-items:center;gap:6px}
+.phase:disabled .go svg{width:20px;height:20px}
+
+.stars{display:inline-flex;gap:2px}
+.stars svg{width:28px;height:28px}
+.star-on{fill:var(--sun);stroke:var(--sun-deep)}
+.star-off{fill:var(--card-edge);stroke:var(--card-edge)}
+
+.start-foot{display:flex;justify-content:center;margin-top:22px}
+.linkbtn{appearance:none;background:none;border:none;color:var(--ink-soft);text-decoration:underline;text-underline-offset:3px;font-size:1rem;cursor:pointer;padding:10px}
+.linkbtn.warn{color:var(--die);font-weight:700}
+@media (max-width:760px){
+  .phases,.phases.bonus{grid-template-columns:1fr}
+  .hero{align-items:flex-start}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* ---------- Einzahl und Mehrzahl: gemeinsame Bausteine ---------- */
+:root{--teal:#0B8791;--teal-deep:#086169;--teal-soft:#D8F1F3}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--teal:#1FA3AD;--teal-deep:#0F7078;--teal-soft:#12363A}
+}
+:root[data-theme="dark"]{--teal:#1FA3AD;--teal-deep:#0F7078;--teal-soft:#12363A}
+.ez{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.mz{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+
+.back-link{display:inline-block;color:var(--ink-soft);font-weight:700;text-decoration:none;padding:8px 0;margin-bottom:4px}
+.back-link:hover{color:var(--ink)}
+.level{display:inline-block;background:var(--bonus);color:#fff;font-weight:700;font-size:.95rem;padding:2px 12px;border-radius:999px;margin-bottom:8px}
+.subtitle{max-width:40ch}
+.tipp{position:relative;background:var(--sun-soft);border:3px solid var(--sun);border-radius:18px;padding:22px 20px 14px;margin:0 0 26px;font-size:1.2rem;max-width:70ch}
+.tipp-tag{position:absolute;top:-17px;left:16px;background:var(--sun);color:var(--on-sun);font-family:var(--f-display);font-weight:800;padding:2px 14px;border-radius:999px;transform:rotate(-2deg)}
+.tipp p{margin:0}
+.ex-body{font-size:clamp(1.05rem,2.8vw,1.5rem);overflow-wrap:anywhere}
+.ex-body .e1{display:block;color:var(--der)}
+.ex-body .e2{display:block;color:var(--die)}
+.ex-body .arrow{display:block;color:var(--ink-soft);font-size:1rem;line-height:1.1}
+.startbox{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:6px}
+.startbox .tally{align-items:center;justify-content:center;margin:0}
+.btn.big{font-size:1.5rem;padding:14px 34px;min-height:66px}
+a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+a.btn-secondary{color:var(--ink)}
+.segs{--c:var(--das)}
+.round{font-weight:700;color:var(--ink-soft);margin:0 0 10px}
+.record-badge{display:inline-block;background:var(--bonus);color:#fff;font-weight:700;border-radius:999px;padding:4px 16px;margin:0 0 8px}
+.review-lead{margin:22px 0 0;font-size:1.1rem;color:var(--ink-soft)}
+.review{margin-top:10px}
+.review.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.review li{font-size:1.1rem;overflow-wrap:anywhere}
+.review li span{font-weight:400}
+@media (max-width:560px){.review.c2{grid-template-columns:1fr}}
+
+/* Aufgabenkarte: Einzahl oben, Mehrzahl unten */
+.bench{background:var(--card);border:3px solid var(--card-edge);border-radius:26px;padding:18px 14px 22px;text-align:center;
+  box-shadow:0 4px 0 var(--card-edge),0 10px 20px var(--lift);margin-bottom:14px}
+.bench .lbl{margin:0;font-size:1rem;font-weight:700;color:var(--ink-soft)}
+.bench .from{margin:0 0 4px;font-weight:700;font-size:clamp(1.6rem,4.6vw,2.2rem);color:var(--der);line-height:1.2}
+.bench .down{width:30px;height:30px;color:var(--ink-soft);display:block;margin:2px auto 6px}
+.bench .help{margin:10px auto 0;color:var(--ink-soft);font-size:1.05rem;max-width:46ch}
+.kbd{position:absolute;top:6px;right:8px;font-size:.85rem;background:rgba(255,255,255,.25);border-radius:6px;padding:0 7px;font-weight:700}
+@media (hover:none){.kbd{display:none}}
+[hidden]{display:none!important}
+[tabindex="-1"]:focus-visible{outline:none}
+.review.c5{gap:8px}
+.review.c5 .col{padding:10px}
+.review.c5 li{font-size:1rem}
+
+/* ---------- Übersicht ---------- */
+.choose{font-family:var(--f-display);font-weight:800;font-size:1.6rem;margin:30px 0 4px;line-height:1.15}
+.choose-lead{margin:0 0 14px;color:var(--ink-soft)}
+a.phase{text-decoration:none;color:var(--ink)}
+a.phase:hover{transform:translateY(-3px);border-color:var(--sun)}
+.phases.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.phases.one{grid-template-columns:minmax(0,1fr);max-width:520px}
+.phase .record{color:var(--ink-soft);font-size:1rem}
+.sheets{margin-top:36px;background:var(--card);border:3px solid var(--card-edge);border-radius:22px;padding:18px clamp(16px,3vw,26px);box-shadow:0 4px 0 var(--card-edge);
+  display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+.sheets p{margin:0;flex:1 1 300px}
+.sheets a{background:var(--sun);color:var(--on-sun);font-weight:700;padding:10px 20px;border-radius:14px;box-shadow:0 4px 0 var(--sun-deep);text-decoration:none}
+@media (max-width:760px){.phases.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <a class="back-link" href="../../index.html">← Alle Themen</a>
+  <div class="hero">
+    <span id="owl"></span>
+    <div>
+      <h1 class="title">Zusammengesetzte Nomen</h1>
+      <p class="subtitle">Sechs Spiele rund um den Wörter-Baukasten. Such dir aus, wo du anfangen möchtest!</p>
+    </div>
+  </div>
+
+  <div class="tipp"><span class="tipp-tag">Tipp</span><p>Aus zwei Wörtern kannst du ein neues Nomen bauen: das Haus + die Tür = <b>die Haustür</b>. Das hintere Wort heißt <b>Grundwort</b>. Es sagt, was es ist, und es bestimmt den Artikel. Das vordere Wort heißt <b>Bestimmungswort</b>. Es beschreibt das Grundwort genauer.</p></div>
+
+  <h2 class="choose">Für Anfänger</h2>
+  <p class="choose-lead">Mit Bildern und mit Hilfe. Je 15 Wörter.</p>
+  <div class="phases" data-games="puzzle,schere,artikel"></div>
+
+  <h2 class="choose">Für Fortgeschrittene</h2>
+  <p class="choose-lead">Ohne Hilfe: Wörter bauen und umdrehen. Je 20 Wörter.</p>
+  <div class="phases two" data-games="baukasten,dreher"></div>
+
+  <h2 class="choose">Für Profis</h2>
+  <p class="choose-lead">Knifflige Wörter zum Selberschreiben. 20 Wörter.</p>
+  <div class="phases one" data-games="werkstatt"></div>
+
+  <div class="sheets">
+    <p><b>Übungsblätter zum Ausdrucken:</b> Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Wörtern, dazu die Lösungen.</p>
+    <a href="../../arbeitsblaetter/zusammengesetzte-nomen.pdf">Übungsblätter öffnen (PDF)</a>
+  </div>
+</main>
+
+<script>
+(() => {
+'use strict';
+const GAMES = {
+  "puzzle": {
+    "nr": 1,
+    "href": "1-woerter-puzzle.html",
+    "name": "Wörter-Puzzle",
+    "desc": "Stecke zwei Nomen zu einem neuen Wort zusammen.",
+    "sample": "🍎 Apfel + 🥤 Saft"
+  },
+  "schere": {
+    "nr": 2,
+    "href": "2-wort-schere.html",
+    "name": "Wort-Schere",
+    "desc": "Zerschneide das Wort in zwei Nomen.",
+    "sample": "✂️ Fisch | suppe"
+  },
+  "artikel": {
+    "nr": 3,
+    "href": "3-artikel-chef.html",
+    "name": "Artikel-Chef",
+    "desc": "Welcher Artikel gehört zum neuen Wort?",
+    "sample": "das Haus + der Schlüssel"
+  },
+  "baukasten": {
+    "nr": 4,
+    "href": "4-woerter-baukasten.html",
+    "name": "Wörter-Baukasten",
+    "desc": "Baue das Wort und wähle den Artikel.",
+    "sample": "Garten + Zwerg = der …"
+  },
+  "dreher": {
+    "nr": 5,
+    "href": "5-wort-dreher.html",
+    "name": "Wort-Dreher",
+    "desc": "Welches Wort steht vorne, welches hinten?",
+    "sample": "Milchkuh ⇄ Kuhmilch"
+  },
+  "werkstatt": {
+    "nr": 6,
+    "href": "6-profi-werkstatt.html",
+    "name": "Profi-Werkstatt",
+    "desc": "Baue das Wort und schreibe es mit Artikel.",
+    "sample": "schreiben + Tisch = ?"
+  }
+};
+const STAR_PATH = 'M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z';
+const starsRow = n => `<span class="stars" role="img" aria-label="${n} von 3 Sternen">${[0, 1, 2].map(i =>
+  `<svg viewBox="0 0 24 24" class="${i < n ? 'star-on' : 'star-off'}" aria-hidden="true"><path d="${STAR_PATH}" stroke-width="1.6" stroke-linejoin="round"/></svg>`).join('')}</span>`;
+function saved(id) {
+  try { const p = JSON.parse(localStorage.getItem('zusammengesetzte-nomen-' + id + '-v1')) || {}; return { stars: Math.max(0, Math.min(3, p.stars | 0)), best: Math.max(0, p.best | 0) }; }
+  catch (e) { return { stars: 0, best: 0 }; }
+}
+document.querySelectorAll('[data-games]').forEach(box => {
+  box.innerHTML = box.dataset.games.split(',').map(id => {
+    const g = GAMES[id], s = saved(id);
+    return `<a class="phase" href="${g.href}">
+      <span class="num">Spiel ${g.nr}</span>
+      <span class="name">${g.name}</span>
+      <span class="desc">${g.desc}</span>
+      <span class="sample" aria-hidden="true">${g.sample}</span>
+      <span class="record">${s.best > 0 ? `Dein Rekord: ${s.best} Punkte` : 'Noch nicht gespielt'}</span>
+      <span class="foot">${starsRow(s.stars)}<span class="go">${s.best > 0 ? 'Nochmal spielen' : 'Spielen'}</span></span>
+    </a>`;
+  }).join('');
+});
+document.getElementById('owl').outerHTML = `<svg class="owl" viewBox="0 0 120 120" aria-hidden="true">
+  <path d="M30 42 L32 12 L52 30 Z" fill="var(--owl)"/><path d="M90 42 L88 12 L68 30 Z" fill="var(--owl)"/>
+  <ellipse cx="60" cy="66" rx="40" ry="44" fill="var(--owl)"/>
+  <ellipse cx="25" cy="76" rx="9" ry="21" fill="var(--owl-wing)" transform="rotate(14 25 76)"/>
+  <ellipse cx="95" cy="76" rx="9" ry="21" fill="var(--owl-wing)" transform="rotate(-14 95 76)"/>
+  <ellipse cx="60" cy="84" rx="25" ry="24" fill="var(--owl-belly)"/>
+  <circle cx="44" cy="52" r="16" fill="#fff"/><circle cx="76" cy="52" r="16" fill="#fff"/>
+  <circle cx="46" cy="54" r="7.5" fill="#22304A"/><circle cx="78" cy="54" r="7.5" fill="#22304A"/>
+  <circle cx="48.5" cy="51.5" r="2.4" fill="#fff"/><circle cx="80.5" cy="51.5" r="2.4" fill="#fff"/>
+  <path d="M54 63 L66 63 L60 73 Z" fill="#FFB627" stroke="#D98E00" stroke-width="1.5" stroke-linejoin="round"/>
+  <ellipse cx="48" cy="109" rx="7" ry="4" fill="#FFB627"/><ellipse cx="72" cy="109" rx="7" ry="4" fill="#FFB627"/>
+</svg>`;
+})();
+</script>
+</body>
+</html>

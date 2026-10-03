@@ -1,0 +1,172 @@
+@@meta
+file: 5-treppauf-treppab.html
+title: Treppauf, treppab
+level: Fortgeschrittene
+nr: 5
+total: 20
+subtitle: Im Satz steht eine Lücke. Schicke das Adjektiv auf die richtige Stufe, damit der Satz stimmt.
+lead: Diese kleinen Wörter verraten dir die Stufe:
+id: treppauf
+desc: Schicke das Adjektiv im Satz auf die richtige Stufe.
+sample: Das Buch ist spannender als der Film.
+drag: no
+@@tipp
+Schau auf die kleinen Wörter neben der Lücke! Bei <b>so … wie</b> steht die Grundstufe: so schnell wie. Vor <b>als</b> steht die Vergleichsstufe: schneller als. Nach <b>am</b> steht die Höchststufe: am schnellsten.
+@@examples
+      <div class="ex s1" style="--tilt:-1.5deg"><div class="ex-head"><b>so … wie</b><span>Grundstufe</span></div><div class="ex-body">Tim ist so <span class="a">schnell</span> wie Ole.</div></div>
+      <div class="ex s2" style="--tilt:1deg"><div class="ex-head"><b>… als</b><span>Vergleichsstufe</span></div><div class="ex-body">Ein Pferd ist <span class="a">schneller</span> als ein Hund.</div></div>
+      <div class="ex s3" style="--tilt:-.5deg"><div class="ex-head"><b>am …</b><span>Höchststufe</span></div><div class="ex-body">Der Gepard ist am <span class="a">schnellsten</span>.</div></div>
+@@howto
+        <li><span>Lies den Satz mit der Lücke. Welches kleine Wort steht daneben: <b>wie</b>, <b>als</b> oder <b>am</b>?</span></li>
+        <li><span>Tippe auf eine Stufe der Treppe. Das Adjektiv springt in dieser Stufe in den Satz.</span></li>
+        <li><span>Lies den Satz noch einmal. Klingt er richtig? Dann tippe auf „Prüfen“.</span></li>
+@@board
+    <div class="bench" id="bench">
+      <p class="lbl" id="lbl"></p>
+      <p class="sentence" id="sentence" aria-live="polite"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="lvls" id="lvls">
+        <button class="lvl s1" data-lv="1" aria-pressed="false"><b>1</b><span>Grundstufe</span></button>
+        <button class="lvl s2" data-lv="2" aria-pressed="false"><b>2</b><span>Vergleichsstufe</span></button>
+        <button class="lvl s3" data-lv="3" aria-pressed="false"><b>3</b><span>Höchststufe</span></button>
+      </div>
+      <div class="actions"><button class="btn btn-primary big" id="check">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Adjektive steigern: feste Farben der drei Stufen ---------- */
+.s1{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.s2{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.s3{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.w{color:var(--c);font-weight:700}
+.hero>div{min-width:0}
+@media (max-width:560px){.title{font-size:clamp(1.55rem,7.4vw,2.4rem);overflow-wrap:anywhere}}
+.ex-head b{font-size:clamp(1.1rem,2.5vw,1.45rem)}
+.ex-body{font-size:clamp(1rem,2.5vw,1.4rem)}
+@media (max-width:560px){.legend{grid-template-columns:minmax(0,1fr);gap:10px}.ex-body{padding:6px 8px 10px}}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:6px}
+.review h3{font-size:1.15rem;color:var(--c)}
+.review.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:760px){.review.c3{grid-template-columns:minmax(0,1fr)}}
+/* ---------- Treppauf, treppab ---------- */
+.bench .lbl{font-size:1.15rem}
+.bench .lbl .adj{color:var(--ink);font-size:1.4rem}
+.sentence{margin:8px 0 0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.7}
+.gap{display:inline-block;min-width:3em;padding:0 .35em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);line-height:1.3;text-align:center}
+.gap.on{border-style:solid;border-color:var(--sun);background:var(--sun-soft);color:var(--ink)}
+.gap.filled{border-style:solid;border-color:var(--c);background:var(--c);color:#fff;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.lvls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(6px,2vw,18px);max-width:760px;margin:0 auto 18px;align-items:end}
+.lvl{appearance:none;border:none;border-radius:16px;background:var(--c);color:#fff;padding:4px 4px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.lvl.s1{min-height:58px}.lvl.s2{min-height:76px}.lvl.s3{min-height:94px}
+.lvl b{font-family:var(--f-display);font-size:1.5rem;line-height:1.1}
+.lvl span{font-weight:700;font-size:clamp(.8rem,2.5vw,1.15rem);line-height:1.15}
+.lvl[aria-pressed="true"]{box-shadow:0 0 0 5px var(--sun),0 12px 22px var(--lift);transform:translateY(-3px)}
+.lvl.hint{animation:glow 1.1s ease-in-out infinite}
+@media (max-width:640px){.tray{padding-top:12px}.tray .btn.big{min-height:54px;padding:8px 30px;font-size:1.3rem}.lvl.s2{min-height:68px}.lvl.s3{min-height:78px}}
+@@data
+/* Aufbau: [Satz mit Lücke ___, [Grundstufe, Vergleichsstufe, Höchststufe ohne „am“], richtige Stufe (1, 2 oder 3)]
+   Stufe 1 steht immer bei „so … wie“, Stufe 2 vor „als“, Stufe 3 nach „am“. */
+const SENTENCES = [
+  ['Die zweite Aufgabe ist so ___ wie die erste.',      ['schwierig', 'schwieriger', 'schwierigsten'],          1],
+  ['Das neue Buch ist ___ als das alte.',               ['spannend', 'spannender', 'spannendsten'],             2],
+  ['Von allen Fächern finde ich Sport am ___.',         ['interessant', 'interessanter', 'interessantesten'],   3],
+  ['Heute ist Finn so ___ wie immer.',                  ['pünktlich', 'pünktlicher', 'pünktlichsten'],          1],
+  ['Die Bananen sind ___ als die Birnen.',              ['reif', 'reifer', 'reifsten'],                         2],
+  ['In unserer Klasse ist Fußball am ___.',             ['beliebt', 'beliebter', 'beliebtesten'],               3],
+  ['Der zweite Witz war genauso ___ wie der erste.',    ['witzig', 'witziger', 'witzigsten'],                   1],
+  ['Auf dem Sofa ist es ___ als auf dem Stuhl.',        ['gemütlich', 'gemütlicher', 'gemütlichsten'],          2],
+  ['Diese Sängerin ist in unserem Land am ___.',        ['bekannt', 'bekannter', 'bekanntesten'],               3],
+  ['Der neue Lehrer ist so ___ wie Frau Berg.',         ['freundlich', 'freundlicher', 'freundlichsten'],       1],
+  ['Die Hausaufgabe ist heute ___ als gestern.',        ['einfach', 'einfacher', 'einfachsten'],                2],
+  ['An meinem Geburtstag bin ich am ___.',              ['glücklich', 'glücklicher', 'glücklichsten'],          3],
+  ['Der Film war genauso ___ wie die Werbung.',         ['langweilig', 'langweiliger', 'langweiligsten'],       1],
+  ['Ein Ring aus Gold ist ___ als ein Ring aus Blech.', ['wertvoll', 'wertvoller', 'wertvollsten'],             2],
+  ['Bei Glatteis fährt Mama am ___.',                   ['vorsichtig', 'vorsichtiger', 'vorsichtigsten'],       3],
+  ['Die Suppe ist so ___ wie Meerwasser.',              ['salzig', 'salziger', 'salzigsten'],                   1],
+  ['Der Bus kommt heute ___ als sonst.',                ['spät', 'später', 'spätesten'],                        2],
+  ['Vor einem Wettkampf ist guter Schlaf am ___.',      ['wichtig', 'wichtiger', 'wichtigsten'],                3],
+  ['Die Gasse ist ___ als die Hauptstraße.',            ['eng', 'enger', 'engsten'],                            2],
+  ['Von allen Kindern schreibt Emma am ___.',           ['deutlich', 'deutlicher', 'deutlichsten'],             3]
+];
+
+const GAME = {
+  id: 'treppauf',
+  unit: 'Sätze',
+  next: { href: '6-steigerungs-meister.html', title: 'Steigerungs-Meister' },
+  review: () => `<div class="review c3">${[1, 2, 3].map(lv =>
+    `<div class="col s${lv}"><h3>${NAME[lv]}</h3><ul>${all.filter(s => s.lv === lv).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Treppauf, treppab ---------- */
+const NAME = { 1: 'Grundstufe', 2: 'Vergleichsstufe', 3: 'Höchststufe' };
+const COLOR = { 1: 'der', 2: 'das', 3: 'die' };
+const HINT = {
+  1: 'Tipp: Im Satz steht <b>so … wie</b>. Dann sind beide gleich und das Adjektiv bleibt in der <b>Grundstufe</b>.',
+  2: 'Tipp: Hinter der Lücke steht <b>als</b>. Davor gehört die <b>Vergleichsstufe</b> mit -er.',
+  3: 'Tipp: Vor der Lücke steht <b>am</b>. Danach gehört die <b>Höchststufe</b> mit -sten.'
+};
+let all = [], queue = [], cur = null, sel = null;
+const full = s => s.text.replace('___', `<b class="w s${s.lv}">${s.f[s.lv - 1]}</b>`);
+const lvlEl = lv => $(`.lvl[data-lv="${lv}"]`);
+
+function startGame() {
+  all = SENTENCES.map(s => ({ text: s[0], f: s[1], lv: s[2], misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Tippe auf eine Stufe. Lies dann den Satz: Klingt er richtig?');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  sel = null;
+  $('#lbl').innerHTML = `Setze ein: <b class="adj">${cur.f[0]}</b> – in welcher Stufe?`;
+  $$('.lvl').forEach(b => b.classList.remove('hint'));
+  render();
+}
+
+function render() {
+  $('#sentence').innerHTML = cur.text.replace('___', sel
+    ? `<span class="gap on" id="gap">${cur.f[sel - 1]}</span>`
+    : `<span class="gap" id="gap"><span role="img" aria-label="Lücke">?</span></span>`);
+  $$('.lvl').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.lv === sel)));
+}
+
+function tapLvl(lv) {
+  if (state.busy || !cur) return;
+  sfx.pick();
+  sel = lv;
+  render();
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  if (!sel) { say('Tippe zuerst auf eine Stufe der Treppe.'); return; }
+  if (sel !== cur.lv) {
+    const hint = miss(cur, $('#gap'));
+    if (hint) lvlEl(cur.lv).classList.add('hint');
+    say(hint ? HINT[cur.lv] : 'Fast! Lies den Satz laut. Welches kleine Wort steht bei der Lücke: wie, als oder am?', 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.lvl').forEach(b => b.classList.remove('hint'));
+  const gap = $('#gap');
+  gap.className = 'gap filled s' + cur.lv;
+  solve(cur, gap, COLOR[cur.lv]);
+  say(`${pick(PRAISE, 'praise')} Hier passt die <span class="pill s${cur.lv}">${NAME[cur.lv]}</span>: ${full(cur)}`, 'happy');
+  later(next, 2100);
+}
+
+$$('.lvl').forEach(b => b.addEventListener('click', () => tapLvl(+b.dataset.lv)));
+$('#check').addEventListener('click', check);
+document.addEventListener('keydown', e => {
+  if (!gameOn()) return;
+  if (/^[1-3]$/.test(e.key)) tapLvl(+e.key);
+  else if (e.key === 'Enter' && !e.target.closest('button')) check();
+});

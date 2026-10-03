@@ -1,0 +1,239 @@
+@@meta
+file: 6-fehler-detektiv.html
+title: Fehler-Detektiv
+level: Profis
+nr: 6
+total: 20
+subtitle: Die Eule hat alle Satzglieder markiert. Aber ein Satzglied hat die falsche Farbe! Finde den Fehler und verbessere ihn.
+lead: Für Profis kommen zwei Satzglieder dazu, die Bestimmungen der Zeit und des Ortes:
+id: detektiv
+desc: Finde das falsch markierte Satzglied und verbessere es.
+sample: Am Wochenende besucht Familie Klein den Tierpark.
+drag: no
+@@tipp
+Prüfe jedes Satzglied mit seiner Frage: <b>Wer oder was?</b> → Subjekt. <b>Wem?</b> → Dativobjekt. <b>Wen oder was?</b> → Akkusativobjekt. Neu für Profis: <b>Wann?</b> → Bestimmung der Zeit. <b>Wo?</b> → Bestimmung des Ortes. Passt die Frage nicht zur Farbe, hast du den Fehler gefunden.
+@@examples
+      <div class="ex kZ" style="--tilt:-1.5deg"><div class="ex-head"><b>Zeit</b><span>Wann?</span></div><div class="ex-body"><span class="a">Am Montag</span> schickt Onkel Max ein Päckchen.</div></div>
+      <div class="ex kO" style="--tilt:1deg"><div class="ex-head"><b>Ort</b><span>Wo?</span></div><div class="ex-body"><span class="a" style="color:var(--sun-deep)">Im Garten</span> pflückt der Opa reife Kirschen.</div></div>
+      <div class="ex kA" style="--tilt:-.5deg"><div class="ex-head"><b>Akkusativ&shy;objekt</b><span>Wen oder was?</span></div><div class="ex-body">Der Trainer hat <span class="a">ihn</span> gelobt.</div></div>
+@@howto
+        <li><span>Lies den Satz. Unter jedem Satzglied steht, wie die Eule es markiert hat.</span></li>
+        <li><span>Prüfe jedes Satzglied mit seiner Frage. Tippe das Satzglied an, bei dem die Farbe <b>nicht</b> stimmt.</span></li>
+        <li><span>Wähle dann unten aus, was das Satzglied wirklich ist. Auf der Tastatur geht das mit den Tasten 1 bis 6.</span></li>
+@@board
+    <div class="bench">
+      <p class="lbl" id="task">Welches Satzglied hat die falsche Farbe?</p>
+      <div class="sent" id="sent"></div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="pens" id="fix" hidden>
+        <button class="pen kP" data-r="P">Prädikat<span class="kbd" aria-hidden="true">1</span></button>
+        <button class="pen kS" data-r="S">Subjekt<span class="kbd" aria-hidden="true">2</span></button>
+        <button class="pen kD" data-r="D">Dativobjekt<span class="kbd" aria-hidden="true">3</span></button>
+        <button class="pen kA" data-r="A">Akkusativobjekt<span class="kbd" aria-hidden="true">4</span></button>
+        <button class="pen kZ" data-r="Z">Zeit: Wann?<span class="kbd" aria-hidden="true">5</span></button>
+        <button class="pen kO" data-r="O">Ort: Wo?<span class="kbd" aria-hidden="true">6</span></button>
+      </div>
+    </div>
+@@css
+/* ---------- Subjekt, Prädikat, Objekte: feste Farben und Satz-Blöcke ---------- */
+.kP{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.kS{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.kD{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.kA{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.kZ{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.kO{--c:var(--sun);--cd:var(--sun-deep);--cs:var(--sun-soft)}
+.pill.kO,.pen.kO,.ex.kO .ex-head{color:var(--on-sun)}
+.ex-head b{font-size:clamp(1rem,2.5vw,1.4rem);min-width:0;max-width:100%}
+.ex-head span{font-size:.95rem}
+.ex-body{font-size:clamp(1.05rem,2.7vw,1.45rem)}
+.bubble .pill{margin:2px 0;white-space:normal}
+.zpic{font-size:2.8rem;line-height:1.1;margin:0 0 10px}
+.sent{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:12px 10px;margin:8px 0 4px}
+.stop{font-weight:700;font-size:2rem;line-height:1;align-self:flex-end;margin:0 0 10px -6px}
+.blk{appearance:none;background:var(--card);border:3px solid var(--card-edge);border-radius:14px;min-height:60px;padding:6px 14px;color:var(--ink);font-family:inherit;
+  font-weight:700;font-size:clamp(1.5rem,3.4vw,1.9rem);line-height:1.2;cursor:pointer;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 4px 0 var(--card-edge),0 10px 18px var(--lift);transition:transform .14s ease,border-color .14s ease,background-color .14s ease}
+.blk small{display:none;font-size:.85rem;font-weight:700;color:var(--ink-soft);line-height:1.1;margin-top:2px}
+.blk.on{border-color:var(--c);background:var(--cs);box-shadow:0 4px 0 var(--cd);cursor:default}
+.blk.on small{display:block}
+.blk.selected{border-color:var(--sun);background:var(--sun-soft);transform:translateY(-5px)}
+.blk.hint{animation:glow 1.1s ease-in-out infinite}
+.review.c1{grid-template-columns:1fr}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.8;padding:2px 0}
+.review .pill{white-space:normal;font-size:1rem}
+.review h3{line-height:1.9}
+.review .col.plain{background:var(--card);border:3px solid var(--card-edge)}
+/* ---------- Fehler-Detektiv ---------- */
+.sent .blk.on{cursor:pointer}
+.sent.locked .blk{cursor:default}
+.blk.ask{border:3px dashed var(--ink-soft);background:var(--sun-soft);box-shadow:none;transform:translateY(-5px)}
+.blk.fixed{box-shadow:0 0 0 4px var(--sun),0 4px 0 var(--cd)}
+.pens{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:940px;margin:0 auto}
+.pen{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:66px;padding:6px 8px;font-family:inherit;font-weight:700;
+  font-size:clamp(1.05rem,2.3vw,1.35rem);line-height:1.15;cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .14s ease,box-shadow .14s ease}
+.pen:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd)}
+.pen.selected{transform:translateY(-6px);box-shadow:0 0 0 5px var(--sun),0 14px 24px var(--lift)}
+.pen.hint{animation:glow 1.1s ease-in-out infinite}
+.pen.dragging{opacity:.4}
+@media (max-width:620px){.pens{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.pen{min-height:56px}}
+.pens{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pen{touch-action:manipulation}
+.pen .kbd{top:3px;right:6px}
+@media (max-width:620px){.tray{position:static;padding-top:6px}.blk{padding:5px 10px}}
+@@data
+/* Aufbau: die Satzglieder eines Satzes in der richtigen Reihenfolge.
+   Jedes Satzglied steht so da, wie es mitten im Satz geschrieben wird. Dahinter steht nach | die Art:
+   S = Subjekt, P = Prädikat (bei zwei Teilen beide mit P), D = Dativobjekt, A = Akkusativobjekt,
+   Z = Bestimmung der Zeit (Wann?), O = Bestimmung des Ortes (Wo?).
+   Genau ein Satzglied bekommt dahinter noch den Fehler der Eule: 'dem Neffen|D|A' heißt: richtig ist D, angezeigt wird A.
+   Das Subjekt muss in der Einzahl stehen, damit die Frage „Wer oder was …?“ stimmt. */
+const SENTENCES = [
+  ['am Montag|Z', 'schickt|P', 'Onkel Max|S', 'dem Neffen|D|A', 'ein Päckchen|A'],
+  ['der Trainer|S', 'hat|P', 'ihn|A|D', 'nach dem Spiel|Z', 'gelobt|P'],
+  ['im Garten|O|Z', 'pflückt|P', 'der Opa|S', 'reife Kirschen|A'],
+  ['heute|Z', 'hilft|P', 'mir|D', 'mein Bruder|S|A'],
+  ['das Kind|S', 'baut|P', 'am Strand|O|Z', 'eine Sandburg|A'],
+  ['in der Pause|Z|O', 'leiht|P', 'Nele|S', 'ihrer Freundin|D', 'einen Stift|A'],
+  ['den Schatz|A|S', 'hat|P', 'der Pirat|S', 'auf der Insel|O', 'vergraben|P'],
+  ['nach dem Essen|Z', 'liest|P', 'der Vater|S', 'den Kindern|D|A', 'ein Märchen|A', 'vor|P'],
+  ['der Hausmeister|S', 'öffnet|P', 'am Morgen|Z|O', 'das Schultor|A'],
+  ['dem Hund|D|S', 'holt|P', 'Lea|S', 'nach dem Spaziergang|Z', 'frisches Wasser|A'],
+  ['auf dem Schulhof|O', 'hat|P', 'mich|A', 'ein Ball|S|A', 'getroffen|P'],
+  ['morgen|Z', 'zeigt|P', 'die Försterin|S', 'der Klasse|D|S', 'einen Ameisenhaufen|A'],
+  ['der Bäcker|S', 'knetet|P', 'in der Nacht|Z|O', 'den Teig|A'],
+  ['im Zoo|O', 'füttert|P', 'der Pfleger|S', 'die Robben|A|S'],
+  ['ihm|D', 'hat|P', 'die Tante|S|A', 'am Sonntag|Z', 'einen Kuchen|A', 'gebacken|P'],
+  ['am Wochenende|Z', 'besucht|P', 'Familie Klein|S', 'den Tierpark|A|O'],
+  ['auf der Brücke|O|Z', 'begegnet|P', 'der Wanderer|S', 'einem Fuchs|D'],
+  ['vor dem Frühstück|Z|O', 'hat|P', 'Jan|S', 'dem Kaninchen|D', 'frisches Heu|A', 'gegeben|P'],
+  ['in der Turnhalle|O|Z', 'erklärt|P', 'die Lehrerin|S', 'den Kindern|D', 'ein neues Spiel|A'],
+  ['einen Preis|A', 'hat|P', 'am Freitag|Z', 'unsere Klasse|S|A', 'gewonnen|P']
+];
+
+const GAME = {
+  id: 'detektiv',
+  unit: 'Sätze',
+  next: null,
+  review: () => reviewAll(all, ['P', 'S', 'D', 'A', 'Z', 'O'])
+};
+@@js
+/* ---------- Gemeinsam: Satzglieder, Farben und Fragen ---------- */
+const ROLE = {
+  P: { name: 'Prädikat', art: 'das', short: 'Prädikat', q: 'Was tut jemand?', col: 'die' },
+  S: { name: 'Subjekt', art: 'das', short: 'Subjekt', q: 'Wer oder was?', col: 'der' },
+  D: { name: 'Dativobjekt', art: 'das', short: 'Dativobjekt', q: 'Wem?', col: 'das' },
+  A: { name: 'Akkusativobjekt', art: 'das', short: 'Akkusativobjekt', q: 'Wen oder was?', col: 'bonus' },
+  Z: { name: 'Bestimmung der Zeit', art: 'die', short: 'Zeit', q: 'Wann?', col: 'teal' },
+  O: { name: 'Bestimmung des Ortes', art: 'die', short: 'Ort', q: 'Wo?', col: 'sun' }
+};
+const PRON = ['ihm', 'ihn', 'ihr', 'mir', 'mich', 'dir', 'dich'];
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const STOP = '<span class="stop" aria-hidden="true">.</span>';
+/* Liest eine Zeile der Liste: Einträge mit | sind Satzglieder, alles andere ist Zusatz (Bild, gesuchtes Satzglied). */
+function read(row, id) {
+  const s = { id, info: row.filter(x => !x.includes('|')), misses: 0, done: false };
+  s.parts = row.filter(x => x.includes('|')).map((x, i) => { const [t, r, shown] = x.split('|'); return { t, r, shown, i, text: i === 0 ? cap(t) : t }; });
+  return s;
+}
+const twoPart = s => s.parts.filter(p => p.r === 'P').length > 1;
+const answer = (s, r) => s.parts.filter(p => p.r === r).map(p => p.t).join(' … ');
+const the = r => `${ROLE[r].art} <b>${ROLE[r].name}</b>`;
+const rolePill = r => `<span class="pill k${r}">${ROLE[r].name}</span>`;
+const colored = (s, roles) => s.parts.map(p => roles.includes(p.r) ? `<span class="pill k${p.r}">${p.text}</span>` : p.text).join(' ') + '.';
+/* Baut die Frage nach einem Satzglied, z. B. „Wem schenkt Oma einen Roller?“ */
+function ask(s, r) {
+  if (r === 'P') return ROLE.P.q;
+  const P = s.parts.filter(p => p.r === 'P'), rest = s.parts.filter(p => p.r !== 'P' && p.r !== r);
+  const rank = p => p.r === 'S' ? 0 : PRON.includes(p.t) ? 1 : 2 + 'ZDO-A'.indexOf(p.r);
+  rest.sort((a, b) => rank(a) - rank(b));
+  return [ROLE[r].q.slice(0, -1), P[0].t, ...rest.map(p => p.t), ...P.slice(1).map(p => p.t)].join(' ') + '?';
+}
+const blkHTML = (p, r) => `<button class="blk${r ? ' on k' + r : ''}" data-i="${p.i}">${p.text}<small>${r ? ROLE[r].short : ''}</small></button>`;
+const blkEl = i => $(`#sent .blk[data-i="${i}"]`);
+function paint(el, r) { el.className = 'blk on k' + r; el.querySelector('small').textContent = ROLE[r].short; }
+const reviewAll = (list, roles) => `<div class="review c1"><div class="col plain"><h3>${roles.map(rolePill).join(' ')}</h3><ul>${list.map(s => `<li>${colored(s, roles)}</li>`).join('')}</ul></div></div>`;
+
+/* ---------- Spiel: Fehler-Detektiv ---------- */
+const SHOW = ['P', 'S', 'D', 'A', 'Z', 'O'];
+let all = [], queue = [], cur = null, step = 1, stepMiss = 0;
+const fixEl = r => $(`#fix .pen[data-r="${r}"]`);
+
+function startGame() {
+  all = SENTENCES.map((row, i) => { const s = read(row, i); s.bad = s.parts.find(p => p.shown); return s; });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false; step = 1; stepMiss = 0;
+  $('#fix').hidden = true;
+  $('#task').textContent = 'Welches Satzglied hat die falsche Farbe?';
+  $('#sent').classList.remove('locked');
+  $('#sent').innerHTML = cur.parts.map(p => blkHTML(p, p.shown || p.r)).join('') + STOP;
+  say('Prüfe jedes Satzglied mit seiner Frage. Tippe das Satzglied an, das die <b>falsche Farbe</b> hat.');
+}
+
+function tapBlk(i) {
+  const p = cur && cur.parts[i], el = blkEl(i), bad = cur && cur.bad;
+  if (!p || state.busy || step !== 1) return;
+  if (p !== bad) {
+    miss(cur, el);
+    const tip = ++stepMiss >= 2;
+    if (tip) blkEl(bad.i).classList.add('hint');
+    say(tip ? `Tipp: Schau dir <b>${bad.t}</b> an. Passt dazu wirklich die Frage <b>${ROLE[bad.shown].q}</b>`
+      : p.r === 'P' ? `Fast! <b>${p.t}</b> gehört wirklich zum Prädikat. Such weiter!`
+      : `Fast! <b>${p.t}</b> stimmt: ${ask(cur, p.r)} – ${p.t}. Such weiter!`, 'think');
+    return;
+  }
+  step = 2; stepMiss = 0; sfx.pick();
+  $$('#sent .blk').forEach(b => b.classList.remove('hint'));
+  el.className = 'blk ask'; el.querySelector('small').textContent = '';
+  $('#sent').classList.add('locked');
+  $('#task').textContent = 'Fehler gefunden! Was ist das Satzglied wirklich?';
+  $$('#fix .pen').forEach(b => b.classList.remove('hint'));
+  $('#fix').hidden = false;
+  say(`Gut aufgepasst! <b>${p.t}</b> ist nicht ${the(p.shown)}. Was ist es wirklich? Wähle unten aus.`, 'happy');
+}
+
+function choose(r) {
+  const bad = cur && cur.bad;
+  if (!bad || state.busy || step !== 2) return;
+  if (r !== bad.r) {
+    miss(cur, fixEl(r));
+    const tip = ++stepMiss >= 2;
+    if (tip) fixEl(bad.r).classList.add('hint');
+    say(tip ? `Tipp: ${ask(cur, bad.r)} – <b>${bad.t}</b>. Mit <b>${ROLE[bad.r].q}</b> fragst du nach ${bad.r === 'Z' || bad.r === 'O' ? 'der' : 'dem'} ${ROLE[bad.r].name}.`
+      : r === bad.shown ? 'Diese Farbe hatte das Satzglied schon. Sie war falsch. Probier eine andere Frage aus.'
+      : r === 'P' ? `Fast! <b>${bad.t}</b> ist kein Verb. Welche Frage passt?`
+      : `Fast! Passt die Frage <b>${ROLE[r].q}</b> wirklich zu <b>${bad.t}</b>? Probier die anderen Fragen aus.`, 'think');
+    return;
+  }
+  state.busy = true;
+  const el = blkEl(bad.i);
+  paint(el, r); el.classList.add('fixed');
+  $('#fix').hidden = true;
+  $('#task').textContent = 'Jetzt stimmen alle Farben:';
+  solve(cur, el, ROLE[r].col);
+  say(`${pick(PRAISE, 'praise')} ${ask(cur, r)} – <span class="pill k${r}">${bad.t}</span> ist ${the(r)}.`, 'happy');
+  later(next, 2800);
+}
+
+$('#sent').addEventListener('click', e => {
+  const b = e.target.closest('.blk');
+  if (b) tapBlk(+b.dataset.i);
+});
+$('#fix').addEventListener('click', e => {
+  const p = e.target.closest('.pen');
+  if (p) choose(p.dataset.r);
+});
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-6]$/.test(e.key)) return;
+  choose('PSDAZO'[+e.key - 1]);
+});

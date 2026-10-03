@@ -1,0 +1,162 @@
+@@meta
+file: 6-pronomen-profi.html
+title: Pronomen-Profi
+level: Profis
+nr: 6
+total: 20
+subtitle: Jetzt schreibst du das Pronomen selbst. Achtung, hier warten knifflige Fälle!
+lead: Bei Profis zählt der Artikel – und manchmal die Frage „Wen?“ oder „Wem?“:
+id: profi
+desc: Schreibe das passende Pronomen selbst in die Lücke.
+sample: Das Mädchen lacht. ___ hat einen Witz gehört.
+drag: no
+@@tipp
+Es zählt immer der <b>Artikel</b>: <b>das</b> Mädchen → <b>es</b>, <b>der</b> Tisch → <b>er</b>, <b>die</b> Tür → <b>sie</b>. Manchmal ändert sich das Pronomen. Frage <b>Wen?</b> → <b>ihn</b>. Frage <b>Wem?</b> → <b>ihm</b>, <b>ihr</b> oder (bei vielen) <b>ihnen</b>.
+@@examples
+      <div class="ex es" style="--tilt:-1.5deg"><div class="ex-head"><b>es</b><span>das</span></div><div class="ex-body">Das Mädchen lacht. <span class="a">Es</span> freut sich.</div></div>
+      <div class="ex er" style="--tilt:1deg"><div class="ex-head"><b>ihn</b><span>Wen?</span></div><div class="ex-body">Papa sucht den Schlüssel. Er findet <span class="a">ihn</span>.</div></div>
+      <div class="ex pl" style="--tilt:-.5deg"><div class="ex-head"><b>ihnen</b><span>Wem?</span></div><div class="ex-body">Die Gäste haben Hunger. Der Koch bringt <span class="a">ihnen</span> Suppe.</div></div>
+@@howto
+        <li><span>Lies beide Sätze. Für welches Nomen aus dem ersten Satz soll das Pronomen stehen?</span></li>
+        <li><span>Schreibe das Pronomen in die Lücke. Am Satzanfang schreibst du es groß.</span></li>
+        <li><span>Tippe auf „Prüfen“ oder drücke die Enter-Taste. Stimmt es noch nicht, bekommst du einen Tipp.</span></li>
+@@board
+    <form class="bench" id="form" autocomplete="off">
+      <p class="lbl">Schreibe das passende Pronomen in die Lücke.</p>
+      <p class="sentence write" id="sentence"></p>
+    </form>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check" type="submit" form="form">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Pronomen: gemeinsame Farben und Bausteine ---------- */
+.er{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.sie{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.es{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.pl{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.sp{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.ex-body .pr{display:block;font-weight:400;font-size:.8em;color:var(--ink-soft);margin-top:6px}
+.howto li > span{flex:1}
+.review h3{font-size:1.2rem;color:var(--c)}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.review.c1{grid-template-columns:minmax(0,1fr)}
+@media (max-width:760px){.review.c4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.1rem);line-height:1.5}
+.gap{display:inline-block;min-width:2.4em;padding:0 .3em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);line-height:1.25;text-align:center}
+.gap.filled{border-style:solid;border-color:var(--c);background:var(--c);color:#fff;min-width:0;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,2.4vw,24px);max-width:760px;margin:0 auto}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:clamp(74px,10vw,96px);padding:6px 4px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(1.6rem,4.4vw,2.2rem);line-height:1.1}
+.tile small{font-size:clamp(.82rem,2.2vw,1.05rem);line-height:1.15}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+/* ---------- Pronomen-Profi ---------- */
+.ex-head b{font-size:clamp(1.05rem,2.8vw,1.5rem)}
+.bench{padding:22px 14px 30px}
+.write{margin-top:10px;line-height:2.1}
+.write input{font:inherit;color:var(--ink);background:var(--paper);border:3px solid var(--card-edge);border-radius:14px;padding:0 8px;width:4.4em;min-height:54px;text-align:center;margin:0 2px}
+.write input:focus{outline:none;border-color:var(--sun);box-shadow:0 0 0 4px var(--sun-soft)}
+.write input.good{border-color:var(--c);background:var(--cs);color:var(--c)}
+.write input.hint{border-color:var(--sun);animation:glow 1.1s ease-in-out infinite}
+@@data
+/* Aufbau: [Sätze mit der Lösung in eckigen Klammern, Farbe, Tipp]
+   Farbe: 'er' (der), 'sie' (die, eine), 'es' (das) oder 'pl' (viele) – je nachdem, für welches Nomen das Pronomen steht. */
+const SENTENCES = [
+  ['Das Mädchen lacht. [Es] hat einen Witz gehört.',                  'es',  'Es zählt der Artikel: <b>das</b> Mädchen → <b>es</b>.'],
+  ['Der Tisch wackelt. [Er] hat ein kurzes Bein.',                    'er',  'Auch Dinge können „er“ sein: <b>der</b> Tisch → <b>er</b>.'],
+  ['Die Tür klemmt. [Sie] geht nicht auf.',                           'sie', 'Auch Dinge können „sie“ sein: <b>die</b> Tür → <b>sie</b>.'],
+  ['Das Kätzchen ist erst vier Wochen alt. [Es] trinkt noch Milch.',  'es',  'Wörter mit -chen haben den Artikel das: <b>das</b> Kätzchen → <b>es</b>.'],
+  ['Der Schmetterling ist gelb. [Er] fliegt über die Wiese.',         'er',  'Es zählt der Artikel: <b>der</b> Schmetterling → <b>er</b>.'],
+  ['Die Schnecke ist langsam. [Sie] kriecht über den Weg.',           'sie', 'Es zählt der Artikel: <b>die</b> Schnecke → <b>sie</b>.'],
+  ['Das Eichhörnchen sammelt Nüsse. [Es] klettert flink auf den Baum.', 'es', 'Es zählt der Artikel: <b>das</b> Eichhörnchen → <b>es</b>.'],
+  ['Die Eltern warten am Tor. [Sie] winken fröhlich.',                'pl',  'Die Eltern sind zwei. Für viele sagst du <b>sie</b>.'],
+  ['Die Geschwister streiten selten. [Sie] spielen oft zusammen.',    'pl',  'Die Geschwister sind mehrere. Für viele sagst du <b>sie</b>.'],
+  ['Der Regen hört auf. [Er] hat alle Pfützen gefüllt.',              'er',  'Es zählt der Artikel: <b>der</b> Regen → <b>er</b>.'],
+  ['Die Pause beginnt. [Sie] dauert zwanzig Minuten.',                'sie', 'Es zählt der Artikel: <b>die</b> Pause → <b>sie</b>.'],
+  ['Die Ferien fangen an. [Sie] dauern sechs Wochen.',                'pl',  'Ferien gibt es nur in der Mehrzahl. Für viele sagst du <b>sie</b>.'],
+  ['Papa sucht den Schlüssel. Er findet [ihn] in der Jacke.',         'er',  'Frage: <b>Wen</b> oder was findet er? <b>den</b> Schlüssel → <b>ihn</b>.'],
+  ['Der Drachen hängt in der Tanne. Onkel Max holt [ihn] herunter.',  'er',  'Frage: <b>Wen</b> oder was holt Onkel Max herunter? <b>den</b> Drachen → <b>ihn</b>.'],
+  ['Der Hamster hat Durst. Emma gibt [ihm] frisches Wasser.',         'er',  'Frage: <b>Wem</b> gibt Emma Wasser? <b>dem</b> Hamster → <b>ihm</b>.'],
+  ['Das Fohlen friert. Die Bäuerin legt [ihm] eine Decke um.',        'es',  'Frage: <b>Wem</b> legt sie eine Decke um? <b>dem</b> Fohlen → <b>ihm</b>.'],
+  ['Tante Eva hat Geburtstag. Wir schenken [ihr] einen Strauß.',      'sie', 'Frage: <b>Wem</b> schenken wir einen Strauß? <b>der</b> Tante → <b>ihr</b>.'],
+  ['Frau Kaya trägt schwere Taschen. Ben hilft [ihr] gern.',          'sie', 'Frage: <b>Wem</b> hilft Ben? <b>der</b> Frau → <b>ihr</b>.'],
+  ['Die Gäste haben Hunger. Der Koch bringt [ihnen] die Suppe.',      'pl',  'Frage: <b>Wem</b> bringt der Koch die Suppe? <b>den</b> Gästen → <b>ihnen</b>.'],
+  ['Die Freunde kommen zu Besuch. Lea zeigt [ihnen] den Garten.',     'pl',  'Frage: <b>Wem</b> zeigt Lea den Garten? <b>den</b> Freunden → <b>ihnen</b>.']
+];
+
+const GAME = {
+  id: 'profi',
+  unit: 'Sätze',
+  next: null,
+  review: () => {
+    const half = Math.ceil(all.length / 2), li = s => `<li>${full(s, 'w')}</li>`;
+    return `<div class="review c2"><div class="col neutral"><ul>${all.slice(0, half).map(li).join('')}</ul></div>
+      <div class="col neutral"><ul>${all.slice(half).map(li).join('')}</ul></div></div>`;
+  }
+};
+@@js
+/* ---------- Spiel: Pronomen-Profi ---------- */
+const GAP = /\[(\w+)\]/;
+const COLOR = { er: 'der', sie: 'die', es: 'das', pl: 'bonus' };
+let all = [], queue = [], cur = null;
+const full = (s, cls) => s.text.replace(GAP, cls === 'w' ? `<b class="w ${s.k}">${s.ans}</b>` : `<span class="pill ${s.k}">${s.ans}</span>`);
+const input = () => $('#sentence input');
+
+function startGame() {
+  all = SENTENCES.map(s => {
+    const ans = s[0].match(GAP)[1];
+    return { text: s[0], k: s[1], tip: s[2], ans, start: /^[A-ZÄÖÜ]/.test(ans), obj: /^ih/.test(ans), misses: 0 };
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Schreibe das Pronomen in die Lücke. Für welches Nomen steht es?');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  if (state.solved) say('Nächster Satz! Für welches Nomen steht das Pronomen?');
+  state.busy = false;
+  $('#sentence').innerHTML = cur.text.replace(GAP,
+    '<input type="text" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" maxlength="8" aria-label="Lücke für das Pronomen">');
+  input().focus({ preventScroll: true });
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const inp = input(), v = inp.value.trim();
+  if (!v) { say('Schreibe zuerst das Pronomen in die Lücke.'); inp.focus(); return; }
+  inp.classList.remove('hint');
+  if (v !== cur.ans && v.toLowerCase() === cur.ans.toLowerCase()) {
+    wobble(inp);
+    say(cur.start ? 'Fast richtig! Am Satzanfang schreibt man groß.' : 'Fast richtig! Mitten im Satz schreibt man das Pronomen klein.', 'think');
+    inp.focus();
+    return;
+  }
+  if (v !== cur.ans) {
+    miss(cur, inp);
+    if (cur.misses === 2) inp.classList.add('hint');
+    say(cur.misses === 1 ? (cur.obj ? 'Fast! Frage nach: <b>Wen?</b> oder <b>Wem?</b> Und für welches Nomen steht das Pronomen?'
+                                    : 'Fast! Schau auf das Nomen im ersten Satz. Welchen Artikel hat es? Ist es eins oder sind es viele?')
+      : cur.misses === 2 ? `Tipp: ${cur.tip}`
+      : `So ist es richtig: ${full(cur, 'pill')} Schreibe das Pronomen genau so ab.`, 'think');
+    inp.focus();
+    return;
+  }
+  state.busy = true;
+  inp.readOnly = true; inp.classList.add('good', cur.k);
+  solve(cur, inp, COLOR[cur.k]);
+  say(`${pick(PRAISE, 'praise')} ${full(cur, 'pill')}`, 'happy');
+  later(next, 2600);
+}
+
+$('#form').addEventListener('submit', e => { e.preventDefault(); check(); });

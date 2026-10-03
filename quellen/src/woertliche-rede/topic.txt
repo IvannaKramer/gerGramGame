@@ -1,0 +1,10 @@
+@@meta
+slug: woertliche-rede
+title: Wörtliche Rede
+subtitle: Sechs Spiele rund um Anführungszeichen, Doppelpunkt und Komma. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Farben, Bildern und Hilfen. Je 15 Sätze.
+lead2: Ohne Hilfe, auch mit dem Begleitsatz in der Mitte. Je 20 Sätze.
+lead3: Alle Zeichen selbst setzen. 20 Sätze.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Sätzen, dazu die Lösungen.
+@@tipp
+Was jemand sagt, heißt <b>wörtliche Rede</b>. Sie steht in Anführungszeichen: am Anfang <b>unten „</b>, am Ende <b>oben “</b>. Der <b>Begleitsatz</b> sagt, wer spricht. Steht er vorn, kommt danach ein <b>Doppelpunkt</b>: Tom sagt: „Ich komme gleich.“ Steht er hinten, kommt nach den Anführungszeichen ein <b>Komma</b>: „Ich komme gleich“, sagt Tom.

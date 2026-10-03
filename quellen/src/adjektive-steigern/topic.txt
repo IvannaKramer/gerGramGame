@@ -1,0 +1,10 @@
+@@meta
+slug: adjektive-steigern
+title: Adjektive steigern
+subtitle: Sechs Spiele rund um groß, größer, am größten. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Bildern und Hilfen. Je 15 Aufgaben.
+lead2: Ohne Hilfe: Formen bauen und einsetzen. Je 20 Aufgaben.
+lead3: Besondere Formen zum Selberschreiben. 20 Sätze.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Wörtern und Sätzen, dazu die Lösungen.
+@@tipp
+Adjektive kann man steigern. Es gibt drei Stufen: <b>Grundstufe</b> (groß), <b>Vergleichsstufe</b> (größer) und <b>Höchststufe</b> (am größten). Beim Vergleichen heißt es: <b>so groß wie</b>, aber <b>größer als</b>.

@@ -1,0 +1,150 @@
+@@meta
+file: 3-was-steht-zuerst.html
+title: Was steht zuerst?
+level: Anfänger
+nr: 3
+total: 15
+subtitle: Zwei Wörter fangen gleich an. Welches steht im Wörterbuch weiter vorne?
+lead: Der erste Buchstabe ist gleich. Jetzt entscheidet der zweite (pink):
+id: zuerst
+desc: Welches von zwei Wörtern steht im Wörterbuch zuerst?
+sample: Baum oder Brief? → Baum
+drag: no
+@@tipp
+Fangen zwei Wörter mit <b>demselben Buchstaben</b> an, schaust du auf den <b>zweiten Buchstaben</b>: B<b>a</b>um steht vor B<b>r</b>ief, weil a im ABC vor r kommt.
+@@examples
+      <div class="ex ab" style="--tilt:-1.5deg"><div class="ex-head"><b>zuerst</b></div><div class="ex-body">B<span class="h">a</span>um</div></div>
+      <div class="ex nx" style="--tilt:1deg"><div class="ex-head"><b>danach</b></div><div class="ex-body">B<span class="h">r</span>ief</div></div>
+      <div class="ex ab" style="--tilt:-.5deg"><div class="ex-head"><b>Grund</b></div><div class="ex-body"><span class="h">a</span> kommt vor <span class="h">r</span></div></div>
+@@howto
+        <li>Lies die beiden Wörter. Sie fangen mit demselben Buchstaben an.</li>
+        <li>Schau auf den zweiten Buchstaben. Er ist pink. Welcher kommt im ABC früher?</li>
+        <li>Tippe das Wort an, das im Wörterbuch zuerst steht. Auf der Tastatur kannst du auch 1 oder 2 drücken.</li>
+@@board
+    <div class="abc" id="abc" role="img" aria-label="ABC-Leiste mit allen Buchstaben von A bis Z"></div>
+    <div class="bench">
+      <p class="lbl q">Welches Wort steht im Wörterbuch zuerst?</p>
+      <div class="duo" id="duo"></div>
+    </div>
+@@tray
+@@css
+/* ---------- Was steht zuerst? ---------- */
+.ab{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.nx{--c:var(--ink-soft)}
+.ex-body{font-size:clamp(1.15rem,3.4vw,1.9rem)}
+.ex-body .h{color:var(--die)}
+.ex-head b{font-size:clamp(1rem,2.8vw,1.5rem)}
+.abc{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:4px;max-width:660px;margin:0 auto 14px}
+.abc span{text-align:center;font-weight:700;font-size:clamp(1rem,2.8vw,1.35rem);line-height:1.7;background:var(--card);border:2px solid var(--card-edge);border-radius:8px}
+.abc span.on{background:var(--die);border-color:var(--die-deep);color:#fff}
+.bench .lbl.q{font-size:1.2rem;color:var(--ink);margin-bottom:14px}
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,3vw,24px);max-width:640px;margin:0 auto 4px}
+.pickw{appearance:none;position:relative;background:var(--card);border:3px solid var(--card-edge);border-radius:20px;min-height:clamp(110px,22vw,150px);padding:10px 6px;
+  font-weight:700;font-size:clamp(1.7rem,6vw,2.8rem);line-height:1.1;letter-spacing:.02em;cursor:pointer;touch-action:manipulation;
+  box-shadow:0 4px 0 var(--card-edge),0 10px 18px var(--lift);transition:transform .12s ease,border-color .16s ease,background-color .16s ease,opacity .2s ease}
+.pickw:active{transform:translateY(3px)}
+.pickw mark{background:var(--die-soft);color:var(--die);border-radius:8px;padding:0 3px}
+.pickw .kbd{background:var(--paper);color:var(--ink-soft);letter-spacing:0;line-height:1.5}
+.pickw .place{display:none;font-size:1rem;letter-spacing:0;font-weight:700;margin-top:8px;color:var(--ink-soft)}
+.duo.solved .place{display:block}
+.pickw.hint{animation:glow 1.1s ease-in-out infinite;border-color:var(--sun)}
+.pickw.good{border-color:var(--der);background:var(--der-soft)}
+.pickw.good .place{color:var(--der)}
+.duo.solved .pickw{cursor:default}
+.duo.solved .pickw:not(.good){opacity:.6;box-shadow:none}
+.review li b{color:var(--der)}
+.review li u{text-decoration:none;color:var(--die)}
+@@data
+/* Aufbau: [Wort 1, Wort 2] – beide Wörter beginnen mit demselben Buchstaben,
+   der zweite Buchstabe ist verschieden. Die Reihenfolge hier ist egal:
+   Das Spiel rechnet selbst aus, welches Wort im Wörterbuch zuerst steht. */
+const PAIRS = [
+  ['Baum',   'Brief'],
+  ['Teller', 'Topf'],
+  ['Hemd',   'Hut'],
+  ['Kind',   'Kuh'],
+  ['Sand',   'See'],
+  ['Milch',  'Mund'],
+  ['Feder',  'Fluss'],
+  ['Gras',   'Gurke'],
+  ['Nest',   'Nuss'],
+  ['Wald',   'Wiese'],
+  ['Dieb',   'Dorf'],
+  ['Pferd',  'Pilz'],
+  ['Rad',    'Ring'],
+  ['Lied',   'Luft'],
+  ['Ente',   'Esel']
+];
+
+const GAME = {
+  id: 'zuerst',
+  unit: 'Paare',
+  next: { href: '4-wo-ist-mein-platz.html', title: 'Wo ist mein Platz?' },
+  review: () => {
+    const m = w => `${w[0]}<u>${w[1]}</u>${w.slice(2)}`;
+    const li = p => `<li><b>${m(p.a)}</b> <span>steht vor ${m(p.b)}</span></li>`;
+    const half = Math.ceil(all.length / 2);
+    return `<div class="review c2"><div class="col ab"><ul>${all.slice(0, half).map(li).join('')}</ul></div>
+      <div class="col ab"><ul>${all.slice(half).map(li).join('')}</ul></div></div>`;
+  }
+};
+@@js
+/* ---------- Spiel: Was steht zuerst? ---------- */
+const ABC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+/* Sortier-Regel wie im Wörterbuch: ä, ö, ü zählen wie a, o, u; ß wie ss; groß und klein ist egal */
+const key = s => s.toLowerCase().replace(/ä/g, 'a').replace(/ö/g, 'o').replace(/ü/g, 'u').replace(/ß/g, 'ss');
+const cmp = (a, b) => key(a) < key(b) ? -1 : key(a) > key(b) ? 1 : 0;
+const TRY = ['Fast! Schau auf den zweiten Buchstaben. Welcher kommt im ABC früher?', 'Noch nicht. Vergleiche die pinken Buchstaben mit der ABC-Leiste.',
+  'Guter Versuch! Sag das ABC leise auf: Welchen pinken Buchstaben hörst du zuerst?'];
+let all = [], queue = [], cur = null;
+
+function startGame() {
+  all = PAIRS.map(p => { const [a, b] = p.slice().sort(cmp); return { a, b, misses: 0 }; });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  $('#abc').innerHTML = [...ABC].map(ch => `<span data-ch="${ch}">${ch}</span>`).join('');
+  say('Welches Wort steht im Wörterbuch zuerst? Schau auf den zweiten Buchstaben.');
+  show('game');
+  next();
+}
+
+function markABC(on) {
+  const two = cur ? [cur.a[1].toUpperCase(), cur.b[1].toUpperCase()] : [];
+  $$('#abc span').forEach(s => s.classList.toggle('on', on && two.includes(s.dataset.ch)));
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  markABC(false);
+  $('#duo').classList.remove('solved');
+  $('#duo').innerHTML = shuffle([cur.a, cur.b]).map((w, i) =>
+    `<button class="pickw" data-w="${w}" aria-label="${w}"><span class="kbd" aria-hidden="true">${i + 1}</span>` +
+    `<span class="w">${w[0]}<mark>${w[1]}</mark>${w.slice(2)}</span><span class="place">${w === cur.a ? 'steht zuerst' : 'steht danach'}</span></button>`).join('');
+}
+
+function choose(el) {
+  if (!el || state.busy) return;
+  const l1 = cur.a[1], l2 = cur.b[1];
+  if (el.dataset.w !== cur.a) {
+    const hint = miss(cur, el);
+    if (hint) { $(`.pickw[data-w="${cur.a}"]`).classList.add('hint'); markABC(true); }
+    say(hint ? `Tipp: Beide Wörter beginnen mit <b>${cur.a[0]}</b>. Such die zweiten Buchstaben in der ABC-Leiste: <b>${l1}</b> kommt vor <b>${l2}</b>. Das leuchtende Wort steht zuerst.`
+      : pick(TRY, 'try'), 'think');
+    return;
+  }
+  state.busy = true;
+  el.classList.remove('hint'); el.classList.add('good');
+  $('#duo').classList.add('solved');
+  markABC(true);
+  solve(cur, el, 'der');
+  say(`${pick(PRAISE, 'praise')} <span class="pill ab">${cur.a}</span> steht vor <b>${cur.b}</b>. Der zweite Buchstabe entscheidet: <b>${l1}</b> kommt im ABC vor <b>${l2}</b>.`, 'happy');
+  later(next, 2300);
+}
+
+$('#duo').addEventListener('click', e => choose(e.target.closest('.pickw')));
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[12]$/.test(e.key)) return;
+  choose($$('.pickw')[+e.key - 1]);
+});

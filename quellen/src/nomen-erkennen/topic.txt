@@ -1,0 +1,10 @@
+@@meta
+slug: nomen-erkennen
+title: Nomen erkennen
+subtitle: Sechs Spiele rund um Nomen. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Bildern und mit Hilfe. Je 15 Wörter oder Sätze.
+lead2: Ohne Bilder: Nomen, Verb oder Adjektiv? Je 20 Aufgaben.
+lead3: Ganze Sätze mit kniffligen Nomen. 20 Sätze.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Wörtern und Sätzen, dazu die Lösungen.
+@@tipp
+<b>Nomen</b> sind Namen für Lebewesen, Dinge, Gefühle und Gedanken. Mach die <b>Artikelprobe</b>: Passt <b>der</b>, <b>die</b> oder <b>das</b> davor? Dann ist es ein Nomen: der Hund, die Lampe, das Glück. Nomen schreibst du immer <b>groß</b>.

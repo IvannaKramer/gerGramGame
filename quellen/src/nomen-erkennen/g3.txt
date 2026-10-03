@@ -1,0 +1,168 @@
+@@meta
+file: 3-nomen-jagd.html
+title: Nomen-Jagd
+level: Anfänger
+nr: 3
+total: 15
+subtitle: In jedem Satz verstecken sich zwei Nomen. Findest du sie?
+lead: So sehen die Nomen in einem Satz aus:
+id: jagd
+desc: Tippe in jedem Satz die zwei Nomen an.
+sample: 🐕 DER HUND FRISST EINEN KNOCHEN.
+drag: no
+@@tipp
+Vor einem <b>Nomen</b> steht oft ein Artikel: <b>der</b>, <b>die</b>, <b>das</b>, <b>ein</b> oder <b>eine</b>. Der Artikel zeigt dir: Gleich kommt ein Nomen! Manchmal steht ein Nomen aber auch ganz allein.
+@@examples
+      <div class="ex nom" style="--tilt:-1.5deg"><div class="ex-body"><span class="emo" aria-hidden="true">🐄</span>Die <span class="a">Kuh</span> frisst <span class="a">Gras</span>.</div></div>
+      <div class="ex nom" style="--tilt:1deg"><div class="ex-body"><span class="emo" aria-hidden="true">🚢</span>Das <span class="a">Schiff</span> fährt auf dem <span class="a">Meer</span>.</div></div>
+      <div class="ex nom" style="--tilt:-.5deg"><div class="ex-body"><span class="emo" aria-hidden="true">🧸</span>Der <span class="a">Teddy</span> sitzt im <span class="a">Regal</span>.</div></div>
+@@howto
+        <li><span>Lies den Satz. Er steht in GROSSBUCHSTABEN, damit du die Nomen selbst suchen musst.</span></li>
+        <li><span>Tippe die zwei Nomen an. Die Artikelprobe hilft dir: Passt <b>der</b>, <b>die</b> oder <b>das</b> davor?</span></li>
+        <li><span>Hast du beide Nomen gefunden? Dann zeigt dir die Eule den Satz richtig geschrieben.</span></li>
+@@board
+    <div class="bench">
+      <p class="pic" id="pic" aria-hidden="true"></p>
+      <div class="sent" id="sent"></div>
+      <p class="help" id="count"></p>
+    </div>
+@@tray
+@@css
+/* ---------- Nomen erkennen: gemeinsame Farben ---------- */
+:root{--org:#C2570C;--org-deep:#8F3F06;--org-soft:#FFE8D6}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--org:#D9701F;--org-deep:#9C4D12;--org-soft:#40260F}
+}
+:root[data-theme="dark"]{--org:#D9701F;--org-deep:#9C4D12;--org-soft:#40260F}
+.nom{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.vrb{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.adj{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.leb{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.dng{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.gef{--c:var(--org);--cd:var(--org-deep);--cs:var(--org-soft)}
+.kein{--c:var(--ink-soft);--cd:var(--ink);--cs:var(--rule)}
+.bubble .pill{margin:2px 0}
+.review h3{font-size:1.2rem;color:var(--c)}
+.review li{font-weight:400}
+.review li b{font-weight:700}
+.review li i{font-style:normal;color:var(--ink-soft);font-size:.9em}
+/* ---------- Nomen-Jagd ---------- */
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.bench .pic{font-size:3.2rem;line-height:1.15;margin:0 0 8px}
+.sent{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 8px}
+.w{appearance:none;background:var(--card);border:3px solid var(--card-edge);border-radius:14px;min-height:54px;min-width:48px;padding:4px 12px;
+  font-weight:700;font-size:clamp(1.5rem,3.6vw,2rem);line-height:1.2;letter-spacing:.03em;cursor:pointer;
+  box-shadow:0 4px 0 var(--card-edge);transition:transform .12s ease,border-color .16s ease,background-color .16s ease}
+.w:active{transform:translateY(3px);box-shadow:0 1px 0 var(--card-edge)}
+.w.found{background:var(--c);border-color:var(--c);color:#fff;box-shadow:0 4px 0 var(--cd);cursor:default;letter-spacing:0}
+.w.hint{animation:glow 1.1s ease-in-out infinite;border-color:var(--sun)}
+.sent .stop{font-weight:700;font-size:clamp(1.5rem,3.6vw,2rem);margin-left:-4px}
+.bench .help b{color:var(--der)}
+.review li{font-size:1.05rem;line-height:1.35;margin-bottom:3px}
+.review li b{color:var(--c)}
+@@data
+/* Aufbau: [Bild, Satz]
+   Im Satz stehen die Nomen in eckigen Klammern [ ] und die Verben in geschweiften Klammern { }.
+   Jeder Satz hat genau zwei Nomen. Das Spiel zeigt den Satz in GROSSBUCHSTABEN, deshalb bitte keine Wörter mit ß. */
+const SENTENCES = [
+  ['🐕', 'Der [Hund] {frisst} einen [Knochen].'],
+  ['📰', 'Das [Mädchen] {liest} eine [Zeitung].'],
+  ['🧀', 'Die [Maus] {riecht} den [Käse].'],
+  ['🌞', 'Die [Sonne] {scheint} am [Himmel].'],
+  ['🚌', 'Der [Bus] {hält} an der [Schule].'],
+  ['🍎', 'Der [Apfel] {liegt} auf dem [Teller].'],
+  ['👶', 'Das [Baby] {hat} [Hunger].'],
+  ['🎂', '[Opa] {kauft} einen [Kuchen].'],
+  ['🐸', 'Der [Frosch] {springt} in den [Teich].'],
+  ['🌠', 'Meine [Schwester] {hat} einen [Wunsch].'],
+  ['🐣', 'Das [Küken] {sitzt} im [Nest].'],
+  ['👫', 'Die [Freunde] {spielen} im [Garten].'],
+  ['🚗', 'Das [Auto] {steht} vor der [Garage].'],
+  ['🌧️', 'Der [Regen] {tropft} auf das [Dach].'],
+  ['🍀', 'Der [Lehrer] {wünscht} uns [Glück].']
+];
+/* Diese Wörter erkennt das Spiel als Artikel */
+const ARTICLES = ['der', 'die', 'das', 'den', 'dem', 'ein', 'eine', 'einen', 'einem', 'einer'];
+
+const GAME = {
+  id: 'jagd',
+  unit: 'Sätze',
+  next: { href: '4-wortarten-koerbe.html', title: 'Wortarten-Körbe' },
+  review: () => {
+    const li = s => `<li>${s.words.map(w => (w.t === 'n' ? `<b>${w.text}</b>` : w.text) + w.punct).join(' ')}</li>`;
+    const half = Math.ceil(all.length / 2);
+    return `<div class="review c2"><div class="col nom"><ul>${all.slice(0, half).map(li).join('')}</ul></div>
+      <div class="col nom"><ul>${all.slice(half).map(li).join('')}</ul></div></div>`;
+  }
+};
+@@js
+/* ---------- Spiel: Nomen-Jagd ---------- */
+let all = [], queue = [], cur = null, left = 0;
+
+/* Zerlegt einen Satz in Wörter: t = n (Nomen), v (Verb), a (Artikel) oder x (anderes Wort) */
+function parse(text) {
+  return text.split(' ').map(tok => {
+    const m = tok.match(/^([\[{]?)([^\]}.!?,]+)[\]}]?([.!?,]*)$/);
+    const word = m[2];
+    const t = m[1] === '[' ? 'n' : m[1] === '{' ? 'v' : ARTICLES.includes(word.toLowerCase()) ? 'a' : 'x';
+    return { text: word, punct: m[3], t, found: false };
+  });
+}
+const pretty = s => s.words.map(w => (w.t === 'n' ? `<span class="pill nom">${w.text}</span>` : w.text) + w.punct).join(' ');
+
+function startGame() {
+  all = SENTENCES.map(s => ({ emoji: s[0], words: parse(s[1]), misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Tippe die zwei Nomen im Satz an. Achte auf die Artikel: Danach kommt oft ein Nomen!');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  cur.words.forEach(w => { w.found = false; });
+  left = cur.words.filter(w => w.t === 'n').length;
+  $('#pic').textContent = cur.emoji;
+  $('#sent').innerHTML = cur.words.map((w, i) =>
+    `<button class="w" data-i="${i}">${w.text.toUpperCase()}</button>${w.punct ? `<span class="stop" aria-hidden="true">${w.punct}</span>` : ''}`).join('');
+  showCount();
+}
+function showCount() {
+  $('#count').innerHTML = left === 0 ? 'Alle Nomen gefunden!' : left === 1 ? 'Noch <b>1 Nomen</b> versteckt sich.' : `Finde <b>${left} Nomen</b>.`;
+}
+
+function tap(el) {
+  if (state.busy || !cur) return;
+  const w = cur.words[+el.dataset.i], W = `<b>${w.text.toUpperCase()}</b>`;
+  if (w.found) return;
+  if (w.t !== 'n') {
+    const hint = miss(cur, el);
+    if (hint) {
+      $$('.w').forEach(b => { if (cur.words[+b.dataset.i].t === 'n' && !cur.words[+b.dataset.i].found) b.classList.add('hint'); });
+      say(`Tipp: Mach die Artikelprobe. ${W} ist kein Nomen. Die leuchtenden Wörter sind Nomen.`, 'think');
+    } else say(w.t === 'v' ? `${W} sagt, was jemand tut. Das ist ein Verb, kein Nomen. Such weiter!`
+      : w.t === 'a' ? `${W} ist ein Artikel. Er zeigt dir: Gleich danach kommt ein Nomen!`
+      : `${W} ist kein Nomen. Davor passt kein Artikel. Such weiter!`, 'think');
+    return;
+  }
+  w.found = true; left--;
+  el.classList.remove('hint');
+  el.classList.add('found', 'nom');
+  el.textContent = w.text;
+  el.disabled = true;
+  showCount();
+  if (left > 0) {
+    sfx.pick();
+    say(`Richtig! <span class="pill nom">${w.text}</span> ist ein Nomen. Such noch eins!`, 'happy');
+    return;
+  }
+  state.busy = true;
+  solve(cur, el, 'der');
+  say(`${pick(PRAISE, 'praise')} So schreibst du den Satz: ${pretty(cur)}`, 'happy');
+  later(next, 2800);
+}
+
+$('#sent').addEventListener('click', e => { const b = e.target.closest('.w'); if (b) tap(b); });

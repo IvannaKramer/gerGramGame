@@ -1,0 +1,10 @@
+@@meta
+slug: nominalisierungen
+title: Aus Verben und Adjektiven werden Nomen
+subtitle: Sechs Spiele rund um Signalwörter und die Großschreibung. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Bildern und Hilfen. Je 15 Sätze.
+lead2: Ohne Hilfe, mit ersten Fallen. Je 20 Sätze.
+lead3: Knifflige Sätze zum Selberschreiben. 20 Sätze.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Sätzen, dazu die Lösungen.
+@@tipp
+Verben und Adjektive können zu <b>Nomen</b> werden. Dann schreibst du sie <b>groß</b>. Du erkennst das an einem <b>Signalwort</b> davor: an einem Artikel (<b>das</b> Lesen), an einem versteckten Artikel (<b>beim</b> Lesen, <b>zum</b> Lesen) oder an einem Mengenwort (<b>etwas</b> Schönes, <b>nichts</b> Neues).

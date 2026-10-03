@@ -1,0 +1,159 @@
+@@meta
+file: 4-luecken-geschichte.html
+title: Lücken-Geschichte
+level: Fortgeschrittene
+nr: 4
+total: 20
+subtitle: In vier kleinen Geschichten fehlen s, ss und ß. Fülle alle Lücken!
+lead: Diese drei Regeln brauchst du:
+id: geschichte
+desc: Fülle die Lücken in vier kleinen Geschichten.
+sample: Rü_el → Rüssel
+drag: no
+@@tipp
+Sprich jedes Wort mit Lücke leise vor. Vokal <b>kurz</b>? Dann <b>ss</b>: Rüssel. Vokal <b>lang</b> (oder au, ei, eu) und es <b>zischt</b>? Dann <b>ß</b>: weiß. Vokal lang und das s <b>summt</b>? Dann <b>s</b>: Wiese.
+@@examples
+      <div class="ex ks" style="--tilt:-1.5deg"><div class="ex-head"><b>s</b><span>lang · summt</span></div><div class="ex-body">Wie<span class="a">s</span>e</div></div>
+      <div class="ex kss" style="--tilt:1deg"><div class="ex-head"><b>ss</b><span>kurz</span></div><div class="ex-body">Rü<span class="a">ss</span>el</div></div>
+      <div class="ex ksz" style="--tilt:-.5deg"><div class="ex-head"><b>ß</b><span>lang · zischt</span></div><div class="ex-body">wei<span class="a">ß</span></div></div>
+@@howto
+        <li>Lies die Geschichte. Die gelbe Lücke ist als Nächstes dran.</li>
+        <li>Sprich das Wort leise vor: Ist der Vokal kurz oder lang? Summt das s oder zischt es?</li>
+        <li>Tippe unten auf s, ss oder ß. Sind alle Lücken voll, kommt die nächste Geschichte.</li>
+@@board
+    <p class="round" id="round">Geschichte 1 von 4</p>
+    <div class="bench story">
+      <h3 class="story-title" id="story-title"></h3>
+      <p class="story-text" id="story"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="letters" id="letters"></div>
+    </div>
+@@css
+/* ---------- Lücken-Geschichte ---------- */
+.ks{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.kss{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.ksz{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.hit{color:var(--c);background:var(--cs);border-radius:8px;padding:0 .08em}
+.gap{display:inline-block;width:.62em;border-bottom:3px solid currentColor;margin:0 1px}
+.ex-body{padding-top:16px}
+.bench.story{text-align:left;padding:16px clamp(14px,3vw,28px) 20px}
+.story-title{margin:0 0 6px;font-family:var(--f-display);font-weight:800;font-size:1.3rem;color:var(--ink-soft)}
+.story-text{margin:0;font-size:clamp(1.5rem,3.2vw,1.8rem);line-height:1.75}
+.gw{white-space:nowrap;font-weight:700}
+.sl{display:inline-block;min-width:1.15em;text-align:center;border-bottom:3px solid var(--ink-soft);border-radius:6px 6px 0 0;margin:0 1px;line-height:1.15}
+.sl.now{background:var(--sun-soft);border-bottom-color:var(--sun-deep);box-shadow:0 0 0 3px var(--sun)}
+.sl.filled{border-bottom-color:transparent;background:var(--cs);color:var(--c);min-width:0;padding:0 .08em;border-radius:8px}
+.letters{display:flex;justify-content:center;gap:clamp(12px,4vw,28px)}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-width:clamp(86px,20vw,130px);min-height:clamp(66px,10vw,84px);padding:4px 10px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);
+  touch-action:manipulation;transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(2rem,6vw,2.7rem);line-height:1}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+@@data
+/* Aufbau: [Überschrift, Text]. Im Text steht die Lösung jeder Lücke in eckigen Klammern: E[s]el, Rü[ss]el, wei[ß].
+   Jede Geschichte hat 5 Lücken, zusammen sind es 20. */
+const STORIES = [
+  ['Im Zoo',
+   'Ein grauer E[s]el steht auf der Wie[s]e. Der Elefant hebt seinen langen Rü[ss]el. Das Zebra ist schwarz und wei[ß]. Vor dem Käfig mü[ss]en wir still sein.'],
+  ['Bei Oma und Opa',
+   'Oma sitzt im Se[ss]el auf einem weichen Ki[ss]en. Auf dem Tisch steht eine Va[s]e mit Blumen. Opa mäht im Garten den Ra[s]en. Später kocht Oma für alle Grie[ß]brei.'],
+  ['In der Schule',
+   'In der Pau[s]e spielen wir Fangen. Mir läuft der Schwei[ß] von der Stirn. Der Hausmeister kann das Tor aufschlie[ß]en. Ich schreibe meine Adre[ss]e auf einen Zettel. Morgen will ich noch be[ss]er rechnen.'],
+  ['Im Märchen',
+   'Ein Rie[s]e wohnt in einer Höhle. Er ist gar nicht bö[s]e. In seinem Ke[ss]el kocht er Suppe. Die genie[ß]t er jeden Abend. Au[ß]erdem singt er gern.']
+];
+/* Die drei Bausteine: [Buchstabe, Farbe, Überschrift, Regel für den Tipp] */
+const LETTERS = [
+  ['s',  'ks',  's · lang, summt',  'Der Vokal klingt lang und das s summt weich wie eine Biene. Dann schreibst du <b>s</b>.'],
+  ['ss', 'kss', 'ss · kurz',        'Der Vokal vor der Lücke klingt kurz. Nach einem kurzen Vokal schreibst du <b>ss</b>.'],
+  ['ß',  'ksz', 'ß · lang, zischt', 'Der Vokal klingt lang (oder es ist au, ei, eu) und der s-Laut zischt scharf. Dann schreibst du <b>ß</b>.']
+];
+
+const GAME = {
+  id: 'geschichte',
+  unit: 'Lücken',
+  next: { href: '5-wortfamilien.html', title: 'Wortfamilien-Werkstatt' },
+  review: () => `<div class="review">${LETTERS.map(([l, k, h]) =>
+    `<div class="col ${k}"><h3>${h}</h3><ul>${all.filter(w => w.l === l).map(w => `<li>${w.html}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Lücken-Geschichte ---------- */
+const GAP = '<i class="gap"></i>';
+const KL = { s: 'ks', ss: 'kss', 'ß': 'ksz' }, COLOR = { s: 'der', ss: 'die', 'ß': 'das' };
+const RULE = Object.fromEntries(LETTERS.map(b => [b[0], b[3]]));
+const RX = /\[(ss|s|ß)\]/;
+let all = [], stories = [], si = 0, gi = 0, cur = null;
+
+$('#letters').innerHTML = LETTERS.map(([l, k], i) =>
+  `<button class="tile ${k}" data-l="${l}" aria-label="${l}"><b>${l}</b><span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+
+function startGame() {
+  all = [];
+  stories = STORIES.map(([title, text]) => {
+    const gaps = [];
+    const html = text.split(' ').map(tok => {
+      const m = tok.match(RX);
+      if (!m) return tok;
+      const [, word, punct] = tok.match(/^(.*?)([.,!?]*)$/);
+      const w = { l: m[1], gapw: word.replace(RX, '_'), full: word.replace(RX, m[1]), html: word.replace(RX, `<b>${m[1]}</b>`), misses: 0 };
+      gaps.push(w); all.push(w);
+      w.id = 'g' + all.length;
+      return `<span class="gw">${word.replace(RX, `<span class="sl" id="${w.id}">&nbsp;</span>`)}</span>${punct}`;
+    }).join(' ');
+    return { title, html, gaps };
+  });
+  resetState(all.length);
+  si = 0;
+  show('game');
+  startStory();
+  say('Lies die Geschichte. Welcher Buchstabe fehlt in der gelben Lücke: s, ss oder ß?');
+}
+
+function startStory() {
+  const st = stories[si];
+  gi = 0;
+  $('#round').textContent = `Geschichte ${si + 1} von ${stories.length}`;
+  $('#story-title').textContent = st.title;
+  $('#story').innerHTML = st.html;
+  nextGap();
+}
+
+function nextGap() {
+  cur = stories[si].gaps[gi];
+  state.busy = false;
+  $$('.tile').forEach(t => t.classList.remove('hint'));
+  $('#' + cur.id).classList.add('now');
+}
+
+function choose(l) {
+  if (state.busy || !cur) return;
+  const tile = $(`.tile[data-l="${l}"]`);
+  if (l !== cur.l) {
+    const hint = miss(cur, tile);
+    if (hint) $(`.tile[data-l="${cur.l}"]`).classList.add('hint');
+    say(hint ? `Tipp: ${RULE[cur.l]} Der leuchtende Baustein ist richtig.`
+      : `Hmm, sprich <b>${cur.gapw.replace('_', GAP)}</b> noch einmal leise vor. Ist der Vokal kurz oder lang? Summt es oder zischt es?`, 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.tile').forEach(t => t.classList.remove('hint'));
+  const sl = $('#' + cur.id);
+  sl.textContent = cur.l; sl.className = 'sl filled ' + KL[cur.l];
+  solve(cur, sl, COLOR[cur.l]);
+  const why = l === 's' ? 'lang und summt' : l === 'ss' ? 'kurzer Vokal' : 'lang und zischt';
+  say(`${pick(PRAISE, 'praise')} <span class="pill ${KL[l]}">${cur.full}</span> mit <b>${l}</b>: ${why}.`, 'happy');
+  gi++;
+  if (gi < stories[si].gaps.length) { later(nextGap, 900); return; }
+  cur = null;
+  if (si < stories.length - 1) later(() => { si++; startStory(); say('Geschichte geschafft! Hier kommt die nächste.', 'happy'); }, 2200);
+  else later(finish, 1900);
+}
+
+$('#letters').addEventListener('click', e => { const t = e.target.closest('.tile'); if (t) choose(t.dataset.l); });
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-3]$/.test(e.key)) return;
+  choose(LETTERS[+e.key - 1][0]);
+});

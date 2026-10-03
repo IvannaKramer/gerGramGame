@@ -1,0 +1,251 @@
+@@meta
+file: 2-zwei-koerbe.html
+title: Zwei Körbe
+level: Anfänger
+nr: 2
+total: 15
+subtitle: Groß oder klein? Sortiere jede Karte in den richtigen Korb.
+lead: Das Signalwort ist im Spiel lila, das große Wort ist blau, das kleine Wort ist türkis:
+id: koerbe
+desc: Sortiere die Sätze in die Körbe „groß“ und „klein“.
+sample: Ich höre das BELLEN. → groß
+drag: yes
+@@tipp
+Schau auf das Wort direkt vor dem gelben Wort. Ist es ein <b>Signalwort</b> wie <b>das, beim, zum, vom, etwas, viel</b> oder <b>alles</b>? Dann gehört die Karte in den Korb <b>groß</b>. Steht kein Signalwort davor? Dann gehört sie in den Korb <b>klein</b>.
+@@examples
+      <div class="ex gr" style="--tilt:-1.5deg"><div class="ex-head"><b>groß</b><span>Signalwort davor</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🐕</span>Ich höre <span class="w sig">das</span> <span class="w gr">Bellen</span>.<span class="pr">das = Artikel</span></div></div>
+      <div class="ex kl" style="--tilt:1deg"><div class="ex-head"><b>klein</b><span>kein Signalwort</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🤿</span>Wir wollen <span class="w kl">tauchen</span>.<span class="pr">wollen = kein Signalwort</span></div></div>
+      <div class="ex gr" style="--tilt:-.5deg"><div class="ex-head"><b>groß</b><span>Signalwort davor</span></div><div class="ex-body"><span class="emo" aria-hidden="true">❤️</span><span class="w sig">alles</span> <span class="w gr">Liebe</span><span class="pr">alles = Mengenwort</span></div></div>
+@@howto
+        <li><span>Tippe eine Karte an. Die Eule zeigt dir, welches Wort vor dem gelben Wort steht.</span></li>
+        <li><span>Ist es ein Signalwort? Dann tippe auf den blauen Korb <b>groß</b>. Ist es keins? Dann tippe auf den türkisen Korb <b>klein</b>. Du kannst die Karte auch mit dem Finger in den Korb ziehen.</span></li>
+        <li><span>Passt es, verschwindet die Karte. Passt es nicht, probierst du einfach den anderen Korb.</span></li>
+@@board
+    <p class="round" id="round">Runde 1 von 3</p>
+    <div class="words with-pics" id="words"></div>
+@@tray
+    <div class="tray">
+      <div class="baskets">
+        <button class="basket gr" data-kind="gr" aria-pressed="false"><b>groß</b><span>Signalwort davor</span></button>
+        <button class="basket kl" data-kind="kl" aria-pressed="false"><b>klein</b><span>kein Signalwort</span></button>
+      </div>
+    </div>
+@@css
+/* ---------- Nominalisierungen: gemeinsame Farben (Signalwort lila, groß blau, klein türkis) ---------- */
+.sig{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.gr{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.kl{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.ex-body .pr{display:block;font-weight:400;font-size:.8em;color:var(--ink-soft);margin-top:6px}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.5}
+.gap{display:inline-block;min-width:2.6em;padding:0 .3em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);line-height:1.25;text-align:center}
+.gap.filled{border-style:solid;border-color:var(--c);background:var(--c);color:#fff;min-width:0;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.caps{display:inline-block;background:var(--sun-soft);border:3px solid var(--sun);border-radius:12px;padding:0 .3em;line-height:1.25;letter-spacing:.03em;color:var(--ink)}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.3rem;color:var(--c)}
+.neutral{--cs:var(--paper)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,3vw,28px);max-width:720px;margin:0 auto}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:clamp(72px,10vw,96px);padding:6px 8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.1;overflow-wrap:anywhere}
+.tile small{font-size:clamp(.85rem,2.2vw,1.05rem);line-height:1.15}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+/* ---------- Zwei Körbe ---------- */
+.words{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:860px){.words{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.words{grid-template-columns:minmax(0,1fr);gap:10px}}
+.with-pics .word-card{min-height:150px}
+.word-card .pic{font-size:2.4rem}
+.word-card .word{font-size:1.5rem;line-height:1.45;overflow-wrap:normal}
+.word-card .caps{border-width:2px;border-radius:9px;line-height:1.2}
+@media (max-width:560px){
+  .with-pics .word-card{min-height:76px;flex-direction:row;justify-content:flex-start;gap:12px;padding:8px 14px}
+  .word-card .pic{font-size:2rem}
+  .word-card .word{text-align:left}
+  .word-card.done{display:none}
+  .coach{position:sticky;bottom:calc(108px + env(safe-area-inset-bottom,0px));z-index:6;background:var(--paper);margin:0 -14px;padding:8px 14px 0}
+}
+.baskets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,4vw,40px);max-width:680px;margin:0 auto}
+.basket{appearance:none;border:none;border-radius:14px 14px 30px 30px;background:var(--c);color:#fff;min-height:clamp(84px,12vw,108px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:inset 0 10px 0 rgba(255,255,255,.22),0 6px 0 var(--cd),0 12px 22px var(--lift);
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .16s ease,box-shadow .16s ease}
+.basket b{font-size:clamp(1.6rem,4.4vw,2.2rem);line-height:1.15}
+.basket span{font-size:1.05rem}
+.basket.selected,.basket.drop-over{transform:translateY(-6px);box-shadow:inset 0 10px 0 rgba(255,255,255,.22),0 0 0 5px var(--sun),0 14px 24px var(--lift)}
+.basket.hint{animation:glow 1.1s ease-in-out infinite}
+@@data
+/* Aufbau: [Satz, Signalwort, Bild]
+   Das fragliche Wort steht in [Klammern] und ist schon richtig geschrieben (groß oder klein).
+   Bei großen Wörtern steht das Signalwort direkt davor. Bei kleinen Wörtern bleibt das Signalwort leer.
+   Immer 5 Karten bilden eine Runde. */
+const SENTENCES = [
+  ['Wir lachen beim [Turnen].',        'beim',  '🤸'],
+  ['Ich höre das [Bellen].',           'das',   '🐕'],
+  ['Hier ist Papier zum [Basteln].',   'zum',   '✂️'],
+  ['Ich wünsche dir alles [Liebe].',   'alles', '❤️'],
+  ['Wir erleben viel [Spannendes].',   'viel',  '🎢'],
+  ['Vom [Tanzen] wird mir warm.',      'Vom',   '💃'],
+  ['Ich trinke etwas [Kaltes].',       'etwas', '🥤'],
+  ['Wir wollen [tauchen].',            '',      '🤿'],
+  ['Kannst du [pfeifen]?',             '',      '😗'],
+  ['Ich muss noch [üben].',            '',      '🎹'],
+  ['Tom geht gern [reiten].',          '',      '🏇'],
+  ['Der Igel ist [klein].',            '',      '🦔'],
+  ['Mein Fahrrad ist [neu].',          '',      '🚲'],
+  ['Das Wetter ist [schön].',          '',      '☀️'],
+  ['Die Kinder dürfen [zelten].',      '',      '⛺']
+];
+const CARDS_PER_ROUND = 5;
+
+const GAME = {
+  id: 'koerbe',
+  unit: 'Sätze',
+  next: { href: '3-gross-oder-klein.html', title: 'Groß oder klein?' },
+  review: () => `<div class="review c2">${[['gr', 'groß: mit Signalwort'], ['kl', 'klein: ohne Signalwort']].map(([k, h]) =>
+    `<div class="col ${k}"><h3>${h}</h3><ul>${all.filter(s => s.k === k).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Gemeinsame Helfer ---------- */
+const cap = w => w[0].toUpperCase() + w.slice(1);
+const low = w => w[0].toLowerCase() + w.slice(1);
+const VERSTECKT = { beim: 'bei dem', zum: 'zu dem', im: 'in dem', vom: 'von dem', ans: 'an das', am: 'an dem' };
+const MENGE = ['etwas', 'nichts', 'viel', 'wenig', 'alles'];
+/* Erklärt ein Signalwort in einem kurzen Satz */
+function sigText(sig) {
+  const l = sig.toLowerCase();
+  return VERSTECKT[l] ? `<span class="pill sig">${l}</span> ist ein versteckter Artikel (${l} = ${VERSTECKT[l]})`
+    : MENGE.includes(l) ? `<span class="pill sig">${l}</span> ist ein Mengenwort`
+    : `<span class="pill sig">${l}</span> ist ein Artikel`;
+}
+/* Zerlegt einen Satz in Wörter. Wörter in [Klammern] sind die fraglichen Wörter.
+   Großes Wort: hint ist das Signalwort. Kleines Wort: hint ist die Erklärung. */
+function make(text, hints) {
+  const toks = text.split(' ').map(tok => {
+    const m = tok.replace(/[\[\]]/g, '').match(/^(.*?)([.,!?:;]*)$/);
+    return { w: m[1], post: m[2], target: tok.includes('[') };
+  });
+  const gaps = [];
+  toks.forEach((t, ti) => {
+    if (!t.target) return;
+    const hint = hints[gaps.length] || '', big = t.w[0] !== t.w[0].toLowerCase();
+    let si = -1;
+    if (big) for (let i = ti - 1; i >= 0; i--) if (toks[i].w === hint) { si = i; break; }
+    gaps.push({ ti, si, word: t.w, big, k: big ? 'gr' : 'kl', sig: big ? hint : '', why: big ? '' : hint });
+    t.gap = gaps.length - 1;
+  });
+  return Object.assign({ text, toks, gaps, misses: 0, done: false }, gaps[0]);
+}
+/* Der ganze Satz in Farbe: Signalwort lila, großes Wort blau, kleines Wort türkis */
+function full(s, tag = 'b', cls = 'w') {
+  return s.toks.map((t, i) => {
+    const g = s.gaps.find(x => x.ti === i), sg = s.gaps.some(x => x.si === i);
+    return (g ? `<${tag} class="${cls} ${g.k}">${t.w}</${tag}>` : sg ? `<b class="w sig">${t.w}</b>` : t.w) + t.post;
+  }).join(' ');
+}
+
+/* ---------- Spiel: Zwei Körbe ---------- */
+const COLOR = { gr: 'der', kl: 'teal' }, NAME = { gr: 'groß', kl: 'klein' };
+let all = [], rounds = [], round = 0, left = 0, selCard = null, selKind = null;
+const byId = id => all.find(s => s.id === id);
+const cardEl = id => $(`.word-card[data-id="${id}"]`);
+const basketEl = k => $(`.basket[data-kind="${k}"]`);
+const before = s => s.toks[s.ti - 1].w;
+const tw = s => `<b>${s.word.toUpperCase()}</b>`;
+
+function startGame() {
+  all = SENTENCES.map((s, i) => Object.assign(make(s[0], [s[1]]), { id: 's' + i, emoji: s[2] }));
+  /* In jeder Runde liegen Karten für beide Körbe */
+  const pools = { gr: shuffle(all.filter(s => s.k === 'gr')), kl: shuffle(all.filter(s => s.k === 'kl')) };
+  const n = Math.ceil(all.length / CARDS_PER_ROUND);
+  rounds = Array.from({ length: n }, () => []);
+  let r = 0;
+  ['gr', 'kl'].forEach(k => pools[k].forEach(s => { rounds[r % n].push(s); r++; }));
+  rounds.forEach(shuffle);
+  resetState(all.length);
+  round = 0;
+  startRound();
+  say('Tippe eine Karte an. Ich zeige dir dann, welches Wort vor dem gelben Wort steht.');
+  show('game');
+}
+
+function startRound() {
+  selCard = selKind = null; left = rounds[round].length;
+  $('#round').textContent = `Runde ${round + 1} von ${rounds.length}`;
+  $('#words').innerHTML = rounds[round].map(s =>
+    `<button class="word-card" data-id="${s.id}" aria-pressed="false" style="--tilt:${(Math.random() * 2 - 1).toFixed(2)}deg">
+      <span class="pic" aria-hidden="true">${s.emoji}</span><span class="word">${s.toks.map((t, i) =>
+        (i === s.ti ? `<span class="caps">${t.w.toUpperCase()}</span>` : t.w) + t.post).join(' ')}</span></button>`).join('');
+  renderSelection();
+}
+
+function renderSelection() {
+  $$('.word-card').forEach(el => {
+    const on = el.dataset.id === selCard;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+  });
+  $$('.basket').forEach(el => {
+    const on = el.dataset.kind === selKind;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+    el.classList.remove('hint');
+  });
+  const s = selCard && byId(selCard);
+  if (s && s.misses >= 2) basketEl(s.k).classList.add('hint');
+}
+
+function tapCard(id) {
+  const s = byId(id);
+  if (!s || s.done || state.busy) return;
+  if (selKind) { attempt(id, selKind); return; }
+  selCard = selCard === id ? null : id;
+  sfx.pick(); renderSelection();
+  if (selCard) say(`Vor ${tw(s)} steht „${before(s)}“. Ist das ein Signalwort?`);
+}
+function tapBasket(k) {
+  if (state.busy) return;
+  if (selCard) { attempt(selCard, k); return; }
+  selKind = selKind === k ? null : k;
+  sfx.pick(); renderSelection();
+  if (selKind) say(`Welcher Satz gehört in den Korb <span class="pill ${k}">${NAME[k]}</span>?`);
+}
+
+function attempt(id, k) {
+  const s = byId(id);
+  if (!s || s.done) return;
+  if (s.k !== k) {
+    miss(s, cardEl(id));
+    wobble(basketEl(k));
+    selCard = id; selKind = null;
+    renderSelection();
+    say(s.misses < 2 ? `Fast! Schau noch einmal auf „${before(s)}“. Ist das ein Signalwort?`
+      : s.big ? `Tipp: ${sigText(s.sig)}. Danach schreibst du <b>groß</b>.`
+              : `Tipp: „${before(s)}“ ist kein Signalwort. Das Wort bleibt <b>klein</b>.`, 'think');
+    return;
+  }
+  const card = cardEl(id);
+  selCard = selKind = null;
+  renderSelection();
+  card.classList.add('vanish');
+  later(() => { card.classList.remove('vanish'); card.classList.add('done'); card.disabled = true; }, 330);
+  solve(s, basketEl(k), COLOR[k]);
+  say(`${pick(PRAISE, 'praise')} ${s.big ? 'Groß nach dem Signalwort:' : 'Kein Signalwort, also klein:'} ${full(s)}`, 'happy');
+  if (--left === 0) {
+    state.busy = true;
+    if (round < rounds.length - 1) later(() => { round++; startRound(); state.busy = false; say('Runde geschafft! Hier kommen neue Karten.', 'happy'); }, 2200);
+    else later(finish, 2000);
+  }
+}
+
+$('#words').addEventListener('click', e => {
+  if (suppressClick) return;
+  const c = e.target.closest('.word-card');
+  if (c) tapCard(c.dataset.id);
+});
+$$('.basket').forEach(b => b.addEventListener('click', () => { if (!suppressClick) tapBasket(b.dataset.kind); }));
+enableDrag('.word-card:not(.done)', '.basket', (card, basket) => attempt(card.dataset.id, basket.dataset.kind));

@@ -1,0 +1,200 @@
+@@meta
+file: 1-siegertreppchen.html
+title: Siegertreppchen
+level: Anfänger
+nr: 1
+total: 15
+subtitle: Drei Wörter, drei Stufen: Stelle jedes Wort auf die richtige Stufe der Treppe.
+lead: Jede Stufe hat im Spiel ihre eigene Farbe:
+id: treppe
+desc: Stelle drei Wörter auf die richtige Stufe.
+sample: 🐘 groß – größer – am größten
+drag: yes
+@@tipp
+Adjektive kann man steigern. Stufe 1 ist die <b>Grundstufe</b>: groß. Stufe 2 ist die <b>Vergleichsstufe</b> mit <b>-er</b>: größer. Stufe 3 ist die <b>Höchststufe</b> mit <b>am</b> und <b>-sten</b>: am größten.
+@@examples
+      <div class="ex s1" style="--tilt:-1.5deg"><div class="ex-head"><b>Grundstufe</b><span>Stufe 1</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🐕</span><span class="a">groß</span></div></div>
+      <div class="ex s2" style="--tilt:1deg"><div class="ex-head"><b>Vergleichsstufe</b><span>Stufe 2</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🐴</span><span class="a">größer</span></div></div>
+      <div class="ex s3" style="--tilt:-.5deg"><div class="ex-head"><b>Höchststufe</b><span>Stufe 3</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🐘</span><span class="a">am größten</span></div></div>
+@@howto
+        <li><span>Lies die drei Wörter. Tippe ein Wort an.</span></li>
+        <li><span>Tippe dann auf die Stufe, auf die das Wort gehört. Du kannst das Wort auch mit dem Finger auf die Stufe ziehen.</span></li>
+        <li><span>Stehen alle drei Wörter richtig auf der Treppe, bekommst du Punkte. Passt ein Wort nicht, probierst du einfach eine andere Stufe.</span></li>
+@@board
+    <p class="ask" id="ask"></p>
+    <div class="cards3" id="cards"></div>
+    <div class="stairs" id="stairs">
+      <button class="step s3" data-lv="3" aria-pressed="false"><span class="num" aria-hidden="true">3</span><span class="nm">Höchststufe<small>am … -sten</small></span><span class="slot" data-ph="Höchststufe: am … -sten"></span></button>
+      <button class="step s2" data-lv="2" aria-pressed="false"><span class="num" aria-hidden="true">2</span><span class="nm">Vergleichsstufe<small>mit -er</small></span><span class="slot" data-ph="Vergleichsstufe: mit -er"></span></button>
+      <button class="step s1" data-lv="1" aria-pressed="false"><span class="num" aria-hidden="true">1</span><span class="nm">Grundstufe<small>das Wort allein</small></span><span class="slot" data-ph="Grundstufe"></span></button>
+    </div>
+@@tray
+@@css
+/* ---------- Adjektive steigern: feste Farben der drei Stufen ---------- */
+.s1{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.s2{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.s3{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.w{color:var(--c);font-weight:700}
+.hero>div{min-width:0}
+@media (max-width:560px){.title{font-size:clamp(1.55rem,7.4vw,2.4rem);overflow-wrap:anywhere}}
+.ex-head b{font-size:clamp(1.1rem,2.5vw,1.45rem)}
+@media (max-width:560px){.legend{grid-template-columns:minmax(0,1fr);gap:10px}.ex-body{padding:6px 8px 10px}.ex-body .emo{display:inline;margin-right:10px;font-size:1.7rem}}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review .col.plain{background:var(--sun-soft)}
+/* ---------- Treppe ---------- */
+.ask{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 12px;font-weight:700;font-size:1.2rem;text-align:center}
+.ask .pic{font-size:2.4rem;line-height:1}
+.cards3{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 16px;margin-bottom:18px;min-height:76px}
+.cards3 .word-card{min-height:72px;min-width:150px;padding:10px 20px}
+.cards3 .word-card .word{font-size:clamp(1.5rem,3.2vw,1.9rem);overflow-wrap:normal;white-space:nowrap}
+.stairs{display:grid;gap:10px;max-width:860px;margin:0 auto 16px;--off:clamp(16px,7vw,96px)}
+.step{appearance:none;border:none;text-align:left;display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;background:var(--c);color:#fff;
+  border-radius:16px;padding:8px 12px;min-height:74px;cursor:pointer;box-shadow:0 5px 0 var(--cd),0 10px 18px var(--lift);
+  touch-action:manipulation;transition:transform .16s ease,box-shadow .16s ease}
+.step.s3{margin-left:calc(var(--off)*2)}
+.step.s2{margin-left:var(--off)}
+.step .num{flex:none;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.26);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.25rem}
+.step .nm{font-weight:700;font-size:1.1rem;line-height:1.15;width:8.6em}
+.step .nm small{display:block;font-weight:400;font-size:.92rem}
+.step .slot{flex:1 1 190px;min-height:54px;border-radius:12px;border:3px dashed rgba(255,255,255,.75);display:grid;place-items:center;text-align:center;
+  font-weight:700;font-size:clamp(1.5rem,3.2vw,1.9rem);line-height:1.15;padding:2px 10px}
+.step.filled{cursor:default}
+.step.filled .slot{border:3px solid var(--card);background:var(--card);color:var(--c);animation:slotpop .35s ease-out}
+.step.selected,.step.drop-over{transform:translateY(-4px);box-shadow:0 0 0 5px var(--sun),0 12px 22px var(--lift)}
+.step.hint{animation:glow 1.1s ease-in-out infinite}
+@keyframes slotpop{0%{transform:scale(.6)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+@media (max-width:560px){.step{flex-wrap:nowrap;min-height:0;padding:7px 10px}.step .nm{display:none}.step .slot{flex:1 1 auto}
+  .step .slot:empty::before{content:attr(data-ph);font-size:1.05rem;font-weight:700}.ask{font-size:1.1rem;margin-bottom:8px}.ask .pic{font-size:2rem}
+  .cards3{gap:10px;margin-bottom:14px}.cards3 .word-card{min-height:60px;min-width:0;padding:6px 14px}}
+@@data
+/* Aufbau: [Grundstufe, Vergleichsstufe, Höchststufe, Bild] */
+const WORDS = [
+  ['klein',   'kleiner',   'am kleinsten',   '🐭'],
+  ['groß',    'größer',    'am größten',     '🐘'],
+  ['schnell', 'schneller', 'am schnellsten', '🚀'],
+  ['laut',    'lauter',    'am lautesten',   '📢'],
+  ['schön',   'schöner',   'am schönsten',   '🌸'],
+  ['alt',     'älter',     'am ältesten',    '🏰'],
+  ['lang',    'länger',    'am längsten',    '🐍'],
+  ['schwer',  'schwerer',  'am schwersten',  '🧱'],
+  ['leicht',  'leichter',  'am leichtesten', '🎈'],
+  ['hell',    'heller',    'am hellsten',    '💡'],
+  ['dick',    'dicker',    'am dicksten',    '📚'],
+  ['lustig',  'lustiger',  'am lustigsten',  '🤡'],
+  ['leise',   'leiser',    'am leisesten',   '🤫'],
+  ['langsam', 'langsamer', 'am langsamsten', '🐌'],
+  ['fleißig', 'fleißiger', 'am fleißigsten', '🐝']
+];
+
+const GAME = {
+  id: 'treppe',
+  next: { href: '2-wie-oder-als.html', title: 'Wie oder als?' },
+  review: () => {
+    const half = Math.ceil(all.length / 2);
+    return `<div class="review c2"><div class="col plain"><ul>${all.slice(0, half).map(triLi).join('')}</ul></div>
+      <div class="col plain"><ul>${all.slice(half).map(triLi).join('')}</ul></div></div>`;
+  }
+};
+@@js
+/* ---------- Spiel: Siegertreppchen ---------- */
+const NAME = { 1: 'Grundstufe', 2: 'Vergleichsstufe', 3: 'Höchststufe' };
+const COLOR = { 1: 'der', 2: 'das', 3: 'die' };
+const HINT = {
+  1: 'Tipp: Die <b>Grundstufe</b> ist das Wort ganz allein, ohne etwas dran. Sie gehört auf Stufe 1.',
+  2: 'Tipp: Bei der <b>Vergleichsstufe</b> hängt ein <b>-er</b> am Wort. Sie gehört auf Stufe 2.',
+  3: 'Tipp: Die <b>Höchststufe</b> beginnt mit <b>am</b> und endet auf <b>-sten</b>. Sie gehört auf Stufe 3.'
+};
+const AGAIN = ['Fast! Probier eine andere Stufe.', 'Das passt noch nicht. Schau dir das Wortende genau an.', 'Guter Versuch! Auf welche Stufe gehört das Wort?'];
+let all = [], queue = [], cur = null, selCard = null, selStep = null, placed = 0;
+const tri = w => `<span class="w s1">${w.f[1]}</span> – <span class="w s2">${w.f[2]}</span> – <span class="w s3">${w.f[3]}</span>`;
+const triLi = w => `<li>${tri(w)}</li>`;
+const cardEl = lv => $(`.word-card[data-lv="${lv}"]`);
+const stepEl = lv => $(`.step[data-lv="${lv}"]`);
+
+function startGame() {
+  all = WORDS.map(w => ({ f: { 1: w[0], 2: w[1], 3: w[2] }, emoji: w[3], misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Tippe ein Wort an und dann die passende Stufe. Schau genau auf das Wortende!');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  selCard = selStep = null; placed = 0;
+  $('#ask').innerHTML = `<span class="pic" aria-hidden="true">${cur.emoji}</span><span>Welches Wort gehört auf welche Stufe?</span>`;
+  $('#cards').innerHTML = shuffle([1, 2, 3]).map(lv =>
+    `<button class="word-card" data-lv="${lv}" aria-pressed="false" style="--tilt:${(Math.random() * 3 - 1.5).toFixed(2)}deg"><span class="word">${cur.f[lv]}</span></button>`).join('');
+  $$('.step').forEach(s => { s.classList.remove('filled'); s.disabled = false; $('.slot', s).textContent = ''; s.setAttribute('aria-label', `Stufe ${s.dataset.lv}: ${NAME[s.dataset.lv]}, noch leer`); });
+  renderSelection();
+}
+
+function renderSelection() {
+  $$('.word-card').forEach(el => {
+    const on = +el.dataset.lv === selCard;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+  });
+  $$('.step').forEach(el => {
+    const on = +el.dataset.lv === selStep;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+    el.classList.remove('hint');
+  });
+  if (selCard && cur.misses >= 2) stepEl(selCard).classList.add('hint');
+}
+
+function tapCard(lv) {
+  if (state.busy || cardEl(lv).classList.contains('done')) return;
+  if (selStep) { attempt(lv, selStep); return; }
+  selCard = selCard === lv ? null : lv;
+  sfx.pick(); renderSelection();
+  if (selCard) say(cur.misses >= 2 ? HINT[lv] : `<b>${cur.f[lv]}</b> – auf welche Stufe gehört das Wort?`);
+}
+function tapStep(lv) {
+  if (state.busy || stepEl(lv).classList.contains('filled')) return;
+  if (selCard) { attempt(selCard, lv); return; }
+  selStep = selStep === lv ? null : lv;
+  sfx.pick(); renderSelection();
+  if (selStep) say(`Welches Wort gehört auf die Stufe <span class="pill s${lv}">${NAME[lv]}</span>?`);
+}
+
+function attempt(cardLv, stepLv) {
+  const card = cardEl(cardLv), step = stepEl(stepLv);
+  if (state.busy || !card || card.classList.contains('done') || step.classList.contains('filled')) return;
+  if (cardLv !== stepLv) {
+    const hint = miss(cur, card);
+    wobble(step);
+    selCard = cardLv; selStep = null;
+    renderSelection();
+    say(hint ? HINT[cardLv] : pick(AGAIN, 'again'), 'think');
+    return;
+  }
+  selCard = selStep = null;
+  card.classList.add('vanish');
+  later(() => { card.classList.remove('vanish'); card.classList.add('done'); card.disabled = true; }, 330);
+  step.classList.add('filled'); step.disabled = true;
+  $('.slot', step).textContent = cur.f[stepLv];
+  step.setAttribute('aria-label', `Stufe ${stepLv}: ${NAME[stepLv]}: ${cur.f[stepLv]}`);
+  renderSelection();
+  if (++placed < 3) {
+    sfx.pick();
+    say(`Genau! <span class="pill s${stepLv}">${cur.f[stepLv]}</span> ist die ${NAME[stepLv]}. Weiter so!`, 'happy');
+    return;
+  }
+  state.busy = true;
+  solve(cur, step, COLOR[stepLv]);
+  say(`${pick(PRAISE, 'praise')} Die Treppe ist fertig: ${tri(cur)}`, 'happy');
+  later(next, 2100);
+}
+
+$('#cards').addEventListener('click', e => {
+  if (suppressClick) return;
+  const c = e.target.closest('.word-card');
+  if (c) tapCard(+c.dataset.lv);
+});
+$$('.step').forEach(s => s.addEventListener('click', () => { if (!suppressClick) tapStep(+s.dataset.lv); }));
+enableDrag('.word-card:not(.done)', '.step:not(.filled)', (card, step) => attempt(+card.dataset.lv, +step.dataset.lv));

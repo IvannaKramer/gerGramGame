@@ -1,0 +1,211 @@
+@@meta
+file: 4-satz-baumeister.html
+title: Satz-Baumeister
+level: Fortgeschrittene
+nr: 4
+total: 20
+subtitle: Baue den Nebensatz aus Kärtchen. Vergiss das Komma-Kärtchen nicht!
+lead: So sehen fertige Sätze aus:
+id: bau
+desc: Baue den Nebensatz aus Kärtchen: Komma, Bindewort, Verb am Ende.
+sample: Ich schlafe, weil ich müde bin.
+drag: yes
+@@tipp
+Zwischen Hauptsatz und Nebensatz steht ein <b>Komma</b>. Der Nebensatz beginnt mit dem <b>Bindewort</b> (weil, dass, wenn, als, ob). Sein <b>Verb</b> steht ganz am Ende. Der Nebensatz kann auch vorn stehen: <b>Weil</b> ich müde <u>bin</u><b>,</b> schlafe ich.
+@@examples
+      <div class="ex neb" style="--tilt:-1.5deg"><div class="ex-head"><b>Nebensatz hinten</b></div><div class="ex-body">Ich schlafe<span class="cm">,</span> <span class="a">weil</span> ich müde <u>bin</u>.</div></div>
+      <div class="ex neb" style="--tilt:1deg"><div class="ex-head"><b>Nebensatz hinten</b></div><div class="ex-body">Er fragt<span class="cm">,</span> <span class="a">ob</span> du Zeit <u>hast</u>.</div></div>
+      <div class="ex neb" style="--tilt:-.5deg"><div class="ex-head"><b>Nebensatz vorn</b></div><div class="ex-body"><span class="a">Wenn</span> es <u>schneit</u><span class="cm">,</span> rodeln wir.</div></div>
+@@howto
+        <li><span>Lies den Hauptsatz. Er steht schon da. Die leeren Kästchen sind der Platz für den Nebensatz.</span></li>
+        <li><span>Tippe die Kärtchen in der richtigen Reihenfolge an. Du kannst sie auch in den Satz ziehen.</span></li>
+        <li><span>Denk daran: Das Komma trennt Haupt- und Nebensatz. Das Verb steht im Nebensatz am Ende.</span></li>
+@@board
+    <div class="bench">
+      <p class="lbl">Baue den Satz fertig.</p>
+      <p class="sentence build" id="build"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="chips" id="chips"></div>
+    </div>
+@@css
+/* ---------- Das Komma: gemeinsame Farben ---------- */
+.auf{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.neb{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.kein{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.komma{--c:var(--sun-deep);--cd:var(--sun-deep);--cs:var(--sun-soft)}
+.neutral{--cs:var(--paper)}
+.w{color:var(--c);font-weight:700}
+.cm{color:var(--sun-deep);font-weight:700;font-size:1.3em;line-height:.8}
+.ex-head b{font-size:clamp(1.05rem,2.8vw,1.5rem)}
+.ex-body{font-size:clamp(1rem,2.6vw,1.4rem);line-height:1.3;font-weight:400}
+.ex-body .a{font-weight:700}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.5}
+.bpic{margin:0;font-size:clamp(2.2rem,6vw,3rem);line-height:1.2}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.3rem;color:var(--c)}
+.review .neutral li b.w{color:var(--bonus)}
+.bubble .cm,.review .cm{font-size:1.2em}
+.review li b.cm{color:var(--sun-deep)}
+.vb{border-bottom:3px solid var(--bonus)}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+/* ---------- Satz-Baumeister ---------- */
+.ex-body u,.tipp u{text-decoration-thickness:3px;text-underline-offset:4px}
+.build{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 8px;margin-top:10px;border-radius:16px;padding:6px}
+.build.drop-over{background:var(--sun-soft)}
+.build.solved{display:block}
+.slot{display:inline-grid;place-items:center;min-width:2.6em;min-height:54px;padding:0 .35em;border:3px dashed var(--ink-soft);border-radius:12px;opacity:.6}
+.slot.cur{border-color:var(--sun-deep);background:var(--sun-soft);opacity:1}
+.slot.filled{border:3px solid var(--card-edge);background:var(--paper);opacity:1;min-width:0;animation:slotpop .35s ease-out}
+.slot.filled.neb{border-color:var(--c);background:var(--c);color:#fff}
+.slot.filled.cma{border-color:var(--sun);background:var(--sun);color:var(--on-sun);min-width:1.6em}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:12px clamp(8px,2vw,16px);max-width:820px;margin:0 auto}
+.chip{appearance:none;position:relative;background:var(--card);border:3px solid var(--card-edge);border-radius:16px;min-height:64px;min-width:64px;padding:8px 18px;
+  font-weight:700;font-size:clamp(1.5rem,3.4vw,1.8rem);line-height:1.15;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
+  box-shadow:0 5px 0 var(--card-edge),0 10px 18px var(--lift);transform:rotate(var(--tilt,0deg));transition:transform .12s ease,border-color .12s ease}
+@media (hover:hover){.chip:hover{transform:rotate(0deg) translateY(-2px);border-color:var(--sun)}}
+.chip.cma{font-size:2.2rem;line-height:.9}
+.chip.used{visibility:hidden}
+.chip.dragging{opacity:.35}
+.chip.hint{border-color:var(--sun);animation:glow 1.1s ease-in-out infinite}
+.chip .kbd{top:-10px;right:-8px;background:var(--card-edge);color:var(--ink);font-size:.8rem}
+@@data
+/* Aufbau: der richtige Satz. Schrägstriche / trennen die Kärtchen.
+   Der Teil in eckigen Klammern [ … ] ist der Hauptsatz. Er steht im Spiel schon da.
+   Alle anderen Teile werden Kärtchen: das Komma, das Bindewort, wer etwas tut, …, das Verb am Ende.
+   Damit die Reihenfolge eindeutig ist, tut im Nebensatz immer ein Fürwort etwas (ich, du, er, sie, es, wir). */
+const SENTENCES = [
+  '[Ich gehe früh ins Bett]/,/weil/ich/müde/bin.',
+  '[Lisa bekommt ein Pflaster]/,/weil/sie/hingefallen/ist.',
+  '[Mama freut sich]/,/dass/wir/den Tisch/decken.',
+  '[Der Trainer sagt]/,/dass/wir/gut/spielen.',
+  '[Ich glaube]/,/dass/er/die Wahrheit/sagt.',
+  '[Es ist schade]/,/dass/du/schon/gehst.',
+  '[Wir grillen im Garten]/,/wenn/es/warm/bleibt.',
+  '[Ruf mich bitte an]/,/wenn/du/zu Hause/bist.',
+  '[Oma lachte laut]/,/als/sie/das Foto/sah.',
+  '[Ich habe mich gefreut]/,/als/ich/das Paket/bekam.',
+  '[Jonas fragt]/,/ob/er/mitspielen/darf.',
+  '[Ich weiß nicht]/,/ob/sie/Pizza/mag.',
+  '[Die Lehrerin prüft]/,/ob/wir/die Wörter/können.',
+  '[Sag mir bitte]/,/ob/du/morgen/kommst.',
+  'Weil/es/draußen/stürmt/,/[spielen wir im Zimmer.]',
+  'Weil/ich/Geburtstag/habe/,/[backt Papa einen Kuchen.]',
+  'Wenn/ich/groß/bin/,/[werde ich Tierärztin.]',
+  'Wenn/du/leise/bist/,/[hörst du die Vögel.]',
+  'Als/wir/am See/waren/,/[sahen wir einen Frosch.]',
+  'Als/ich/klein/war/,/[hatte ich ein Dreirad.]'
+];
+const BINDS = ['weil', 'dass', 'wenn', 'als', 'ob'];
+
+const GAME = {
+  id: 'bau',
+  unit: 'Sätze',
+  next: { href: '5-regel-sortierer.html', title: 'Regel-Sortierer' },
+  review: () => `<div class="review c2">${BINDS.map(b =>
+    `<div class="col neb"><h3>${b}</h3><ul>${all.filter(s => s.bind === b).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Satz-Baumeister ---------- */
+let all = [], queue = [], cur = null;
+const kindOf = (t, last) => t === ',' ? 'cma' : BINDS.includes(t.toLowerCase()) ? 'neb' : last ? 'verb' : 'plain';
+const paint = p => p.kind === 'cma' ? '<b class="cm">,</b>' : p.kind === 'neb' ? `<b class="w neb">${p.t}</b>` : p.kind === 'verb' ? `<span class="vb">${p.t}</span>` : p.t;
+/* Fertiger Satz: Das Komma klebt am Wort davor */
+const full = s => s.parts.map((p, i) => (i && p.kind !== 'cma' ? ' ' : '') + paint(p)).join('') + s.end;
+
+function parse(text) {
+  const raw = text.split('/');
+  const end = (/[.!?]$/.exec(raw[raw.length - 1].replace(/\]$/, '')) || [''])[0];
+  const parts = raw.map(r => {
+    const fixed = /^\[.*\]$/.test(r);
+    return { t: r.replace(/^\[|\]$/g, '').replace(/[.!?]$/, ''), fixed };
+  });
+  const cards = parts.filter(p => !p.fixed);
+  const verb = cards.filter(p => p.t !== ',').pop();
+  parts.forEach(p => { p.kind = p.fixed ? 'fixed' : kindOf(p.t, p === verb); });
+  return { parts, cards, end, front: !parts[0].fixed, bind: cards.find(p => p.kind === 'neb').t.toLowerCase(), verb: verb.t };
+}
+
+function startGame() {
+  all = SENTENCES.map(t => ({ ...parse(t), misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Lies den Hauptsatz. Tippe dann die Kärtchen in der richtigen Reihenfolge an.');
+  show('game');
+  next();
+}
+
+function render() {
+  const nextCard = cur.cards[cur.pos];
+  $('#build').innerHTML = cur.parts.map(p => {
+    if (p.fixed) return `<span class="fix">${p.t}${p === cur.parts[cur.parts.length - 1] ? cur.end : ''}</span>`;
+    const i = cur.cards.indexOf(p);
+    return i < cur.pos ? `<span class="slot filled ${p.kind}">${p.t}</span>`
+      : `<span class="slot${p === nextCard ? ' cur' : ''}" role="img" aria-label="leerer Platz"></span>`;
+  }).join('');
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  cur.pos = 0;
+  $('#build').classList.remove('solved');
+  /* Kärtchen mischen – aber nie schon in der richtigen Reihenfolge */
+  let order;
+  do { order = shuffle(cur.cards.slice()); } while (order.every((c, i) => c === cur.cards[i]));
+  $('#chips').innerHTML = order.map((c, i) =>
+    `<button class="chip${c.t === ',' ? ' cma' : ''}" data-t="${c.t}" style="--tilt:${(Math.random() * 3 - 1.5).toFixed(2)}deg"${c.t === ',' ? ' aria-label="Komma"' : ''}>${c.t}<span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+  render();
+}
+
+/* Freundlicher Hinweis, passend zu dem Kärtchen, das jetzt dran wäre */
+function nudge(want, got) {
+  if (want.kind === 'cma') return cur.front ? 'Der Nebensatz ist zu Ende. Was fehlt, bevor der Hauptsatz weitergeht?' : 'Halt! Der Hauptsatz ist zu Ende. Was trennt Hauptsatz und Nebensatz?';
+  if (got.kind === 'cma') return 'Das Komma steht zwischen Hauptsatz und Nebensatz. Hier passt es noch nicht.';
+  if (want.kind === 'neb') return 'Fast! Mit welchem Wort beginnt ein Nebensatz?';
+  if (got.kind === 'verb') return 'Fast! Das Verb kommt im Nebensatz erst ganz am Ende.';
+  return 'Fast! Lies den Satz leise vor. Welches Kärtchen klingt hier richtig?';
+}
+function rule(want) {
+  return want.kind === 'cma' ? 'Tipp: Zwischen Hauptsatz und Nebensatz steht ein <b>Komma</b>.'
+    : want.kind === 'neb' ? `Tipp: Der Nebensatz beginnt mit dem Bindewort <b class="w neb">${want.t}</b>.`
+    : want.kind === 'verb' ? `Tipp: Im Nebensatz steht das Verb ganz am Ende. Hier ist es <b>${want.t}</b>.`
+    : `Tipp: Nach dem Bindewort kommt zuerst, wer etwas tut. Das Verb <b>${cur.verb}</b> kommt ganz zum Schluss. Jetzt ist <b>${want.t}</b> dran.`;
+}
+
+function tap(chip) {
+  if (state.busy || !cur || chip.classList.contains('used')) return;
+  const want = cur.cards[cur.pos], got = cur.cards.find(c => c.t === chip.dataset.t);
+  if (got !== want) {
+    const tip = miss(cur, chip);
+    if (tip) $$('.chip').find(c => c.dataset.t === want.t).classList.add('hint');
+    say(tip ? rule(want) : nudge(want, got), 'think');
+    return;
+  }
+  $$('.chip').forEach(c => c.classList.remove('hint'));
+  chip.classList.add('used'); chip.disabled = true;
+  cur.pos++;
+  render();
+  if (cur.pos < cur.cards.length) { sfx.pick(); return; }
+  state.busy = true;
+  const box = $('#build');
+  solve(cur, box, 'bonus');
+  box.classList.add('solved');
+  box.innerHTML = full(cur);
+  say(`${pick(PRAISE, 'praise')} Komma zwischen Haupt- und Nebensatz, das Verb <b>${cur.verb}</b> am Ende:<br>${full(cur)}`, 'happy');
+  later(next, 3000);
+}
+
+$('#chips').addEventListener('click', e => {
+  if (suppressClick) return;
+  const c = e.target.closest('.chip');
+  if (c) tap(c);
+});
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-9]$/.test(e.key)) return;
+  const c = $$('.chip')[+e.key - 1];
+  if (c) tap(c);
+});
+enableDrag('.chip:not(.used)', '#build', chip => tap(chip));

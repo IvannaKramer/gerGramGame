@@ -1,0 +1,10 @@
+@@meta
+slug: zusammengesetzte-nomen
+title: Zusammengesetzte Nomen
+subtitle: Sechs Spiele rund um den Wörter-Baukasten. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Bildern und mit Hilfe. Je 15 Wörter.
+lead2: Ohne Hilfe: Wörter bauen und umdrehen. Je 20 Wörter.
+lead3: Knifflige Wörter zum Selberschreiben. 20 Wörter.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Wörtern, dazu die Lösungen.
+@@tipp
+Aus zwei Wörtern kannst du ein neues Nomen bauen: das Haus + die Tür = <b>die Haustür</b>. Das hintere Wort heißt <b>Grundwort</b>. Es sagt, was es ist, und es bestimmt den Artikel. Das vordere Wort heißt <b>Bestimmungswort</b>. Es beschreibt das Grundwort genauer.

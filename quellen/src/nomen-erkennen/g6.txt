@@ -1,0 +1,177 @@
+@@meta
+file: 6-grossschreib-profi.html
+title: Großschreib-Profi
+level: Profis
+nr: 6
+total: 20
+subtitle: Hier ist alles kleingeschrieben! Finde alle Nomen im Satz und mach sie groß.
+lead: Drei Profi-Tricks für versteckte Nomen:
+id: profi
+desc: Mach in jedem Satz alle Nomen groß.
+sample: Mit viel geduld … → Mit viel Geduld …
+drag: no
+@@tipp
+Nicht vor jedem <b>Nomen</b> steht ein Artikel. Manchmal steht ein Adjektiv dazwischen: ein <b>schnelles Auto</b>. Manchmal fehlt der Artikel ganz: Ich habe <b>Hunger</b>. Mach trotzdem die Probe: <b>das</b> Auto, <b>der</b> Hunger.
+@@examples
+      <div class="ex nom" style="--tilt:-1.5deg"><div class="ex-head"><b>ohne Artikel</b></div><div class="ex-body">Ich habe <span class="a">Zeit</span>.<span class="pr">Probe: die Zeit</span></div></div>
+      <div class="ex nom" style="--tilt:1deg"><div class="ex-head"><b>Adjektiv davor</b></div><div class="ex-body">ein rotes <span class="a">Tuch</span><span class="pr">Probe: das Tuch</span></div></div>
+      <div class="ex nom" style="--tilt:-.5deg"><div class="ex-head"><b>im, am, zum, vom</b></div><div class="ex-body">im <span class="a">Zimmer</span><span class="pr">Probe: das Zimmer</span></div></div>
+@@howto
+        <li><span>Lies den Satz. Nur das erste Wort ist schon groß. Alle anderen Wörter sind kleingeschrieben.</span></li>
+        <li><span>Tippe jedes Nomen an. Dann wird sein erster Buchstabe groß. Tippst du noch einmal, wird er wieder klein.</span></li>
+        <li><span>Sind alle Nomen groß? Dann tippe auf „Prüfen“. Achtung: Manche Sätze haben ein Nomen, manche zwei oder drei!</span></li>
+@@board
+    <div class="bench">
+      <p class="lbl">Welche Wörter sind Nomen? Mach sie groß!</p>
+      <div class="sent" id="sent"></div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Nomen erkennen: gemeinsame Farben ---------- */
+:root{--org:#C2570C;--org-deep:#8F3F06;--org-soft:#FFE8D6}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--org:#D9701F;--org-deep:#9C4D12;--org-soft:#40260F}
+}
+:root[data-theme="dark"]{--org:#D9701F;--org-deep:#9C4D12;--org-soft:#40260F}
+.nom{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.vrb{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.adj{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.leb{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.dng{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.gef{--c:var(--org);--cd:var(--org-deep);--cs:var(--org-soft)}
+.kein{--c:var(--ink-soft);--cd:var(--ink);--cs:var(--rule)}
+.bubble .pill{margin:2px 0}
+.review h3{font-size:1.2rem;color:var(--c)}
+.review li{font-weight:400}
+.review li b{font-weight:700}
+.review li i{font-style:normal;color:var(--ink-soft);font-size:.9em}
+/* ---------- Großschreib-Profi ---------- */
+.ex-head b{font-size:clamp(.95rem,2.5vw,1.35rem)}
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.ex-body .pr{display:block;font-weight:400;font-size:.8em;color:var(--ink-soft);margin-top:6px}
+.sent{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 8px;margin-top:14px}
+.w,.fix{border:3px solid var(--card-edge);border-radius:14px;min-height:54px;min-width:48px;padding:4px 10px;
+  font-weight:700;font-size:clamp(1.5rem,3.4vw,1.9rem);line-height:1.2}
+.w{appearance:none;background:var(--card);cursor:pointer;box-shadow:0 4px 0 var(--card-edge);transition:transform .12s ease,border-color .16s ease,background-color .16s ease}
+.w:active{transform:translateY(3px);box-shadow:0 1px 0 var(--card-edge)}
+.fix{display:inline-flex;align-items:center;border-style:dashed;color:var(--ink-soft)}
+.w.up{border-color:var(--sun);background:var(--sun-soft)}
+.w.hint{animation:glow 1.1s ease-in-out infinite;border-color:var(--sun-deep)}
+.sent.solved .w{cursor:default;box-shadow:none}
+.sent.solved .w.up{background:var(--der);border-color:var(--der);color:#fff}
+.sent .stop{font-weight:700;font-size:clamp(1.5rem,3.4vw,1.9rem);margin-left:-4px}
+.review li{font-size:1.05rem;line-height:1.35;margin-bottom:3px}
+.review li b{color:var(--c)}
+@@data
+/* Aufbau: Ein Satz, richtig geschrieben. Die Nomen stehen in eckigen Klammern [ ].
+   Das erste Wort darf kein Nomen sein (es ist im Spiel schon groß). Das Spiel schreibt alle anderen Wörter klein.
+   Bitte keine Namen und keine Wörter, die man groß und klein schreiben kann (z. B. Morgen/morgen, Paar/paar). */
+const SENTENCES = [
+  'Nach dem [Gewitter] riecht die [Luft] ganz frisch.',
+  'Meine kleine [Cousine] hat heute [Geburtstag].',
+  'Ohne [Licht] finde ich die [Tür] nicht.',
+  'Vor [Aufregung] kann ich kaum schlafen.',
+  'Die neue [Lehrerin] erzählt eine spannende [Geschichte].',
+  'Mit viel [Geduld] baut er einen hohen [Turm].',
+  'Unsere [Klasse] plant eine [Wanderung] im [Wald].',
+  'Vor lauter [Neugier] öffnet sie das [Paket].',
+  'Wir feiern am [Wochenende] eine große [Party].',
+  'Der alte [Kapitän] erzählt von seiner [Kindheit].',
+  'In der [Pause] tauschen wir bunte [Bilder].',
+  'Manchmal habe ich [Heimweh].',
+  'Ihre [Freundschaft] ist ihnen sehr wichtig.',
+  'Das [Zeugnis] macht meinen [Eltern] gute [Laune].',
+  'Bei [Nebel] fährt der [Zug] ganz langsam.',
+  'Dieses [Erlebnis] vergesse ich nie.',
+  'Er hat [Durst] und trinkt ein [Glas] [Wasser].',
+  'Die [Wahrheit] ist manchmal unbequem.',
+  'Plötzlich hören wir ein leises [Geräusch] im [Keller].',
+  'Aus [Langeweile] zählt sie die [Flecken] an der [Wand].'
+];
+
+const GAME = {
+  id: 'profi',
+  unit: 'Sätze',
+  next: null,
+  review: () => {
+    const li = s => `<li>${s.words.map(w => (w.noun ? `<b>${w.text}</b>` : w.text) + w.punct).join(' ')}</li>`;
+    const half = Math.ceil(all.length / 2);
+    return `<div class="review c2"><div class="col nom"><ul>${all.slice(0, half).map(li).join('')}</ul></div>
+      <div class="col nom"><ul>${all.slice(half).map(li).join('')}</ul></div></div>`;
+  }
+};
+@@js
+/* ---------- Spiel: Großschreib-Profi ---------- */
+let all = [], queue = [], cur = null;
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const low = s => s.charAt(0).toLowerCase() + s.slice(1);
+
+function parse(text) {
+  return text.split(' ').map(tok => {
+    const m = tok.match(/^(\[?)([^\].!?,]+)\]?([.!?,]*)$/);
+    return { text: m[2], punct: m[3], noun: m[1] === '[', up: false };
+  });
+}
+const pretty = s => s.words.map(w => (w.noun ? `<span class="pill nom">${w.text}</span>` : w.text) + w.punct).join(' ');
+const label = (w, i) => i === 0 ? w.text : (w.up ? cap(w.text) : low(w.text));
+
+function startGame() {
+  all = SENTENCES.map(s => ({ words: parse(s), misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Tippe alle Nomen an, dann werden sie groß. Danach tippst du auf „Prüfen“.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  cur.words.forEach(w => { w.up = false; });
+  $('#sent').classList.remove('solved');
+  $('#sent').innerHTML = cur.words.map((w, i) => {
+    const stop = w.punct ? `<span class="stop" aria-hidden="true">${w.punct}</span>` : '';
+    return i === 0 ? `<span class="fix">${w.text}</span>${stop}`
+      : `<button class="w" data-i="${i}" aria-pressed="false">${label(w, i)}</button>${stop}`;
+  }).join('');
+}
+
+function toggle(el) {
+  if (state.busy || !cur) return;
+  const i = +el.dataset.i, w = cur.words[i];
+  w.up = !w.up;
+  sfx.pick();
+  el.textContent = label(w, i);
+  el.classList.toggle('up', w.up);
+  el.classList.remove('hint');
+  el.setAttribute('aria-pressed', String(w.up));
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const btns = $$('#sent .w');
+  const wrongs = btns.filter(b => { const w = cur.words[+b.dataset.i]; return w.up !== w.noun; });
+  if (wrongs.length) {
+    const missing = wrongs.filter(b => cur.words[+b.dataset.i].noun).length, extra = wrongs.length - missing;
+    const hint = miss(cur, $('#sent'));
+    btns.forEach(b => b.classList.toggle('hint', hint && wrongs.includes(b)));
+    if (hint) { say('Tipp: Schau dir die leuchtenden Wörter an. Mach die Artikelprobe: Passt <b>der</b>, <b>die</b> oder <b>das</b> davor? Nur dann ist es ein Nomen.', 'think'); return; }
+    const parts = [];
+    if (missing) parts.push(missing === 1 ? 'Ein Nomen ist noch klein.' : `${missing} Nomen sind noch klein.`);
+    if (extra) parts.push(extra === 1 ? 'Ein Wort ist groß, obwohl es kein Nomen ist.' : `${extra} Wörter sind groß, obwohl sie keine Nomen sind.`);
+    say(`Fast! ${parts.join(' ')} Mach bei jedem Wort die Artikelprobe.`, 'think');
+    return;
+  }
+  state.busy = true;
+  $('#sent').classList.add('solved');
+  solve(cur, $('#sent'), 'der');
+  say(`${pick(PRAISE, 'praise')} ${pretty(cur)}`, 'happy');
+  later(next, 2800);
+}
+
+$('#sent').addEventListener('click', e => { const b = e.target.closest('.w'); if (b) toggle(b); });
+$('#check').addEventListener('click', check);

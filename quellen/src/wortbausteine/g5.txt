@@ -1,0 +1,149 @@
+@@meta
+file: 5-vorsilben-luecke.html
+title: Vorsilben-Lücke
+level: Fortgeschrittene
+nr: 5
+total: 20
+subtitle: Im Satz fehlt eine Vorsilbe. Welche macht das Wort wieder ganz?
+lead: Eine Vorsilbe verändert die Bedeutung eines Wortes:
+id: vorsilben
+desc: Setze die passende Vorsilbe in den Satz ein.
+sample: Die Vase …bricht → zerbricht
+drag: no
+@@tipp
+Eine <b>Vorsilbe</b> steht vor dem Wortstamm und verändert die Bedeutung: <b>ver</b>-, <b>be</b>-, <b>ent</b>-, <b>er</b>-, <b>zer</b>-, <b>vor</b>- und <b>un</b>-. Aus <b>brechen</b> wird <b>zer</b>brechen, aus <b>möglich</b> wird <b>un</b>möglich.
+@@examples
+      <div class="ex vs" style="--tilt:-1.5deg"><div class="ex-head"><b>zer-</b></div><div class="ex-body">schneiden<span class="arrow" aria-hidden="true">▼</span><span class="a">zer</span>schneiden</div></div>
+      <div class="ex vs" style="--tilt:1deg"><div class="ex-head"><b>ver-</b></div><div class="ex-body">schenken<span class="arrow" aria-hidden="true">▼</span><span class="a">ver</span>schenken</div></div>
+      <div class="ex vs" style="--tilt:-.5deg"><div class="ex-head"><b>un-</b></div><div class="ex-body">glücklich<span class="arrow" aria-hidden="true">▼</span><span class="a">un</span>glücklich</div></div>
+@@howto
+        <li>Lies den Satz. Bei einem Wort fehlt die Vorsilbe.</li>
+        <li>Probiere die drei Vorsilben leise aus. Nur mit einer entsteht ein Wort, das es wirklich gibt.</li>
+        <li>Tippe die passende Vorsilbe an. Sie springt in die Lücke.</li>
+@@board
+    <div class="bench">
+      <p class="lbl" id="count">Satz 1 von 20</p>
+      <p class="sent" id="sent"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="opts" id="opts"></div>
+    </div>
+@@css
+/* ---------- Vorsilben-Lücke ---------- */
+.vs{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.ws{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.ns{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.t{color:var(--c)}
+.sent{margin:8px auto 4px;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.6;max-width:26em}
+.sent .w{white-space:nowrap}
+.gap{display:inline-block;min-width:2.4em;height:1.25em;line-height:1.15;vertical-align:baseline;border:3px dashed var(--c);border-radius:10px;color:var(--c);background:var(--cs);text-align:center;margin-right:2px;font-size:.9em}
+.gap.filled{border:3px solid var(--c);background:var(--c);color:#fff;min-width:0;padding:0 .2em;font-size:1em;height:auto;line-height:1.25;margin-right:1px;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,2.4vw,24px);max-width:640px;margin:0 auto}
+.opt{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:clamp(70px,10vw,88px);padding:4px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease,opacity .16s ease}
+.opt b{font-size:clamp(1.6rem,5.4vw,2.2rem);line-height:1.1}
+.opt:active:not(:disabled){transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.opt:disabled{opacity:.35;filter:grayscale(.7);cursor:default}
+.opt.hint{animation:glow 1.1s ease-in-out infinite}
+.review li{font-size:1.05rem;font-weight:400}
+.review li b{font-weight:700}
+@@data
+/* Aufbau: [Satzanfang, Wort ohne Vorsilbe, Satzende, richtige Vorsilbe, [zwei falsche Vorsilben]]
+   Wichtig: Mit den beiden falschen Vorsilben darf kein Wort entstehen, das es wirklich gibt. */
+const SENTENCES = [
+  ['Die Vase fällt vom Tisch und ',           'bricht',      '.',                      'zer', ['be', 'un']],
+  ['Der Hund hat meinen Schuh ',              'bissen',      '.',                      'zer', ['ent', 'vor']],
+  ['Vor Wut ',                                'reißt',       ' er den Zettel.',        'zer', ['be', 'er']],
+  ['Ich habe meine Hausaufgaben ',            'gessen',      '.',                      'ver', ['be', 'zer']],
+  ['Tim hat seinen Schlüssel ',               'loren',       '.',                      'ver', ['ent', 'be']],
+  ['Wir ',                                    'stecken',     ' uns hinter dem Baum.',  'ver', ['zer', 'ent']],
+  ['Am Sonntag ',                             'suchen',      ' wir Oma und Opa.',      'be',  ['zer', 'ent']],
+  ['Zum Geburtstag ',                         'komme',       ' ich ein Fahrrad.',      'be',  ['zer', 'er']],
+  ['Mama ',                                   'zahlt',       ' an der Kasse.',         'be',  ['ent', 'zer']],
+  ['Die Detektivin ',                         'deckt',       ' eine Spur.',            'ent', ['zer', 'er']],
+  ['Ich ',                                    'schuldige',   ' mich bei dir.',         'ent', ['vor', 'er']],
+  ['Das Boot ',                               'fernt',       ' sich vom Ufer.',        'ent', ['be', 'zer']],
+  ['Ich ',                                    'kläre',       ' dir die Aufgabe.',      'er',  ['zer', 'be']],
+  ['Kannst du dich an den Ausflug ',          'innern',      '?',                      'er',  ['be', 'zer']],
+  ['Ich habe mich ',                          'kältet',      ' und muss husten.',      'er',  ['zer', 'ent']],
+  ['Kannst du mir den Handstand ',            'machen',      '?',                      'vor', ['zer', 'ent']],
+  ['Wir wollen uns gut auf das Fest ',        'bereiten',    '.',                      'vor', ['er', 'ent']],
+  ['Der Zauberer will uns einen Trick ',      'führen',      '.',                      'vor', ['be', 'zer']],
+  ['Mein Zimmer ist nicht aufgeräumt. Es ist ', 'ordentlich', '.',                     'un',  ['be', 'ver']],
+  ['Das schafft niemand. Es ist ',            'möglich',     '.',                      'un',  ['ent', 'zer']]
+];
+/* Tipp nach zwei Fehlversuchen: Was bedeutet die Vorsilbe? */
+const TIPS = {
+  zer: 'Tipp: <b>zer-</b> bedeutet oft: Etwas geht kaputt oder auseinander.',
+  ver: 'Tipp: Lies den Satz mit jeder Vorsilbe laut. Hier passt <b>ver-</b>.',
+  be:  'Tipp: Lies den Satz mit jeder Vorsilbe laut. Hier passt <b>be-</b>.',
+  ent: 'Tipp: <b>ent-</b> bedeutet oft: weg von etwas oder etwas Neues finden.',
+  er:  'Tipp: Lies den Satz mit jeder Vorsilbe laut. Hier passt <b>er-</b>.',
+  vor: 'Tipp: <b>vor-</b> bedeutet oft: vor anderen oder vorher.',
+  un:  'Tipp: <b>un-</b> macht aus einem Wort das Gegenteil.'
+};
+
+const GAME = {
+  id: 'vorsilben',
+  next: { href: '6-nomen-meister.html', title: 'Nomen-Meister' },
+  unit: 'Sätze',
+  review: () => {
+    const half = Math.ceil(all.length / 2), li = s => `<li>${s.a}<b>${s.pre}</b>${s.rest}${s.z}</li>`;
+    return `<div class="review c2"><div class="col vs"><ul>${all.slice(0, half).map(li).join('')}</ul></div>
+      <div class="col vs"><ul>${all.slice(half).map(li).join('')}</ul></div></div>`;
+  }
+};
+@@js
+/* ---------- Spiel: Vorsilben-Lücke ---------- */
+let all = [], queue = [], cur = null, nr = 0;
+const optEl = p => $(`.opt[data-p="${p}"]`);
+
+function startGame() {
+  all = SENTENCES.map(s => ({ a: s[0], rest: s[1], z: s[2], pre: s[3], wrong: s[4], misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  nr = 0;
+  say('Welche Vorsilbe fehlt? Probiere alle drei leise aus und tippe die passende an.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  nr++;
+  $('#count').textContent = `Satz ${nr} von ${all.length}`;
+  $('#sent').innerHTML = `${cur.a}<span class="w"><span class="gap vs" id="gap" aria-label="Lücke">&nbsp;</span>${cur.rest}</span>${cur.z}`;
+  $('#opts').innerHTML = shuffle([cur.pre, ...cur.wrong]).map((p, i) =>
+    `<button class="opt vs" data-p="${p}" aria-label="Vorsilbe ${p}"><b>${p}-</b><span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+}
+
+function choose(el) {
+  if (!el || state.busy || el.disabled || !cur) return;
+  const p = el.dataset.p;
+  if (p !== cur.pre) {
+    const hint = miss(cur, el);
+    el.disabled = true;
+    if (hint) optEl(cur.pre).classList.add('hint');
+    say(hint ? `${TIPS[cur.pre]} Die leuchtende Vorsilbe ist richtig.`
+      : `Hmm, „${p}${cur.rest}“ gibt es nicht. Probiere eine andere Vorsilbe!`, 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.opt').forEach(b => b.classList.remove('hint'));
+  const gap = $('#gap');
+  gap.textContent = p; gap.classList.add('filled'); gap.removeAttribute('aria-label');
+  solve(cur, el, 'der');
+  say(`${pick(PRAISE, 'praise')} <span class="pill vs">${p}</span> + ${cur.rest} = <b><span class="t vs">${p}</span>${cur.rest}</b>`, 'happy');
+  later(next, 2000);
+}
+
+$('#opts').addEventListener('click', e => choose(e.target.closest('.opt')));
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-3]$/.test(e.key)) return;
+  choose($$('.opt')[+e.key - 1]);
+});

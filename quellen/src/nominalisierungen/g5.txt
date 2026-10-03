@@ -1,0 +1,194 @@
+@@meta
+file: 5-adjektiv-werkstatt.html
+title: Adjektiv-Werkstatt
+level: Fortgeschrittene
+nr: 5
+total: 20
+subtitle: Baue das Adjektiv passend in den Satz ein: mit der richtigen Endung und richtig groß oder klein.
+lead: Das Signalwort ist im Spiel lila, das große Wort ist blau, das kleine Wort ist türkis:
+id: werkstatt
+desc: Wähle das Adjektiv mit der richtigen Endung – groß oder klein.
+sample: etwas (neu) → etwas Neues
+drag: no
+@@tipp
+Nach <b>etwas, nichts, viel, wenig</b> wird ein Adjektiv zum Nomen: Es wird groß und bekommt meistens die Endung <b>-es</b> (etwas Neu<b>es</b>). Nach <b>alles</b> hat es die Endung <b>-e</b> (alles Gut<b>e</b>). Achtung, Falle: Kommt nach dem Adjektiv noch ein Nomen, bleibt es klein (etwas <b>warme</b> Milch).
+@@examples
+      <div class="ex gr" style="--tilt:-1.5deg"><div class="ex-head"><b>groß</b><span>neu</span></div><div class="ex-body"><span class="w sig">etwas</span> <span class="w gr">Neues</span><span class="pr">Danach kommt kein Nomen.</span></div></div>
+      <div class="ex gr" style="--tilt:1deg"><div class="ex-head"><b>groß</b><span>gut</span></div><div class="ex-body"><span class="w sig">alles</span> <span class="w gr">Gute</span><span class="pr">Danach kommt kein Nomen.</span></div></div>
+      <div class="ex kl" style="--tilt:-.5deg"><div class="ex-head"><b>klein</b><span>warm</span></div><div class="ex-body">etwas <span class="w kl">warme</span> Milch<span class="pr">Danach kommt das Nomen Milch.</span></div></div>
+@@howto
+        <li><span>Lies den Satz mit der Lücke. Über dem Satz steht das Adjektiv, das hineingehört.</span></li>
+        <li><span>Überlege: Steht ein Mengenwort davor? Und kommt nach der Lücke noch ein Nomen?</span></li>
+        <li><span>Tippe unten auf das richtige Wort. Die türkisen Wörter sind klein geschrieben, die blauen groß.</span></li>
+@@board
+    <div class="bench">
+      <p class="lbl">Dieses Adjektiv gehört in die Lücke:</p>
+      <p class="base" id="base"></p>
+      <p class="sentence" id="sentence"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="tiles four" id="tiles"></div>
+    </div>
+@@css
+/* ---------- Nominalisierungen: gemeinsame Farben (Signalwort lila, groß blau, klein türkis) ---------- */
+.sig{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.gr{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.kl{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.ex-body .pr{display:block;font-weight:400;font-size:.8em;color:var(--ink-soft);margin-top:6px}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.5}
+.gap{display:inline-block;min-width:2.6em;padding:0 .3em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);line-height:1.25;text-align:center}
+.gap.filled{border-style:solid;border-color:var(--c);background:var(--c);color:#fff;min-width:0;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.caps{display:inline-block;background:var(--sun-soft);border:3px solid var(--sun);border-radius:12px;padding:0 .3em;line-height:1.25;letter-spacing:.03em;color:var(--ink)}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.3rem;color:var(--c)}
+.neutral{--cs:var(--paper)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,3vw,28px);max-width:720px;margin:0 auto}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:clamp(72px,10vw,96px);padding:6px 8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.1;overflow-wrap:anywhere}
+.tile small{font-size:clamp(.85rem,2.2vw,1.05rem);line-height:1.15}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+/* ---------- Adjektiv-Werkstatt ---------- */
+.bench{padding:18px 14px 26px}
+.base{display:inline-block;margin:6px 0 14px;padding:2px 18px;border:3px dashed var(--sun);background:var(--sun-soft);border-radius:14px;font-weight:700;font-size:clamp(1.5rem,4vw,1.9rem);line-height:1.3}
+.tiles.four{gap:clamp(10px,2vw,18px)}
+.tiles.four .tile{min-height:clamp(62px,8vw,80px)}
+@media (min-width:760px){.tiles.four{grid-template-columns:repeat(4,minmax(0,1fr));max-width:920px}}
+@@data
+/* Aufbau: [Satz, Signalwort oder Erklärung, Grundform, Form mit falscher Endung]
+   Das gesuchte Wort steht in [Klammern] und ist richtig geschrieben (groß oder klein).
+   Großes Wort: Dahinter steht das Mengenwort. Kleines Wort: Dahinter steht die Erklärung für den Tipp.
+   Aus der richtigen und der falschen Endung macht das Spiel vier Antworten: jede einmal klein und einmal groß. */
+const SENTENCES = [
+  ['Zum Geburtstag wünsche ich dir alles [Gute].',   'alles',  'gut',        'gutes'],
+  ['Ich habe dir etwas [Schönes] mitgebracht.',      'etwas',  'schön',      'schöne'],
+  ['Im Kühlschrank ist nichts [Leckeres] mehr.',     'nichts', 'lecker',     'leckere'],
+  ['Auf dem Flohmarkt gibt es viel [Altes] zu kaufen.', 'viel', 'alt',       'alte'],
+  ['In der Zeitung steht heute wenig [Neues].',      'wenig',  'neu',        'neue'],
+  ['Alles [Schmutzige] kommt in die Wäsche.',        'Alles',  'schmutzig',  'schmutziges'],
+  ['Im Wald haben wir etwas [Seltsames] entdeckt.',  'etwas',  'seltsam',    'seltsame'],
+  ['Keine Angst, der Hund macht nichts [Böses]!',    'nichts', 'böse',       'böser'],
+  ['Wir haben in den Ferien viel [Aufregendes] erlebt.', 'viel', 'aufregend', 'aufregende'],
+  ['Im Winter gibt es wenig [Grünes] im Garten.',    'wenig',  'grün',       'grüner'],
+  ['Wir essen eine [heiße] Suppe.',                  'Nach der Lücke kommt das Nomen „Suppe“. Das Adjektiv sagt nur, wie die Suppe ist.', 'heiß', 'heißes'],
+  ['Mia trinkt etwas [warme] Milch.',                'Nach der Lücke kommt das Nomen „Milch“. „etwas“ gehört zu „Milch“, nicht zum Adjektiv.', 'warm', 'warmes'],
+  ['Opa kauft viel [frisches] Obst.',                'Nach der Lücke kommt das Nomen „Obst“. „viel“ gehört zu „Obst“, nicht zum Adjektiv.', 'frisch', 'frische'],
+  ['Das [kleine] Kätzchen schläft im Korb.',         'Nach der Lücke kommt das Nomen „Kätzchen“. „Das“ gehört zu „Kätzchen“.', 'klein', 'kleines'],
+  ['Ich ziehe meine [rote] Jacke an.',               'Nach der Lücke kommt das Nomen „Jacke“. Das Adjektiv sagt nur, wie die Jacke ist.', 'rot', 'rotes'],
+  ['Lena hat ein [dickes] Buch gelesen.',            'Nach der Lücke kommt das Nomen „Buch“. „ein“ gehört zu „Buch“.', 'dick', 'dicke'],
+  ['Im Glas ist nur wenig [kaltes] Wasser.',         'Nach der Lücke kommt das Nomen „Wasser“. „wenig“ gehört zu „Wasser“, nicht zum Adjektiv.', 'kalt', 'kalte'],
+  ['Wir spielen mit dem [weichen] Ball.',            'Nach der Lücke kommt das Nomen „Ball“. Das Adjektiv sagt nur, wie der Ball ist.', 'weich', 'weiches'],
+  ['Heute scheint die [helle] Sonne.',               'Nach der Lücke kommt das Nomen „Sonne“. „die“ gehört zu „Sonne“.', 'hell', 'helles'],
+  ['Auf dem Tisch liegt ein [saftiger] Apfel.',      'Nach der Lücke kommt das Nomen „Apfel“. „ein“ gehört zu „Apfel“.', 'saftig', 'saftiges']
+];
+
+const GAME = {
+  id: 'werkstatt',
+  unit: 'Sätze',
+  next: { href: '6-grossschreib-profi.html', title: 'Großschreib-Profi' },
+  review: () => `<div class="review c2">${[['gr', 'groß: nach dem Mengenwort'], ['kl', 'klein: vor einem Nomen']].map(([k, h]) =>
+    `<div class="col ${k}"><h3>${h}</h3><ul>${all.filter(s => s.k === k).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Gemeinsame Helfer ---------- */
+const cap = w => w[0].toUpperCase() + w.slice(1);
+const low = w => w[0].toLowerCase() + w.slice(1);
+const VERSTECKT = { beim: 'bei dem', zum: 'zu dem', im: 'in dem', vom: 'von dem', ans: 'an das', am: 'an dem' };
+const MENGE = ['etwas', 'nichts', 'viel', 'wenig', 'alles'];
+/* Erklärt ein Signalwort in einem kurzen Satz */
+function sigText(sig) {
+  const l = sig.toLowerCase();
+  return VERSTECKT[l] ? `<span class="pill sig">${l}</span> ist ein versteckter Artikel (${l} = ${VERSTECKT[l]})`
+    : MENGE.includes(l) ? `<span class="pill sig">${l}</span> ist ein Mengenwort`
+    : `<span class="pill sig">${l}</span> ist ein Artikel`;
+}
+/* Zerlegt einen Satz in Wörter. Wörter in [Klammern] sind die fraglichen Wörter.
+   Großes Wort: hint ist das Signalwort. Kleines Wort: hint ist die Erklärung. */
+function make(text, hints) {
+  const toks = text.split(' ').map(tok => {
+    const m = tok.replace(/[\[\]]/g, '').match(/^(.*?)([.,!?:;]*)$/);
+    return { w: m[1], post: m[2], target: tok.includes('[') };
+  });
+  const gaps = [];
+  toks.forEach((t, ti) => {
+    if (!t.target) return;
+    const hint = hints[gaps.length] || '', big = t.w[0] !== t.w[0].toLowerCase();
+    let si = -1;
+    if (big) for (let i = ti - 1; i >= 0; i--) if (toks[i].w === hint) { si = i; break; }
+    gaps.push({ ti, si, word: t.w, big, k: big ? 'gr' : 'kl', sig: big ? hint : '', why: big ? '' : hint });
+    t.gap = gaps.length - 1;
+  });
+  return Object.assign({ text, toks, gaps, misses: 0, done: false }, gaps[0]);
+}
+/* Der ganze Satz in Farbe: Signalwort lila, großes Wort blau, kleines Wort türkis */
+function full(s, tag = 'b', cls = 'w') {
+  return s.toks.map((t, i) => {
+    const g = s.gaps.find(x => x.ti === i), sg = s.gaps.some(x => x.si === i);
+    return (g ? `<${tag} class="${cls} ${g.k}">${t.w}</${tag}>` : sg ? `<b class="w sig">${t.w}</b>` : t.w) + t.post;
+  }).join(' ');
+}
+
+/* ---------- Spiel: Adjektiv-Werkstatt ---------- */
+let all = [], queue = [], cur = null, opts = [];
+const tileFor = v => $$('.tile').find(t => t.dataset.v === v);
+
+function startGame() {
+  all = SENTENCES.map(s => Object.assign(make(s[0], [s[1]]), { base: s[2], wrong: s[3] }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Welche Form passt in die Lücke? Achte auf die Endung und auf groß oder klein.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#base').textContent = cur.base;
+  $('#sentence').innerHTML = cur.toks.map((t, i) => (i === cur.ti ? '<span class="gap" id="gap">?</span>' : t.w) + t.post).join(' ');
+  /* Vier Antworten: zwei Endungen, jede klein (türkis) und groß (blau) */
+  const pair = shuffle([low(cur.word), low(cur.wrong)]);
+  opts = [pair[0], pair[1], cap(pair[0]), cap(pair[1])];
+  $('#tiles').innerHTML = opts.map((v, i) =>
+    `<button class="tile ${i < 2 ? 'kl' : 'gr'}" data-v="${v}"><b>${v}</b><span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+}
+
+function choose(v) {
+  if (state.busy || !cur) return;
+  if (v !== cur.word) {
+    const hint = miss(cur, tileFor(v));
+    if (hint) tileFor(cur.word).classList.add('hint');
+    const sameEnding = low(v) === low(cur.word);
+    say(hint
+      ? (cur.big ? `Tipp: ${sigText(cur.sig)}. Danach kommt kein Nomen mehr. Also wird das Adjektiv selbst zum Nomen: groß mit der Endung <b>-${cur.word.slice(cur.base.replace(/e$/, '').length)}</b>.`
+                 : `Tipp: ${cur.why} Also bleibt es klein.`)
+      : sameEnding
+        ? (cur.big ? 'Die Endung stimmt schon! Aber schau auf das Wort vor der Lücke: Ist es ein Signalwort?'
+                   : 'Die Endung stimmt schon! Aber schau, was nach der Lücke kommt: Steht dort ein Nomen?')
+        : 'Hmm, lies den Satz leise mit diesem Wort. Klingt die Endung richtig?', 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.tile').forEach(t => t.classList.remove('hint'));
+  const gap = $('#gap');
+  gap.textContent = cur.word; gap.className = 'gap filled ' + cur.k;
+  solve(cur, gap, cur.big ? 'der' : 'teal');
+  say(`${pick(PRAISE, 'praise')} ${full(cur)}<br>${cur.big ? 'Nach dem Mengenwort kommt kein Nomen mehr. Das Adjektiv wird selbst zum Nomen.' : cur.why}`, 'happy');
+  later(next, 3200);
+}
+
+$('#tiles').addEventListener('click', e => {
+  const t = e.target.closest('.tile');
+  if (t) choose(t.dataset.v);
+});
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-4]$/.test(e.key)) return;
+  choose(opts[+e.key - 1]);
+});

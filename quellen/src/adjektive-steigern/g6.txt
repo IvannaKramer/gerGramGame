@@ -1,0 +1,170 @@
+@@meta
+file: 6-steigerungs-meister.html
+title: Steigerungs-Meister
+level: Profis
+nr: 6
+total: 20
+subtitle: Jetzt schreibst du selbst! Diese Adjektive haben beim Steigern eine Besonderheit.
+lead: Diese Adjektive musst du dir gut merken:
+id: meister
+desc: Schreibe besondere Steigerungsformen in den Satz.
+sample: gut → besser → am besten
+drag: no
+@@tipp
+Manche Adjektive ändern sich beim Steigern stark: <b>gut – besser – am besten</b>, <b>viel – mehr – am meisten</b>, <b>gern – lieber – am liebsten</b>, <b>hoch – höher – am höchsten</b>, <b>nah – näher – am nächsten</b>. Bei <b>teuer</b>, <b>dunkel</b> und <b>sauer</b> fällt in der Vergleichsstufe ein e weg: teurer, dunkler, saurer.
+@@examples
+      <div class="ex" style="--tilt:-1.5deg"><div class="ex-body"><span class="emo" aria-hidden="true">👍</span><span class="w s1">gut</span><span class="w s2">besser</span><span class="w s3">am besten</span></div></div>
+      <div class="ex" style="--tilt:1deg"><div class="ex-body"><span class="emo" aria-hidden="true">⭐</span><span class="w s1">viel</span><span class="w s2">mehr</span><span class="w s3">am meisten</span></div></div>
+      <div class="ex" style="--tilt:-.5deg"><div class="ex-body"><span class="emo" aria-hidden="true">❤️</span><span class="w s1">gern</span><span class="w s2">lieber</span><span class="w s3">am liebsten</span></div></div>
+@@howto
+        <li><span>Lies den Satz mit der Lücke und das Adjektiv darunter. Welche Stufe brauchst du: Steht im Satz <b>als</b> oder <b>am</b>?</span></li>
+        <li><span>Schreibe die richtige Form in das Feld. Denk daran: Adjektive schreibt man klein!</span></li>
+        <li><span>Tippe auf „Prüfen“ oder drücke die Enter-Taste. Stimmt es noch nicht, bekommst du einen Tipp.</span></li>
+@@board
+    <div class="bench">
+      <p class="sentence" id="sentence"></p>
+      <p class="lbl" id="lbl"></p>
+      <form class="write" id="form" autocomplete="off">
+        <input id="answer" type="text" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" maxlength="24" aria-label="Das fehlende Wort">
+      </form>
+      <div class="keys" id="keys" aria-label="Besondere Buchstaben">
+        <button type="button" class="keycap">ä</button><button type="button" class="keycap">ö</button><button type="button" class="keycap">ü</button><button type="button" class="keycap">ß</button>
+      </div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check" type="submit" form="form">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Adjektive steigern: feste Farben der drei Stufen ---------- */
+.s1{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.s2{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.s3{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.w{color:var(--c);font-weight:700}
+.hero>div{min-width:0}
+@media (max-width:560px){.title{font-size:clamp(1.55rem,7.4vw,2.4rem);overflow-wrap:anywhere}}
+.ex-body .w{display:block}
+.ex-body{padding-top:12px}
+@media (max-width:560px){.ex-body{font-size:1.05rem;padding:8px 4px 10px}}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:6px}
+.review h3{font-size:1.15rem;color:var(--ink)}
+.review .col.plain{background:var(--sun-soft)}
+/* ---------- Steigerungs-Meister ---------- */
+.sentence{margin:0 0 6px;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.6}
+.gap{display:inline-block;min-width:3em;padding:0 .35em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);line-height:1.3;text-align:center}
+.gap.filled{border-style:solid;border-color:var(--c);background:var(--c);color:#fff;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.bench .lbl{font-size:1.15rem;margin-bottom:10px}
+.bench .lbl .adj{color:var(--der);font-size:1.5rem}
+.write{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;font-weight:700;font-size:clamp(1.6rem,5.4vw,2.3rem)}
+.write input{font:inherit;color:var(--ink);background:var(--paper);border:3px solid var(--card-edge);border-radius:14px;padding:4px 14px;width:min(100%,10em);min-height:60px;text-align:center}
+.write input:focus{outline:none;border-color:var(--sun);box-shadow:0 0 0 4px var(--sun-soft)}
+.write input.good{border-color:var(--c);background:var(--cs)}
+.keys{display:flex;justify-content:center;gap:8px;margin-top:12px}
+.keycap{appearance:none;min-width:48px;min-height:48px;border:3px solid var(--card-edge);background:var(--card);border-radius:12px;font-weight:700;font-size:1.3rem;cursor:pointer;box-shadow:0 3px 0 var(--card-edge)}
+.keycap:active{transform:translateY(2px);box-shadow:0 1px 0 var(--card-edge)}
+@@data
+/* Aufbau: [Satz mit Lücke ___, Grundstufe, Lösung für die Lücke, Stufe (2 = Vergleichsstufe, 3 = Höchststufe), Regel]
+   Bei der Höchststufe steht „am“ schon im Satz. Die Regeln stehen darunter. */
+const SENTENCES = [
+  ['Erdbeereis schmeckt mir ___ als Zitroneneis.',  'gut',    'besser',     2, 'neu'],
+  ['Von allen Fächern kann ich Sport am ___.',      'gut',    'besten',     3, 'neu'],
+  ['Lisa hat ___ Sticker als Ben.',                 'viel',   'mehr',       2, 'neu'],
+  ['Wer am ___ Punkte hat, gewinnt das Spiel.',     'viel',   'meisten',    3, 'neu'],
+  ['Ich spiele ___ draußen als drinnen.',           'gern',   'lieber',     2, 'neu'],
+  ['Zum Mittagessen mag ich Nudeln am ___.',        'gern',   'liebsten',   3, 'neu'],
+  ['Der Kirchturm ist ___ als das Rathaus.',        'hoch',   'höher',      2, 'c'],
+  ['Von allen Kindern springt Mia am ___.',         'hoch',   'höchsten',   3, 'c'],
+  ['Der Spielplatz liegt ___ als das Schwimmbad.',  'nah',    'näher',      2, 'c'],
+  ['Welche Bushaltestelle liegt am ___?',           'nah',    'nächsten',   3, 'c'],
+  ['Das Fahrrad ist ___ als der Roller.',           'teuer',  'teurer',     2, 'e'],
+  ['Im Laden ist das rote Kleid am ___.',           'teuer',  'teuersten',  3, 'e'],
+  ['Im Keller ist es ___ als im Flur.',             'dunkel', 'dunkler',    2, 'e'],
+  ['Ohne Mond ist die Nacht am ___.',               'dunkel', 'dunkelsten', 3, 'e'],
+  ['Eine Zitrone ist ___ als eine Orange.',         'sauer',  'saurer',     2, 'e'],
+  ['Unreife Äpfel schmecken am ___.',               'sauer',  'sauersten',  3, 'e'],
+  ['Im Juli ist es bei uns am ___.',                'heiß',   'heißesten',  3, 'est'],
+  ['Reife Kirschen schmecken am ___.',              'süß',    'süßesten',   3, 'est'],
+  ['Dieser Bleistift ist von allen am ___.',        'spitz',  'spitzesten', 3, 'est'],
+  ['An dieser Stelle ist der Fluss am ___.',        'breit',  'breitesten', 3, 'est']
+];
+/* Aufbau: Kürzel: [Überschrift, Tipp nach zwei Fehlversuchen] */
+const RULES = {
+  neu: ['Ganz neue Wörter',        'Tipp: Dieses Adjektiv ändert sich beim Steigern ganz. Merke dir: <b>gut – besser – am besten</b>, <b>viel – mehr – am meisten</b>, <b>gern – lieber – am liebsten</b>.'],
+  c:   ['hoch und nah',            'Tipp: Bei <b>hoch</b> fällt in der Vergleichsstufe das c weg: hoch – <b>höher</b> – am <b>höchsten</b>. Bei <b>nah</b> kommt in der Höchststufe ein c dazu: nah – <b>näher</b> – am <b>nächsten</b>.'],
+  e:   ['Ein e fällt weg',         'Tipp: In der Vergleichsstufe fällt ein e weg: teuer – <b>teurer</b>, dunkel – <b>dunkler</b>, sauer – <b>saurer</b>. In der Höchststufe bleibt das e: am <b>teuersten</b>.'],
+  est: ['Höchststufe mit -esten', 'Tipp: Nach <b>ß</b>, <b>z</b> und <b>t</b> endet die Höchststufe meistens auf <b>-esten</b>: am heiß<b>esten</b>, am spitz<b>esten</b>, am breit<b>esten</b>. Ausnahme: am größten.']
+};
+
+const GAME = {
+  id: 'meister',
+  unit: 'Sätze',
+  next: null,
+  review: () => `<div class="review c2">${Object.keys(RULES).map(k =>
+    `<div class="col plain"><h3>${RULES[k][0]}</h3><ul>${all.filter(s => s.k === k).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Steigerungs-Meister ---------- */
+const NAME = { 2: 'Vergleichsstufe', 3: 'Höchststufe' };
+const COLOR = { 2: 'das', 3: 'die' };
+let all = [], queue = [], cur = null;
+const input = $('#answer');
+const full = s => s.text.replace('___', `<b class="w s${s.lv}">${s.ans}</b>`);
+
+function startGame() {
+  all = SENTENCES.map(s => ({ text: s[0], g: s[1], ans: s[2], lv: s[3], k: s[4], misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Schreibe die richtige Form in das Feld. Überlege zuerst: Vergleichsstufe oder Höchststufe?');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#sentence').innerHTML = cur.text.replace('___', '<span class="gap" id="gap"><span role="img" aria-label="Lücke">?</span></span>');
+  $('#lbl').innerHTML = `Setze ein: <b class="adj">${cur.g}</b>`;
+  input.value = ''; input.readOnly = false; input.className = '';
+  input.focus({ preventScroll: true });
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  let v = input.value.trim().replace(/\s+/g, ' ');
+  if (cur.lv === 3 && /^am /i.test(v)) v = v.slice(3);
+  if (!v) { say('Schreibe zuerst das fehlende Wort in das Feld.'); input.focus(); return; }
+  if (v !== cur.ans) {
+    if (v.toLowerCase() === cur.ans) {
+      wobble(input);
+      say('Fast richtig! Denk daran: Adjektive schreibt man klein.', 'think');
+    } else {
+      miss(cur, input);
+      say(cur.misses === 1
+          ? (cur.lv === 2 ? 'Fast! Im Satz steht <b>als</b>. Du brauchst die Vergleichsstufe. Wie schreibt man sie?'
+                          : 'Fast! Im Satz steht <b>am</b>. Du brauchst die Höchststufe. Wie schreibt man sie?')
+        : cur.misses === 2 ? RULES[cur.k][1]
+        : `So ist es richtig: <span class="pill s${cur.lv}">${cur.ans}</span> Schreibe das Wort genau so ab.`, 'think');
+    }
+    input.focus();
+    return;
+  }
+  state.busy = true;
+  input.value = cur.ans; input.readOnly = true; input.classList.add('good', 's' + cur.lv);
+  const gap = $('#gap');
+  gap.textContent = cur.ans; gap.className = 'gap filled s' + cur.lv;
+  solve(cur, input, COLOR[cur.lv]);
+  say(`${pick(PRAISE, 'praise')} ${NAME[cur.lv]} von <b>${cur.g}</b>: ${full(cur)}`, 'happy');
+  later(next, 2100);
+}
+
+$('#form').addEventListener('submit', e => { e.preventDefault(); check(); });
+$('#keys').addEventListener('click', e => {
+  const k = e.target.closest('.keycap');
+  if (!k || input.readOnly) return;
+  const a = input.selectionStart ?? input.value.length, b = input.selectionEnd ?? a;
+  input.value = input.value.slice(0, a) + k.textContent + input.value.slice(b);
+  input.focus();
+  input.setSelectionRange(a + 1, a + 1);
+});

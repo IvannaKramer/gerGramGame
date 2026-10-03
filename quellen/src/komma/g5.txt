@@ -1,0 +1,235 @@
+@@meta
+file: 5-regel-sortierer.html
+title: Regel-Sortierer
+level: Fortgeschrittene
+nr: 5
+total: 20
+subtitle: Aufzählung, Nebensatz oder gar kein Komma? Sortiere die Sätze in drei Körbe.
+lead: Diese drei Körbe gibt es:
+id: sortierer
+desc: Welche Komma-Regel passt? Sortiere jeden Satz in den richtigen Korb.
+sample: Wenn es klingelt, …
+drag: yes
+@@tipp
+Frag dich bei jedem Satz zwei Dinge. Werden <b>drei oder mehr Teile</b> aufgezählt? Dann stehen Kommas in der Aufzählung. Gibt es ein <b>Bindewort</b> (weil, dass, wenn, als, ob) und ein Verb am Ende? Dann trennt ein Komma Haupt- und Nebensatz. Sonst braucht der Satz <b>kein Komma</b>.
+@@examples
+      <div class="ex auf" style="--tilt:-1.5deg"><div class="ex-head"><b>Aufzählung</b></div><div class="ex-body">Ich mag Rot<span class="cm">,</span> Blau und Grün.</div></div>
+      <div class="ex neb" style="--tilt:1deg"><div class="ex-head"><b>Nebensatz</b></div><div class="ex-body"><span class="a">Wenn</span> es klingelt<span class="cm">,</span> ist Pause.</div></div>
+      <div class="ex kein" style="--tilt:-.5deg"><div class="ex-head"><b>Kein Komma</b></div><div class="ex-body">Ich mag Rot und Blau.</div></div>
+@@howto
+        <li><span>Lies den Satz auf der Karte. Alle Kommas fehlen noch.</span></li>
+        <li><span>Tippe die Karte an und dann den passenden Korb. Du kannst die Karte auch in den Korb ziehen.</span></li>
+        <li><span>Stimmt der Korb? Dann zeigt dir die Eule den Satz mit allen Kommas.</span></li>
+@@board
+    <p class="round" id="round">Runde 1 von 4</p>
+    <div class="words" id="words"></div>
+@@tray
+    <div class="tray">
+      <div class="baskets">
+        <button class="basket auf" data-kind="auf" aria-pressed="false"><b>Aufzählung</b><span>Komma zwischen den Teilen</span><i class="kbd" aria-hidden="true">1</i></button>
+        <button class="basket neb" data-kind="neb" aria-pressed="false"><b>Nebensatz</b><span>Komma am Nebensatz</span><i class="kbd" aria-hidden="true">2</i></button>
+        <button class="basket kein" data-kind="kein" aria-pressed="false"><b>Kein Komma</b><span>nichts fehlt</span><i class="kbd" aria-hidden="true">3</i></button>
+      </div>
+    </div>
+@@css
+/* ---------- Das Komma: gemeinsame Farben ---------- */
+.auf{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.neb{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.kein{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.komma{--c:var(--sun-deep);--cd:var(--sun-deep);--cs:var(--sun-soft)}
+.neutral{--cs:var(--paper)}
+.w{color:var(--c);font-weight:700}
+.cm{color:var(--sun-deep);font-weight:700;font-size:1.3em;line-height:.8}
+.ex-head b{font-size:clamp(1.05rem,2.8vw,1.5rem)}
+.ex-body{font-size:clamp(1rem,2.6vw,1.4rem);line-height:1.3;font-weight:400}
+.ex-body .a{font-weight:700}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.5}
+.bpic{margin:0;font-size:clamp(2.2rem,6vw,3rem);line-height:1.2}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.3rem;color:var(--c)}
+.review .neutral li b.w{color:var(--bonus)}
+.bubble .cm,.review .cm{font-size:1.2em}
+.review li b.cm{color:var(--sun-deep)}
+.vb{border-bottom:3px solid var(--bonus)}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+/* ---------- Regel-Sortierer ---------- */
+.words{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:700px){.words{grid-template-columns:minmax(0,1fr);gap:10px}}
+.word-card{min-height:104px;padding:10px 16px}
+.word-card .word{font-size:1.5rem;line-height:1.3;overflow-wrap:normal}
+@media (max-width:700px){
+  .word-card{min-height:76px}
+  .word-card.done{display:none}
+  .coach{position:sticky;bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:6;background:var(--paper);margin:0 -14px;padding:8px 14px 0}
+  .coach .owl{width:56px}
+  .bubble{font-size:1.1rem;padding:8px 14px}
+}
+.baskets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,2.4vw,28px);max-width:860px;margin:0 auto}
+.basket{appearance:none;border:none;position:relative;border-radius:14px 14px 30px 30px;background:var(--c);color:#fff;min-height:clamp(76px,11vw,104px);padding:8px 4px 4px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:inset 0 10px 0 rgba(255,255,255,.22),0 6px 0 var(--cd),0 12px 22px var(--lift);
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .16s ease,box-shadow .16s ease}
+.basket b{font-size:clamp(1.02rem,3.2vw,1.9rem);line-height:1.15}
+.basket span{font-size:clamp(.8rem,1.8vw,1.05rem);line-height:1.15}
+.basket .kbd{font-style:normal;top:14px}
+@media (max-width:560px){.basket span{display:none}}
+.basket.selected,.basket.drop-over{transform:translateY(-6px);box-shadow:inset 0 10px 0 rgba(255,255,255,.22),0 0 0 5px var(--sun),0 14px 24px var(--lift)}
+.basket.hint{animation:glow 1.1s ease-in-out infinite}
+@@data
+/* Aufbau: [der richtige Satz mit allen Kommas, Korb]
+   Körbe: 'auf' = Aufzählung, 'neb' = Nebensatz, 'kein' = kein Komma. Das Spiel nimmt die Kommas heraus.
+   Bei 'neb' steht das Bindewort direkt hinter dem Komma oder ganz am Satzanfang. Immer 5 Karten bilden eine Runde. */
+const SENTENCES = [
+  ['Im Rucksack sind ein Buch, eine Flasche und ein Apfel.',      'auf'],
+  ['Der Zauberer trägt einen Hut, einen Mantel und einen Stab.',  'auf'],
+  ['Die Kinder rennen, hüpfen und klettern.',                     'auf'],
+  ['Mein Zimmer ist hell, groß und gemütlich.',                   'auf'],
+  ['Am Montag, Mittwoch und Freitag habe ich Sport.',             'auf'],
+  ['Möchtest du Nudeln, Reis oder Kartoffeln?',                   'auf'],
+  ['Wir besuchen Oma, Opa, Tante Eva und Onkel Jan.',             'auf'],
+  ['Ich nehme den Schirm mit, weil es gleich regnet.',            'neb'],
+  ['Wenn der Wecker klingelt, stehe ich auf.',                    'neb'],
+  ['Finn erzählt, dass er ein Reh gesehen hat.',                  'neb'],
+  ['Als das Licht ausging, wurde es ganz still.',                 'neb'],
+  ['Niemand weiß, ob der Schatz noch dort liegt.',                'neb'],
+  ['Die Katze schnurrt, wenn man sie streichelt.',                'neb'],
+  ['Weil der See zugefroren ist, laufen wir Schlittschuh.',       'neb'],
+  ['Mein Bruder und ich bauen ein Baumhaus.',                     'kein'],
+  ['Heute Nachmittag gehen wir ins Schwimmbad.',                  'kein'],
+  ['Willst du Saft oder Wasser trinken?',                         'kein'],
+  ['Der kleine Igel sucht im Laub nach Futter.',                  'kein'],
+  ['Nach dem Regen scheint wieder die Sonne.',                    'kein'],
+  ['Die Lehrerin liest eine spannende Geschichte vor.',           'kein']
+];
+const CARDS_PER_ROUND = 5;
+const KINDS = ['auf', 'neb', 'kein'];
+const NAMES = { auf: 'Aufzählung', neb: 'Nebensatz', kein: 'Kein Komma' };
+const BINDS = ['weil', 'dass', 'wenn', 'als', 'ob'];
+
+const GAME = {
+  id: 'sortierer',
+  unit: 'Sätze',
+  next: { href: '6-komma-meister.html', title: 'Komma-Meister' },
+  review: () => `<div class="review">${KINDS.map(k =>
+    `<div class="col ${k}"><h3>${NAMES[k]}</h3><ul>${all.filter(s => s.k === k).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Regel-Sortierer ---------- */
+const COLOR = { auf: 'der', neb: 'bonus', kein: 'teal' };
+let all = [], rounds = [], round = 0, left = 0, selCard = null, selKind = null;
+const byId = id => all.find(s => s.id === id);
+const cardEl = id => $(`.word-card[data-id="${id}"]`);
+const basketEl = k => $(`.basket[data-kind="${k}"]`);
+const bare = s => s.text.replace(/,/g, '');
+/* Satz mit gelben Kommas; bei Nebensätzen ist das Bindewort lila */
+const full = s => s.text.split(' ').map((w, i) => {
+  const t = w.replace(/,$/, '');
+  return (s.k === 'neb' && i === s.bindAt ? `<b class="w neb">${t}</b>` : t) + (w.endsWith(',') ? '<b class="cm">,</b>' : '');
+}).join(' ');
+
+function startGame() {
+  all = SENTENCES.map(([text, k], i) => {
+    const w = text.split(' ');
+    const after = w.findIndex(x => x.endsWith(',')) + 1;
+    const bindAt = BINDS.includes(w[0].toLowerCase()) ? 0 : after;
+    return { id: 's' + i, text, k, bindAt, bind: w[bindAt].toLowerCase(), misses: 0, done: false };
+  });
+  /* In jeder Runde liegen Karten für alle Körbe */
+  const n = Math.ceil(all.length / CARDS_PER_ROUND);
+  rounds = Array.from({ length: n }, () => []);
+  let r = 0;
+  KINDS.forEach(k => shuffle(all.filter(s => s.k === k)).forEach(s => { rounds[r % n].push(s); r++; }));
+  rounds.forEach(shuffle);
+  resetState(all.length);
+  round = 0;
+  startRound();
+  say('Tippe eine Karte an. Wähle dann den Korb mit der passenden Regel.');
+  show('game');
+}
+
+function startRound() {
+  selCard = selKind = null; left = rounds[round].length;
+  $('#round').textContent = `Runde ${round + 1} von ${rounds.length}`;
+  $('#words').innerHTML = rounds[round].map(s =>
+    `<button class="word-card" data-id="${s.id}" aria-pressed="false" style="--tilt:${(Math.random() * 1.6 - .8).toFixed(2)}deg"><span class="word">${bare(s)}</span></button>`).join('');
+  renderSelection();
+}
+
+function renderSelection() {
+  $$('.word-card').forEach(el => {
+    const on = el.dataset.id === selCard;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+  });
+  $$('.basket').forEach(el => {
+    const on = el.dataset.kind === selKind;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+    el.classList.remove('hint');
+  });
+  const s = selCard && byId(selCard);
+  if (s && s.misses >= 2) basketEl(s.k).classList.add('hint');
+}
+
+function tapCard(id) {
+  const s = byId(id);
+  if (!s || s.done || state.busy) return;
+  if (selKind) { attempt(id, selKind); return; }
+  selCard = selCard === id ? null : id;
+  sfx.pick(); renderSelection();
+  if (selCard) say('Werden drei oder mehr Teile aufgezählt? Gibt es ein Bindewort? Oder fehlt gar kein Komma?');
+}
+function tapBasket(k) {
+  if (state.busy) return;
+  if (selCard) { attempt(selCard, k); return; }
+  selKind = selKind === k ? null : k;
+  sfx.pick(); renderSelection();
+  if (selKind) say(`Welcher Satz gehört in den Korb <span class="pill ${k}">${NAMES[k]}</span>?`);
+}
+
+function tipFor(s) {
+  return s.k === 'auf' ? 'Tipp: In diesem Satz werden drei oder mehr Teile aufgezählt. Dazwischen fehlen Kommas. Das ist eine <b>Aufzählung</b>.'
+    : s.k === 'neb' ? `Tipp: Das Bindewort <b class="w neb">${s.bind}</b> leitet einen <b>Nebensatz</b> ein. Sein Verb steht am Ende.`
+    : 'Tipp: Hier gibt es kein Bindewort. Es werden auch keine drei Teile aufgezählt. Der Satz braucht <b>kein Komma</b>.';
+}
+function praiseFor(s) {
+  return s.k === 'auf' ? 'Das ist eine Aufzählung. Vor „und“ oder „oder“ steht kein Komma:'
+    : s.k === 'neb' ? `Mit <b class="w neb">${s.bind}</b> beginnt ein Nebensatz. Ein Komma trennt ihn vom Hauptsatz:`
+    : 'Keine Aufzählung mit drei Teilen, kein Nebensatz. Hier fehlt kein Komma:';
+}
+
+function attempt(id, k) {
+  const s = byId(id);
+  if (!s || s.done) return;
+  if (s.k !== k) {
+    miss(s, cardEl(id));
+    wobble(basketEl(k));
+    selCard = id; selKind = null;
+    renderSelection();
+    say(s.misses < 2 ? 'Fast! Lies den Satz noch einmal. Such ein Bindewort oder zähle die Teile, die mit „und“ oder „oder“ verbunden sind.' : tipFor(s), 'think');
+    return;
+  }
+  const card = cardEl(id);
+  selCard = selKind = null;
+  renderSelection();
+  card.classList.add('vanish');
+  later(() => { card.classList.remove('vanish'); card.classList.add('done'); card.disabled = true; }, 330);
+  solve(s, basketEl(k), COLOR[k]);
+  say(`${pick(PRAISE, 'praise')} ${praiseFor(s)} ${full(s)}`, 'happy');
+  if (--left === 0) {
+    state.busy = true;
+    if (round < rounds.length - 1) later(() => { round++; startRound(); state.busy = false; say('Runde geschafft! Hier kommen neue Karten.', 'happy'); }, 2600);
+    else later(finish, 2400);
+  }
+}
+
+$('#words').addEventListener('click', e => {
+  if (suppressClick) return;
+  const c = e.target.closest('.word-card');
+  if (c) tapCard(c.dataset.id);
+});
+$$('.basket').forEach(b => b.addEventListener('click', () => { if (!suppressClick) tapBasket(b.dataset.kind); }));
+document.addEventListener('keydown', e => {
+  if (gameOn() && /^[123]$/.test(e.key)) tapBasket(KINDS[+e.key - 1]);
+});
+enableDrag('.word-card:not(.done)', '.basket', (card, basket) => attempt(card.dataset.id, basket.dataset.kind));

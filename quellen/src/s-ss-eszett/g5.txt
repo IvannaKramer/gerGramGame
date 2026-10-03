@@ -1,0 +1,177 @@
+@@meta
+file: 5-wortfamilien.html
+title: Wortfamilien-Werkstatt
+level: Fortgeschrittene
+nr: 5
+total: 20
+subtitle: Aufgepasst: In einer Wortfamilie kann der s-Laut wechseln! Fülle alle Lücken einer Familie und prüfe dann.
+lead: Ändert sich der Vokal, kann sich auch der s-Laut ändern:
+id: familien
+desc: Fülle die Lücken in sieben Wortfamilien.
+sample: essen → er i_t, er a_
+drag: no
+@@tipp
+Verwandte Wörter schreibt man nicht immer gleich. Hör auf den Vokal: <b>e</b>ssen und er <b>i</b>sst klingen kurz, also <b>ss</b>. Aber er <b>a</b>ß klingt lang, also <b>ß</b>. Bei einfachem <b>s</b> hilft die Grundform: er liest → le·sen. Dort summt das s.
+@@examples
+      <div class="ex kss" style="--tilt:-1.5deg"><div class="ex-head"><b>ss</b><span>kurz</span></div><div class="ex-body">e<span class="a">ss</span>en<span class="arrow" aria-hidden="true">▼</span>er i<span class="a">ss</span>t</div></div>
+      <div class="ex ksz" style="--tilt:1deg"><div class="ex-head"><b>ß</b><span>lang · zischt</span></div><div class="ex-body">e<span class="a">ss</span>en<span class="arrow" aria-hidden="true">▼</span>er a<span class="a">ß</span></div></div>
+      <div class="ex ks" style="--tilt:-.5deg"><div class="ex-head"><b>s</b><span>summt</span></div><div class="ex-body">le<span class="a">s</span>en<span class="arrow" aria-hidden="true">▼</span>er lie<span class="a">s</span>t</div></div>
+@@howto
+        <li>Oben steht die Grundform. Darunter stehen Formen mit Lücke. Sprich jede Form laut.</li>
+        <li>Tippe neben jeder Form auf s, ss oder ß.</li>
+        <li>Sind alle Lücken voll? Dann tippe auf „Prüfen“. Was noch nicht stimmt, darfst du ändern.</li>
+@@board
+    <p class="round" id="round">Wortfamilie 1 von 7</p>
+    <div class="bench fam">
+      <p class="lbl">Grundform</p>
+      <p class="head-word" id="head"></p>
+      <div class="rows" id="rows"></div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Wortfamilien-Werkstatt ---------- */
+.ks{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.kss{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.ksz{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.hit{color:var(--c);background:var(--cs);border-radius:8px;padding:0 .08em}
+.gap{display:inline-block;width:.62em;border-bottom:3px solid currentColor;margin:0 1px}
+.ex-body{padding-top:16px}
+.ex-body .arrow{display:block;color:var(--ink-soft);font-size:1rem;line-height:1.1}
+.bench.fam{padding:14px clamp(10px,3vw,26px) 18px}
+.head-word{margin:0 0 12px;font-weight:700;font-size:clamp(1.8rem,5.4vw,2.5rem);line-height:1.2}
+.head-word small{display:block;font-size:1.05rem;font-weight:400;color:var(--ink-soft)}
+.rows{display:grid;gap:10px;max-width:640px;margin:0 auto}
+.frow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;background:var(--paper);border:3px solid var(--card-edge);border-radius:18px;padding:8px 12px;text-align:left}
+.frow .form{font-weight:700;font-size:clamp(1.5rem,4.4vw,1.9rem);line-height:1.2;white-space:nowrap}
+.frow .tmp{display:inline-block;min-width:1.1em;text-align:center;border-bottom:3px solid var(--ink-soft);margin:0 1px}
+.frow .tmp.set{border-bottom-color:var(--sun-deep);background:var(--sun-soft);border-radius:6px 6px 0 0}
+.opts{display:flex;gap:8px}
+.opt{appearance:none;border:none;border-radius:14px;background:var(--c);color:#fff;min-width:56px;min-height:52px;padding:2px 8px;font-weight:700;font-size:1.5rem;line-height:1;cursor:pointer;
+  box-shadow:0 4px 0 var(--cd);opacity:.75;touch-action:manipulation;transition:transform .12s ease,opacity .15s ease,box-shadow .15s ease}
+.opt[aria-pressed="true"]{opacity:1;box-shadow:0 0 0 4px var(--sun),0 4px 0 var(--cd);transform:translateY(-2px)}
+.opt.hint{opacity:1;animation:glow 1.1s ease-in-out infinite}
+.frow.ok{border-color:var(--c);background:var(--cs)}
+.frow.ok .opts{display:none}
+.frow.ok .why{font-size:1.05rem;color:var(--ink-soft)}
+@media (max-width:480px){.frow{justify-content:center}.frow .form{flex-basis:100%;text-align:center}}
+@@data
+/* Aufbau: [Grundform, kurze Erklärung (oder ''), [Formen]]
+   Jede Form: [Form mit Lücke (_), was fehlt, Tipp mit der Regel]. Zusammen sind es 20 Lücken. */
+const FAMILIES = [
+  ['lesen', '', [
+    ['er lie_t',        's',  'Denk an die Grundform <b>le·sen</b>: Dort summt das s. Also einfaches <b>s</b>.'],
+    ['er la_',          's',  'Verlängere: wir <b>la·sen</b>. Das s summt. Also einfaches <b>s</b>.'],
+    ['er hat gele_en',  's',  'Sprich in Silben: ge·le·sen. Das e klingt lang und das s summt. Also einfaches <b>s</b>.']]],
+  ['essen', '', [
+    ['er i_t',          'ss', 'Das i klingt kurz. Nach einem kurzen Vokal schreibst du <b>ss</b>.'],
+    ['er a_',           'ß',  'Das a klingt lang und in <b>wir a·ßen</b> zischt der s-Laut. Also <b>ß</b>.'],
+    ['er hat gege_en',  'ss', 'Das e vor der Lücke klingt kurz. Nach einem kurzen Vokal schreibst du <b>ss</b>.']]],
+  ['fließen', '', [
+    ['es flie_t',       'ß',  'Das ie klingt lang und in <b>flie·ßen</b> zischt der s-Laut. Also <b>ß</b>.'],
+    ['es flo_',         'ss', 'Das o klingt kurz. Nach einem kurzen Vokal schreibst du <b>ss</b>.'],
+    ['es ist geflo_en', 'ss', 'Das o klingt kurz. Nach einem kurzen Vokal schreibst du <b>ss</b>.']]],
+  ['heißen', '', [
+    ['er hei_t',        'ß',  'Nach ei steht nie ss. In <b>hei·ßen</b> zischt der s-Laut. Also <b>ß</b>.'],
+    ['er hie_',         'ß',  'Das ie klingt lang und in <b>wir hie·ßen</b> zischt der s-Laut. Also <b>ß</b>.'],
+    ['er hat gehei_en', 'ß',  'Nach ei steht nie ss. Der s-Laut zischt. Also <b>ß</b>.']]],
+  ['reisen', 'eine Reise machen', [
+    ['sie rei_t',       's',  'Denk an die Grundform <b>rei·sen</b>: Dort summt das s. Also einfaches <b>s</b>.'],
+    ['sie rei_te',      's',  'Denk an die Grundform <b>rei·sen</b>: Dort summt das s. Also einfaches <b>s</b>.'],
+    ['sie ist gerei_t', 's',  'Denk an die Grundform <b>rei·sen</b>: Dort summt das s. Also einfaches <b>s</b>.']]],
+  ['reißen', 'kaputtgehen', [
+    ['es rei_t',        'ß',  'Nach ei steht nie ss. In <b>rei·ßen</b> zischt der s-Laut. Also <b>ß</b>.'],
+    ['es ri_',          'ss', 'Das i klingt kurz. Nach einem kurzen Vokal schreibst du <b>ss</b>.'],
+    ['es ist geri_en',  'ss', 'Das i klingt kurz. Nach einem kurzen Vokal schreibst du <b>ss</b>.']]],
+  ['vergessen', '', [
+    ['sie vergi_t',     'ss', 'Das i klingt kurz. Nach einem kurzen Vokal schreibst du <b>ss</b>.'],
+    ['sie verga_',      'ß',  'Das a klingt lang und in <b>wir verga·ßen</b> zischt der s-Laut. Also <b>ß</b>.']]]
+];
+/* Die drei Bausteine: [Buchstabe, Farbe, Überschrift] */
+const LETTERS = [['s', 'ks', 's · summt'], ['ss', 'kss', 'ss · kurz'], ['ß', 'ksz', 'ß · lang, zischt']];
+
+const GAME = {
+  id: 'familien',
+  unit: 'Lücken',
+  next: { href: '6-schreib-meister.html', title: 'Schreib-Meister' },
+  review: () => `<div class="review">${LETTERS.map(([l, k, h]) =>
+    `<div class="col ${k}"><h3>${h}</h3><ul>${all.filter(w => w.l === l).map(w =>
+      `<li><span>${w.head} →</span> ${w.html}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Wortfamilien-Werkstatt ---------- */
+const KL = { s: 'ks', ss: 'kss', 'ß': 'ksz' }, COLOR = { s: 'der', ss: 'die', 'ß': 'das' };
+let all = [], fams = [], fi = 0, cur = [];
+
+function startGame() {
+  all = [];
+  fams = shuffle(FAMILIES.map(([head, note, forms]) => ({ head, note,
+    forms: forms.map(f => { const w = { head, gap: f[0], l: f[1], tip: f[2], full: f[0].replace('_', f[1]), html: f[0].replace('_', `<b>${f[1]}</b>`), misses: 0, pick: null }; all.push(w); return w; }) })));
+  resetState(all.length);
+  fi = 0;
+  show('game');
+  startFamily();
+  say('Sprich jede Form laut. Tippe neben jeder Form auf s, ss oder ß. Tippe dann auf „Prüfen“.');
+}
+
+function startFamily() {
+  const f = fams[fi];
+  cur = f.forms;
+  state.busy = false;
+  $('#round').textContent = `Wortfamilie ${fi + 1} von ${fams.length}`;
+  $('#head').innerHTML = f.head + (f.note ? `<small>(${f.note})</small>` : '');
+  $('#rows').innerHTML = cur.map((w, i) =>
+    `<div class="frow" data-i="${i}"><span class="form">${w.gap.replace('_', '<span class="tmp">&nbsp;</span>')}</span>
+      <span class="opts" role="group" aria-label="Was fehlt in ${w.gap.replace('_', ' Lücke ')}?">${LETTERS.map(([l, k]) =>
+        `<button type="button" class="opt ${k}" data-l="${l}" aria-pressed="false">${l}</button>`).join('')}</span></div>`).join('');
+}
+
+function setPick(row, l) {
+  const w = cur[+row.dataset.i];
+  if (state.busy || w.done) return;
+  sfx.pick();
+  w.pick = l;
+  $$('.opt', row).forEach(o => { o.setAttribute('aria-pressed', String(o.dataset.l === l)); o.classList.remove('hint'); });
+  const tmp = $('.tmp', row);
+  tmp.textContent = l; tmp.classList.add('set');
+}
+
+function check() {
+  if (state.busy) return;
+  const open = cur.filter(w => !w.done);
+  if (open.some(w => !w.pick)) { wobble($('#check')); say('Fülle zuerst alle Lücken. Tippe neben jeder Form auf s, ss oder ß.', 'think'); return; }
+  let wrong = [];
+  cur.forEach((w, i) => {
+    if (w.done) return;
+    const row = $(`.frow[data-i="${i}"]`);
+    if (w.pick === w.l) {
+      row.classList.add('ok', KL[w.l]);
+      $('.form', row).innerHTML = w.gap.replace('_', `<b class="hit ${KL[w.l]}">${w.l}</b>`);
+      solve(w, row, COLOR[w.l]);
+    } else {
+      miss(w, row);
+      w.pick = null;
+      $$('.opt', row).forEach(o => o.setAttribute('aria-pressed', 'false'));
+      const tmp = $('.tmp', row); tmp.innerHTML = '&nbsp;'; tmp.classList.remove('set');
+      if (w.misses >= 2) $(`.opt[data-l="${w.l}"]`, row).classList.add('hint');
+      wrong.push(w);
+    }
+  });
+  if (wrong.length) {
+    const tip = wrong.find(w => w.misses >= 2);
+    say(tip ? `Tipp für <b>${tip.gap.replace('_', '<i class="gap"></i>')}</b>: ${tip.tip} Der leuchtende Baustein ist richtig.`
+      : wrong.length === 1 ? 'Fast! Eine Lücke stimmt noch nicht. Sprich die Form laut: Ist der Vokal kurz oder lang? Summt es oder zischt es?'
+      : `Fast! ${wrong.length} Lücken stimmen noch nicht. Sprich die Formen laut: Ist der Vokal kurz oder lang?`, 'think');
+    return;
+  }
+  state.busy = true;
+  const f = fams[fi];
+  say(`${pick(PRAISE, 'praise')} <b>${f.head}</b>: ${f.forms.map(w => `<span class="pill ${KL[w.l]}">${w.full}</span>`).join(' ')}`, 'happy');
+  if (fi < fams.length - 1) later(() => { fi++; startFamily(); }, 2600);
+  else later(finish, 2200);
+}
+
+$('#rows').addEventListener('click', e => { const o = e.target.closest('.opt'); if (o) setPick(o.closest('.frow'), o.dataset.l); });
+$('#check').addEventListener('click', check);

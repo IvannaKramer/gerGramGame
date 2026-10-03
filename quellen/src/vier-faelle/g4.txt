@@ -1,0 +1,220 @@
+@@meta
+file: 4-fall-kaesten.html
+title: Fall-Kästen
+level: Fortgeschrittene
+nr: 4
+total: 20
+subtitle: In welchem Fall steht der markierte Satzteil? Sortiere jede Karte in den richtigen Kasten.
+lead: Jetzt kommen auch die, das und die Mehrzahl dazu:
+id: kaesten
+desc: Sortiere die Sätze in die vier Fall-Kästen.
+sample: Ich helfe der Oma. → Dativ
+drag: yes
+@@tipp
+Nicht nur <b>der</b> verändert sich. Auch bei <b>die</b>, <b>das</b> und in der Mehrzahl sieht der Artikel in jedem Fall anders aus. Sicher bist du mit der Frage: <b>Wer oder was?</b> · <b>Wessen?</b> · <b>Wem?</b> · <b>Wen oder was?</b>
+@@examples
+      <div class="ex nom" style="--tilt:-1.5deg"><div class="ex-head"><b>Nominativ</b><span>Wer oder was?</span></div><div class="ex-body"><span class="a">Die Sonne</span> scheint.</div></div>
+      <div class="ex gen" style="--tilt:1deg"><div class="ex-head"><b>Genitiv</b><span>Wessen?</span></div><div class="ex-body">die Farbe <span class="a">des Autos</span></div></div>
+      <div class="ex dat" style="--tilt:-.5deg"><div class="ex-head"><b>Dativ</b><span>Wem?</span></div><div class="ex-body">Ich helfe <span class="a">der Oma</span>.</div></div>
+      <div class="ex akk" style="--tilt:1.5deg"><div class="ex-head"><b>Akkusativ</b><span>Wen oder was?</span></div><div class="ex-body">Ich lese <span class="a">das Buch</span>.</div></div>
+@@howto
+        <li><span>Tippe eine Karte an und lies den Satz. Ein Satzteil ist gelb markiert.</span></li>
+        <li><span>Frag nach dem markierten Satzteil: Wer oder was? Wessen? Wem? Wen oder was?</span></li>
+        <li><span>Tippe auf den passenden Kasten. Du kannst die Karte auch mit dem Finger in den Kasten ziehen.</span></li>
+@@board
+    <p class="round" id="round">Runde 1 von 4</p>
+    <div class="words" id="words"></div>
+@@tray
+    <div class="tray">
+      <div class="baskets">
+        <button class="basket nom" data-kind="nom" aria-pressed="false"><b>Nominativ</b><span>Wer oder was?</span></button>
+        <button class="basket gen" data-kind="gen" aria-pressed="false"><b>Genitiv</b><span>Wessen?</span></button>
+        <button class="basket dat" data-kind="dat" aria-pressed="false"><b>Dativ</b><span>Wem?</span></button>
+        <button class="basket akk" data-kind="akk" aria-pressed="false"><b>Akkusativ</b><span>Wen oder was?</span></button>
+      </div>
+    </div>
+@@css
+/* ---------- Die vier Fälle: gemeinsame Farben ---------- */
+.nom{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.gen{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.dat{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.akk{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.w{color:var(--c);font-weight:700}
+.legend{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:760px){.legend{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ex-head{flex-direction:column;align-items:center;gap:0}
+.ex-head b{font-size:clamp(1.05rem,2.4vw,1.35rem)}
+.ex-body{font-size:clamp(1rem,2.2vw,1.3rem)}
+.mk{background:var(--sun-soft);color:var(--ink);border-bottom:5px solid var(--sun);border-radius:8px;padding:0 .2em;white-space:nowrap}
+.bubble .pill{margin:2px 0}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.15rem;color:var(--c)}
+.review h3 small{font-weight:400;color:var(--ink-soft);font-size:.95rem}
+/* ---------- Fall-Kästen ---------- */
+.words{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:860px){.words{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.words{grid-template-columns:minmax(0,1fr);gap:10px}}
+.word-card{min-height:118px}
+.word-card .word{font-size:1.5rem;line-height:1.45;overflow-wrap:normal}
+@media (max-width:560px){
+  .word-card{min-height:70px;padding:8px 12px}
+  .word-card.done{display:none}
+  .coach{position:sticky;bottom:calc(164px + env(safe-area-inset-bottom,0px));z-index:6;background:var(--paper);margin:0 -14px;padding:8px 14px 0}
+}
+.baskets{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(6px,2vw,22px);max-width:900px;margin:0 auto}
+.basket{appearance:none;border:none;border-radius:14px 14px 26px 26px;background:var(--c);color:#fff;min-height:clamp(74px,11vw,104px);padding:8px 2px 4px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:inset 0 8px 0 rgba(255,255,255,.22),0 6px 0 var(--cd),0 12px 22px var(--lift);
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .16s ease,box-shadow .16s ease}
+.basket b{font-size:clamp(.9rem,2.9vw,1.6rem);line-height:1.15}
+.basket span{font-size:clamp(.72rem,2vw,1.05rem);line-height:1.15}
+@media (max-width:560px){
+  .baskets{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px}
+  .basket{min-height:58px;border-radius:12px 12px 20px 20px;padding:8px 2px 2px}
+  .basket b{font-size:1.15rem}
+  .basket span{font-size:.9rem}
+}
+.basket.selected,.basket.drop-over{transform:translateY(-6px);box-shadow:inset 0 8px 0 rgba(255,255,255,.22),0 0 0 5px var(--sun),0 14px 24px var(--lift)}
+.basket.hint{animation:glow 1.1s ease-in-out infinite;outline:4px solid var(--sun)}
+@@data
+/* Aufbau: [Satz, Fall, Frage]
+   Der gesuchte Satzteil steht in eckigen Klammern. Fall: nom = Nominativ, gen = Genitiv, dat = Dativ, akk = Akkusativ.
+   Immer 5 Karten bilden eine Runde. */
+const SENTENCES = [
+  ['[Die Sonne] scheint hell.',                    'nom', 'Wer oder was scheint hell?'],
+  ['Im Stall steht [das Pferd].',                  'nom', 'Wer oder was steht im Stall?'],
+  ['Heute spielen [die Kinder] draußen.',          'nom', 'Wer oder was spielt heute draußen?'],
+  ['[Mein Bruder] schläft noch.',                  'nom', 'Wer oder was schläft noch?'],
+  ['Auf dem Dach sitzt [eine Taube].',             'nom', 'Wer oder was sitzt auf dem Dach?'],
+  ['Die Farbe [des Autos] ist rot.',               'gen', 'Wessen Farbe ist rot?'],
+  ['Der Garten [der Nachbarin] ist groß.',         'gen', 'Wessen Garten ist groß?'],
+  ['Die Fahrräder [der Zwillinge] stehen im Hof.', 'gen', 'Wessen Fahrräder stehen im Hof?'],
+  ['Die Tür [des Hauses] ist offen.',              'gen', 'Wessen Tür ist offen?'],
+  ['Die Tasche [meiner Mutter] ist schwer.',       'gen', 'Wessen Tasche ist schwer?'],
+  ['Ich helfe [der Oma].',                         'dat', 'Wem helfe ich?'],
+  ['Der Ball gehört [dem Mädchen].',               'dat', 'Wem gehört der Ball?'],
+  ['Wir geben [den Kühen] frisches Gras.',         'dat', 'Wem geben wir frisches Gras?'],
+  ['Tim schenkt [seiner Schwester] eine Kette.',   'dat', 'Wem schenkt Tim eine Kette?'],
+  ['Das Eis schmeckt [dem Kind].',                 'dat', 'Wem schmeckt das Eis?'],
+  ['Ich lese [das Buch].',                         'akk', 'Wen oder was lese ich?'],
+  ['Lisa ruft [ihren Hund].',                      'akk', 'Wen oder was ruft Lisa?'],
+  ['Wir besuchen [die Tante].',                    'akk', 'Wen oder was besuchen wir?'],
+  ['Der Opa pflückt [die Kirschen].',              'akk', 'Wen oder was pflückt der Opa?'],
+  ['Ich kaufe [einen Kuchen].',                    'akk', 'Wen oder was kaufe ich?']
+];
+const CARDS_PER_ROUND = 5;
+
+const GAME = {
+  id: 'kaesten',
+  unit: 'Sätze',
+  next: { href: '5-wort-verwandler.html', title: 'Wort-Verwandler' },
+  review: () => `<div class="review c2">${ORDER.map(k =>
+    `<div class="col ${k}"><h3>${FALL[k].name} <small>${FALL[k].q}</small></h3><ul>${all.filter(s => s.k === k).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Fall-Kästen ---------- */
+const FALL = {
+  nom: { name: 'Nominativ', q: 'Wer oder was?', color: 'der' },
+  gen: { name: 'Genitiv', q: 'Wessen?', color: 'bonus' },
+  dat: { name: 'Dativ', q: 'Wem?', color: 'das' },
+  akk: { name: 'Akkusativ', q: 'Wen oder was?', color: 'die' }
+};
+const ORDER = ['nom', 'gen', 'dat', 'akk'];
+const MARK = /\[([^\]]+)\]/;
+let all = [], rounds = [], round = 0, left = 0, selCard = null, selKind = null;
+const byId = id => all.find(s => s.id === id);
+const cardEl = id => $(`.word-card[data-id="${id}"]`);
+const basketEl = k => $(`.basket[data-kind="${k}"]`);
+const full = s => s.text.replace(MARK, `<b class="w ${s.k}">$1</b>`);
+const answer = text => { const m = text.match(MARK); return m.index === 0 ? m[1].charAt(0).toLowerCase() + m[1].slice(1) : m[1]; };
+
+function startGame() {
+  all = SENTENCES.map((s, i) => ({ id: 's' + i, text: s[0], k: s[1], q: s[2], ans: answer(s[0]), misses: 0, done: false }));
+  /* In jeder Runde liegen Karten aus allen vier Fällen */
+  const n = Math.ceil(all.length / CARDS_PER_ROUND);
+  rounds = Array.from({ length: n }, () => []);
+  let r = 0;
+  ORDER.forEach(k => shuffle(all.filter(s => s.k === k)).forEach(s => { rounds[r % n].push(s); r++; }));
+  rounds.forEach(shuffle);
+  resetState(all.length);
+  round = 0;
+  startRound();
+  say('Tippe eine Karte an. Frag nach dem gelben Satzteil und wähle den Kasten.');
+  show('game');
+}
+
+function startRound() {
+  selCard = selKind = null; left = rounds[round].length;
+  $('#round').textContent = `Runde ${round + 1} von ${rounds.length}`;
+  $('#words').innerHTML = rounds[round].map(s =>
+    `<button class="word-card" data-id="${s.id}" aria-pressed="false" style="--tilt:${(Math.random() * 2 - 1).toFixed(2)}deg">
+      <span class="word">${s.text.replace(MARK, '<span class="mk">$1</span>')}</span></button>`).join('');
+  renderSelection();
+}
+
+function renderSelection() {
+  $$('.word-card').forEach(el => {
+    const on = el.dataset.id === selCard;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+  });
+  $$('.basket').forEach(el => {
+    const on = el.dataset.kind === selKind;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+    el.classList.remove('hint');
+  });
+  const s = selCard && byId(selCard);
+  if (s && s.misses >= 2) basketEl(s.k).classList.add('hint');
+}
+
+function tapCard(id) {
+  const s = byId(id);
+  if (!s || s.done || state.busy) return;
+  if (selKind) { attempt(id, selKind); return; }
+  selCard = selCard === id ? null : id;
+  sfx.pick(); renderSelection();
+  if (selCard) say(`<b>${s.ans}</b> – mit welcher Frage fragst du danach?`);
+}
+function tapBasket(k) {
+  if (state.busy) return;
+  if (selCard) { attempt(selCard, k); return; }
+  selKind = selKind === k ? null : k;
+  sfx.pick(); renderSelection();
+  if (selKind) say(`Welche Karte gehört in den Kasten <span class="pill ${k}">${FALL[k].name}</span>?`);
+}
+
+function attempt(id, k) {
+  const s = byId(id);
+  if (!s || s.done) return;
+  const f = FALL[s.k];
+  if (s.k !== k) {
+    miss(s, cardEl(id));
+    wobble(basketEl(k));
+    selCard = id; selKind = null;
+    renderSelection();
+    say(s.misses < 2 ? `Fast! Frag nach <b>${s.ans}</b>: Wer oder was? Wessen? Wem? Wen oder was?`
+      : `Tipp: Frag so: „${s.q}“ – <b>${s.ans}</b>. Auf „${f.q}“ antwortet der <b>${f.name}</b>.`, 'think');
+    return;
+  }
+  const card = cardEl(id);
+  selCard = selKind = null;
+  renderSelection();
+  card.classList.add('vanish');
+  later(() => { card.classList.remove('vanish'); card.classList.add('done'); card.disabled = true; }, 330);
+  solve(s, basketEl(k), f.color);
+  say(`${pick(PRAISE, 'praise')} <b>${s.q}</b> – <span class="pill ${k}">${s.ans}</span>. Das ist der <b>${f.name}</b>.`, 'happy');
+  if (--left === 0) {
+    state.busy = true;
+    if (round < rounds.length - 1) later(() => { round++; startRound(); state.busy = false; say('Runde geschafft! Hier kommen neue Karten.', 'happy'); }, 2200);
+    else later(finish, 1800);
+  }
+}
+
+$('#words').addEventListener('click', e => {
+  if (suppressClick) return;
+  const c = e.target.closest('.word-card');
+  if (c) tapCard(c.dataset.id);
+});
+$$('.basket').forEach(b => b.addEventListener('click', () => { if (!suppressClick) tapBasket(b.dataset.kind); }));
+enableDrag('.word-card:not(.done)', '.basket', (card, basket) => attempt(card.dataset.id, basket.dataset.kind));

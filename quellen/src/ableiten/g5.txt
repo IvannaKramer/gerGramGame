@@ -1,0 +1,150 @@
+@@meta
+file: 5-familien-treffen.html
+title: Familien-Treffen
+level: Fortgeschrittene
+nr: 5
+total: 20
+subtitle: Eine Wortfamilie trifft sich. Aber zwei Wörter haben sich dazugemogelt! Finde alle echten Verwandten.
+lead: Wer zur Familie gehört, bekommt ä oder äu:
+id: familie
+desc: Tippe alle Wörter an, die zur Wortfamilie gehören.
+sample: Land → L_nder, Gel_nde
+drag: no
+@@tipp
+Wörter einer <b>Wortfamilie</b> haben denselben Wortstamm und etwas miteinander zu tun: <b>Land</b> – Länder, Gelände, ländlich. Wer zu einer Familie mit <b>a</b> gehört, wird mit <b>ä</b> geschrieben. Wer zu einer Familie mit <b>au</b> gehört, bekommt <b>äu</b>. Ein Wort wie Kalender klingt ähnlich, hat aber mit Land nichts zu tun.
+@@examples
+      <div class="ex ka" style="--tilt:-1.5deg"><div class="ex-head"><b>Familie Land</b></div><div class="ex-body">L<span class="a">ä</span>nder<br>Gel<span class="a">ä</span>nde</div></div>
+      <div class="ex kau" style="--tilt:1deg"><div class="ex-head"><b>Familie Raum</b></div><div class="ex-body">R<span class="a">äu</span>me<br>aufr<span class="a">äu</span>men</div></div>
+      <div class="ex ke" style="--tilt:-.5deg"><div class="ex-head"><b>Keine Familie</b></div><div class="ex-body">Kal<span class="a">e</span>nder<br>L<span class="a">e</span>nker</div></div>
+@@howto
+        <li>Oben steht das Stammwort der Familie. Darunter liegen sechs Wörter mit Lücke.</li>
+        <li>Tippe alle vier Wörter an, die mit dem Stammwort verwandt sind. In ihre Lücke kommt ä oder äu.</li>
+        <li>Zwei Wörter gehören nicht dazu. Lass sie liegen! Am Ende siehst du, wie man sie schreibt.</li>
+@@board
+    <div class="bench" id="bench">
+      <p class="round" id="round"></p>
+      <p class="lbl">Wer gehört zur Wortfamilie von</p>
+      <p class="head-word" id="head"></p>
+      <div class="fam" id="fam"></div>
+    </div>
+@@tray
+@@css
+/* ---------- Familien-Treffen ---------- */
+.ka{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.ke{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.kau{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.keu{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.hit{color:var(--c);background:var(--cs);border-radius:8px;padding:0 .08em}
+.bench .round{margin:0 0 4px}
+.head-word{margin:0 0 14px;font-weight:700;font-size:clamp(2rem,7vw,3rem);line-height:1.2}
+.head-word u{text-decoration:underline;text-decoration-color:var(--sun);text-decoration-thickness:5px;text-underline-offset:6px}
+.fam{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,2vw,16px);max-width:820px;margin:0 auto}
+@media (max-width:640px){.fam{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fcard{appearance:none;background:var(--paper);border:3px solid var(--card-edge);border-radius:16px;min-height:72px;padding:8px 6px;cursor:pointer;
+  font-weight:700;font-size:clamp(1.5rem,3.2vw,1.8rem);line-height:1.15;overflow-wrap:anywhere;box-shadow:0 4px 0 var(--card-edge);touch-action:manipulation;
+  transition:transform .12s ease,border-color .16s ease,background-color .16s ease,opacity .2s ease}
+@media (max-width:420px){.fcard{font-size:1.5rem;padding:8px 2px}}
+.fcard:active{transform:translateY(3px);box-shadow:0 1px 0 var(--card-edge)}
+@media (hover:hover){.fcard:hover:not(:disabled){border-color:var(--sun)}}
+.gap{display:inline-block;width:.7em;border-bottom:3px solid currentColor;margin:0 2px}
+.fcard.in{border-color:var(--c);background:var(--cs);box-shadow:none;cursor:default}
+.fcard.out{border-style:dashed;box-shadow:none;cursor:default}
+.fcard.limp{opacity:.55}
+.fcard.hint{animation:glow 1.1s ease-in-out infinite;border-color:var(--sun)}
+.review li{font-size:1.1rem}
+.review h3 b{color:var(--c);font-size:1.2rem}
+.review .out{font-weight:400;color:var(--ink-soft);font-size:1rem}
+@@data
+/* Aufbau: [Stammwort, Laut der Familie (ä oder äu), [vier verwandte Wörter mit Lücke (_)], [[Wort, das NICHT dazugehört, sein Laut (e oder eu)], …]]
+   Jede Familie ist eine Runde. Die Wörter, die nicht dazugehören, dürfen kein verwandtes Wort mit a/au haben. */
+const FAMILIES = [
+  ['fangen', 'ä',  ['er f_ngt', 'Anf_nger', 'Gef_ngnis', 'Empf_nger'],     [['F_rien', 'e'], ['F_ll', 'e']]],
+  ['kaufen', 'äu', ['K_fer', 'Verk_fer', 'K_ferin', 'verk_flich'],         [['K_le', 'eu'], ['B_tel', 'eu']]],
+  ['Land',   'ä',  ['L_nder', 'Gel_nde', 'l_ndlich', 'Ausl_nder'],         [['Kal_nder', 'e'], ['L_nker', 'e']]],
+  ['Raum',   'äu', ['R_me', 'aufr_men', 'ger_mig', 'Zwischenr_me'],        [['n_gierig', 'eu'], ['Abent_er', 'eu']]],
+  ['lang',   'ä',  ['l_nger', 'L_nge', 'verl_ngern', 'l_nglich'],          [['l_cker', 'e'], ['L_hrer', 'e']]]
+];
+/* Laute: CSS-Klasse (Farbe), Name der Farbe für die Funken */
+const SOUNDS = { 'ä': ['ka', 'der'], 'e': ['ke', 'die'], 'äu': ['kau', 'das'], 'eu': ['keu', 'bonus'] };
+
+const GAME = {
+  id: 'familie',
+  next: { href: '6-schreib-profi.html', title: 'Schreib-Profi' },
+  review: () => `<div class="review">${rounds.map(r =>
+    `<div class="col ${SOUNDS[r.l][0]}"><h3>Familie <b>${r.head}</b></h3><ul>${r.cards.filter(c => c.member).map(c => `<li><b>${c.full}</b></li>`).join('')}
+      <li class="out">nicht verwandt: ${r.cards.filter(c => !c.member).map(c => c.full).join(', ')}</li></ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Familien-Treffen ---------- */
+const GAP = '<i class="gap"></i>';
+let rounds = [], ri = 0, cur = null, penalty = 0, wrongTaps = 0;
+const cls = l => SOUNDS[l][0];
+const colored = c => c.gap.replace('_', `<b class="hit ${cls(c.l)}">${c.l}</b>`);
+const markHead = r => r.head.replace(r.l === 'äu' ? /au/i : /a/i, '<u>$&</u>');
+
+function startGame() {
+  rounds = FAMILIES.map(f => ({ head: f[0], l: f[1],
+    cards: [...f[2].map(g => ({ gap: g, l: f[1], member: true })), ...f[3].map(o => ({ gap: o[0], l: o[1], member: false }))]
+      .map(c => ({ ...c, full: c.gap.replace('_', c.l), misses: 0, done: false })) }));
+  resetState(rounds.reduce((n, r) => n + r.cards.filter(c => c.member).length, 0));
+  ri = -1;
+  show('game');
+  nextRound();
+}
+
+function nextRound() {
+  ri++;
+  cur = rounds[ri];
+  if (!cur) { finish(); return; }
+  state.busy = false; penalty = 0; wrongTaps = 0;
+  cur.order = shuffle(cur.cards.slice());
+  $('#round').textContent = `Familie ${ri + 1} von ${rounds.length}`;
+  $('#head').innerHTML = markHead(cur);
+  $('#fam').innerHTML = cur.order.map((c, i) =>
+    `<button class="fcard" data-i="${i}" aria-label="${c.gap.replace('_', ' Lücke ')}">${c.gap.replace('_', GAP)}</button>`).join('');
+  say(`Vier Wörter sind mit <b>${cur.head}</b> verwandt. Tippe sie an! Zwei Wörter gehören nicht dazu.`);
+}
+
+function tap(i) {
+  if (state.busy || !cur) return;
+  const c = cur.order[i], el = $(`.fcard[data-i="${i}"]`);
+  if (!c || !el || el.disabled) return;
+  const base = cur.l === 'äu' ? 'au' : 'a';
+  if (!c.member) {
+    miss(c, el); penalty++; wrongTaps++;
+    el.disabled = true; el.classList.add('limp');
+    const hint = wrongTaps >= 2;
+    if (hint) $$('.fcard').forEach((b, k) => { if (cur.order[k].member && !cur.order[k].done) b.classList.add('hint'); });
+    say(hint ? `Tipp: Zur Familie gehören nur Wörter, die mit <b>${cur.head}</b> zu tun haben. Die leuchtenden Karten sind verwandt. Dort kommt ${cur.l} in die Lücke.`
+      : `<b>${c.gap.replace('_', GAP)}</b> klingt ähnlich, hat aber mit <b>${cur.head}</b> nichts zu tun. Die Bedeutung muss passen.`, 'think');
+    return;
+  }
+  c.done = true;
+  c.misses = penalty > 0 ? 1 : 0; penalty = Math.max(0, penalty - 1);
+  el.disabled = true; el.classList.remove('hint'); el.classList.add('in', cls(c.l));
+  el.innerHTML = colored(c);
+  solve(c, el, SOUNDS[c.l][1]);
+  const left = cur.cards.filter(x => x.member && !x.done).length;
+  if (left) {
+    say(`${pick(PRAISE, 'praise')} ${cur.head} → <span class="pill ${cls(c.l)}">${c.full}</span> mit <b>${c.l}</b>. Noch ${left === 1 ? 'ein Wort gehört' : left + ' Wörter gehören'} zur Familie.`, 'happy');
+    return;
+  }
+  /* Familie komplett: Die beiden übrigen Wörter zeigen jetzt ihren Laut */
+  state.busy = true;
+  const rest = [];
+  $$('.fcard').forEach((b, k) => {
+    const o = cur.order[k];
+    if (o.member) return;
+    b.disabled = true; b.classList.remove('limp'); b.classList.add('out');
+    b.innerHTML = colored(o); rest.push(o);
+  });
+  const l = rest[0].l;
+  say(`Familie komplett! ${rest.map(o => `<span class="pill ${cls(o.l)}">${o.full}</span>`).join(' und ')} haben kein verwandtes Wort mit ${base}. Darum schreibst du sie mit <b>${l}</b>.`, 'happy');
+  later(nextRound, 3600);
+}
+
+$('#fam').addEventListener('click', e => { const b = e.target.closest('.fcard'); if (b) tap(+b.dataset.i); });
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-6]$/.test(e.key)) return;
+  tap(+e.key - 1);
+});

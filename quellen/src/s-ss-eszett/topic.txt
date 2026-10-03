@@ -1,0 +1,10 @@
+@@meta
+slug: s-ss-eszett
+title: s, ss oder ß?
+subtitle: Sechs Spiele rund um den s-Laut. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Bildern und Hilfen zum Hinhören. Je 15 Wörter.
+lead2: Ohne Bilder: eine Lücken-Geschichte und Wortfamilien. Je 20 Lücken.
+lead3: Knifflige Wörter zum Selberschreiben. 20 Sätze.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Wörtern, dazu die Lösungen.
+@@tipp
+Sprich das Wort laut! Nach einem <b>kurzen</b> Vokal schreibst du <b>ss</b>: Fluss, essen. Nach einem <b>langen</b> Vokal oder nach au, ei, eu schreibst du <b>ß</b>, wenn der s-Laut scharf zischt: Fuß, heißen. Summt das s weich wie eine Biene, schreibst du <b>s</b>: Nase, Gras → Gräser.

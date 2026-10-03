@@ -1,0 +1,176 @@
+@@meta
+file: 3-merkwort-koerbe.html
+title: Merkwort-Körbe
+level: Anfänger
+nr: 3
+total: 15
+subtitle: Manche Wörter mit ä oder äu kannst du ableiten. Andere musst du dir einfach merken. Sortiere!
+lead: Ableiten oder merken? So erkennst du es:
+id: merk
+desc: Ableiten oder Merkwort? Sortiere in zwei Körbe.
+sample: 🧀 der Käse → Merkwort
+drag: yes
+@@tipp
+Bei den meisten Wörtern mit <b>ä</b> oder <b>äu</b> findest du ein verwandtes Wort mit <b>a</b> oder <b>au</b>: die Äpfel → der Apfel. Bei einigen Wörtern gibt es keins, zum Beispiel bei <b>Käse</b>, <b>Bär</b> und <b>Mädchen</b>. Das sind <b>Merkwörter</b>. Du musst sie dir einprägen.
+@@examples
+      <div class="ex kab" style="--tilt:-1.5deg"><div class="ex-head"><b>Ableiten</b><span>von a</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🍎</span>die <span class="ka">Ä</span>pfel<span class="arrow" aria-hidden="true">▲</span>der Apfel</div></div>
+      <div class="ex kab" style="--tilt:1deg"><div class="ex-head"><b>Ableiten</b><span>von au</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🌿</span>die Kr<span class="kau">äu</span>ter<span class="arrow" aria-hidden="true">▲</span>das Kraut</div></div>
+      <div class="ex kmw" style="--tilt:-.5deg"><div class="ex-head"><b>Merkwort</b></div><div class="ex-body"><span class="emo" aria-hidden="true">🧀</span>der K<span class="ka">ä</span>se<span class="arrow" aria-hidden="true">▲</span>kein Wort mit a</div></div>
+@@howto
+        <li>Tippe eine Karte an und lies das Wort. Suche ein verwandtes Wort mit a oder au.</li>
+        <li>Findest du eins? Dann tippe auf den Korb „Ableiten“. Findest du keins? Dann ist es ein Merkwort. Du kannst die Karte auch in den Korb ziehen.</li>
+        <li>Passt es, verschwindet die Karte. Passt es nicht, probierst du den anderen Korb.</li>
+@@board
+    <div class="words with-pics" id="words"></div>
+@@tray
+    <div class="tray">
+      <div class="baskets">
+        <button class="basket kab" data-kind="ab" aria-pressed="false"><b>Ableiten</b><span>Es gibt ein Wort mit a oder au.</span></button>
+        <button class="basket kmw" data-kind="mw" aria-pressed="false"><b>Merkwort</b><span>Ich finde kein Wort mit a oder au.</span></button>
+      </div>
+    </div>
+@@css
+/* ---------- Merkwort-Körbe ---------- */
+.ka{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.kau{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.kab{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.kmw{--c:var(--sun);--cd:var(--sun-deep);--cs:var(--sun-soft)}
+.hit{color:var(--c);background:var(--cs);border-radius:8px;padding:0 .08em}
+.pill.kmw,.ex.kmw .ex-head{color:var(--on-sun)}
+.ex-body .ka,.ex-body .kau{color:var(--c)}
+.ex-body .arrow{margin:2px 0}
+.with-pics .word-card{min-height:132px}
+.word-card .pic{font-size:2.7rem}
+.word-card .word{font-size:clamp(1.3rem,2.5vw,1.7rem)}
+.baskets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,4vw,40px);max-width:720px;margin:0 auto}
+.basket{appearance:none;border:none;border-radius:14px 14px 30px 30px;background:var(--c);color:#fff;min-height:clamp(88px,13vw,112px);padding:10px 8px 8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:inset 0 10px 0 rgba(255,255,255,.22),0 6px 0 var(--cd),0 12px 22px var(--lift);
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .16s ease,box-shadow .16s ease}
+.basket.kmw{color:var(--on-sun)}
+.basket b{font-size:clamp(1.4rem,4.4vw,2.1rem);line-height:1.15}
+.basket span{font-size:clamp(.85rem,2.4vw,1.02rem);line-height:1.2}
+.basket.selected,.basket.drop-over{transform:translateY(-6px);box-shadow:inset 0 10px 0 rgba(255,255,255,.22),0 0 0 5px var(--ink),0 14px 24px var(--lift)}
+.basket.hint{animation:glow 1.1s ease-in-out infinite}
+.review li b{color:var(--ink)}
+.review .hit{background:none;padding:0}
+@@data
+/* Aufbau: [Wort, Bild, verwandtes Wort mit a/au]
+   Steht beim verwandten Wort '' (nichts), ist das Wort ein Merkwort. */
+const WORDS = [
+  ['die Äpfel',    '🍎', 'der Apfel'],
+  ['die Gläser',   '🥛', 'das Glas'],
+  ['die Räder',    '🚲', 'das Rad'],
+  ['das Kätzchen', '🐱', 'die Katze'],
+  ['die Hähne',    '🐓', 'der Hahn'],
+  ['die Bänder',   '🎀', 'das Band'],
+  ['die Kräuter',  '🌿', 'das Kraut'],
+  ['die Bräute',   '👰', 'die Braut'],
+  ['der Käse',     '🧀', ''],
+  ['der Bär',      '🐻', ''],
+  ['das Mädchen',  '👧', ''],
+  ['der März',     '🌼', ''],
+  ['die Säge',     '🪚', ''],
+  ['der Käfer',    '🐞', ''],
+  ['die Säule',    '🏛️', '']
+];
+
+const GAME = {
+  id: 'merk',
+  next: { href: '4-luecken-blitz.html', title: 'Lücken-Blitz' },
+  review: () => `<div class="review c2"><div class="col kab"><h3>Ableiten</h3><ul>${items.filter(w => w.kind === 'ab').map(w =>
+      `<li><span>${w.rel} →</span> <b>${colored(w)}</b></li>`).join('')}</ul></div>
+    <div class="col kmw"><h3>Merkwörter</h3><ul>${items.filter(w => w.kind === 'mw').map(w => `<li><b>${colored(w)}</b></li>`).join('')}</ul></div></div>`
+};
+@@js
+/* ---------- Spiel: Merkwort-Körbe ---------- */
+const KIND = { ab: 'Ableiten', mw: 'Merkwort' };
+const KCLS = { ab: 'kab', mw: 'kmw' };
+let items = [], selWord = null, selKind = null;
+const byId = id => items.find(w => w.id === id);
+const cardEl = id => $(`.word-card[data-id="${id}"]`);
+const basketEl = k => $(`.basket[data-kind="${k}"]`);
+/* ä ist im ganzen Thema blau, äu grün */
+const colored = w => w.text.replace(/äu|ä/i, m => `<b class="hit ${m.length === 2 ? 'kau' : 'ka'}">${m}</b>`);
+const bare = w => w.text.replace(/^(der|die|das) /, '');
+
+function startGame() {
+  items = shuffle(WORDS.map((w, i) => ({ id: 'w' + i, text: w[0], emoji: w[1], rel: w[2], kind: w[2] ? 'ab' : 'mw',
+    sound: /äu/i.test(w[0]) ? 'äu' : 'ä', misses: 0, done: false })));
+  resetState(items.length);
+  selWord = selKind = null;
+  $('#words').innerHTML = items.map(w =>
+    `<button class="word-card" data-id="${w.id}" aria-pressed="false" style="--tilt:${(Math.random() * 3 - 1.5).toFixed(2)}deg">
+      <span class="pic" aria-hidden="true">${w.emoji}</span><span class="word">${w.text}</span></button>`).join('');
+  renderSelection();
+  say('Tippe eine Karte an. Findest du ein verwandtes Wort mit a oder au? Dann tippe auf „Ableiten“. Sonst ist es ein Merkwort.');
+  show('game');
+}
+
+function renderSelection() {
+  $$('.word-card').forEach(el => {
+    const on = el.dataset.id === selWord;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+  });
+  $$('.basket').forEach(el => {
+    const on = el.dataset.kind === selKind;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+    el.classList.remove('hint');
+  });
+  const w = selWord && byId(selWord);
+  if (w && w.misses >= 2) basketEl(w.kind).classList.add('hint');
+}
+
+function tapWord(id) {
+  const w = byId(id);
+  if (!w || w.done || state.busy) return;
+  if (selKind) { attempt(id, selKind); return; }
+  selWord = selWord === id ? null : id;
+  sfx.pick(); renderSelection();
+  if (selWord) say(`<b>${w.text}</b> – findest du ein verwandtes Wort mit ${w.sound === 'äu' ? 'au' : 'a'}?`);
+}
+function tapBasket(k) {
+  if (state.busy) return;
+  if (selWord) { attempt(selWord, k); return; }
+  selKind = selKind === k ? null : k;
+  sfx.pick(); renderSelection();
+  if (selKind) say(`Welche Karte gehört in den Korb <span class="pill ${KCLS[k]}">${KIND[k]}</span>?`);
+}
+
+function attempt(id, k) {
+  const w = byId(id);
+  if (!w || w.done) return;
+  const a = w.sound === 'äu' ? 'au' : 'a';
+  if (w.kind !== k) {
+    miss(w, cardEl(id));
+    wobble(basketEl(k));
+    selWord = id; selKind = null;
+    renderSelection();
+    say(w.misses >= 2
+      ? (w.kind === 'ab' ? `Tipp: Denk an <b>${w.rel}</b>. Das ist verwandt und hat ein ${a}. Der leuchtende Korb ist richtig.`
+        : `Tipp: Zu <b>${bare(w)}</b> gibt es kein verwandtes Wort mit ${a}. Der leuchtende Korb ist richtig.`)
+      : (w.kind === 'ab' ? `Hmm, such noch einmal: Gibt es zu <b>${bare(w)}</b> ein verwandtes Wort mit ${a}? Denk an die Einzahl oder an ein kürzeres Wort.`
+        : `Welches verwandte Wort mit ${a} meinst du? Überlege noch einmal: Hat es wirklich mit <b>${bare(w)}</b> zu tun?`), 'think');
+    return;
+  }
+  const card = cardEl(id);
+  selWord = selKind = null;
+  renderSelection();
+  card.classList.add('vanish');
+  later(() => { card.classList.remove('vanish'); card.classList.add('done'); card.disabled = true; }, 330);
+  solve(w, basketEl(k), k === 'ab' ? 'teal' : 'sun');
+  say(`${pick(PRAISE, 'praise')} ` + (k === 'ab'
+    ? `${w.rel} → <b>${colored(w)}</b>. Aus ${a} wird ${w.sound}.`
+    : `<b>${colored(w)}</b> ist ein <span class="pill kmw">Merkwort</span>. Es gibt kein verwandtes Wort mit ${a}. Merk dir das ${w.sound}!`), 'happy');
+  if (state.solved === state.total) { state.busy = true; later(finish, 1700); }
+}
+
+$('#words').addEventListener('click', e => {
+  if (suppressClick) return;
+  const c = e.target.closest('.word-card');
+  if (c) tapWord(c.dataset.id);
+});
+$$('.basket').forEach(b => b.addEventListener('click', () => { if (!suppressClick) tapBasket(b.dataset.kind); }));
+enableDrag('.word-card:not(.done)', '.basket', (card, basket) => attempt(card.dataset.id, basket.dataset.kind));

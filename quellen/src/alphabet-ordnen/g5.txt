@@ -1,0 +1,157 @@
+@@meta
+file: 5-leitwort-detektiv.html
+title: Leitwort-Detektiv
+level: Fortgeschrittene
+nr: 5
+total: 20
+subtitle: Oben auf der Wörterbuch-Seite stehen zwei Leitwörter. Steht das gesuchte Wort auf dieser Seite?
+lead: Die Leitwörter sind das erste und das letzte Wort der Seite:
+id: leitwort
+desc: Steht das Wort auf dieser Wörterbuch-Seite?
+sample: Garten … Geld … Gold
+drag: no
+@@tipp
+Oben auf jeder Seite im Wörterbuch stehen zwei <b>Leitwörter</b>: das <b>erste</b> und das <b>letzte</b> Wort der Seite. Alle Wörter, die nach dem ABC dazwischen stehen, findest du auf dieser Seite.
+@@examples
+      <div class="ex vor" style="--tilt:-1.5deg"><div class="ex-head"><b>weiter vorne</b></div><div class="ex-body">Ga<span class="a">b</span>el<small>steht vor Garten</small></div></div>
+      <div class="ex auf" style="--tilt:1deg"><div class="ex-head"><b>auf der Seite</b></div><div class="ex-body">G<span class="a">e</span>ld<small>Garten … Gold</small></div></div>
+      <div class="ex nach" style="--tilt:-.5deg"><div class="ex-head"><b>weiter hinten</b></div><div class="ex-body">G<span class="a">r</span>uppe<small>steht nach Gold</small></div></div>
+@@howto
+        <li>Lies die beiden Leitwörter oben auf der Seite und das gesuchte Wort.</li>
+        <li>Vergleiche Buchstabe für Buchstabe: Steht das Wort vor dem ersten Leitwort, nach dem letzten oder dazwischen?</li>
+        <li>Tippe auf die passende Antwort. Auf der Tastatur kannst du auch 1, 2 oder 3 drücken.</li>
+@@board
+    <p class="round" id="round">Wörterbuch-Seite 1 von 5</p>
+    <div class="book">
+      <div class="heads"><span id="lw1"></span><small>Leitwörter</small><span id="lw2"></span></div>
+      <div class="lines" aria-hidden="true"><i></i><i></i><i></i></div>
+      <p class="lbl">Gesucht wird:</p>
+      <p class="seek" id="word"></p>
+      <div class="lines" aria-hidden="true"><i></i><i></i></div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="where" id="where">
+        <button class="wbtn vor" data-k="vor"><span class="kbd" aria-hidden="true">1</span><span aria-hidden="true">◀</span> weiter vorne</button>
+        <button class="wbtn auf" data-k="auf"><span class="kbd" aria-hidden="true">2</span>auf dieser Seite</button>
+        <button class="wbtn nach" data-k="nach"><span class="kbd" aria-hidden="true">3</span>weiter hinten <span aria-hidden="true">▶</span></button>
+      </div>
+    </div>
+@@css
+/* ---------- Leitwort-Detektiv ---------- */
+.vor{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.auf{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.nach{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.ex-head b{font-size:clamp(.9rem,2.6vw,1.4rem)}
+.ex-body small{display:block;font-size:.95rem;font-weight:400;color:var(--ink-soft);margin-top:4px}
+.book{max-width:660px;margin:0 auto 14px;background:var(--card);border:3px solid var(--card-edge);border-left:16px solid var(--teal);border-radius:8px 24px 24px 8px;
+  padding:14px clamp(12px,3vw,24px) 18px;text-align:center;box-shadow:0 4px 0 var(--card-edge),0 10px 20px var(--lift)}
+.heads{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:3px solid var(--teal);padding-bottom:6px;
+  font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);line-height:1.2;color:var(--teal)}
+.heads small{font-size:.95rem;font-weight:700;color:var(--ink-soft)}
+.lines{display:grid;gap:12px;padding:16px 0}
+.lines i{display:block;height:8px;border-radius:4px;background:var(--rule)}
+.lines i:nth-child(2){width:86%}
+.lines i:nth-child(3){width:93%}
+.book .lbl{margin:0;font-size:1rem;font-weight:700;color:var(--ink-soft)}
+.seek{margin:2px auto 0;display:inline-block;font-weight:700;font-size:clamp(1.9rem,7vw,2.8rem);line-height:1.2;padding:2px 22px;border-radius:14px;
+  border:3px solid var(--sun);background:var(--sun-soft)}
+.seek.vor,.seek.auf,.seek.nach{border-color:var(--c);background:var(--cs)}
+.where{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(6px,2vw,14px);max-width:760px;margin:0 auto}
+.wbtn{appearance:none;position:relative;min-height:68px;border:none;border-radius:16px;background:var(--c);color:#fff;font-weight:700;font-size:clamp(1rem,3.2vw,1.35rem);
+  line-height:1.15;padding:8px 6px;cursor:pointer;box-shadow:0 5px 0 var(--cd);touch-action:manipulation;transition:transform .1s ease,opacity .2s ease}
+.wbtn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--cd)}
+.wbtn:disabled{opacity:.3;box-shadow:none;cursor:default}
+.wbtn.hint{animation:glow 1.1s ease-in-out infinite}
+@media (max-width:520px){.wbtn .kbd{display:none}}
+.review li span{color:var(--ink-soft);font-size:.95rem}
+@@data
+/* Aufbau: [erstes Leitwort, letztes Leitwort, [vier Wörter]]
+   Das Spiel rechnet selbst aus, ob ein Wort vor der Seite, auf der Seite oder nach der Seite steht
+   (ä, ö, ü zählen wie a, o, u). Achte darauf, dass alle drei Antworten ungefähr gleich oft vorkommen. */
+const PAGES = [
+  ['Garten', 'Gold',   ['Gabel', 'Geld', 'Glück', 'Gruppe']],
+  ['Laden',  'Licht',  ['Labor', 'Leiter', 'Liste', 'Löffel']],
+  ['Rakete', 'Rose',   ['Rabe', 'Räuber', 'Riese', 'Rücken']],
+  ['Wagen',  'Wetter', ['Waffel', 'Wärme', 'Wind', 'Wurst']],
+  ['Tanz',   'Tinte',  ['Tabelle', 'Tal', 'Tasche', 'Tür']]
+];
+/* Aufbau: Kürzel: Überschrift */
+const KINDS = { vor: 'weiter vorne', auf: 'auf dieser Seite', nach: 'weiter hinten' };
+
+const GAME = {
+  id: 'leitwort',
+  next: { href: '6-grundform-profi.html', title: 'Grundform-Profi' },
+  review: () => `<div class="review">${Object.keys(KINDS).map(k =>
+    `<div class="col ${k}"><h3>${KINDS[k]}</h3><ul>${all.filter(c => c.k === k).map(c => `<li><b>${c.w}</b> <span>(${c.a} – ${c.b})</span></li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Leitwort-Detektiv ---------- */
+/* Sortier-Regel wie im Wörterbuch: ä, ö, ü zählen wie a, o, u; ß wie ss; groß und klein ist egal */
+const key = s => s.toLowerCase().replace(/ä/g, 'a').replace(/ö/g, 'o').replace(/ü/g, 'u').replace(/ß/g, 'ss');
+const cmp = (a, b) => key(a) < key(b) ? -1 : key(a) > key(b) ? 1 : 0;
+const ORD = ['erste', 'zweite', 'dritte', 'vierte', 'fünfte', 'sechste'];
+let all = [], queue = [], cur = null;
+
+/* Begründung: a steht vor b – welcher Buchstabe entscheidet? */
+function why(a, b) {
+  const ka = key(a), kb = key(b);
+  let i = 0;
+  while (i < ka.length && ka[i] === kb[i]) i++;
+  const um = (a.slice(0, i + 1) + b.slice(0, i + 1)).match(/[äöü]/i);
+  return `Der ${ORD[i] || 'nächste'} Buchstabe entscheidet: <b>${ka[i]}</b> kommt vor <b>${kb[i]}</b>.` +
+    (um ? ` Denk daran: <b>${um[0].toLowerCase()}</b> wird wie <b>${key(um[0])}</b> einsortiert.` : '');
+}
+
+function startGame() {
+  all = [];
+  PAGES.forEach((p, pi) => shuffle(p[2].slice()).forEach(w =>
+    all.push({ w, a: p[0], b: p[1], pi, k: cmp(w, p[0]) < 0 ? 'vor' : cmp(w, p[1]) > 0 ? 'nach' : 'auf', misses: 0 })));
+  queue = all.slice();
+  resetState(all.length);
+  say('Schau auf die Leitwörter oben. Steht das gesuchte Wort weiter vorne, auf dieser Seite oder weiter hinten?');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#round').textContent = `Wörterbuch-Seite ${cur.pi + 1} von ${PAGES.length}`;
+  $('#lw1').textContent = cur.a; $('#lw2').textContent = cur.b;
+  const word = $('#word');
+  word.textContent = cur.w; word.className = 'seek';
+  $$('.wbtn').forEach(b => { b.disabled = false; b.classList.remove('hint'); });
+}
+
+function choose(el) {
+  if (!el || state.busy || el.disabled || !cur) return;
+  const { w, a, b, k } = cur;
+  if (el.dataset.k !== k) {
+    const hint = miss(cur, el);
+    el.disabled = true;
+    if (hint) $(`.wbtn[data-k="${k}"]`).classList.add('hint');
+    const tip = k === 'vor' ? `<b>${w}</b> steht vor <b>${a}</b>. ${why(w, a)}`
+      : k === 'nach' ? `<b>${w}</b> steht nach <b>${b}</b>. ${why(b, w)}`
+      : `<b>${w}</b> steht nach <b>${a}</b> und vor <b>${b}</b>. Vergleiche mit <b>${a}</b>: ${why(a, w)}`;
+    say(hint ? `Tipp: ${tip}`
+      : `Noch nicht. Vergleiche <b>${w}</b> zuerst mit <b>${a}</b>, dann mit <b>${b}</b>. Schau Buchstabe für Buchstabe.`, 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.wbtn').forEach(x => { x.classList.remove('hint'); if (x !== el) x.disabled = true; });
+  $('#word').classList.add(k);
+  solve(cur, $('#word'), k === 'vor' ? 'der' : k === 'auf' ? 'das' : 'bonus');
+  const pill = `<span class="pill ${k}">${w}</span>`;
+  say(`${pick(PRAISE, 'praise')} ` + (k === 'vor' ? `${pill} steht weiter vorne, vor <b>${a}</b>. ${why(w, a)}`
+    : k === 'nach' ? `${pill} steht weiter hinten, nach <b>${b}</b>. ${why(b, w)}`
+    : `${pill} steht auf dieser Seite: nach <b>${a}</b> und vor <b>${b}</b>.`), 'happy');
+  later(next, 2800);
+}
+
+$('#where').addEventListener('click', e => choose(e.target.closest('.wbtn')));
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-3]$/.test(e.key)) return;
+  choose($$('.wbtn')[+e.key - 1]);
+});

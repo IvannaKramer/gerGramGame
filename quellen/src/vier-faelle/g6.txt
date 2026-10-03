@@ -1,0 +1,155 @@
+@@meta
+file: 6-fall-profi.html
+title: Fall-Profi
+level: Profis
+nr: 6
+total: 20
+subtitle: Jetzt schreibst du selbst! Setze Artikel und Nomen im richtigen Fall in den Satz ein.
+lead: Bei Profis verändert sich oft auch das Nomen:
+id: profi
+desc: Schreibe Artikel und Nomen im richtigen Fall.
+sample: Die Krone ___ glänzt. (der Prinz)
+drag: no
+@@tipp
+Manche Nomen bekommen eine Endung: <b>des</b> Fluss<b>es</b>, <b>dem</b> Rabe<b>n</b>, <b>den</b> Zuschauer<b>n</b>. Kleine Wörter wie <b>mit</b> und <b>nach</b> verlangen immer den Dativ, <b>für</b> und <b>ohne</b> immer den Akkusativ.
+@@examples
+      <div class="ex gen" style="--tilt:-1.5deg"><div class="ex-head"><b>Genitiv</b><span>Wessen?</span></div><div class="ex-body">die Krone <span class="a">des Prinzen</span></div></div>
+      <div class="ex dat" style="--tilt:1deg"><div class="ex-head"><b>Dativ</b><span>nach „mit“</span></div><div class="ex-body">mit <span class="a">dem Zug</span> fahren</div></div>
+      <div class="ex akk" style="--tilt:-.5deg"><div class="ex-head"><b>Akkusativ</b><span>nach „für“</span></div><div class="ex-body">Blumen für <span class="a">den Nachbarn</span></div></div>
+@@howto
+        <li><span>Lies den Satz. Über dem Satz steht das Nomen, das fehlt.</span></li>
+        <li><span>Frag nach der Lücke: Wer oder was? Wessen? Wem? Wen oder was? Schreibe dann Artikel und Nomen in die Lücke.</span></li>
+        <li><span>Tippe auf „Prüfen“ oder drücke die Enter-Taste. Stimmt es noch nicht, bekommst du einen Tipp.</span></li>
+@@board
+    <form class="bench" id="form" autocomplete="off">
+      <p class="lbl">Setze dieses Nomen im richtigen Fall ein:</p>
+      <p class="from" id="base"></p>
+      <p class="sentence write" id="sentence"></p>
+    </form>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check" type="submit" form="form">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Die vier Fälle: gemeinsame Farben ---------- */
+.nom{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.gen{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.dat{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.akk{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-head b{font-size:clamp(1.05rem,2.8vw,1.5rem)}
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.5}
+.bubble .pill{margin:2px 0}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.15rem;color:var(--c)}
+.review h3 small{font-weight:400;color:var(--ink-soft);font-size:.95rem}
+/* ---------- Fall-Profi ---------- */
+.bench{padding:22px 14px 30px}
+.bench .from{margin-bottom:10px}
+.write{line-height:2.1}
+.write input{font:inherit;color:var(--ink);background:var(--paper);border:3px solid var(--card-edge);border-radius:14px;padding:0 8px;width:9.5em;max-width:100%;min-height:54px;text-align:center;margin:0 2px}
+.write input:focus{outline:none;border-color:var(--sun);box-shadow:0 0 0 4px var(--sun-soft)}
+.write input.good{border-color:var(--c);background:var(--cs);color:var(--c)}
+.write input.hint{border-color:var(--sun);animation:glow 1.1s ease-in-out infinite}
+@@data
+/* Aufbau: [Satz mit Lücke ___, Grundform, Lösung, Fall, erste Hilfe, Tipp mit der Regel]
+   Fall: nom = Nominativ, gen = Genitiv, dat = Dativ, akk = Akkusativ.
+   Die Lösung besteht immer aus Artikel und Nomen. Es gibt jeweils nur eine richtige Schreibweise. */
+const SENTENCES = [
+  ['Den Kuchen hat ___ gebacken.',          'der Großvater',  'der Großvater',  'nom', 'Frag so: Wer oder was hat den Kuchen gebacken?',   'Auf „Wer oder was?“ antwortet der Nominativ. Das ist die Grundform.'],
+  ['Meiner Schwester gefällt ___.',         'der Film',       'der Film',       'nom', 'Frag so: Wer oder was gefällt meiner Schwester?',  'Auf „Wer oder was?“ antwortet der Nominativ. Das ist die Grundform.'],
+  ['Heute Nacht heulte ___ im Wald.',       'der Wolf',       'der Wolf',       'nom', 'Frag so: Wer oder was heulte heute Nacht im Wald?', 'Auf „Wer oder was?“ antwortet der Nominativ. Das ist die Grundform.'],
+  ['Über den Zaun springt ___.',            'das Reh',        'das Reh',        'nom', 'Frag so: Wer oder was springt über den Zaun?',     'Auf „Wer oder was?“ antwortet der Nominativ. Das ist die Grundform.'],
+  ['Den Schatz bewacht ___.',               'der Drache',     'der Drache',     'nom', 'Frag so: Wer oder was bewacht den Schatz?',        'Auf „Wer oder was?“ antwortet der Nominativ. Das ist die Grundform.'],
+  ['Die Krone ___ glänzt.',                 'der Prinz',      'des Prinzen',    'gen', 'Frag so: Wessen Krone glänzt?',                    'Im Genitiv heißt der Artikel des. Das Nomen Prinz bekommt die Endung -en.'],
+  ['Das Ufer ___ ist steil.',               'der Fluss',      'des Flusses',    'gen', 'Frag so: Wessen Ufer ist steil?',                  'Im Genitiv heißt der Artikel des. Das Nomen Fluss bekommt die Endung -es.'],
+  ['Der Name ___ ist Mila.',                'das Mädchen',    'des Mädchens',   'gen', 'Frag so: Wessen Name ist Mila?',                   'Im Genitiv heißt der Artikel des. Das Nomen Mädchen bekommt die Endung -s.'],
+  ['Die Ohren ___ sind lang.',              'der Esel',       'des Esels',      'gen', 'Frag so: Wessen Ohren sind lang?',                 'Im Genitiv heißt der Artikel des. Das Nomen Esel bekommt die Endung -s.'],
+  ['Die Stimmen ___ sind laut.',            'die Leute',      'der Leute',      'gen', 'Frag so: Wessen Stimmen sind laut?',               'In der Mehrzahl heißt der Artikel im Genitiv der.'],
+  ['Die Hexe flüstert ___ etwas zu.',       'der Rabe',       'dem Raben',      'dat', 'Frag so: Wem flüstert die Hexe etwas zu?',         'Im Dativ heißt der Artikel dem. Das Nomen Rabe bekommt die Endung -n.'],
+  ['Wir fahren mit ___ in die Stadt.',      'der Zug',        'dem Zug',        'dat', 'Schau auf das Wort vor der Lücke: mit.',           'Nach „mit“ steht immer der Dativ. Im Dativ heißt der Artikel dem.'],
+  ['Der Clown winkt ___ zu.',               'die Zuschauer',  'den Zuschauern', 'dat', 'Frag so: Wem winkt der Clown zu?',                 'In der Mehrzahl heißt der Artikel im Dativ den. Das Nomen bekommt die Endung -n.'],
+  ['Die Verkäuferin antwortet ___.',        'der Kunde',      'dem Kunden',     'dat', 'Frag so: Wem antwortet die Verkäuferin?',          'Im Dativ heißt der Artikel dem. Das Nomen Kunde bekommt die Endung -n.'],
+  ['Nach ___ essen wir ein Eis.',           'das Spiel',      'dem Spiel',      'dat', 'Schau auf das Wort vor der Lücke: nach.',          'Nach „nach“ steht immer der Dativ. Im Dativ heißt der Artikel dem.'],
+  ['Der Jäger beobachtet ___.',             'der Falke',      'den Falken',     'akk', 'Frag so: Wen oder was beobachtet der Jäger?',      'Im Akkusativ heißt der Artikel den. Das Nomen Falke bekommt die Endung -n.'],
+  ['Die Blumen sind für ___.',              'der Nachbar',    'den Nachbarn',   'akk', 'Schau auf das Wort vor der Lücke: für.',           'Nach „für“ steht immer der Akkusativ. Das Nomen Nachbar bekommt die Endung -n.'],
+  ['Ohne ___ fahre ich nicht Fahrrad.',     'der Helm',       'den Helm',       'akk', 'Schau auf das Wort vor der Lücke: ohne.',          'Nach „ohne“ steht immer der Akkusativ. Im Akkusativ heißt der Artikel den.'],
+  ['Der Kapitän ruft ___.',                 'der Matrose',    'den Matrosen',   'akk', 'Frag so: Wen oder was ruft der Kapitän?',          'Im Akkusativ heißt der Artikel den. Das Nomen Matrose bekommt die Endung -n.'],
+  ['Die Klasse besucht ___.',               'das Museum',     'das Museum',     'akk', 'Frag so: Wen oder was besucht die Klasse?',        'Bei „das“ sieht der Akkusativ genauso aus wie der Nominativ.']
+];
+
+const GAME = {
+  id: 'profi',
+  unit: 'Sätze',
+  next: null,
+  review: () => `<div class="review c2">${ORDER.map(k =>
+    `<div class="col ${k}"><h3>${FALL[k].name} <small>${FALL[k].q}</small></h3><ul>${all.filter(s => s.k === k).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Fall-Profi ---------- */
+const FALL = {
+  nom: { name: 'Nominativ', q: 'Wer oder was?', color: 'der' },
+  gen: { name: 'Genitiv', q: 'Wessen?', color: 'bonus' },
+  dat: { name: 'Dativ', q: 'Wem?', color: 'das' },
+  akk: { name: 'Akkusativ', q: 'Wen oder was?', color: 'die' }
+};
+const ORDER = ['nom', 'gen', 'dat', 'akk'];
+let all = [], queue = [], cur = null;
+const full = s => s.text.replace('___', `<b class="w ${s.k}">${s.ans}</b>`);
+const input = () => $('#sentence input');
+
+function startGame() {
+  all = SENTENCES.map(s => ({ text: s[0], base: s[1], ans: s[2], k: s[3], help: s[4], rule: s[5], misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Frag nach der Lücke. Schreibe dann Artikel und Nomen im richtigen Fall hinein.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#base').textContent = cur.base;
+  $('#sentence').innerHTML = cur.text.replace('___',
+    '<input type="text" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" maxlength="24" aria-label="Artikel und Nomen im richtigen Fall">');
+  input().focus({ preventScroll: true });
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const inp = input(), f = FALL[cur.k];
+  const v = inp.value.trim().replace(/\s+/g, ' ');
+  if (!v) { say('Schreibe zuerst Artikel und Nomen in die Lücke.'); inp.focus(); return; }
+  inp.classList.remove('hint');
+  if (v !== cur.ans) {
+    if (v.toLowerCase() === cur.ans.toLowerCase()) {
+      wobble(inp);
+      say('Fast richtig! Achte auf die Großschreibung: Den Artikel schreibst du klein, das Nomen groß.', 'think');
+      inp.focus();
+      return;
+    }
+    if (!v.includes(' ')) {
+      wobble(inp);
+      say('Da fehlt noch etwas. Schreibe den Artikel <b>und</b> das Nomen in die Lücke.', 'think');
+      inp.focus();
+      return;
+    }
+    miss(cur, inp);
+    if (cur.misses === 2) inp.classList.add('hint');
+    say(cur.misses === 1 ? `Fast! ${cur.help}`
+      : cur.misses === 2 ? `Tipp: Hier steht der <b>${f.name}</b>. ${cur.rule}`
+      : `So ist es richtig: <span class="pill ${cur.k}">${cur.ans}</span> Schreibe es genau so ab.`, 'think');
+    inp.focus();
+    return;
+  }
+  state.busy = true;
+  inp.readOnly = true; inp.classList.add('good', cur.k);
+  solve(cur, inp, f.color);
+  say(`${pick(PRAISE, 'praise')} <span class="pill ${cur.k}">${cur.ans}</span> steht im <b>${f.name}</b>: ${full(cur)}`, 'happy');
+  later(next, 2800);
+}
+
+$('#form').addEventListener('submit', e => { e.preventDefault(); check(); });

@@ -1,0 +1,204 @@
+@@meta
+file: 1-rede-finder.html
+title: Rede-Finder
+level: Anfänger
+nr: 1
+total: 15
+subtitle: Was wird gesagt und wer spricht? Finde die wörtliche Rede und den Begleitsatz.
+lead: Die wörtliche Rede ist im Spiel pink, der Begleitsatz ist blau:
+id: finder
+desc: Tippe die wörtliche Rede oder den Begleitsatz an.
+sample: Oma sagt: „Der Kuchen ist fertig.“
+drag: no
+@@tipp
+Was jemand sagt, heißt <b>wörtliche Rede</b>. Sie steht in Anführungszeichen: am Anfang unten „ und am Ende oben “. Der <b>Begleitsatz</b> steht außerhalb der Anführungszeichen. Er sagt, wer spricht.
+@@examples
+      <div class="ex rede" style="--tilt:-1.5deg"><div class="ex-head"><b>Wörtliche Rede</b><span>Was wird gesagt?</span></div><div class="ex-body"><span class="emo" aria-hidden="true">💬</span><span class="a">„Ich komme gleich.“</span></div></div>
+      <div class="ex begl" style="--tilt:1deg"><div class="ex-head"><b>Begleitsatz</b><span>Wer spricht?</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🧒</span><span class="a">Tom sagt:</span></div></div>
+      <div class="ex pos" style="--tilt:-.5deg"><div class="ex-head"><b>Zusammen</b><span>ein ganzer Satz</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🧒💬</span><span class="nb"><span class="t begl">Tom</span></span> <span class="nb"><span class="t begl">sagt</span><b class="z">:</b></span> <span class="nb"><b class="z">„</b><span class="t rede">Ich</span></span> <span class="nb"><span class="t rede">komme</span></span> <span class="nb"><span class="t rede">gleich.</span><b class="z">“</b></span></div></div>
+@@howto
+        <li><span>Schau dir das Bild an. In der Sprechblase steht, was gesagt wird.</span></li>
+        <li><span>Lies den Satz darunter und die Frage der Eule: Sollst du die <b>wörtliche Rede</b> finden oder den <b>Begleitsatz</b>?</span></li>
+        <li><span>Tippe den richtigen Teil des Satzes an. Dann wird er farbig.</span></li>
+@@board
+    <div class="bench">
+      <div class="scene" aria-hidden="true"><span class="who" id="who"></span><span class="talk" id="talk"></span></div>
+      <p class="lbl ask" id="ask"></p>
+      <p class="sentence chunks" id="sentence"></p>
+    </div>
+@@tray
+@@css
+/* ---------- Wörtliche Rede: gemeinsame Farben und Bausteine ---------- */
+.rede{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.begl{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.pos{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.neutral{--cs:var(--paper)}
+.t{color:var(--c);font-weight:700}
+.z{display:inline-block;font-weight:700;color:var(--on-sun);background:var(--sun);border-radius:6px;padding:0 .16em;margin:0 .05em;line-height:1.25}
+.nb{white-space:nowrap}
+.ex-head b{font-size:clamp(1rem,2.6vw,1.4rem)}
+.ex-head span{font-size:clamp(.85rem,2vw,1rem)}
+.ex-body{font-size:clamp(1rem,2.5vw,1.4rem);line-height:1.6}
+.ex-body .pr{display:block;font-weight:400;font-size:.8em;line-height:1.3;color:var(--ink-soft);margin-top:6px}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.6}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.6;margin-bottom:4px}
+.review li .t{font-weight:700}
+.review li .z{color:var(--on-sun)}
+.review h3{font-size:1.2rem;color:var(--ink)}
+.bubble .sol{display:block;margin-top:4px;line-height:1.6}
+.keys{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,2.4vw,20px);max-width:640px;margin:0 auto}
+.key{appearance:none;position:relative;border:none;border-radius:16px;background:var(--sun);color:var(--on-sun);min-height:clamp(70px,10vw,90px);padding:4px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--sun-deep),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.key b{font-size:clamp(2.1rem,5.6vw,2.7rem);line-height:1.25}
+.key small{font-size:clamp(.78rem,2vw,1rem);line-height:1.2;font-weight:700}
+.key:active{transform:translateY(4px);box-shadow:0 2px 0 var(--sun-deep),0 6px 12px var(--lift)}
+.key.hint{animation:glow 1.1s ease-in-out infinite}
+.key .kbd,.piece .kbd,.opt .kbd,.chunk .kbd{background:rgba(0,0,0,.1)}
+/* ---------- Rede-Finder ---------- */
+.scene{display:flex;align-items:center;justify-content:center;gap:18px;margin:0 0 14px}
+.who{font-size:clamp(2.8rem,8vw,3.8rem);line-height:1.1}
+.talk{position:relative;background:var(--die-soft);border:3px solid var(--die);border-radius:20px;padding:8px 16px;font-size:clamp(1.15rem,3vw,1.45rem);font-weight:700;max-width:24ch;text-align:left;line-height:1.3}
+.talk::before{content:"";position:absolute;left:-11px;top:50%;width:17px;height:17px;background:var(--die-soft);border-left:3px solid var(--die);border-bottom:3px solid var(--die);transform:translateY(-50%) rotate(45deg)}
+.bench .ask{font-size:1.2rem;margin-bottom:14px;color:var(--ink)}
+.chunks{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px 10px;line-height:1.3}
+.chunk{appearance:none;position:relative;background:var(--card);border:3px solid var(--card-edge);border-radius:16px;min-height:64px;padding:8px 18px;font-weight:700;cursor:pointer;
+  box-shadow:0 4px 0 var(--card-edge),0 10px 18px var(--lift);transition:transform .12s ease,border-color .12s ease,background-color .12s ease}
+@media (hover:hover){.chunk:hover{border-color:var(--sun);transform:translateY(-2px)}}
+.chunk:active{transform:translateY(3px)}
+.chunk.hint{border-color:var(--sun);animation:glow 1.1s ease-in-out infinite}
+.chunks .cm{margin-left:-6px;font-size:1.2em}
+.chunks.solved .chunk{border-color:var(--c);background:var(--cs);color:var(--c);box-shadow:0 4px 0 var(--c);cursor:default}
+.chunks.solved .kbd{display:none}
+@@data
+/* Aufbau: [Satz, Bild, Frage]. Frage 'R' = das Kind sucht die wörtliche Rede, 'B' = es sucht den Begleitsatz.
+   Schreibe die Sätze mit den richtigen Anführungszeichen „unten“ und “oben“. Zuerst kommen die Sätze mit Begleitsatz vorn. */
+const SENTENCES = [
+  ['Oma sagt: „Der Kuchen ist fertig.“',                        '👵',  'R'],
+  ['Ben fragt: „Wo ist mein Ball?“',                            '👦',  'B'],
+  ['Die Lehrerin sagt: „Holt bitte eure Hefte heraus.“',        '👩‍🏫', 'R'],
+  ['Lea ruft: „Ich habe gewonnen!“',                            '👧',  'B'],
+  ['Papa fragt: „Wer deckt heute den Tisch?“',                  '👨',  'R'],
+  ['Mia flüstert: „Ich habe ein Geheimnis.“',                   '🤫',  'B'],
+  ['Der Polizist sagt: „Hier dürft ihr über die Straße gehen.“', '👮',  'R'],
+  ['Die Ärztin fragt: „Wo tut es dir weh?“',                    '👩‍⚕️', 'B'],
+  ['„Ich habe Hunger“, sagt Tim.',                              '😋',  'R'],
+  ['„Darf ich mitspielen?“, fragt Emma.',                       '⚽',  'B'],
+  ['„Die Suppe ist heiß!“, ruft Mama.',                         '🍲',  'R'],
+  ['„Morgen gehen wir in den Zoo“, erzählt Opa.',               '👴',  'B'],
+  ['„Wie spät ist es?“, fragt Jonas.',                          '⏰',  'R'],
+  ['„Das Tor zählt“, sagt der Schiedsrichter.',                 '🥅',  'B'],
+  ['„Es schneit!“, jubelt Nele.',                               '❄️',  'R']
+];
+
+const GAME = {
+  id: 'finder',
+  unit: 'Sätze',
+  next: { href: '2-zeichen-helfer.html', title: 'Zeichen-Helfer' },
+  review: () => reviewBy(all, ['vorn', 'hinten'])
+};
+@@js
+/* ---------- Satz zerlegen und einfärben (in allen sechs Spielen gleich) ---------- */
+/* model(satz) liefert: words = die Wörter (r: gehört zur wörtlichen Rede),
+   sig[i] = die Zeichen „ “ : , die vor Wort i stehen (sig[letztes + 1] = am Satzende),
+   kind = wo der Begleitsatz steht: vorn, hinten oder mitte */
+function model(s) {
+  const words = [], sig = [''];
+  let inR = false, w = '';
+  const flush = () => { if (w) { words.push({ w, r: inR }); w = ''; sig[words.length] = ''; } };
+  for (const ch of s) {
+    if (ch === '„') { flush(); sig[words.length] += ch; inR = true; }
+    else if (ch === '“') { flush(); sig[words.length] += ch; inR = false; }
+    else if (!inR && (ch === ':' || ch === ',')) { flush(); sig[words.length] += ch; }
+    else if (ch === ' ') flush();
+    else w += ch;
+  }
+  flush();
+  const kind = sig[0] !== '„' ? 'vorn' : sig.filter(x => x.includes('„')).length > 1 ? 'mitte' : 'hinten';
+  return { words, sig, kind };
+}
+const KIND = { vorn: 'Begleitsatz vorn', hinten: 'Begleitsatz hinten', mitte: 'Begleitsatz in der Mitte' };
+const Z = ch => `<b class="z">${ch}</b>`;
+const W = x => `<span class="t ${x.r ? 'rede' : 'begl'}">${x.w}</span>`;
+/* Setzt den Satz wieder zusammen. Zeichen und Wort, die zusammengehören, bleiben in einer Zeile. */
+function layout(m, zf, wf) {
+  return m.words.map((x, i) => {
+    const open = m.sig[i].includes('„') ? zf('„') : '';
+    const close = [...m.sig[i + 1].replace('„', '')].map(ch => zf(ch)).join('');
+    return `<span class="nb">${open}${wf(x)}${close}</span>`;
+  }).join(' ');
+}
+const colored = m => `<span class="sol">${layout(m, Z, W)}</span>`;
+const reviewBy = (list, kinds) => `<div class="review ${kinds.length === 2 ? 'c2' : ''}">${kinds.map(k =>
+  `<div class="col neutral"><h3>${KIND[k]}</h3><ul>${list.filter(s => s.m.kind === k).map(s => `<li>${layout(s.m, Z, W)}</li>`).join('')}</ul></div>`).join('')}</div>`;
+
+/* ---------- Spiel: Rede-Finder ---------- */
+let all = [], queue = [], cur = null;
+
+/* Teilt den Satz in zwei Teile zum Antippen: wörtliche Rede (mit Anführungszeichen) und Begleitsatz */
+function chunks(m) {
+  const out = [];
+  m.words.forEach((x, i) => {
+    const s = m.sig[i], last = out[out.length - 1];
+    if (s.includes(':')) last.text += ':';
+    if (s.includes('“')) last.text += '“';
+    if (s.includes(',')) out.push({ t: 'cm', text: ',' });
+    if (s || !i) out.push({ t: x.r ? 'rede' : 'begl', text: (s.includes('„') ? '„' : '') + x.w });
+    else last.text += ' ' + x.w;
+  });
+  if (m.sig[m.words.length]) out[out.length - 1].text += m.sig[m.words.length];
+  return out;
+}
+
+function startGame() {
+  all = SENTENCES.map(s => ({ text: s[0], emoji: s[1], want: s[2] === 'R' ? 'rede' : 'begl', m: model(s[0]), misses: 0 }));
+  queue = shuffle(all.filter(s => s.m.kind === 'vorn')).concat(shuffle(all.filter(s => s.m.kind !== 'vorn')));
+  resetState(all.length);
+  say('Schau dir die Sprechblase an. Was dort steht, wird gesagt. Das ist die wörtliche Rede.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#who').textContent = cur.emoji;
+  $('#talk').textContent = cur.m.words.filter(x => x.r).map(x => x.w).join(' ');
+  $('#ask').innerHTML = cur.want === 'rede'
+    ? 'Was wird gesagt? Tippe die <span class="pill rede">wörtliche Rede</span> an.'
+    : 'Wer spricht? Tippe den <span class="pill begl">Begleitsatz</span> an.';
+  const box = $('#sentence');
+  box.classList.remove('solved');
+  let n = 0;
+  box.innerHTML = chunks(cur.m).map(c => c.t === 'cm' ? '<span class="cm">,</span>'
+    : `<button class="chunk ${c.t}" data-t="${c.t}">${c.text}<span class="kbd" aria-hidden="true">${++n}</span></button>`).join('');
+}
+
+function choose(el) {
+  if (state.busy || !cur || !el) return;
+  if (el.dataset.t !== cur.want) {
+    const hint = miss(cur, el);
+    if (hint) $(`.chunk[data-t="${cur.want}"]`).classList.add('hint');
+    say(cur.want === 'rede'
+      ? (hint ? 'Tipp: Die wörtliche Rede steht in Anführungszeichen: unten „ und oben “. Dort steht dasselbe wie in der Sprechblase.'
+              : 'Fast! Das ist der Begleitsatz. Er sagt nur, wer spricht. Welcher Teil steht in der Sprechblase?')
+      : (hint ? 'Tipp: Der Begleitsatz steht außerhalb der Anführungszeichen. Er sagt, wer spricht.'
+              : 'Fast! Das ist die wörtliche Rede. Sie steht in Anführungszeichen. Welcher Teil sagt, wer spricht?'), 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.chunk').forEach(c => c.classList.remove('hint'));
+  $('#sentence').classList.add('solved');
+  solve(cur, el, cur.want === 'rede' ? 'die' : 'der');
+  say(`${pick(PRAISE, 'praise')} ${cur.want === 'rede'
+    ? 'Das ist die <span class="pill rede">wörtliche Rede</span>. Sie steht in Anführungszeichen.'
+    : 'Das ist der <span class="pill begl">Begleitsatz</span>. Er sagt, wer spricht.'} ${colored(cur.m)}`, 'happy');
+  later(next, 2600);
+}
+
+$('#sentence').addEventListener('click', e => choose(e.target.closest('.chunk')));
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[12]$/.test(e.key)) return;
+  choose($$('.chunk')[+e.key - 1]);
+});

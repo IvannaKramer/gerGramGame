@@ -1,0 +1,10 @@
+@@meta
+slug: pronomen
+title: Pronomen
+subtitle: Sechs Spiele rund um er, sie, es und ihre Freunde. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Bildern und Hilfen. Je 15 Aufgaben.
+lead2: Ohne Hilfe. Je 20 Aufgaben.
+lead3: Knifflige Fälle zum Selberschreiben. 20 Sätze.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Wörtern und Sätzen, dazu die Lösungen.
+@@tipp
+Ein <b>Pronomen</b> steht für ein Nomen. So musst du das Nomen nicht immer wiederholen. Der Artikel hilft dir: <b>der</b> Hund → <b>er</b>, <b>die</b> Katze → <b>sie</b>, <b>das</b> Pferd → <b>es</b>. Sind es viele, heißt es immer <b>sie</b>: die Kinder → sie.

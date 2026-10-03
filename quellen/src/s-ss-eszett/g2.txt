@@ -1,0 +1,181 @@
+@@meta
+file: 2-drei-koerbe.html
+title: Drei Körbe
+level: Anfänger
+nr: 2
+total: 15
+subtitle: Was fehlt in der Lücke: s, ss oder ß? Sortiere jede Karte in den richtigen Korb.
+lead: Jeder Korb hat im Spiel seine eigene Farbe:
+id: koerbe
+desc: Sortiere die Wörter in die Körbe s, ss und ß.
+sample: 👃 Na_e → Korb s
+drag: yes
+@@tipp
+Sprich das Wort laut. Klingt der Vokal <b>kurz</b>? Dann fehlt <b>ss</b>: Schüssel. Klingt der Vokal <b>lang</b> und der s-Laut <b>zischt</b> scharf wie eine Schlange? Dann fehlt <b>ß</b>: grüßen. Klingt der Vokal lang und das s <b>summt</b> weich wie eine Biene? Dann fehlt <b>s</b>: Nase.
+@@examples
+      <div class="ex ks" style="--tilt:-1.5deg"><div class="ex-head"><b>s</b><span>lang · summt</span></div><div class="ex-body"><span class="emo" aria-hidden="true">👃</span>Na<span class="a">s</span>e</div></div>
+      <div class="ex kss" style="--tilt:1deg"><div class="ex-head"><b>ss</b><span>kurz</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🥣</span>Schü<span class="a">ss</span>el</div></div>
+      <div class="ex ksz" style="--tilt:-.5deg"><div class="ex-head"><b>ß</b><span>lang · zischt</span></div><div class="ex-body"><span class="emo" aria-hidden="true">👋</span>grü<span class="a">ß</span>en</div></div>
+@@howto
+        <li>Tippe eine Karte an und sprich das Wort laut. Unter dem Wort steht eine kleine Hilfe.</li>
+        <li>Tippe auf den passenden Korb: s, ss oder ß. Du kannst die Karte auch mit dem Finger in den Korb ziehen.</li>
+        <li>Passt es, verschwindet die Karte. Passt es nicht, probierst du einfach einen anderen Korb.</li>
+@@board
+    <div class="words with-pics" id="words"></div>
+@@tray
+    <div class="tray">
+      <div class="baskets" id="baskets"></div>
+    </div>
+@@css
+/* ---------- Drei Körbe ---------- */
+.ks{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.kss{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.ksz{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.hit{color:var(--c);background:var(--cs);border-radius:8px;padding:0 .08em}
+.gap{display:inline-block;width:.62em;border-bottom:3px solid currentColor;margin:0 1px}
+.with-pics .word-card{min-height:150px;padding:10px 6px}
+.word-card .pic{font-size:2.5rem;white-space:nowrap}
+.word-card .word{font-size:clamp(1.5rem,2.6vw,1.75rem)}
+.word-card .long{font-size:1.05rem;color:var(--ink-soft);line-height:1.2;text-align:center}
+.baskets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,3vw,30px);max-width:720px;margin:0 auto}
+.basket{appearance:none;border:none;position:relative;border-radius:12px 12px 26px 26px;background:var(--c);color:#fff;min-height:clamp(70px,10vw,92px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:inset 0 8px 0 rgba(255,255,255,.22),0 6px 0 var(--cd),0 12px 22px var(--lift);
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .16s ease,box-shadow .16s ease}
+.basket b{font-size:clamp(2rem,5vw,2.6rem);line-height:1}
+.basket small{font-size:.95rem;font-weight:700;line-height:1.2;margin-top:2px}
+.basket.selected,.basket.drop-over{transform:translateY(-6px);box-shadow:inset 0 8px 0 rgba(255,255,255,.22),0 0 0 5px var(--sun),0 14px 24px var(--lift)}
+.basket.hint{animation:glow 1.1s ease-in-out infinite}
+.listen{appearance:none;border:3px solid var(--card-edge);background:var(--card);border-radius:999px;min-height:48px;padding:4px 16px;margin:4px 0 0 6px;font-weight:700;font-size:1.05rem;cursor:pointer;box-shadow:0 3px 0 var(--card-edge);vertical-align:middle}
+@@data
+/* Aufbau: [Wort mit Lücke (_), was fehlt, Bild, kleine Hilfe unter dem Wort] */
+const WORDS = [
+  ['Na_e',        's',  '👃', 'a lang · s summt'],
+  ['Ho_e',        's',  '👖', 'o lang · s summt'],
+  ['Ro_e',        's',  '🌹', 'o lang · s summt'],
+  ['Kä_e',        's',  '🧀', 'ä lang · s summt'],
+  ['Be_en',       's',  '🧹', 'e lang · s summt'],
+  ['Schü_el',     'ss', '🥣', 'ü kurz'],
+  ['Kompa_',      'ss', '🧭', 'a kurz'],
+  ['Prinze_in',   'ss', '👸', 'e kurz'],
+  ['kü_en',       'ss', '😘', 'ü kurz'],
+  ['Kla_e',       'ss', '🏫', 'a kurz'],
+  ['drei_ig',     'ß',  '3️⃣0️⃣', 'ei · s zischt'],
+  ['flei_ig',     'ß',  '🐝', 'ei · s zischt'],
+  ['Klö_e',       'ß',  '🥟', 'ö lang · s zischt'],
+  ['grü_en',      'ß',  '👋', 'ü lang · s zischt'],
+  ['bei_en',      'ß',  '🦈', 'ei · s zischt']
+];
+/* Die drei Körbe: [Buchstabe, Farbe, Merkhilfe auf dem Korb, Regel für den Tipp] */
+const BASKETS = [
+  ['s',  'ks',  'summt',  'Der Vokal klingt lang und das s summt weich wie eine Biene. Dann schreibst du <b>s</b>.'],
+  ['ss', 'kss', 'kurz',   'Der Vokal vor der Lücke klingt kurz. Nach einem kurzen Vokal schreibst du <b>ss</b>.'],
+  ['ß',  'ksz', 'zischt', 'Der Vokal klingt lang (oder es ist au, ei, eu) und der s-Laut zischt scharf. Dann schreibst du <b>ß</b>.']
+];
+
+const GAME = {
+  id: 'koerbe',
+  next: { href: '3-verlaengerungs-zauber.html', title: 'Verlängerungs-Zauber' },
+  review: () => `<div class="review">${BASKETS.map(([l, k, h]) =>
+    `<div class="col ${k}"><h3>${l} · ${h}</h3><ul>${items.filter(w => w.l === l).map(w => `<li>${w.html}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Drei Körbe ---------- */
+const GAP = '<i class="gap"></i>';
+const KL = { s: 'ks', ss: 'kss', 'ß': 'ksz' }, COLOR = { s: 'der', ss: 'die', 'ß': 'das' };
+const RULE = Object.fromEntries(BASKETS.map(b => [b[0], b[3]]));
+/* Vorlesen ist nur ein Zusatz: Ohne Sprachausgabe gibt es den Knopf nicht. */
+const canSpeak = (() => { try { return 'speechSynthesis' in window && typeof SpeechSynthesisUtterance === 'function'; } catch (e) { return false; } })();
+function speak(text) {
+  try { if (!canSpeak) return; speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'de-DE'; u.rate = .8; speechSynthesis.speak(u); } catch (e) { /* ohne Vorlesen weiterspielen */ }
+}
+const listenBtn = w => canSpeak ? ` <button type="button" class="listen" data-id="${w.id}"><span aria-hidden="true">🔊</span> Anhören</button>` : '';
+let items = [], selWord = null, selL = null;
+const byId = id => items.find(w => w.id === id);
+const cardEl = id => $(`.word-card[data-id="${id}"]`);
+const basketEl = l => $(`.basket[data-l="${l}"]`);
+
+$('#baskets').innerHTML = BASKETS.map(([l, k, h], i) =>
+  `<button class="basket ${k}" data-l="${l}" aria-pressed="false" aria-label="Korb ${l}"><b>${l}</b><small>${h}</small><span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+
+function startGame() {
+  items = shuffle(WORDS.map((w, i) => ({ id: 'w' + i, gap: w[0], l: w[1], emoji: w[2], help: w[3], full: w[0].replace('_', w[1]),
+    html: w[0].replace('_', `<b>${w[1]}</b>`), misses: 0, done: false })));
+  resetState(items.length);
+  selWord = selL = null;
+  $('#words').innerHTML = items.map(w =>
+    `<button class="word-card" data-id="${w.id}" aria-pressed="false" aria-label="${w.gap.replace('_', ' Lücke ')}" style="--tilt:${(Math.random() * 3 - 1.5).toFixed(2)}deg">
+      <span class="pic" aria-hidden="true">${w.emoji}</span><span class="word">${w.gap.replace('_', GAP)}</span>
+      <span class="long">${w.help}</span></button>`).join('');
+  renderSelection();
+  say('Tippe eine Karte an. Sprich das Wort laut und tippe dann auf den passenden Korb.');
+  show('game');
+}
+
+function renderSelection() {
+  $$('.word-card').forEach(el => {
+    const on = el.dataset.id === selWord;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+  });
+  $$('.basket').forEach(el => {
+    const on = el.dataset.l === selL;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+    el.classList.remove('hint');
+  });
+  const w = selWord && byId(selWord);
+  if (w && w.misses >= 2) basketEl(w.l).classList.add('hint');
+}
+
+function tapWord(id) {
+  const w = byId(id);
+  if (!w || w.done || state.busy) return;
+  if (selL) { attempt(id, selL); return; }
+  selWord = selWord === id ? null : id;
+  sfx.pick(); renderSelection();
+  if (selWord) say(`Sprich laut: <b>${w.gap.replace('_', GAP)}</b>. Ist der Vokal kurz oder lang? Summt das s oder zischt es?${listenBtn(w)}`);
+}
+function tapBasket(l) {
+  if (state.busy) return;
+  if (selWord) { attempt(selWord, l); return; }
+  selL = selL === l ? null : l;
+  sfx.pick(); renderSelection();
+  if (selL) say(`Welche Karte gehört in den Korb <span class="pill ${KL[l]}">${l}</span>?`);
+}
+
+function attempt(id, l) {
+  const w = byId(id);
+  if (!w || w.done) return;
+  if (w.l !== l) {
+    miss(w, cardEl(id));
+    wobble(basketEl(l));
+    selWord = id; selL = null;
+    renderSelection();
+    say(w.misses >= 2
+      ? `Tipp: ${RULE[w.l]} Der leuchtende Korb ist richtig.`
+      : `Fast! Lies die kleine Hilfe unter dem Wort: <b>${w.help}</b>. Welcher Korb passt dazu?${listenBtn(w)}`, 'think');
+    return;
+  }
+  const card = cardEl(id);
+  selWord = selL = null;
+  renderSelection();
+  card.classList.add('vanish');
+  later(() => { card.classList.remove('vanish'); card.classList.add('done'); card.disabled = true; }, 330);
+  solve(w, basketEl(l), COLOR[l]);
+  say(`${pick(PRAISE, 'praise')} ${w.help}: <span class="pill ${KL[l]}">${w.full}</span> mit <b>${l}</b>.`, 'happy');
+  if (state.solved === state.total) { state.busy = true; later(finish, 1700); }
+}
+
+$('#words').addEventListener('click', e => {
+  if (suppressClick) return;
+  const c = e.target.closest('.word-card');
+  if (c) tapWord(c.dataset.id);
+});
+$$('.basket').forEach(b => b.addEventListener('click', () => { if (!suppressClick) tapBasket(b.dataset.l); }));
+$('#bubble').addEventListener('click', e => { const b = e.target.closest('.listen'); const w = b && byId(b.dataset.id); if (w) speak(w.full); });
+enableDrag('.word-card:not(.done)', '.basket', (card, basket) => attempt(card.dataset.id, basket.dataset.l));
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-3]$/.test(e.key)) return;
+  tapBasket(BASKETS[+e.key - 1][0]);
+});

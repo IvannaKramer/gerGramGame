@@ -1,0 +1,225 @@
+@@meta
+file: 3-satz-puzzle.html
+title: Satz-Puzzle
+level: Anfänger
+nr: 3
+total: 15
+subtitle: Der Satz ist durcheinandergeraten. Baue ihn aus fünf Teilen wieder zusammen.
+lead: So sehen die fertigen Sätze aus:
+id: puzzle
+desc: Baue den Satz aus fünf Teilen in der richtigen Reihenfolge.
+sample: „Kommst du mit?“, fragt Mia.
+drag: no
+@@tipp
+Schau zuerst auf die gelben Zeichen. Gibt es einen <b>Doppelpunkt</b>? Dann steht der Begleitsatz <b>vorn</b>. Gibt es ein <b>Komma</b>? Dann steht der Begleitsatz <b>hinten</b>. Er ist dann kleingeschrieben.
+@@examples
+      <div class="ex pos" style="--tilt:-1.5deg"><div class="ex-head"><b>Begleitsatz vorn</b><span>Doppelpunkt</span></div><div class="ex-body"><span class="nb"><span class="t begl">Mia</span></span> <span class="nb"><span class="t begl">fragt</span><b class="z">:</b></span> <span class="nb"><b class="z">„</b><span class="t rede">Kommst</span></span> <span class="nb"><span class="t rede">du</span></span> <span class="nb"><span class="t rede">mit?</span><b class="z">“</b></span></div></div>
+      <div class="ex pos" style="--tilt:1deg"><div class="ex-head"><b>Begleitsatz hinten</b><span>Komma</span></div><div class="ex-body"><span class="nb"><b class="z">„</b><span class="t rede">Kommst</span></span> <span class="nb"><span class="t rede">du</span></span> <span class="nb"><span class="t rede">mit?</span><b class="z">“</b><b class="z">,</b></span> <span class="nb"><span class="t begl">fragt</span></span> <span class="nb"><span class="t begl">Mia.</span></span></div></div>
+      <div class="ex pos" style="--tilt:-.5deg"><div class="ex-head"><b>Begleitsatz hinten</b><span>Komma</span></div><div class="ex-body"><span class="nb"><b class="z">„</b><span class="t rede">Ich</span></span> <span class="nb"><span class="t rede">komme</span></span> <span class="nb"><span class="t rede">gleich</span><b class="z">“</b><b class="z">,</b></span> <span class="nb"><span class="t begl">sagt</span></span> <span class="nb"><span class="t begl">Tom.</span></span><span class="pr">Der Punkt fällt weg.</span></div></div>
+@@howto
+        <li><span>Unten liegen fünf Teile: die pinke <b>wörtliche Rede</b>, der blaue <b>Begleitsatz</b> und drei gelbe Zeichen.</span></li>
+        <li><span>Tippe die Teile in der richtigen Reihenfolge an. Fang mit dem Satzanfang an.</span></li>
+        <li><span>Passt ein Teil, springt es nach oben in den Satz. Passt es noch nicht, probierst du ein anderes.</span></li>
+@@board
+    <div class="bench">
+      <p class="lbl">Tippe die Teile in der richtigen Reihenfolge an.</p>
+      <p class="sentence line" id="line"></p>
+      <div class="pieces" id="pieces"></div>
+    </div>
+@@tray
+@@css
+/* ---------- Wörtliche Rede: gemeinsame Farben und Bausteine ---------- */
+.rede{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.begl{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.pos{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.neutral{--cs:var(--paper)}
+.t{color:var(--c);font-weight:700}
+.z{display:inline-block;font-weight:700;color:var(--on-sun);background:var(--sun);border-radius:6px;padding:0 .16em;margin:0 .05em;line-height:1.25}
+.nb{white-space:nowrap}
+.ex-head b{font-size:clamp(1rem,2.6vw,1.4rem)}
+.ex-head span{font-size:clamp(.85rem,2vw,1rem)}
+.ex-body{font-size:clamp(1rem,2.5vw,1.4rem);line-height:1.6}
+.ex-body .pr{display:block;font-weight:400;font-size:.8em;line-height:1.3;color:var(--ink-soft);margin-top:6px}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.6}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.6;margin-bottom:4px}
+.review li .t{font-weight:700}
+.review li .z{color:var(--on-sun)}
+.review h3{font-size:1.2rem;color:var(--ink)}
+.bubble .sol{display:block;margin-top:4px;line-height:1.6}
+.keys{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,2.4vw,20px);max-width:640px;margin:0 auto}
+.key{appearance:none;position:relative;border:none;border-radius:16px;background:var(--sun);color:var(--on-sun);min-height:clamp(70px,10vw,90px);padding:4px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--sun-deep),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.key b{font-size:clamp(2.1rem,5.6vw,2.7rem);line-height:1.25}
+.key small{font-size:clamp(.78rem,2vw,1rem);line-height:1.2;font-weight:700}
+.key:active{transform:translateY(4px);box-shadow:0 2px 0 var(--sun-deep),0 6px 12px var(--lift)}
+.key.hint{animation:glow 1.1s ease-in-out infinite}
+.key .kbd,.piece .kbd,.opt .kbd,.chunk .kbd{background:rgba(0,0,0,.1)}
+/* ---------- Satz-Puzzle ---------- */
+.line{min-height:2.6em;margin:8px auto 16px;padding:8px 12px;border:3px dashed var(--card-edge);border-radius:16px;background:var(--paper);display:flex;align-items:center;justify-content:center}
+.line .ph{color:var(--ink-soft);font-weight:400;font-size:1.1rem}
+.line.solved{border-style:solid;border-color:var(--sun)}
+.pieces{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:12px}
+.piece{appearance:none;position:relative;border:3px solid var(--c);background:var(--cs);color:var(--ink);border-radius:16px;min-height:66px;min-width:66px;padding:8px 16px;
+  font-weight:700;font-size:clamp(1.5rem,3.4vw,1.75rem);line-height:1.25;cursor:pointer;box-shadow:0 4px 0 var(--c),0 10px 18px var(--lift);transition:transform .12s ease}
+.piece.zei{--c:var(--sun-deep);--cs:var(--sun);color:var(--on-sun);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 12px}
+.piece.zei b{font-size:2.3rem;line-height:1.2}
+.piece.zei small{font-size:.8rem;line-height:1.2}
+.piece:active{transform:translateY(3px)}
+.piece.hint{animation:glow 1.1s ease-in-out infinite}
+.piece.used{visibility:hidden}
+@media (max-width:560px){
+  .coach{position:sticky;bottom:0;z-index:6;background:var(--paper);margin:0 -14px;padding:8px 14px calc(8px + env(safe-area-inset-bottom,0px))}
+  .coach .owl{width:56px}
+  .bubble{font-size:1.05rem;padding:8px 14px}
+}
+@@data
+/* Aufbau: der richtige Satz mit allen Zeichen. Das Spiel zerlegt ihn in fünf Teile:
+   Begleitsatz, wörtliche Rede und die drei Zeichen („ “ und Doppelpunkt oder Komma).
+   Wichtig: In der wörtlichen Rede selbst soll kein Komma und kein Doppelpunkt stehen. */
+const SENTENCES = [
+  'Der Koch sagt: „Die Suppe schmeckt gut.“',
+  'Emil fragt: „Wo ist der Hausschlüssel?“',
+  'Die Trainerin ruft: „Alle laufen los!“',
+  'Clara sagt: „Ich lese gern Comics.“',
+  'Der Busfahrer fragt: „Wohin möchtet ihr fahren?“',
+  'Finn ruft: „Der Ball ist im Tor!“',
+  'Tante Eva sagt: „Wir backen heute Waffeln.“',
+  '„Ich hole die Leiter“, sagt Papa.',
+  '„Wer hat das Fenster geöffnet?“, fragt Herr Klein.',
+  '„Bleib sofort stehen!“, ruft Greta.',
+  '„Mein Hamster schläft noch“, sagt Noah.',
+  '„Darf ich ein Eis haben?“, fragt Marie.',
+  '„Wir haben gewonnen!“, jubelt Leon.',
+  '„Der Zug kommt später“, sagt der Schaffner.',
+  '„Wie heißt dein Hund?“, fragt Ella.'
+];
+
+const GAME = {
+  id: 'puzzle',
+  unit: 'Sätze',
+  next: { href: '4-zeichen-koerbe.html', title: 'Zeichen-Körbe' },
+  review: () => reviewBy(all, ['vorn', 'hinten'])
+};
+@@js
+/* ---------- Satz zerlegen und einfärben (in allen sechs Spielen gleich) ---------- */
+/* model(satz) liefert: words = die Wörter (r: gehört zur wörtlichen Rede),
+   sig[i] = die Zeichen „ “ : , die vor Wort i stehen (sig[letztes + 1] = am Satzende),
+   kind = wo der Begleitsatz steht: vorn, hinten oder mitte */
+function model(s) {
+  const words = [], sig = [''];
+  let inR = false, w = '';
+  const flush = () => { if (w) { words.push({ w, r: inR }); w = ''; sig[words.length] = ''; } };
+  for (const ch of s) {
+    if (ch === '„') { flush(); sig[words.length] += ch; inR = true; }
+    else if (ch === '“') { flush(); sig[words.length] += ch; inR = false; }
+    else if (!inR && (ch === ':' || ch === ',')) { flush(); sig[words.length] += ch; }
+    else if (ch === ' ') flush();
+    else w += ch;
+  }
+  flush();
+  const kind = sig[0] !== '„' ? 'vorn' : sig.filter(x => x.includes('„')).length > 1 ? 'mitte' : 'hinten';
+  return { words, sig, kind };
+}
+const KIND = { vorn: 'Begleitsatz vorn', hinten: 'Begleitsatz hinten', mitte: 'Begleitsatz in der Mitte' };
+const Z = ch => `<b class="z">${ch}</b>`;
+const W = x => `<span class="t ${x.r ? 'rede' : 'begl'}">${x.w}</span>`;
+/* Setzt den Satz wieder zusammen. Zeichen und Wort, die zusammengehören, bleiben in einer Zeile. */
+function layout(m, zf, wf) {
+  return m.words.map((x, i) => {
+    const open = m.sig[i].includes('„') ? zf('„') : '';
+    const close = [...m.sig[i + 1].replace('„', '')].map(ch => zf(ch)).join('');
+    return `<span class="nb">${open}${wf(x)}${close}</span>`;
+  }).join(' ');
+}
+const colored = m => `<span class="sol">${layout(m, Z, W)}</span>`;
+const reviewBy = (list, kinds) => `<div class="review ${kinds.length === 2 ? 'c2' : ''}">${kinds.map(k =>
+  `<div class="col neutral"><h3>${KIND[k]}</h3><ul>${list.filter(s => s.m.kind === k).map(s => `<li>${layout(s.m, Z, W)}</li>`).join('')}</ul></div>`).join('')}</div>`;
+
+/* ---------- Spiel: Satz-Puzzle ---------- */
+const LABEL = { '„': 'unten', '“': 'oben', ':': 'Doppelpunkt', ',': 'Komma' };
+const NAME = { '„': 'Anführungszeichen unten', '“': 'Anführungszeichen oben', ':': 'Doppelpunkt', ',': 'Komma' };
+let all = [], queue = [], cur = null, order = [], step = 0;
+
+/* Zerlegt den Satz in Teile: Text (rede/begl) und einzelne Zeichen (zei) */
+function pieces(m) {
+  const out = []; let buf = [], r = false;
+  const flush = () => { if (buf.length) { out.push({ t: r ? 'rede' : 'begl', text: buf.join(' ') }); buf = []; } };
+  m.words.forEach((x, i) => {
+    if (m.sig[i]) { flush(); [...m.sig[i]].forEach(ch => out.push({ t: 'zei', text: ch })); }
+    buf.push(x.w); r = x.r;
+  });
+  flush();
+  [...m.sig[m.words.length]].forEach(ch => out.push({ t: 'zei', text: ch }));
+  return out;
+}
+const pieceEl = i => $(`.piece[data-i="${i}"]`);
+
+function startGame() {
+  all = SENTENCES.map(text => ({ text, m: model(text), misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Schau zuerst auf die gelben Zeichen: Gibt es einen Doppelpunkt oder ein Komma?');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false; step = 0;
+  order = pieces(cur.m).map((p, i) => ({ ...p, i }));
+  let mixed;
+  do { mixed = shuffle(order.slice()); } while (mixed.every((p, i) => p.i === i));
+  $('#pieces').innerHTML = mixed.map((p, n) => p.t === 'zei'
+    ? `<button class="piece zei" data-i="${p.i}" aria-label="${NAME[p.text]}"><b aria-hidden="true">${p.text}</b><small>${LABEL[p.text]}</small><span class="kbd" aria-hidden="true">${n + 1}</span></button>`
+    : `<button class="piece ${p.t}" data-i="${p.i}">${p.text}<span class="kbd" aria-hidden="true">${n + 1}</span></button>`).join('');
+  drawLine();
+}
+
+function drawLine() {
+  const box = $('#line');
+  box.classList.toggle('solved', step === order.length);
+  box.innerHTML = step === 0 ? '<span class="ph">Hier entsteht dein Satz.</span>'
+    : '<span>' + order.slice(0, step).map((p, i) => (i && (p.t === 'begl' || p.text === '„') ? ' ' : '') +
+        (p.t === 'zei' ? Z(p.text) : `<span class="t ${p.t}">${p.text}</span>`)).join('') + '</span>';
+}
+
+/* Hilfe-Sätze: [beim ersten Fehlversuch, als Tipp] */
+function help(p) {
+  if (p.t === 'begl' && step === 0) return ['Schau auf die gelben Zeichen: Es gibt einen Doppelpunkt. Wo steht dann der Begleitsatz?', 'Zum Doppelpunkt gehört ein Begleitsatz vorn. Beginne mit dem blauen Teil.'];
+  if (p.t === 'begl') return ['Es fehlt nur noch ein Teil.', 'Der Begleitsatz steht hinten. Er ist kleingeschrieben und endet mit einem Punkt.'];
+  if (p.t === 'rede') return ['Die Anführungszeichen unten sind schon da. Was wird gesagt?', 'Nach den Anführungszeichen unten kommt die pinke wörtliche Rede.'];
+  if (p.text === ':') return ['Was kommt direkt nach dem Begleitsatz vorn?', 'Nach dem Begleitsatz vorn steht der <b>Doppelpunkt</b>.'];
+  if (p.text === ',') return ['Was steht zwischen der wörtlichen Rede und dem Begleitsatz hinten?', 'Nach den Anführungszeichen oben steht das <b>Komma</b>.'];
+  if (p.text === '“') return ['Die wörtliche Rede ist zu Ende. Welches Zeichen fehlt jetzt?', 'Die wörtliche Rede endet mit den Anführungszeichen <b>oben</b>.'];
+  return step === 0
+    ? ['Schau auf die gelben Zeichen: Es gibt ein Komma. Dann steht der Begleitsatz hinten. Womit beginnt die wörtliche Rede?', 'Der Satz beginnt mit der wörtlichen Rede. Davor stehen die Anführungszeichen <b>unten</b>.']
+    : ['Jetzt beginnt die wörtliche Rede. Welches Zeichen steht davor?', 'Die wörtliche Rede beginnt mit den Anführungszeichen <b>unten</b>.'];
+}
+
+function choose(el) {
+  if (state.busy || !cur || !el || el.classList.contains('used')) return;
+  const want = order[step];
+  if (+el.dataset.i !== want.i) {
+    const hint = miss(cur, el), h = help(want);
+    if (hint) pieceEl(want.i).classList.add('hint');
+    say(hint ? `Tipp: ${h[1]}` : `Fast! ${h[0]}`, 'think');
+    return;
+  }
+  el.classList.remove('hint'); el.classList.add('used'); el.disabled = true;
+  step++;
+  drawLine();
+  if (step < order.length) { sfx.pick(); return; }
+  state.busy = true;
+  solve(cur, $('#line'), 'sun');
+  say(`${pick(PRAISE, 'praise')} ${cur.m.kind === 'vorn' ? 'Der Begleitsatz steht vorn. Danach kommt der Doppelpunkt.'
+    : 'Der Begleitsatz steht hinten. Nach den Anführungszeichen oben kommt das Komma.'} ${colored(cur.m)}`, 'happy');
+  later(next, 2800);
+}
+
+$('#pieces').addEventListener('click', e => choose(e.target.closest('.piece')));
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-5]$/.test(e.key)) return;
+  choose($$('.piece')[+e.key - 1]);
+});

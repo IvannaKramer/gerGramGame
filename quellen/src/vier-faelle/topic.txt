@@ -1,0 +1,10 @@
+@@meta
+slug: vier-faelle
+title: Die vier Fälle
+subtitle: Sechs Spiele für Fall-Detektive. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Bildern, Fragen und farbigen Fällen. Je 15 Sätze.
+lead2: Ohne Hilfe, mit der, die, das und der Mehrzahl. Je 20 Sätze.
+lead3: Knifflige Nomen zum Selberschreiben. 20 Sätze.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Sätzen, dazu die Lösungen.
+@@tipp
+Mit vier Fragen findest du den Fall: <b>Wer oder was?</b> (Nominativ) · <b>Wessen?</b> (Genitiv) · <b>Wem?</b> (Dativ) · <b>Wen oder was?</b> (Akkusativ). Der Artikel verändert sich dabei: <b>der</b> Hund → <b>des</b> Hundes → <b>dem</b> Hund → <b>den</b> Hund.

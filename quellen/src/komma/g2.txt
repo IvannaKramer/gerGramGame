@@ -1,0 +1,146 @@
+@@meta
+file: 2-bindewort-jagd.html
+title: Bindewort-Jagd
+level: Anfänger
+nr: 2
+total: 15
+subtitle: Mit welchem Wort beginnt der Nebensatz? Finde das Bindewort!
+lead: Bindewörter sind im Spiel lila, das Komma ist gelb:
+id: jagd
+desc: Tippe das Bindewort an. Dann zeigt dir die Eule das Komma.
+sample: …, weil es kalt ist.
+drag: no
+@@tipp
+Ein <b>Nebensatz</b> beginnt mit einem <b>Bindewort</b>: weil, dass, wenn, als, ob. Vor dem Bindewort steht ein <b>Komma</b>. Das <b>Verb</b> steht im Nebensatz ganz am Ende: Ich friere<b>,</b> weil es kalt <u>ist</u>.
+@@examples
+      <div class="ex neb" style="--tilt:-1.5deg"><div class="ex-head"><b>weil</b><span>Verb am Ende</span></div><div class="ex-body">Ich friere<span class="cm">,</span> <span class="a">weil</span> es kalt <u>ist</u>.</div></div>
+      <div class="ex neb" style="--tilt:1deg"><div class="ex-head"><b>dass</b><span>Verb am Ende</span></div><div class="ex-body">Ich sehe<span class="cm">,</span> <span class="a">dass</span> du <u>lachst</u>.</div></div>
+      <div class="ex neb" style="--tilt:-.5deg"><div class="ex-head"><b>ob</b><span>Verb am Ende</span></div><div class="ex-body">Er fragt<span class="cm">,</span> <span class="a">ob</span> sie <u>kommt</u>.</div></div>
+@@howto
+        <li><span>Lies den Satz. Im Satz fehlt noch das Komma.</span></li>
+        <li><span>Such das Bindewort: <b class="w neb">weil, dass, wenn, als</b> oder <b class="w neb">ob</b>. Tippe es an.</span></li>
+        <li><span>Die Eule setzt dann das Komma davor und zeigt dir das Verb am Ende.</span></li>
+@@board
+    <div class="bench">
+      <p class="bpic" id="pic" aria-hidden="true"></p>
+      <p class="lbl">Tippe das Bindewort an.</p>
+      <p class="sentence hunt" id="sentence"></p>
+      <p class="help binds"><span>Bindewörter:</span> <b>weil</b> <b>dass</b> <b>wenn</b> <b>als</b> <b>ob</b></p>
+    </div>
+@@tray
+@@css
+/* ---------- Das Komma: gemeinsame Farben ---------- */
+.auf{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.neb{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.kein{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.komma{--c:var(--sun-deep);--cd:var(--sun-deep);--cs:var(--sun-soft)}
+.neutral{--cs:var(--paper)}
+.w{color:var(--c);font-weight:700}
+.cm{color:var(--sun-deep);font-weight:700;font-size:1.3em;line-height:.8}
+.ex-head b{font-size:clamp(1.05rem,2.8vw,1.5rem)}
+.ex-body{font-size:clamp(1rem,2.6vw,1.4rem);line-height:1.3;font-weight:400}
+.ex-body .a{font-weight:700}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.5}
+.bpic{margin:0;font-size:clamp(2.2rem,6vw,3rem);line-height:1.2}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.3rem;color:var(--c)}
+.review .neutral li b.w{color:var(--bonus)}
+.bubble .cm,.review .cm{font-size:1.2em}
+.review li b.cm{color:var(--sun-deep)}
+.vb{border-bottom:3px solid var(--bonus)}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+/* ---------- Bindewort-Jagd ---------- */
+.ex-body u,.tipp u{text-decoration-thickness:3px;text-underline-offset:4px}
+.hunt{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 6px;margin-top:8px}
+.wbtn{appearance:none;border:3px solid var(--card-edge);background:var(--paper);border-radius:14px;min-height:54px;min-width:48px;padding:2px 12px;
+  font-weight:700;cursor:pointer;line-height:1.2;transition:border-color .12s ease,background-color .12s ease}
+@media (hover:hover){.wbtn:hover{border-color:var(--sun);background:var(--sun-soft)}}
+.wbtn.hint{border-color:var(--sun);background:var(--sun-soft);animation:glow 1.1s ease-in-out infinite}
+.hunt.solved{display:block}
+.binds{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 8px;margin-top:18px!important}
+.binds b{background:var(--bonus-soft);color:var(--ink);border-radius:999px;padding:0 12px}
+@@data
+/* Aufbau: [der richtige Satz mit Komma, Bild]
+   In jedem Satz steht genau ein Komma. Direkt dahinter steht das Bindewort (weil, dass, wenn, als, ob).
+   Das letzte Wort des Satzes ist das Verb des Nebensatzes. Das Spiel nimmt das Komma heraus. */
+const SENTENCES = [
+  ['Ich ziehe eine Jacke an, weil es draußen kalt ist.',   '🧥'],
+  ['Mia lacht, weil der Clown lustig ist.',                '🤡'],
+  ['Wir bleiben zu Hause, weil es stark regnet.',          '☔'],
+  ['Ich hoffe, dass du morgen kommst.',                    '🤞'],
+  ['Papa sagt, dass wir bald essen.',                      '🍝'],
+  ['Lena weiß, dass Igel Stacheln haben.',                 '🦔'],
+  ['Wir fahren ans Meer, wenn die Ferien beginnen.',       '🏖️'],
+  ['Der Hund bellt, wenn jemand klingelt.',                '🔔'],
+  ['Ich helfe dir, wenn du Hilfe brauchst.',               '🤝'],
+  ['Ich war müde, als der Wecker klingelte.',              '⏰'],
+  ['Alle klatschten, als der Zauberer kam.',               '🎩'],
+  ['Es war schon dunkel, als wir nach Hause gingen.',      '🌙'],
+  ['Ich frage Mama, ob ich ins Kino darf.',                '🎬'],
+  ['Tom weiß nicht, ob der Bus pünktlich kommt.',          '🚌'],
+  ['Wir schauen nach, ob die Katze schläft.',              '🐈']
+];
+const BINDS = ['weil', 'dass', 'wenn', 'als', 'ob'];
+
+const GAME = {
+  id: 'jagd',
+  unit: 'Sätze',
+  next: { href: '3-komma-ampel.html', title: 'Komma-Ampel' },
+  review: () => `<div class="review c2">${BINDS.map(b =>
+    `<div class="col neb"><h3>${b}</h3><ul>${all.filter(s => s.bind === b).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Bindewort-Jagd ---------- */
+let all = [], queue = [], cur = null;
+const full = s => s.words.map((w, i) =>
+  (i === s.at + 1 ? `<b class="w neb">${w}</b>` : i === s.words.length - 1 ? `<span class="vb">${s.verb}</span>${w.slice(s.verb.length)}` : w) +
+  (i === s.at ? '<b class="cm">,</b>' : '')).join(' ');
+
+function startGame() {
+  all = SENTENCES.map(([text, emoji]) => {
+    const raw = text.split(' ');
+    const at = raw.findIndex(w => w.endsWith(','));
+    const words = raw.map(w => w.replace(/,$/, ''));
+    return { words, at, bind: words[at + 1], verb: words[words.length - 1].replace(/[.!?]$/, ''), emoji, misses: 0 };
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Lies den Satz. Mit welchem Wort beginnt der Nebensatz? Tippe es an.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#pic').textContent = cur.emoji;
+  const box = $('#sentence');
+  box.classList.remove('solved');
+  box.innerHTML = cur.words.map((w, i) => `<button class="wbtn" data-i="${i}">${w}</button>`).join('');
+}
+
+function choose(i, el) {
+  if (state.busy || !cur) return;
+  const target = cur.at + 1;
+  if (i !== target) {
+    const tip = miss(cur, el);
+    if (tip) $(`.wbtn[data-i="${target}"]`).classList.add('hint');
+    say(tip ? `Tipp: Der Nebensatz beginnt mit <b class="w neb">${cur.bind}</b>. Sein Verb <b>${cur.verb}</b> steht ganz am Ende.`
+      : i === cur.words.length - 1 ? 'Das ist das Verb am Ende des Nebensatzes. Such das Wort, mit dem der Nebensatz anfängt.'
+      : 'Fast! Such eines dieser Wörter: <b>weil, dass, wenn, als, ob</b>.', 'think');
+    return;
+  }
+  state.busy = true;
+  solve(cur, el, 'bonus');
+  const box = $('#sentence');
+  box.classList.add('solved');
+  box.innerHTML = full(cur);
+  say(`${pick(PRAISE, 'praise')} Vor <span class="pill neb">${cur.bind}</span> steht ein Komma. Das Verb <b>${cur.verb}</b> steht am Ende: ${full(cur)}`, 'happy');
+  later(next, 3000);
+}
+
+$('#sentence').addEventListener('click', e => {
+  const b = e.target.closest('.wbtn');
+  if (b) choose(+b.dataset.i, b);
+});

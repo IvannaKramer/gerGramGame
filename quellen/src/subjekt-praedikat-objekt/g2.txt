@@ -1,0 +1,200 @@
+@@meta
+file: 2-farb-markierer.html
+title: Farb-Markierer
+level: Anfänger
+nr: 2
+total: 15
+subtitle: Markiere die Satzglieder mit Farbe: zuerst das Prädikat, dann das Subjekt.
+lead: Das Prädikat wird pink, das Subjekt wird blau:
+id: marker
+desc: Markiere zuerst das Prädikat, dann das Subjekt.
+sample: Den Salat frisst der Hase.
+drag: no
+@@tipp
+Such immer zuerst das <b>Prädikat</b>. Das ist das Verb: Was tut jemand? Frag dann mit dem Prädikat nach dem <b>Subjekt</b>: <b>Wer oder was</b> frisst den Salat? → <b>der Hase</b>. Das Subjekt steht nicht immer am Satzanfang!
+@@examples
+      <div class="ex kP" style="--tilt:-1.5deg"><div class="ex-head"><b>1. Prädikat</b><span>Was tut jemand?</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🐇</span>Den Salat <span class="a">frisst</span> der Hase.</div></div>
+      <div class="ex kS" style="--tilt:1deg"><div class="ex-head"><b>2. Subjekt</b><span>Wer oder was?</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🐇</span>Den Salat frisst <span class="a">der Hase</span>.</div></div>
+      <div class="ex kP" style="--tilt:-.5deg"><div class="ex-head"><b>Prädikat</b><span>mit zwei Teilen</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🎸</span>Emma <span class="a">hat</span> ein Lied <span class="a">gespielt</span>.</div></div>
+@@howto
+        <li><span>Lies den Satz. Tippe zuerst das <b>Prädikat</b> an. Es wird pink. Manchmal hat es zwei Teile, dann tippst du beide an.</span></li>
+        <li><span>Jetzt stellt dir die Eule die Frage <b>Wer oder was …?</b> Tippe die Antwort an. Das ist das <b>Subjekt</b>. Es wird blau.</span></li>
+        <li><span>Die anderen Satzglieder bleiben weiß. Sie kommen in den nächsten Spielen dran.</span></li>
+@@board
+    <div class="bench">
+      <p class="zpic" id="pic" aria-hidden="true"></p>
+      <div class="sent" id="sent"></div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="steps">
+        <div class="stepchip kP" data-r="P"><b>1. Prädikat</b><span>Was tut jemand?</span></div>
+        <div class="stepchip kS" data-r="S"><b>2. Subjekt</b><span>Wer oder was?</span></div>
+      </div>
+    </div>
+@@css
+/* ---------- Subjekt, Prädikat, Objekte: feste Farben und Satz-Blöcke ---------- */
+.kP{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.kS{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.kD{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.kA{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.kZ{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.kO{--c:var(--sun);--cd:var(--sun-deep);--cs:var(--sun-soft)}
+.pill.kO,.pen.kO,.ex.kO .ex-head{color:var(--on-sun)}
+.ex-head b{font-size:clamp(1rem,2.5vw,1.4rem);min-width:0;max-width:100%}
+.ex-head span{font-size:.95rem}
+.ex-body{font-size:clamp(1.05rem,2.7vw,1.45rem)}
+.bubble .pill{margin:2px 0;white-space:normal}
+.zpic{font-size:2.8rem;line-height:1.1;margin:0 0 10px}
+.sent{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:12px 10px;margin:8px 0 4px}
+.stop{font-weight:700;font-size:2rem;line-height:1;align-self:flex-end;margin:0 0 10px -6px}
+.blk{appearance:none;background:var(--card);border:3px solid var(--card-edge);border-radius:14px;min-height:60px;padding:6px 14px;color:var(--ink);font-family:inherit;
+  font-weight:700;font-size:clamp(1.5rem,3.4vw,1.9rem);line-height:1.2;cursor:pointer;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 4px 0 var(--card-edge),0 10px 18px var(--lift);transition:transform .14s ease,border-color .14s ease,background-color .14s ease}
+.blk small{display:none;font-size:.85rem;font-weight:700;color:var(--ink-soft);line-height:1.1;margin-top:2px}
+.blk.on{border-color:var(--c);background:var(--cs);box-shadow:0 4px 0 var(--cd);cursor:default}
+.blk.on small{display:block}
+.blk.selected{border-color:var(--sun);background:var(--sun-soft);transform:translateY(-5px)}
+.blk.hint{animation:glow 1.1s ease-in-out infinite}
+.review.c1{grid-template-columns:1fr}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.8;padding:2px 0}
+.review .pill{white-space:normal;font-size:1rem}
+.review h3{line-height:1.9}
+.review .col.plain{background:var(--card);border:3px solid var(--card-edge)}
+/* ---------- Farb-Markierer ---------- */
+.steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,3vw,28px);max-width:640px;margin:0 auto}
+.stepchip{border-radius:16px;background:var(--c);color:#fff;padding:8px 10px;text-align:center;display:flex;flex-direction:column;line-height:1.2;opacity:.4;transition:opacity .2s ease,transform .2s ease}
+.stepchip b{font-size:clamp(1.2rem,3.4vw,1.6rem)}
+.stepchip span{font-size:1rem}
+.stepchip.act{opacity:1;transform:translateY(-4px);box-shadow:0 0 0 5px var(--sun),0 10px 20px var(--lift)}
+.stepchip.ok{opacity:.75}
+@@data
+/* Aufbau: [Bild, Satzglieder …]
+   Jedes Satzglied steht so da, wie es mitten im Satz geschrieben wird (also „der Hase“). Dahinter steht nach | die Art:
+   S = Subjekt, P = Prädikat (bei zwei Teilen beide mit P), - = anderes Satzglied (bleibt weiß).
+   Das Subjekt muss in der Einzahl stehen, damit die Frage „Wer oder was …?“ stimmt. */
+const SENTENCES = [
+  ['🎾', 'der Dackel|S', 'jagt|P', 'den Ball|-'],
+  ['🥛', 'die Katze|S', 'trinkt|P', 'Milch|-'],
+  ['🚲', 'den Reifen|-', 'flickt|P', 'Papa|S'],
+  ['🧁', 'Oma|S', 'backt|P', 'einen Kuchen|-'],
+  ['🐇', 'den Salat|-', 'frisst|P', 'der Hase|S'],
+  ['✏️', 'Paul|S', 'schreibt|P', 'einen Brief|-'],
+  ['🦊', 'der Fuchs|S', 'hat|P', 'eine Gans|-', 'gestohlen|P'],
+  ['🧹', 'Mama|S', 'fegt|P', 'den Hof|-'],
+  ['🌻', 'die Blumen|-', 'gießt|P', 'der Gärtner|S'],
+  ['🎸', 'Emma|S', 'hat|P', 'ein Lied|-', 'gespielt|P'],
+  ['🐻', 'der Bär|S', 'angelt|P', 'einen Fisch|-'],
+  ['🧦', 'Opa|S', 'hat|P', 'seine Socken|-', 'gefunden|P'],
+  ['🐥', 'das Küken|S', 'pickt|P', 'Körner|-'],
+  ['🖌️', 'den Zaun|-', 'hat|P', 'der Maler|S', 'gestrichen|P'],
+  ['🍕', 'der Koch|S', 'belegt|P', 'die Pizza|-']
+];
+
+const GAME = {
+  id: 'marker',
+  unit: 'Sätze',
+  next: { href: '3-frag-die-eule.html', title: 'Frag die Eule' },
+  review: () => reviewAll(all, ['P', 'S'])
+};
+@@js
+/* ---------- Gemeinsam: Satzglieder, Farben und Fragen ---------- */
+const ROLE = {
+  P: { name: 'Prädikat', art: 'das', short: 'Prädikat', q: 'Was tut jemand?', col: 'die' },
+  S: { name: 'Subjekt', art: 'das', short: 'Subjekt', q: 'Wer oder was?', col: 'der' },
+  D: { name: 'Dativobjekt', art: 'das', short: 'Dativobjekt', q: 'Wem?', col: 'das' },
+  A: { name: 'Akkusativobjekt', art: 'das', short: 'Akkusativobjekt', q: 'Wen oder was?', col: 'bonus' },
+  Z: { name: 'Bestimmung der Zeit', art: 'die', short: 'Zeit', q: 'Wann?', col: 'teal' },
+  O: { name: 'Bestimmung des Ortes', art: 'die', short: 'Ort', q: 'Wo?', col: 'sun' }
+};
+const PRON = ['ihm', 'ihn', 'ihr', 'mir', 'mich', 'dir', 'dich'];
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const STOP = '<span class="stop" aria-hidden="true">.</span>';
+/* Liest eine Zeile der Liste: Einträge mit | sind Satzglieder, alles andere ist Zusatz (Bild, gesuchtes Satzglied). */
+function read(row, id) {
+  const s = { id, info: row.filter(x => !x.includes('|')), misses: 0, done: false };
+  s.parts = row.filter(x => x.includes('|')).map((x, i) => { const [t, r, shown] = x.split('|'); return { t, r, shown, i, text: i === 0 ? cap(t) : t }; });
+  return s;
+}
+const twoPart = s => s.parts.filter(p => p.r === 'P').length > 1;
+const answer = (s, r) => s.parts.filter(p => p.r === r).map(p => p.t).join(' … ');
+const the = r => `${ROLE[r].art} <b>${ROLE[r].name}</b>`;
+const rolePill = r => `<span class="pill k${r}">${ROLE[r].name}</span>`;
+const colored = (s, roles) => s.parts.map(p => roles.includes(p.r) ? `<span class="pill k${p.r}">${p.text}</span>` : p.text).join(' ') + '.';
+/* Baut die Frage nach einem Satzglied, z. B. „Wem schenkt Oma einen Roller?“ */
+function ask(s, r) {
+  if (r === 'P') return ROLE.P.q;
+  const P = s.parts.filter(p => p.r === 'P'), rest = s.parts.filter(p => p.r !== 'P' && p.r !== r);
+  const rank = p => p.r === 'S' ? 0 : PRON.includes(p.t) ? 1 : 2 + 'ZDO-A'.indexOf(p.r);
+  rest.sort((a, b) => rank(a) - rank(b));
+  return [ROLE[r].q.slice(0, -1), P[0].t, ...rest.map(p => p.t), ...P.slice(1).map(p => p.t)].join(' ') + '?';
+}
+const blkHTML = (p, r) => `<button class="blk${r ? ' on k' + r : ''}" data-i="${p.i}">${p.text}<small>${r ? ROLE[r].short : ''}</small></button>`;
+const blkEl = i => $(`#sent .blk[data-i="${i}"]`);
+function paint(el, r) { el.className = 'blk on k' + r; el.querySelector('small').textContent = ROLE[r].short; }
+const reviewAll = (list, roles) => `<div class="review c1"><div class="col plain"><h3>${roles.map(rolePill).join(' ')}</h3><ul>${list.map(s => `<li>${colored(s, roles)}</li>`).join('')}</ul></div></div>`;
+
+/* ---------- Spiel: Farb-Markierer ---------- */
+const SHOW = ['P', 'S'];
+let all = [], queue = [], cur = null, step = 'P', stepMiss = 0;
+
+function startGame() {
+  all = SENTENCES.map((row, i) => read(row, i));
+  /* zuerst die Sätze mit einteiligem Prädikat, dann die mit zwei Teilen */
+  queue = shuffle(all.filter(s => !twoPart(s))).concat(shuffle(all.filter(twoPart)));
+  resetState(all.length);
+  show('game');
+  next();
+}
+
+function setStep(r) {
+  step = r; stepMiss = 0;
+  $$('.stepchip').forEach(c => { c.classList.toggle('act', c.dataset.r === r); c.classList.toggle('ok', r === 'S' && c.dataset.r === 'P'); });
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false; cur.on = [];
+  $('#pic').textContent = cur.info[0];
+  $('#sent').innerHTML = cur.parts.map(p => blkHTML(p)).join('') + STOP;
+  setStep('P');
+  say('Zuerst das <span class="pill kP">Prädikat</span>: Was tut jemand? Tippe es an.' + (twoPart(cur) ? ' Achtung: Hier hat das Prädikat <b>zwei Teile</b>!' : ''));
+}
+
+function tap(i) {
+  const p = cur && cur.parts[i], el = blkEl(i);
+  if (!p || state.busy || cur.on.includes(i)) return;
+  if (p.r !== step) {
+    miss(cur, el);
+    const tip = ++stepMiss >= 2, goal = cur.parts.filter(q => q.r === step && !cur.on.includes(q.i));
+    if (tip) goal.forEach(q => blkEl(q.i).classList.add('hint'));
+    if (step === 'P') say(tip ? `Tipp: Das Prädikat ist das Verb. Hier ist es <span class="pill kP">${answer(cur, 'P')}</span>.`
+      : `Fast! <b>${p.t}</b> ist kein Verb. Das Prädikat sagt, was jemand tut.`, 'think');
+    else say(tip ? `Tipp: ${ask(cur, 'S')} – <span class="pill kS">${answer(cur, 'S')}</span>. Das ist das Subjekt.`
+      : `Fast! Frag ganz genau: <b>${ask(cur, 'S')}</b>`, 'think');
+    return;
+  }
+  paint(el, p.r); cur.on.push(i); stepMiss = 0;
+  $$('#sent .hint').forEach(b => b.classList.remove('hint'));
+  if (step === 'P') {
+    sfx.pick();
+    if (cur.parts.some(q => q.r === 'P' && !cur.on.includes(q.i))) {
+      say(`Richtig! <span class="pill kP">${p.t}</span> gehört zum Prädikat. Es hat aber noch einen <b>zweiten Teil</b>. Findest du ihn?`, 'happy');
+      return;
+    }
+    setStep('S');
+    say(`Super! Das Prädikat ist <span class="pill kP">${answer(cur, 'P')}</span>. Jetzt das <span class="pill kS">Subjekt</span>: <b>${ask(cur, 'S')}</b>`, 'happy');
+    return;
+  }
+  state.busy = true;
+  $$('.stepchip').forEach(c => c.classList.remove('act'));
+  solve(cur, el, 'der');
+  say(`${pick(PRAISE, 'praise')} ${colored(cur, SHOW)}`, 'happy');
+  later(next, 2600);
+}
+
+$('#sent').addEventListener('click', e => {
+  const b = e.target.closest('.blk');
+  if (b) tap(+b.dataset.i);
+});

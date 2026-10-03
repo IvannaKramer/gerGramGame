@@ -1,0 +1,178 @@
+@@meta
+file: 4-wer-ist-gemeint.html
+title: Wer ist gemeint?
+level: Fortgeschrittene
+nr: 4
+total: 20
+subtitle: Hier steht schon das Pronomen. Für welches Nomen steht es?
+lead: Pronomen und Verb verraten dir zusammen, wer gemeint ist:
+id: gemeint
+desc: Finde das Nomen, für das das Pronomen steht.
+sample: Sie schwimmen auf dem See. → die Enten
+drag: no
+@@tipp
+<b>er</b> steht für ein Nomen mit <b>der</b>, <b>es</b> für ein Nomen mit <b>das</b>. Bei <b>sie</b> musst du auf das Verb schauen: <b>Sie schwimmt</b> ist nur eine. <b>Sie schwimmen</b> sind viele.
+@@examples
+      <div class="ex sie" style="--tilt:-1.5deg"><div class="ex-head"><b>sie</b><span>eine</span></div><div class="ex-body">Sie schwimm<span class="a">t</span>.<span class="pr">→ die Ente</span></div></div>
+      <div class="ex pl" style="--tilt:1deg"><div class="ex-head"><b>sie</b><span>viele</span></div><div class="ex-body">Sie schwimm<span class="a">en</span>.<span class="pr">→ die Enten</span></div></div>
+      <div class="ex es" style="--tilt:-.5deg"><div class="ex-head"><b>es</b><span>das</span></div><div class="ex-body"><span class="a">Es</span> schaukelt.<span class="pr">→ das Boot</span></div></div>
+@@howto
+        <li><span>Lies den Satz. Schau genau auf das Pronomen und auf das Verb.</span></li>
+        <li><span>Tippe auf das Nomen, für das das Pronomen steht. Nur eins passt!</span></li>
+        <li><span>Stimmt es, zeigt dir die Eule den Satz mit dem Nomen.</span></li>
+@@board
+    <div class="bench">
+      <p class="lbl">Wer oder was ist gemeint?</p>
+      <p class="sentence" id="sentence"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="opts" id="opts"></div>
+    </div>
+@@css
+/* ---------- Pronomen: gemeinsame Farben und Bausteine ---------- */
+.er{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.sie{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.es{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.pl{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.sp{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.ex-body .pr{display:block;font-weight:400;font-size:.8em;color:var(--ink-soft);margin-top:6px}
+.howto li > span{flex:1}
+.review h3{font-size:1.2rem;color:var(--c)}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.review.c1{grid-template-columns:minmax(0,1fr)}
+@media (max-width:760px){.review.c4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.1rem);line-height:1.5}
+.gap{display:inline-block;min-width:2.4em;padding:0 .3em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);line-height:1.25;text-align:center}
+.gap.filled{border-style:solid;border-color:var(--c);background:var(--c);color:#fff;min-width:0;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,2.4vw,24px);max-width:760px;margin:0 auto}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:clamp(74px,10vw,96px);padding:6px 4px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(1.6rem,4.4vw,2.2rem);line-height:1.1}
+.tile small{font-size:clamp(.82rem,2.2vw,1.05rem);line-height:1.15}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+/* ---------- Wer ist gemeint? ---------- */
+.bench{padding:22px 14px 28px}
+.bench .sentence{margin-top:8px}
+.bench .sentence u{text-decoration-thickness:3px;text-underline-offset:6px;text-decoration-color:var(--sun)}
+.opts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;max-width:940px;margin:0 auto}
+@media (max-width:760px){.opts{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.opt{appearance:none;position:relative;background:var(--card);border:3px solid var(--card-edge);border-radius:18px;min-height:76px;padding:8px 10px;
+  font-weight:700;font-size:clamp(1.5rem,2.5vw,1.7rem);line-height:1.15;cursor:pointer;color:var(--ink);
+  box-shadow:0 5px 0 var(--card-edge),0 10px 18px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.opt:active{transform:translateY(3px);box-shadow:0 2px 0 var(--card-edge)}
+.opt.good{background:var(--c);border-color:var(--c);color:#fff;box-shadow:0 5px 0 var(--cd)}
+.opt.hint{animation:glow 1.1s ease-in-out infinite;border-color:var(--sun)}
+.opt .kbd{background:var(--paper);color:var(--ink-soft)}
+@@data
+/* Aufbau der Auswahl: vier Nomen in der Reihenfolge [er, sie (eine), es, sie (viele)].
+   Aufbau der Sätze: [Nummer der Auswahl (ab 0), Satz (beginnt mit dem Pronomen), Lösung, Verb]
+   Lösung: 'er', 'sie' (eine), 'es' oder 'pl' (viele). */
+const SETS = [
+  ['der Frosch',   'die Ente',     'das Boot',     'die Enten'],
+  ['der Bäcker',   'die Ärztin',   'das Kind',     'die Nachbarn'],
+  ['der Mond',     'die Wolke',    'das Flugzeug', 'die Sterne'],
+  ['der Löffel',   'die Gabel',    'das Messer',   'die Teller'],
+  ['der Tiger',    'die Giraffe',  'das Zebra',    'die Affen'],
+  ['der Rucksack', 'die Jacke',    'das Heft',     'die Stifte'],
+  ['der Zug',      'die Fähre',    'das Motorrad', 'die Traktoren'],
+  ['der Hahn',     'die Kuh',      'das Schwein',  'die Hühner'],
+  ['der Baum',     'die Rose',     'das Blatt',    'die Tulpen'],
+  ['der Pullover', 'die Mütze',    'das Kleid',    'die Handschuhe']
+];
+const SENTENCES = [
+  [0, 'Sie schwimmen auf dem See.',          'pl',  'schwimmen'],
+  [0, 'Es schaukelt auf dem Wasser.',        'es',  'schaukelt'],
+  [1, 'Er backt jeden Morgen Brot.',         'er',  'backt'],
+  [1, 'Sie hilft kranken Menschen.',         'sie', 'hilft'],
+  [2, 'Sie leuchten in der Nacht.',          'pl',  'leuchten'],
+  [2, 'Er ist heute rund und hell.',         'er',  'ist'],
+  [3, 'Es schneidet gut.',                   'es',  'schneidet'],
+  [3, 'Sie stehen schon auf dem Tisch.',     'pl',  'stehen'],
+  [4, 'Sie hat einen langen Hals.',          'sie', 'hat'],
+  [4, 'Es hat schwarze und weiße Streifen.', 'es',  'hat'],
+  [5, 'Er ist heute sehr schwer.',           'er',  'ist'],
+  [5, 'Sie liegen im Mäppchen.',             'pl',  'liegen'],
+  [6, 'Sie fährt über den Fluss.',           'sie', 'fährt'],
+  [6, 'Er hält am Bahnhof.',                 'er',  'hält'],
+  [7, 'Er kräht am Morgen.',                 'er',  'kräht'],
+  [7, 'Sie legen Eier.',                     'pl',  'legen'],
+  [8, 'Es fällt im Herbst vom Ast.',         'es',  'fällt'],
+  [8, 'Sie hat Dornen.',                     'sie', 'hat'],
+  [9, 'Sie wärmt den Kopf.',                 'sie', 'wärmt'],
+  [9, 'Es hat bunte Punkte.',                'es',  'hat']
+];
+
+const GAME = {
+  id: 'gemeint',
+  unit: 'Sätze',
+  next: { href: '5-ersetz-spiel.html', title: 'Ersetz-Spiel' },
+  review: () => `<div class="review c2">${[['er', 'sie'], ['es', 'pl']].map(ks =>
+    `<div class="col neutral"><ul>${all.filter(s => ks.includes(s.k)).map(s => `<li><b class="w ${s.k}">${s.text.split(' ')[0]}</b> ${rest(s)} <span style="white-space:nowrap">→ <b class="w ${s.k}">${s.noun}</b></span></li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Wer ist gemeint? ---------- */
+const KINDS = ['er', 'sie', 'es', 'pl'];
+const PRON = { er: 'er', sie: 'sie', es: 'es', pl: 'sie' };
+const COLOR = { er: 'der', sie: 'die', es: 'das', pl: 'bonus' };
+const cap = s => s[0].toUpperCase() + s.slice(1);
+let all = [], queue = [], cur = null, opts = [];
+const rest = s => s.text.slice(s.text.indexOf(' ') + 1);
+
+function startGame() {
+  all = SENTENCES.map(s => ({ set: SETS[s[0]], text: s[1], k: s[2], verb: s[3], noun: SETS[s[0]][KINDS.indexOf(s[2])], misses: 0 }));
+  /* Zwei Sätze mit derselben Auswahl sollen nicht direkt nacheinander kommen */
+  do { queue = shuffle(all.slice()); } while (queue.some((s, i) => i && s.set === queue[i - 1].set));
+  resetState(all.length);
+  say('Für welches Nomen steht das Pronomen? Schau auch auf das Verb!');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  if (state.solved) say('Und hier? Für welches Nomen steht das Pronomen?');
+  state.busy = false;
+  $('#sentence').innerHTML = `<u>${cur.text.split(' ')[0]}</u> ${rest(cur)}`;
+  opts = shuffle(KINDS.map((k, i) => ({ k, noun: cur.set[i] })));
+  $('#opts').innerHTML = opts.map((o, i) =>
+    `<button class="opt" data-i="${i}">${o.noun}<span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+}
+
+function hintText(s) {
+  if (s.k === 'pl') return `Tipp: Das Verb heißt <b>${s.verb}</b>. Also sind es viele. Such das Nomen in der Mehrzahl!`;
+  if (s.k === 'sie') return `Tipp: Das Verb heißt <b>${s.verb}</b>. Also ist es nur eine. Such das Nomen mit <b>die</b> in der Einzahl!`;
+  return `Tipp: <b>${cap(PRON[s.k])}</b> steht für ein Nomen mit dem Artikel <b>${s.k === 'er' ? 'der' : 'das'}</b>.`;
+}
+
+function choose(i) {
+  if (state.busy || !cur || !gameOn() || !opts[i]) return;
+  const o = opts[i], el = $(`.opt[data-i="${i}"]`);
+  if (o.k !== cur.k) {
+    const tip = miss(cur, el);
+    if (tip) $(`.opt[data-i="${opts.findIndex(x => x.k === cur.k)}"]`).classList.add('hint');
+    const twoSie = (o.k === 'sie' && cur.k === 'pl') || (o.k === 'pl' && cur.k === 'sie');
+    say(tip ? hintText(cur)
+      : twoSie ? `Fast! Schau auf das Verb: <b>${cur.verb}</b>. Ist es nur eine oder sind es viele?`
+      : `Fast! Für <b>${o.noun}</b> sagst du <b>${PRON[o.k]}</b>. Im Satz steht aber <b>${cur.text.split(' ')[0]}</b>.`, 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.opt').forEach(b => b.classList.remove('hint'));
+  el.classList.add('good', cur.k);
+  solve(cur, el, COLOR[cur.k]);
+  say(`${pick(PRAISE, 'praise')} <span class="pill ${cur.k}">${cur.text.split(' ')[0]}</span> steht hier für <span class="pill ${cur.k}">${cur.noun}</span>. ${cap(cur.noun)} ${rest(cur)}`, 'happy');
+  later(next, 2800);
+}
+
+$('#opts').addEventListener('click', e => { const b = e.target.closest('.opt'); if (b) choose(+b.dataset.i); });
+document.addEventListener('keydown', e => {
+  if (/^[1-4]$/.test(e.key) && gameOn() && !e.ctrlKey && !e.metaKey && !e.altKey) choose(+e.key - 1);
+});

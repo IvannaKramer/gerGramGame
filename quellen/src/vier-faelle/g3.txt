@@ -1,0 +1,154 @@
+@@meta
+file: 3-frage-lupe.html
+title: Frage-Lupe
+level: Anfänger
+nr: 3
+total: 15
+subtitle: Die Eule stellt eine Frage. Welcher Satzteil antwortet darauf? Tippe ihn an!
+lead: Jede Frage sucht einen anderen Fall:
+id: lupe
+desc: Tippe den Satzteil an, der auf die Frage antwortet.
+sample: Wem hilft der Arzt? → dem Mann
+drag: no
+@@tipp
+Auf jede Frage antwortet ein anderer Fall: <b>Wer oder was?</b> → Nominativ (der) · <b>Wessen?</b> → Genitiv (des) · <b>Wem?</b> → Dativ (dem) · <b>Wen oder was?</b> → Akkusativ (den).
+@@examples
+      <div class="ex nom" style="--tilt:-1.5deg"><div class="ex-head"><b>Wer oder was?</b><span>Nominativ</span></div><div class="ex-body"><span class="a">Der Arzt</span> hilft dem Mann.</div></div>
+      <div class="ex gen" style="--tilt:1deg"><div class="ex-head"><b>Wessen?</b><span>Genitiv</span></div><div class="ex-body">das Lied <span class="a">des Sängers</span></div></div>
+      <div class="ex dat" style="--tilt:-.5deg"><div class="ex-head"><b>Wem?</b><span>Dativ</span></div><div class="ex-body">Der Arzt hilft <span class="a">dem Mann</span>.</div></div>
+      <div class="ex akk" style="--tilt:1.5deg"><div class="ex-head"><b>Wen oder was?</b><span>Akkusativ</span></div><div class="ex-body">Ben bringt <span class="a">den Knochen</span>.</div></div>
+@@howto
+        <li><span>Lies die Frage über dem Satz. Die Farbe zeigt dir, welcher Fall gesucht ist.</span></li>
+        <li><span>Lies den Satz. Er ist in Satzteile zerlegt.</span></li>
+        <li><span>Tippe den Satzteil an, der auf die Frage antwortet. Der Artikel hilft dir beim Suchen.</span></li>
+@@board
+    <div class="bench">
+      <p class="bpic" id="pic" aria-hidden="true"></p>
+      <p class="ask"><span class="pill" id="qpill"></span> <b id="qtext"></b></p>
+      <div class="chunks" id="chunks"></div>
+      <p class="help">Tippe den Satzteil an, der auf die Frage antwortet.</p>
+    </div>
+@@tray
+@@css
+/* ---------- Die vier Fälle: gemeinsame Farben ---------- */
+.nom{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.gen{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.dat{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.akk{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.w{color:var(--c);font-weight:700}
+.legend{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:760px){.legend{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ex-head{flex-direction:column;align-items:center;gap:0}
+.ex-head b{font-size:clamp(1.05rem,2.4vw,1.35rem)}
+.ex-body{font-size:clamp(1rem,2.2vw,1.3rem)}
+.bpic{margin:0;font-size:clamp(2.2rem,6vw,3rem);line-height:1.2}
+.bubble .pill{margin:2px 0}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.15rem;color:var(--c)}
+.review h3 small{font-weight:400;color:var(--ink-soft);font-size:.95rem}
+/* ---------- Frage-Lupe ---------- */
+.ask{margin:6px 0 14px;font-size:clamp(1.25rem,3.2vw,1.6rem);line-height:1.5}
+.ask .pill{font-size:.85em}
+.chunks{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 8px;font-weight:700;font-size:clamp(1.5rem,3.8vw,2rem)}
+.chunk{appearance:none;font:inherit;font-weight:700;color:var(--ink);background:var(--card);border:3px solid var(--card-edge);border-radius:14px;
+  min-height:58px;padding:4px 14px;cursor:pointer;box-shadow:0 4px 0 var(--card-edge);transition:transform .12s ease,border-color .12s ease}
+@media (hover:hover){.chunk:not(:disabled):hover{border-color:var(--sun);transform:translateY(-2px)}}
+.chunk:active{transform:translateY(3px);box-shadow:0 1px 0 var(--card-edge)}
+.chunk.good{background:var(--c);border-color:var(--cd);color:#fff;box-shadow:none}
+.chunk.hint{animation:glow 1.1s ease-in-out infinite;border-color:var(--sun)}
+.chunk:disabled{cursor:default}
+@@data
+/* Aufbau: [Satz, Fall, Frage, Bild]
+   Der Satz ist mit | in Satzteile zerlegt. Der gesuchte Satzteil steht in eckigen Klammern.
+   Fall: nom = Nominativ, gen = Genitiv, dat = Dativ, akk = Akkusativ. */
+const SENTENCES = [
+  ['[Der Koch] | backt | dem Gast | einen Kuchen.',            'nom', 'Wer oder was backt dem Gast einen Kuchen?',   '👨‍🍳'],
+  ['Den Brief | bringt | [der Postbote].',                     'nom', 'Wer oder was bringt den Brief?',              '📬'],
+  ['[Der Wind] | schüttelt | den Baum.',                       'nom', 'Wer oder was schüttelt den Baum?',            '🌬️'],
+  ['Dem Kind | schmeckt | [der Pudding].',                     'nom', 'Wer oder was schmeckt dem Kind?',             '🍮'],
+  ['Die Kappe | [des Piraten] | fliegt | ins Wasser.',         'gen', 'Wessen Kappe fliegt ins Wasser?',             '🏴‍☠️'],
+  ['Die Kinder | hören | das Lied | [des Sängers].',           'gen', 'Wessen Lied hören die Kinder?',               '🎤'],
+  ['Der Schwanz | [des Affen] | ist | sehr lang.',             'gen', 'Wessen Schwanz ist sehr lang?',               '🐒'],
+  ['Der Arzt | hilft | [dem Mann].',                           'dat', 'Wem hilft der Arzt?',                         '🩺'],
+  ['Die Lehrerin | erklärt | [dem Schüler] | die Aufgabe.',    'dat', 'Wem erklärt die Lehrerin die Aufgabe?',       '✏️'],
+  ['Ole | leiht | [dem Cousin] | den Füller.',                 'dat', 'Wem leiht Ole den Füller?',                   '🖊️'],
+  ['Der Mantel | passt | [dem Riesen] | nicht.',               'dat', 'Wem passt der Mantel nicht?',                 '🧥'],
+  ['Die Katze | fängt | [den Fisch].',                         'akk', 'Wen oder was fängt die Katze?',               '🐟'],
+  ['Der Gärtner | gießt | [den Rasen].',                       'akk', 'Wen oder was gießt der Gärtner?',             '🌱'],
+  ['Ben | bringt | dem Hund | [den Knochen].',                 'akk', 'Wen oder was bringt Ben dem Hund?',           '🦴'],
+  ['Die Oma | strickt | dem Enkel | [einen Schal].',           'akk', 'Wen oder was strickt die Oma dem Enkel?',     '🧣']
+];
+
+const GAME = {
+  id: 'lupe',
+  unit: 'Sätze',
+  next: { href: '4-fall-kaesten.html', title: 'Fall-Kästen' },
+  review: () => `<div class="review c2">${ORDER.map(k =>
+    `<div class="col ${k}"><h3>${FALL[k].name} <small>${FALL[k].q}</small></h3><ul>${all.filter(s => s.k === k).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Frage-Lupe ---------- */
+const FALL = {
+  nom: { name: 'Nominativ', q: 'Wer oder was?', color: 'der' },
+  gen: { name: 'Genitiv', q: 'Wessen?', color: 'bonus' },
+  dat: { name: 'Dativ', q: 'Wem?', color: 'das' },
+  akk: { name: 'Akkusativ', q: 'Wen oder was?', color: 'die' }
+};
+const ORDER = ['nom', 'gen', 'dat', 'akk'];
+let all = [], queue = [], cur = null;
+const low = s => s.charAt(0).toLowerCase() + s.slice(1);
+const full = s => s.parts.map((p, i) => i === s.target ? `<b class="w ${s.k}">${p}</b>` : p).join(' ') + '.';
+
+function startGame() {
+  all = SENTENCES.map(s => {
+    const raw = s[0].replace(/\.$/, '').split(' | ');
+    const target = raw.findIndex(p => p.startsWith('['));
+    const parts = raw.map(p => p.replace(/[\[\]]/g, ''));
+    /* Antwort so, wie sie mitten im Satz steht (Artikel klein) */
+    return { parts, target, k: s[1], q: s[2], emoji: s[3], ans: target === 0 ? low(parts[0]) : parts[target], misses: 0 };
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Lies die Frage. Welcher Satzteil antwortet darauf? Tippe ihn an!');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#pic').textContent = cur.emoji;
+  const qp = $('#qpill');
+  qp.className = 'pill ' + cur.k; qp.textContent = FALL[cur.k].name;
+  $('#qtext').textContent = cur.q;
+  $('#chunks').innerHTML = cur.parts.map((p, i) => `<button class="chunk" type="button" data-i="${i}">${p}</button>`).join('') + '<span aria-hidden="true">.</span>';
+}
+
+function choose(i) {
+  if (state.busy || !cur) return;
+  const el = $(`.chunk[data-i="${i}"]`), f = FALL[cur.k];
+  if (!el) return;
+  if (i !== cur.target) {
+    const hint = miss(cur, el);
+    if (hint) $(`.chunk[data-i="${cur.target}"]`).classList.add('hint');
+    say(!hint ? `Fast! <b>${cur.parts[i]}</b> antwortet nicht auf „${f.q}“ Lies die Frage noch einmal.`
+      : `Tipp: Auf „${f.q}“ antwortet der ${f.name}. Such das Wort <b>${cur.ans.split(' ')[0]}</b>!`, 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.chunk').forEach(c => { c.classList.remove('hint'); c.disabled = true; });
+  el.classList.add('good', cur.k);
+  solve(cur, el, f.color);
+  say(`${pick(PRAISE, 'praise')} <b>${cur.q}</b> – <span class="pill ${cur.k}">${cur.ans}</span>. Das ist der <b>${f.name}</b>.`, 'happy');
+  later(next, 2400);
+}
+
+$('#chunks').addEventListener('click', e => {
+  const c = e.target.closest('.chunk');
+  if (c) choose(+c.dataset.i);
+});
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-6]$/.test(e.key)) return;
+  choose(+e.key - 1);
+});

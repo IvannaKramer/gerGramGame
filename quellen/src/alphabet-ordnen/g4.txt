@@ -1,0 +1,181 @@
+@@meta
+file: 4-wo-ist-mein-platz.html
+title: Wo ist mein Platz?
+level: Fortgeschrittene
+nr: 4
+total: 20
+subtitle: Die Liste ist schon nach dem ABC geordnet. Ein neues Wort kommt dazu. In welche Lücke gehört es?
+lead: Vergleiche Buchstabe für Buchstabe. Der erste Unterschied entscheidet:
+id: platz
+desc: Sortiere ein neues Wort an der richtigen Stelle ein.
+sample: Bach · Bad · Bagger
+drag: yes
+@@tipp
+Ist der erste Buchstabe gleich, entscheidet der <b>zweite</b>. Ist auch der gleich, entscheidet der <b>dritte</b>: Ba<b>c</b>h → Ba<b>d</b> → Ba<b>g</b>ger. Die Umlaute <b>ä, ö, ü</b> werden wie <b>a, o, u</b> einsortiert.
+@@examples
+      <div class="ex ab" style="--tilt:-1.5deg"><div class="ex-head"><b>2. Buchstabe</b></div><div class="ex-body">A<span class="h">f</span>fe<span class="arrow" aria-hidden="true">▼</span>A<span class="h">m</span>pel</div></div>
+      <div class="ex ab" style="--tilt:1deg"><div class="ex-head"><b>3. Buchstabe</b></div><div class="ex-body">Ba<span class="h">c</span>h<span class="arrow" aria-hidden="true">▼</span>Ba<span class="h">d</span></div></div>
+      <div class="ex ab" style="--tilt:-.5deg"><div class="ex-head"><b>Umlaut</b><span>ä wie a</span></div><div class="ex-body">M<span class="h">a</span>ntel<span class="arrow" aria-hidden="true">▼</span>M<span class="h">ä</span>rchen</div></div>
+@@howto
+        <li>Lies das neue Wort und die Wörter in der Liste.</li>
+        <li>Vergleiche Buchstabe für Buchstabe: Zwischen welchen Wörtern steht das neue Wort?</li>
+        <li>Tippe auf die richtige Lücke oder zieh das Wort dorthin. Auf der Tastatur kannst du auch 1 bis 5 drücken.</li>
+@@board
+    <div class="shelf">
+      <div class="newbox">
+        <p class="round" id="round">Runde 1 von 5</p>
+        <p class="lbl">Dieses Wort sucht seinen Platz:</p>
+        <div id="new"></div>
+      </div>
+      <div class="list" id="list"></div>
+    </div>
+@@tray
+@@css
+/* ---------- Wo ist mein Platz? ---------- */
+.ab{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.neu{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.ex-body .h{color:var(--die)}
+.ex-head b{font-size:clamp(.95rem,2.6vw,1.4rem)}
+.ex-head span{font-size:.9rem}
+.shelf{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:20px;align-items:center;margin-bottom:14px}
+.newbox{background:var(--card);border:3px solid var(--card-edge);border-radius:26px;padding:16px 14px 20px;text-align:center;box-shadow:0 4px 0 var(--card-edge),0 10px 20px var(--lift)}
+.newbox .round{margin:0 0 2px}
+.newbox .lbl{margin:0 0 10px;font-size:1.05rem;font-weight:700;color:var(--ink-soft)}
+#new{min-height:84px;display:grid;place-items:center}
+#new .word-card{min-height:76px;min-width:min(100%,220px);padding:8px 22px;border-color:var(--die);background:var(--die-soft);font-weight:700;font-size:clamp(1.7rem,5vw,2.3rem);line-height:1.15}
+#new .word-card.dragging{opacity:.35}
+#new .placed{color:var(--ink-soft);font-size:1.05rem}
+.list{background:var(--card);border:3px solid var(--card-edge);border-left:14px solid var(--der);border-radius:8px 22px 22px 8px;padding:10px 14px;display:grid;gap:4px;
+  box-shadow:0 4px 0 var(--card-edge),0 10px 20px var(--lift)}
+.entry{font-weight:700;font-size:1.6rem;line-height:1.25;padding:0 12px}
+.gap{appearance:none;position:relative;min-height:48px;border:3px dashed var(--card-edge);border-radius:12px;background:var(--paper);color:var(--ink-soft);
+  font-size:1rem;cursor:pointer;touch-action:manipulation;transition:border-color .16s ease,background-color .16s ease,opacity .2s ease}
+.gap .kbd{background:var(--card-edge);color:var(--ink);top:50%;transform:translateY(-50%)}
+@media (hover:hover){.gap:hover:not(:disabled){border-color:var(--sun)}}
+.gap.drop-over{border-color:var(--sun);background:var(--sun-soft)}
+.gap:disabled{opacity:.3;cursor:default}
+.gap.hint{animation:glow 1.1s ease-in-out infinite;border-color:var(--sun);border-style:solid}
+.list.solved .gap{visibility:hidden}
+.entry.new{display:flex;align-items:center;min-height:48px;border:3px solid var(--die);background:var(--die-soft);border-radius:12px;padding:0 9px}
+@media (max-width:700px){
+  .shelf{grid-template-columns:1fr;gap:10px}
+  .newbox{padding:8px 12px 10px;border-radius:20px;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:0 12px;text-align:left}
+  .newbox .round{grid-column:1}
+  .newbox .lbl{grid-column:1;margin:0;font-size:.95rem;max-width:9.5em;line-height:1.25}
+  #new{grid-column:2;grid-row:1 / span 2;min-height:60px;justify-items:end}
+  #new .word-card{min-height:58px;min-width:0;padding:6px 16px}
+  .list{padding:6px 10px;gap:2px}
+  .entry{font-size:1.5rem;line-height:1.15}
+}
+.review li b{color:var(--die)}
+.review li span{color:var(--ink-soft)}
+@@data
+/* Aufbau: [Liste mit vier Wörtern, vier neue Wörter]
+   Die neuen Wörter werden nacheinander in die Liste einsortiert (jedes für sich).
+   Runde 1 und 2: Der zweite Buchstabe entscheidet. Runde 3 und 4: Der dritte Buchstabe entscheidet.
+   Runde 5: Wörter mit Umlaut (ä, ö, ü zählen wie a, o, u).
+   Die Reihenfolge der Liste ordnet das Spiel selbst. Wichtig: kein Wort doppelt. */
+const ROUNDS = [
+  [['Affe', 'Angel', 'Arm', 'Auge'],        ['Abend', 'Ampel', 'Ast', 'Axt']],
+  [['Paket', 'Pfanne', 'Plan', 'Puppe'],    ['Pech', 'Pirat', 'Post', 'Pyramide']],
+  [['Bach', 'Bagger', 'Band', 'Bart'],      ['Baby', 'Bad', 'Bahn', 'Bauch']],
+  [['Hafen', 'Haken', 'Hammer', 'Hase'],    ['Haar', 'Hals', 'Harfe', 'Haus']],
+  [['Mantel', 'Messer', 'Motor', 'Musik'],  ['Mädchen', 'Märchen', 'Möbel', 'Mücke']]
+];
+
+const GAME = {
+  id: 'platz',
+  next: { href: '5-leitwort-detektiv.html', title: 'Leitwort-Detektiv' },
+  review: () => {
+    const li = c => { const p = c.list[c.gap - 1], n = c.list[c.gap]; return `<li>${p ? `<span>${p} →</span> ` : ''}<b>${c.w}</b>${n ? ` <span>→ ${n}</span>` : ''}</li>`; };
+    const half = Math.ceil(all.length / 2);
+    return `<div class="review c2"><div class="col neu"><ul>${all.slice(0, half).map(li).join('')}</ul></div>
+      <div class="col neu"><ul>${all.slice(half).map(li).join('')}</ul></div></div>`;
+  }
+};
+@@js
+/* ---------- Spiel: Wo ist mein Platz? ---------- */
+/* Sortier-Regel wie im Wörterbuch: ä, ö, ü zählen wie a, o, u; ß wie ss; groß und klein ist egal */
+const key = s => s.toLowerCase().replace(/ä/g, 'a').replace(/ö/g, 'o').replace(/ü/g, 'u').replace(/ß/g, 'ss');
+const cmp = (a, b) => key(a) < key(b) ? -1 : key(a) > key(b) ? 1 : 0;
+const ORD = ['erste', 'zweite', 'dritte', 'vierte', 'fünfte', 'sechste'];
+let all = [], queue = [], cur = null;
+
+/* Begründung: a steht vor b – welcher Buchstabe entscheidet? */
+function why(a, b) {
+  const ka = key(a), kb = key(b);
+  let i = 0;
+  while (i < ka.length && ka[i] === kb[i]) i++;
+  const um = (a.slice(0, i + 1) + b.slice(0, i + 1)).match(/[äöü]/i);
+  return `Der ${ORD[i] || 'nächste'} Buchstabe entscheidet: <b>${ka[i]}</b> kommt vor <b>${kb[i]}</b>.` +
+    (um ? ` Denk daran: <b>${um[0].toLowerCase()}</b> wird wie <b>${key(um[0])}</b> einsortiert.` : '');
+}
+
+function startGame() {
+  all = [];
+  ROUNDS.forEach((r, ri) => {
+    const list = r[0].slice().sort(cmp);
+    shuffle(r[1].slice()).forEach(w => all.push({ w, list, ri, gap: list.filter(x => cmp(x, w) < 0).length, misses: 0 }));
+  });
+  queue = all.slice();
+  resetState(all.length);
+  say('In welche Lücke gehört das neue Wort? Tippe auf die Lücke oder zieh das Wort dorthin.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#round').textContent = `Runde ${cur.ri + 1} von ${ROUNDS.length}`;
+  $('#new').innerHTML = `<button class="word-card" aria-label="Neues Wort: ${cur.w}">${cur.w}</button>`;
+  render(false);
+}
+
+function render(solved) {
+  const L = cur.list, parts = [];
+  for (let g = 0; g <= L.length; g++) {
+    if (solved && g === cur.gap) parts.push(`<div class="entry new">${cur.w}</div>`);
+    else {
+      const where = g === 0 ? `vor ${L[0]}` : g === L.length ? `nach ${L[g - 1]}` : `zwischen ${L[g - 1]} und ${L[g]}`;
+      parts.push(`<button class="gap" data-g="${g}" aria-label="Lücke ${where}"${solved ? ' disabled' : ''}><span class="kbd" aria-hidden="true">${g + 1}</span>hier?</button>`);
+    }
+    if (g < L.length) parts.push(`<div class="entry">${L[g]}</div>`);
+  }
+  $('#list').classList.toggle('solved', solved);
+  $('#list').innerHTML = parts.join('');
+}
+
+function place(g) {
+  const el = $(`.gap[data-g="${g}"]`);
+  if (!el || state.busy || el.disabled) return;
+  const prev = cur.list[cur.gap - 1], nxt = cur.list[cur.gap], w = cur.w;
+  const reason = prev ? `<b>${w}</b> kommt nach <b>${prev}</b>. ${why(prev, w)}` : `<b>${w}</b> kommt vor <b>${nxt}</b>. ${why(w, nxt)}`;
+  if (g !== cur.gap) {
+    const hint = miss(cur, el);
+    el.disabled = true;
+    if (hint) $(`.gap[data-g="${cur.gap}"]`).classList.add('hint');
+    say(hint ? `Tipp: ${reason} Die richtige Lücke leuchtet.`
+      : `Noch nicht. <b>${w}</b> steht weiter ${g < cur.gap ? 'hinten' : 'vorne'}. Vergleiche Buchstabe für Buchstabe.`, 'think');
+    return;
+  }
+  state.busy = true;
+  render(true);
+  $('#new').innerHTML = '<span class="placed">einsortiert</span>';
+  solve(cur, $('.entry.new'), 'die');
+  const where = prev && nxt ? `zwischen <b>${prev}</b> und <b>${nxt}</b>` : prev ? `ganz hinten, nach <b>${prev}</b>` : `ganz vorne, vor <b>${nxt}</b>`;
+  say(`${pick(PRAISE, 'praise')} <span class="pill neu">${w}</span> steht ${where}. ${prev ? why(prev, w) : why(w, nxt)}`, 'happy');
+  later(next, 2800);
+}
+
+$('#list').addEventListener('click', e => { const b = e.target.closest('.gap'); if (b) place(+b.dataset.g); });
+$('#new').addEventListener('click', e => {
+  if (suppressClick || state.busy || !e.target.closest('.word-card')) return;
+  say('Tippe auf die Lücke, in die das Wort gehört. Du kannst das Wort auch dorthin ziehen.');
+});
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-5]$/.test(e.key)) return;
+  place(+e.key - 1);
+});
+enableDrag('#new .word-card', '.gap', (src, tgt) => place(+tgt.dataset.g));

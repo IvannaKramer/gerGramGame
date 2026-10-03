@@ -1,0 +1,172 @@
+@@meta
+file: 2-artikel-dreher.html
+title: Artikel-Dreher
+level: Anfänger
+nr: 2
+total: 15
+subtitle: Der Artikel verändert sich mit dem Fall. Dreh so lange, bis er in den Satz passt!
+lead: So verändert sich der Artikel „der“:
+id: dreher
+desc: Dreh den Artikel, bis er in den Satz passt.
+sample: Wir winken ___ Busfahrer. → dem
+drag: no
+@@tipp
+Der Artikel verändert sich mit dem Fall: Wer oder was? <b>der</b> Tiger · Wessen? <b>des</b> Tigers · Wem? <b>dem</b> Tiger · Wen oder was? <b>den</b> Tiger.
+@@examples
+      <div class="ex nom" style="--tilt:-1.5deg"><div class="ex-head"><b>der</b><span>Wer oder was?</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🐯</span><span class="a">Der</span> Tiger schläft.</div></div>
+      <div class="ex gen" style="--tilt:1deg"><div class="ex-head"><b>des</b><span>Wessen?</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🐯</span>das Fell <span class="a">des</span> Tigers</div></div>
+      <div class="ex dat" style="--tilt:-.5deg"><div class="ex-head"><b>dem</b><span>Wem?</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🐯</span>Ich helfe <span class="a">dem</span> Tiger.</div></div>
+      <div class="ex akk" style="--tilt:1.5deg"><div class="ex-head"><b>den</b><span>Wen oder was?</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🐯</span>Ich sehe <span class="a">den</span> Tiger.</div></div>
+@@howto
+        <li><span>Lies die Frage und den Satz. Im Satz fehlt der Artikel.</span></li>
+        <li><span>Tippe auf das gelbe Feld. Bei jedem Tippen dreht sich der Artikel weiter: der → des → dem → den.</span></li>
+        <li><span>Passt der Artikel zur Frage? Dann tippe auf „Prüfen“.</span></li>
+@@board
+    <div class="bench">
+      <p class="bpic" id="pic" aria-hidden="true"></p>
+      <p class="ask"><span class="pill" id="qpill"></span> <span id="qtext"></span></p>
+      <p class="sentence" id="sentence"></p>
+      <div class="ladder" id="ladder" aria-hidden="true"></div>
+      <p class="help">Tippe auf das gelbe Feld, bis der Artikel passt.</p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check" type="button">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Die vier Fälle: gemeinsame Farben ---------- */
+.nom{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.gen{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.dat{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.akk{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.w{color:var(--c);font-weight:700}
+.legend{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:760px){.legend{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ex-head{flex-direction:column;align-items:center;gap:0}
+.ex-head b{font-size:clamp(1.05rem,2.4vw,1.35rem)}
+.ex-body{font-size:clamp(1rem,2.2vw,1.3rem)}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.5}
+.bpic{margin:0;font-size:clamp(2.2rem,6vw,3rem);line-height:1.2}
+.bubble .pill{margin:2px 0}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.15rem;color:var(--c)}
+.review h3 small{font-weight:400;color:var(--ink-soft);font-size:.95rem}
+/* ---------- Artikel-Dreher ---------- */
+.ask{margin:4px 0 8px;font-size:clamp(1.1rem,2.8vw,1.35rem);color:var(--ink-soft)}
+.sentence{line-height:2}
+.spin{appearance:none;font:inherit;font-weight:700;color:var(--ink);background:var(--sun-soft);border:4px solid var(--sun);border-radius:14px;
+  min-width:3.4em;min-height:56px;padding:0 .4em;cursor:pointer;box-shadow:0 4px 0 var(--sun-deep);transition:transform .12s ease}
+.spin:active{transform:translateY(3px);box-shadow:0 1px 0 var(--sun-deep)}
+.spin.solved{background:var(--c);border-color:var(--cd);color:#fff;box-shadow:none;cursor:default}
+.ladder{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 8px;margin:14px 0 0;font-weight:700;font-size:1.25rem;color:var(--ink-soft)}
+.ladder span{border:3px solid var(--card-edge);border-radius:12px;padding:2px 14px;background:var(--card)}
+.ladder span.on{border-color:var(--sun);background:var(--sun-soft);color:var(--ink)}
+.ladder span.hint{animation:glow 1.1s ease-in-out infinite;border-color:var(--sun);color:var(--ink)}
+.ladder i{font-style:normal}
+@media (max-width:560px){.ladder{gap:4px;font-size:1.1rem}.ladder span{padding:1px 9px}.bench .help{display:none}}
+@@data
+/* Aufbau: [Satz mit Lücke ___, richtiger Artikel, Frage, Bild]
+   In die Lücke passt immer genau ein Artikel: der (Nominativ), des (Genitiv), dem (Dativ) oder den (Akkusativ).
+   Steht die Lücke am Satzanfang, schreibt das Spiel den Artikel von selbst groß. */
+const SENTENCES = [
+  ['___ Fuchs schleicht leise davon.',        'der', 'Wer oder was schleicht leise davon?',   '🦊'],
+  ['Am Himmel leuchtet ___ Mond.',            'der', 'Wer oder was leuchtet am Himmel?',      '🌙'],
+  ['Morgens klingelt ___ Wecker.',            'der', 'Wer oder was klingelt morgens?',        '⏰'],
+  ['Das Fell ___ Tigers ist gestreift.',      'des', 'Wessen Fell ist gestreift?',            '🐯'],
+  ['Der Hut ___ Zauberers ist schwarz.',      'des', 'Wessen Hut ist schwarz?',               '🎩'],
+  ['Das Netz ___ Fischers ist voll.',         'des', 'Wessen Netz ist voll?',                 '🎣'],
+  ['Die Trompete ___ Clowns ist laut.',       'des', 'Wessen Trompete ist laut?',             '🤡'],
+  ['Emil schreibt ___ Freund einen Brief.',   'dem', 'Wem schreibt Emil einen Brief?',        '✉️'],
+  ['Die Kinder winken ___ Busfahrer.',        'dem', 'Wem winken die Kinder?',                '🚌'],
+  ['Das Futter schmeckt ___ Igel.',           'dem', 'Wem schmeckt das Futter?',              '🦔'],
+  ['Jana antwortet ___ Trainer.',             'dem', 'Wem antwortet Jana?',                   '🏃'],
+  ['Papa repariert ___ Roller.',              'den', 'Wen oder was repariert Papa?',          '🛴'],
+  ['Wir schmücken ___ Tannenbaum.',           'den', 'Wen oder was schmücken wir?',           '🎄'],
+  ['Nina packt ___ Koffer.',                  'den', 'Wen oder was packt Nina?',              '🧳'],
+  ['Ich sehe ___ Regenbogen.',                'den', 'Wen oder was sehe ich?',                '🌈']
+];
+
+const GAME = {
+  id: 'dreher',
+  unit: 'Sätze',
+  next: { href: '3-frage-lupe.html', title: 'Frage-Lupe' },
+  review: () => `<div class="review c2">${ORDER.map(k =>
+    `<div class="col ${k}"><h3>${FALL[k].art} <small>${FALL[k].name} · ${FALL[k].q}</small></h3><ul>${all.filter(s => s.k === k).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Artikel-Dreher ---------- */
+const FALL = {
+  nom: { name: 'Nominativ', q: 'Wer oder was?', art: 'der', color: 'der' },
+  gen: { name: 'Genitiv', q: 'Wessen?', art: 'des', color: 'bonus' },
+  dat: { name: 'Dativ', q: 'Wem?', art: 'dem', color: 'das' },
+  akk: { name: 'Akkusativ', q: 'Wen oder was?', art: 'den', color: 'die' }
+};
+const ORDER = ['nom', 'gen', 'dat', 'akk'];
+const ARTS = ORDER.map(k => FALL[k].art);
+let all = [], queue = [], cur = null, idx = -1;
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const shown = (s, art) => s.start ? cap(art) : art;
+const full = s => s.text.replace('___', `<b class="w ${s.k}">${shown(s, s.art)}</b>`);
+
+$('#ladder').innerHTML = ARTS.map((a, i) => `<span data-i="${i}">${a}</span>`).join('<i>→</i>');
+
+function startGame() {
+  all = SENTENCES.map(s => ({ text: s[0], art: s[1], k: ORDER[ARTS.indexOf(s[1])], q: s[2], emoji: s[3], start: s[0].startsWith('___'), misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Lies die Frage. Dreh dann den Artikel im gelben Feld, bis er passt.');
+  show('game');
+  next();
+}
+
+function render() {
+  const sp = $('#spin');
+  sp.textContent = idx < 0 ? '?' : shown(cur, ARTS[idx]);
+  sp.setAttribute('aria-label', idx < 0 ? 'Artikel wählen' : `Artikel: ${ARTS[idx]}. Tippen dreht weiter.`);
+  $$('#ladder span').forEach((el, i) => el.classList.toggle('on', i === idx));
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false; idx = -1;
+  $$('#ladder span').forEach(el => el.classList.remove('hint'));
+  $('#pic').textContent = cur.emoji;
+  const qp = $('#qpill');
+  qp.className = 'pill ' + cur.k; qp.textContent = FALL[cur.k].q;
+  $('#qtext').textContent = cur.q;
+  $('#sentence').innerHTML = cur.text.replace('___', '<button class="spin" id="spin" type="button"></button>');
+  render();
+}
+
+function turn(to) {
+  if (state.busy || !cur) return;
+  idx = to === undefined ? (idx + 1) % ARTS.length : to;
+  sfx.pick(); render();
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const sp = $('#spin'), f = FALL[cur.k];
+  if (idx < 0) { say('Tippe zuerst auf das gelbe Feld mit dem Fragezeichen.'); wobble(sp); return; }
+  if (ARTS[idx] !== cur.art) {
+    const hint = miss(cur, sp);
+    if (hint) $(`#ladder span[data-i="${ARTS.indexOf(cur.art)}"]`).classList.add('hint');
+    say(!hint ? `Fast! Lies die Frage noch einmal: „${cur.q}“ Dreh den Artikel weiter.`
+      : `Tipp: Auf „${f.q}“ antwortet der ${f.name}. Im ${f.name} heißt der Artikel <b>${cur.art}</b>.`, 'think');
+    return;
+  }
+  state.busy = true;
+  $$('#ladder span').forEach(el => el.classList.remove('hint'));
+  sp.classList.add('solved', cur.k); sp.disabled = true;
+  solve(cur, sp, f.color);
+  say(`${pick(PRAISE, 'praise')} <b>${cur.q}</b> – ${f.name}, also <span class="pill ${cur.k}">${cur.art}</span>: ${full(cur)}`, 'happy');
+  later(next, 2600);
+}
+
+$('#sentence').addEventListener('click', e => { if (e.target.closest('#spin')) turn(); });
+$('#check').addEventListener('click', check);
+document.addEventListener('keydown', e => {
+  if (!gameOn()) return;
+  if (/^[1-4]$/.test(e.key)) turn(+e.key - 1);
+});

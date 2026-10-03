@@ -1,0 +1,207 @@
+@@meta
+file: 1-punkt-oder-strich.html
+title: Punkt oder Strich?
+level: Anfänger
+nr: 1
+total: 15
+subtitle: Sprich das Wort zum Bild laut. Ist der Vokal kurz oder lang? Sortiere die Karte in den richtigen Korb.
+lead: Kurz bekommt einen Punkt und ist pink. Lang bekommt einen Strich und ist blau:
+id: sortieren
+desc: Hör genau hin und sortiere die Bildkarten.
+sample: ☀️ So_e → kurz
+drag: yes
+@@tipp
+Sprich das Wort laut und achte auf den Vokal vor der Lücke. Kannst du ihn <b>lang ziehen</b> wie in „Naaase“? Dann ist er <b>lang</b>. Klingt er <b>kurz und knapp</b> wie in „Sonne“? Dann ist er <b>kurz</b>.
+@@examples
+      <div class="ex ku" style="--tilt:-1.5deg"><div class="ex-head"><b>kurz</b><span>Punkt</span></div><div class="ex-body"><span class="emo" aria-hidden="true">☀️</span>S<span class="vk">o</span>nne</div></div>
+      <div class="ex la" style="--tilt:1deg"><div class="ex-head"><b>lang</b><span>Strich</span></div><div class="ex-body"><span class="emo" aria-hidden="true">👃</span>N<span class="vl">a</span>se</div></div>
+      <div class="ex ku" style="--tilt:-.5deg"><div class="ex-head"><b>kurz</b><span>Punkt</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🐟</span>F<span class="vk">i</span>sch</div></div>
+@@howto
+        <li>Tippe eine Karte an. Sprich das Wort zum Bild laut. Ein Teil des Wortes ist versteckt, damit du wirklich hinhörst.</li>
+        <li>Klingt der Vokal kurz? Dann tippe auf den pinken Korb. Klingt er lang? Dann tippe auf den blauen Korb. Du kannst die Karte auch in den Korb ziehen.</li>
+        <li>Passt es, zeigt dir die Eule das ganze Wort mit Punkt oder Strich.</li>
+@@board
+    <div class="words with-pics" id="words"></div>
+@@tray
+    <div class="tray">
+      <div class="baskets">
+        <button class="basket ku" data-kind="k" aria-pressed="false"><b><i class="sym dot" aria-hidden="true"></i>kurz</b><span>Punkt</span></button>
+        <button class="basket la" data-kind="l" aria-pressed="false"><b><i class="sym bar" aria-hidden="true"></i>lang</b><span>Strich</span></button>
+      </div>
+    </div>
+@@css
+/* ---------- Kurz und lang: Farben und Zeichen (im ganzen Thema gleich) ---------- */
+.ku{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.la{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.vk,.vl{position:relative;display:inline-block;line-height:1}
+.vk{color:var(--die)}.vl{color:var(--der)}
+.vk::after,.vl::after{content:"";position:absolute;bottom:-.02em;background:currentColor}
+.vk::after{left:50%;width:.2em;height:.2em;margin-left:-.1em;border-radius:50%}
+.vl::after{left:.04em;right:.04em;height:.11em;border-radius:.06em}
+.pill .vk,.pill .vl{color:#fff}
+.pill{padding-bottom:.1em}
+.gap{display:inline-block;width:.9em;border-bottom:3px solid currentColor;margin:0 2px}
+.sym{display:inline-block;background:currentColor;vertical-align:middle;margin-right:.35em}
+.sym.dot{width:.42em;height:.42em;border-radius:50%}
+.sym.bar{width:1.1em;height:.2em;border-radius:.1em}
+.speakbtn{appearance:none;border:3px solid var(--card-edge);background:var(--card);color:var(--ink);border-radius:999px;min-height:48px;padding:4px 16px;font-weight:700;font-size:1rem;cursor:pointer;box-shadow:0 3px 0 var(--card-edge);margin:6px 0 0 6px;vertical-align:middle}
+.speakbtn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--card-edge)}
+/* ---------- Sortieren in zwei Körbe ---------- */
+.with-pics .word-card{min-height:132px}
+.word-card .pic{font-size:2.7rem}
+.word-card .word{font-size:clamp(1.3rem,2.5vw,1.7rem)}
+.baskets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,4vw,40px);max-width:680px;margin:0 auto}
+.basket{appearance:none;border:none;border-radius:14px 14px 30px 30px;background:var(--c);color:#fff;min-height:clamp(88px,13vw,112px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:inset 0 10px 0 rgba(255,255,255,.22),0 6px 0 var(--cd),0 12px 22px var(--lift);
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .16s ease,box-shadow .16s ease}
+.basket b{font-size:clamp(1.5rem,4.4vw,2.2rem);line-height:1.15}
+.basket span{font-size:1.05rem}
+.basket.selected,.basket.drop-over{transform:translateY(-6px);box-shadow:inset 0 10px 0 rgba(255,255,255,.22),0 0 0 5px var(--sun),0 14px 24px var(--lift)}
+.basket.hint{animation:glow 1.1s ease-in-out infinite}
+.review li{font-weight:700}
+@@data
+/* Aufbau: [Wort, Länge, Bild] – Länge: 'k' = kurzer Vokal, 'l' = langer Vokal.
+   Der betonte Vokal steht in eckigen Klammern. Die Mitlaute direkt danach stehen in runden Klammern:
+   Sie werden auf der Karte als Lücke gezeigt, damit die Schreibung die Antwort nicht verrät. */
+const WORDS = [
+  ['S[o](nn)e',  'k', '☀️'],
+  ['B[a](ll)',   'k', '⚽'],
+  ['B[e](tt)',   'k', '🛏️'],
+  ['[A](ff)e',   'k', '🐒'],
+  ['F[i](sch)',  'k', '🐟'],
+  ['H[a](mm)er', 'k', '🔨'],
+  ['L[ö](ff)el', 'k', '🥄'],
+  ['T[e](ll)er', 'k', '🍽️'],
+  ['N[a](s)e',   'l', '👃'],
+  ['H[o](s)e',   'l', '👖'],
+  ['H[u](t)',    'l', '🎩'],
+  ['M[o](nd)',   'l', '🌙'],
+  ['Br[o](t)',   'l', '🍞'],
+  ['L[ö](w)e',   'l', '🦁'],
+  ['K[ä](s)e',   'l', '🧀']
+];
+
+const GAME = {
+  id: 'sortieren',
+  next: { href: '2-doppel-werkstatt.html', title: 'Doppel-Werkstatt' },
+  review: () => `<div class="review c2">${['k', 'l'].map(k =>
+    `<div class="col ${CLS[k]}"><h3>${KIND[k]}er Vokal (${k === 'k' ? 'Punkt' : 'Strich'})</h3><ul>${items.filter(w => w.kind === k).map(w => `<li>${w.emoji} ${w.marked}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Punkt oder Strich? ---------- */
+const KIND = { k: 'kurz', l: 'lang' };
+const CLS = { k: 'ku', l: 'la' };
+const GAP = '<i class="gap"></i>';
+let items = [], selWord = null, selKind = null;
+const byId = id => items.find(w => w.id === id);
+const cardEl = id => $(`.word-card[data-id="${id}"]`);
+const basketEl = k => $(`.basket[data-kind="${k}"]`);
+
+/* Vorlesen als Zusatz: Das Spiel geht auch ohne Sprachausgabe. */
+const canSpeak = (() => { try { return 'speechSynthesis' in window && typeof SpeechSynthesisUtterance === 'function'; } catch (e) { return false; } })();
+function speak(text) {
+  if (!canSpeak) return;
+  try {
+    const voices = speechSynthesis.getVoices();
+    const de = voices.find(v => /^de([-_]|$)/i.test(v.lang));
+    if (voices.length && !de) { say('Vorlesen geht auf diesem Gerät leider nicht. Sprich das Wort selbst laut.'); return; }
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'de-DE'; u.rate = .8; if (de) u.voice = de;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  } catch (e) { /* ohne Sprachausgabe weiterspielen */ }
+}
+const speakBtn = w => canSpeak ? ` <button type="button" class="speakbtn" data-say="${w.plain}">🔊 Anhören</button>` : '';
+
+function startGame() {
+  items = shuffle(WORDS.map((w, i) => {
+    const vowel = w[0].match(/\[(.+?)\]/)[1], hidden = w[0].match(/\((.+?)\)/)[1];
+    return { id: 'w' + i, kind: w[1], emoji: w[2], vowel: vowel.toLowerCase(), hidden, misses: 0, done: false,
+      plain: w[0].replace(/[\[\]()]/g, ''),
+      gapped: w[0].replace(/\(.+?\)/, GAP).replace(/[\[\]]/g, ''),
+      marked: w[0].replace(/\[(.+?)\]/, `<span class="${w[1] === 'k' ? 'vk' : 'vl'}">$1</span>`).replace(/[()]/g, '') };
+  }));
+  resetState(items.length);
+  selWord = selKind = null;
+  $('#words').innerHTML = items.map(w =>
+    `<button class="word-card" data-id="${w.id}" aria-pressed="false" aria-label="Bildkarte ${w.plain}" style="--tilt:${(Math.random() * 3 - 1.5).toFixed(2)}deg">
+      <span class="pic" aria-hidden="true">${w.emoji}</span><span class="word" aria-hidden="true">${w.gapped}</span></button>`).join('');
+  renderSelection();
+  say('Tippe eine Karte an und sprich das Wort laut. Ist der Vokal vor der Lücke kurz oder lang?');
+  show('game');
+}
+
+function renderSelection() {
+  $$('.word-card').forEach(el => {
+    const on = el.dataset.id === selWord;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+  });
+  $$('.basket').forEach(el => {
+    const on = el.dataset.kind === selKind;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+    el.classList.remove('hint');
+  });
+  const w = selWord && byId(selWord);
+  if (w && w.misses >= 2) basketEl(w.kind).classList.add('hint');
+}
+
+function tapWord(id) {
+  const w = byId(id);
+  if (!w || w.done || state.busy) return;
+  if (selKind) { attempt(id, selKind); return; }
+  selWord = selWord === id ? null : id;
+  sfx.pick(); renderSelection();
+  if (selWord) say(`Sprich das Wort zum Bild ${w.emoji} laut. Ist das <b>${w.vowel}</b> kurz oder lang?${speakBtn(w)}`);
+}
+function tapBasket(k) {
+  if (state.busy) return;
+  if (selWord) { attempt(selWord, k); return; }
+  selKind = selKind === k ? null : k;
+  sfx.pick(); renderSelection();
+  if (selKind) say(`Welche Karte gehört in den Korb <span class="pill ${CLS[k]}">${KIND[k]}</span>?`);
+}
+
+/* Der Vokal dreimal hintereinander: So hört man, ob er sich lang ziehen lässt. */
+const stretch = w => w.plain.replace(new RegExp(w.vowel, 'i'), m => m + w.vowel + w.vowel);
+function hintText(w) {
+  return w.kind === 'l'
+    ? `Tipp: Zieh das ${w.vowel} lang: „${stretch(w)}“. Das Wort klingt immer noch richtig. Das <b>${w.vowel}</b> ist also <b>lang</b>. Der blaue Korb leuchtet.`
+    : `Tipp: Zieh das ${w.vowel} lang: „${stretch(w)}“. Das klingt komisch! Das <b>${w.vowel}</b> ist also <b>kurz</b>. Der pinke Korb leuchtet.`;
+}
+function praiseText(w) {
+  const double = w.hidden.length === 2 && w.hidden[0] === w.hidden[1];
+  return `${pick(PRAISE, 'praise')} <span class="pill ${CLS[w.kind]}">${w.marked}</span> Das ${w.vowel} ist ${KIND[w.kind]}.` +
+    (w.kind === 'k' && double ? ` Danach kommt <b>${w.hidden}</b>.` : w.kind === 'l' && w.hidden.length === 1 ? ` Danach kommt nur ein <b>${w.hidden}</b>.` : '');
+}
+
+function attempt(id, k) {
+  const w = byId(id);
+  if (!w || w.done) return;
+  if (w.kind !== k) {
+    miss(w, cardEl(id));
+    wobble(basketEl(k));
+    selWord = id; selKind = null;
+    renderSelection();
+    say(w.misses >= 2 ? hintText(w) : pick(['Hmm, hör noch einmal genau hin. Sprich das Wort laut.', 'Das passt noch nicht. Kannst du den Vokal lang ziehen?', 'Guter Versuch! Sprich das Wort langsam und hör auf den Vokal.'], 'retry'), 'think');
+    return;
+  }
+  const card = cardEl(id);
+  selWord = selKind = null;
+  renderSelection();
+  card.classList.add('vanish');
+  later(() => { card.classList.remove('vanish'); card.classList.add('done'); card.disabled = true; }, 330);
+  solve(w, basketEl(k), k === 'k' ? 'die' : 'der');
+  say(praiseText(w), 'happy');
+  if (state.solved === state.total) { state.busy = true; later(finish, 1800); }
+}
+
+$('#words').addEventListener('click', e => {
+  if (suppressClick) return;
+  const c = e.target.closest('.word-card');
+  if (c) tapWord(c.dataset.id);
+});
+$('#bubble').addEventListener('click', e => { const b = e.target.closest('.speakbtn'); if (b) speak(b.dataset.say); });
+$$('.basket').forEach(b => b.addEventListener('click', () => { if (!suppressClick) tapBasket(b.dataset.kind); }));
+enableDrag('.word-card:not(.done)', '.basket', (card, basket) => attempt(card.dataset.id, basket.dataset.kind));

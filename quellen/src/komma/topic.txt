@@ -1,0 +1,10 @@
+@@meta
+slug: komma
+title: Das Komma
+subtitle: Sechs Spiele rund um das Komma. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Farben und Bildern als Hilfe. Je 15 Sätze.
+lead2: Ohne Hilfe. Je 20 Sätze.
+lead3: Knifflige Sätze mit mehreren Kommas. 20 Sätze.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Sätzen, dazu die Lösungen.
+@@tipp
+Bei einer <b>Aufzählung</b> steht zwischen den Teilen ein Komma, aber nicht vor <b>und</b> oder <b>oder</b>: Äpfel, Birnen und Kiwis. Ein <b>Nebensatz</b> beginnt mit einem Bindewort wie <b>weil, dass, wenn, als, ob</b>. Sein Verb steht am Ende. Zwischen Hauptsatz und Nebensatz steht ein Komma.

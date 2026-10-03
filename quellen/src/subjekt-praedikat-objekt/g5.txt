@@ -1,0 +1,236 @@
+@@meta
+file: 5-satz-bauplan.html
+title: Satz-Bauplan
+level: Fortgeschrittene
+nr: 5
+total: 20
+subtitle: Der Bauplan zeigt, welches Satzglied an welcher Stelle steht. Lege jede Karte in das richtige Feld.
+lead: Der Bauplan benutzt die vier festen Farben:
+id: bauplan
+desc: Baue den Satz nach dem farbigen Bauplan.
+sample: Dem Igel bringt das Mädchen einen Apfel.
+drag: yes
+@@tipp
+Frag bei jeder Karte: Ist das ein Verb? Dann ist es das <b>Prädikat</b>. Wer oder was tut etwas? Das ist das <b>Subjekt</b>. <b>Wem?</b> → Dativobjekt. <b>Wen oder was?</b> → Akkusativobjekt. Achte auf die kleinen Wörter: <b>der</b> Igel, <b>dem</b> Igel, <b>den</b> Igel.
+@@examples
+      <div class="ex kD" style="--tilt:-1.5deg"><div class="ex-head"><b>Dativ&shy;objekt</b><span>Wem?</span></div><div class="ex-body"><span class="a">Dem Igel</span></div></div>
+      <div class="ex kP" style="--tilt:1deg"><div class="ex-head"><b>Prädikat</b><span>Was tut jemand?</span></div><div class="ex-body"><span class="a">bringt</span></div></div>
+      <div class="ex kS" style="--tilt:-.5deg"><div class="ex-head"><b>Subjekt</b><span>Wer oder was?</span></div><div class="ex-body"><span class="a">das Mädchen</span> …</div></div>
+@@howto
+        <li><span>Schau dir den Bauplan an. Jedes Feld hat eine Farbe und einen Namen.</span></li>
+        <li><span>Tippe eine Karte an und dann das Feld, in das sie gehört. Du kannst die Karte auch ziehen. Tippst du ein volles Feld an, kommt die Karte zurück.</span></li>
+        <li><span>Sind alle Felder voll? Lies den Satz und tippe auf „Prüfen“. Richtige Karten bleiben liegen, die anderen bekommst du zurück.</span></li>
+@@board
+    <div class="bench">
+      <p class="lbl">Der Bauplan:</p>
+      <div class="sent" id="plan"></div>
+      <p class="lbl cards-lbl">Die Karten:</p>
+      <div class="pile" id="pile"></div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Subjekt, Prädikat, Objekte: feste Farben und Satz-Blöcke ---------- */
+.kP{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.kS{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.kD{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.kA{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.kZ{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.kO{--c:var(--sun);--cd:var(--sun-deep);--cs:var(--sun-soft)}
+.pill.kO,.pen.kO,.ex.kO .ex-head{color:var(--on-sun)}
+.ex-head b{font-size:clamp(1rem,2.5vw,1.4rem);min-width:0;max-width:100%}
+.ex-head span{font-size:.95rem}
+.ex-body{font-size:clamp(1.05rem,2.7vw,1.45rem)}
+.bubble .pill{margin:2px 0;white-space:normal}
+.zpic{font-size:2.8rem;line-height:1.1;margin:0 0 10px}
+.sent{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:12px 10px;margin:8px 0 4px}
+.stop{font-weight:700;font-size:2rem;line-height:1;align-self:flex-end;margin:0 0 10px -6px}
+.blk{appearance:none;background:var(--card);border:3px solid var(--card-edge);border-radius:14px;min-height:60px;padding:6px 14px;color:var(--ink);font-family:inherit;
+  font-weight:700;font-size:clamp(1.5rem,3.4vw,1.9rem);line-height:1.2;cursor:pointer;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 4px 0 var(--card-edge),0 10px 18px var(--lift);transition:transform .14s ease,border-color .14s ease,background-color .14s ease}
+.blk small{display:none;font-size:.85rem;font-weight:700;color:var(--ink-soft);line-height:1.1;margin-top:2px}
+.blk.on{border-color:var(--c);background:var(--cs);box-shadow:0 4px 0 var(--cd);cursor:default}
+.blk.on small{display:block}
+.blk.selected{border-color:var(--sun);background:var(--sun-soft);transform:translateY(-5px)}
+.blk.hint{animation:glow 1.1s ease-in-out infinite}
+.review.c1{grid-template-columns:1fr}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.8;padding:2px 0}
+.review .pill{white-space:normal;font-size:1rem}
+.review h3{line-height:1.9}
+.review .col.plain{background:var(--card);border:3px solid var(--card-edge)}
+/* ---------- Satz-Bauplan ---------- */
+.slot{appearance:none;border:3px solid var(--c);border-radius:14px;background:var(--card);padding:0;min-width:128px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;
+  font-family:inherit;color:var(--ink);transition:transform .14s ease,box-shadow .14s ease}
+.sl-h{background:var(--c);color:#fff;font-size:.95rem;font-weight:700;line-height:1.2;padding:3px 10px}
+.sl-b{flex:1;min-height:54px;display:grid;place-items:center;padding:4px 12px;font-weight:700;font-size:clamp(1.5rem,3.4vw,1.9rem);line-height:1.2}
+.slot.good{cursor:default}
+.slot.good .sl-b{background:var(--cs)}
+.slot.drop-over,.slot.hint{box-shadow:0 0 0 5px var(--sun)}
+.slot.hint{animation:glow 1.1s ease-in-out infinite}
+.cards-lbl{margin-top:18px!important}
+.pile{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;min-height:66px;margin-top:6px}
+.pile .blk{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;cursor:grab}
+.pile .blk.dragging{opacity:.35}
+.pile .empty{color:var(--ink-soft);align-self:center;margin:0}
+@media (max-width:620px){.slot{min-width:104px}}
+@@data
+/* Aufbau: die Satzglieder eines Satzes in der richtigen Reihenfolge. Daraus entstehen der Bauplan und die Karten.
+   Jedes Satzglied steht so da, wie es mitten im Satz geschrieben wird (also „der Pirat“). Dahinter steht nach | die Art:
+   S = Subjekt, P = Prädikat (bei zwei Teilen beide mit P), D = Dativobjekt, A = Akkusativobjekt.
+   Jede Art (außer P) darf nur einmal vorkommen. Das Subjekt muss in der Einzahl stehen. */
+const SENTENCES = [
+  ['der Pirat|S', 'zeigt|P', 'dem Papagei|D', 'die Schatzkarte|A'],
+  ['dem Igel|D', 'bringt|P', 'das Mädchen|S', 'einen Apfel|A'],
+  ['einen Brief|A', 'schreibt|P', 'der König|S', 'der Prinzessin|D'],
+  ['die Hexe|S', 'braut|P', 'einen Zaubertrank|A'],
+  ['dem Verkäufer|D', 'gibt|P', 'Nina|S', 'das Geld|A'],
+  ['der Förster|S', 'hilft|P', 'dem Reh|D'],
+  ['den Gästen|D', 'hat|P', 'der Koch|S', 'einen Eintopf|A', 'gekocht|P'],
+  ['der Junge|S', 'leiht|P', 'seinem Nachbarn|D', 'den Fußball|A'],
+  ['ihrer Freundin|D', 'schenkt|P', 'Clara|S', 'ein Armband|A'],
+  ['der Tiger|S', 'hat|P', 'dem Dompteur|D', 'gehorcht|P'],
+  ['die Maus|S', 'stiehlt|P', 'dem Kater|D', 'den Käse|A'],
+  ['ein Geheimnis|A', 'verrät|P', 'Lukas|S', 'seinem Freund|D'],
+  ['der Riese|S', 'trägt|P', 'den Zwerg|A'],
+  ['dem Wanderer|D', 'winkt|P', 'die Bäuerin|S'],
+  ['die Schneiderin|S', 'hat|P', 'dem Prinzen|D', 'einen Mantel|A', 'genäht|P'],
+  ['den Dieb|A', 'verfolgt|P', 'der Polizist|S'],
+  ['der Vater|S', 'schneidet|P', 'dem Sohn|D', 'die Haare|A'],
+  ['dem Sänger|D', 'hat|P', 'das Publikum|S', 'applaudiert|P'],
+  ['die Fee|S', 'erfüllt|P', 'dem Fischer|D', 'einen Wunsch|A'],
+  ['der Esel|S', 'zieht|P', 'den Karren|A']
+];
+
+const GAME = {
+  id: 'bauplan',
+  unit: 'Sätze',
+  next: { href: '6-fehler-detektiv.html', title: 'Fehler-Detektiv' },
+  review: () => reviewAll(all, ['P', 'S', 'D', 'A'])
+};
+@@js
+/* ---------- Gemeinsam: Satzglieder, Farben und Fragen ---------- */
+const ROLE = {
+  P: { name: 'Prädikat', art: 'das', short: 'Prädikat', q: 'Was tut jemand?', col: 'die' },
+  S: { name: 'Subjekt', art: 'das', short: 'Subjekt', q: 'Wer oder was?', col: 'der' },
+  D: { name: 'Dativobjekt', art: 'das', short: 'Dativobjekt', q: 'Wem?', col: 'das' },
+  A: { name: 'Akkusativobjekt', art: 'das', short: 'Akkusativobjekt', q: 'Wen oder was?', col: 'bonus' },
+  Z: { name: 'Bestimmung der Zeit', art: 'die', short: 'Zeit', q: 'Wann?', col: 'teal' },
+  O: { name: 'Bestimmung des Ortes', art: 'die', short: 'Ort', q: 'Wo?', col: 'sun' }
+};
+const PRON = ['ihm', 'ihn', 'ihr', 'mir', 'mich', 'dir', 'dich'];
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const STOP = '<span class="stop" aria-hidden="true">.</span>';
+/* Liest eine Zeile der Liste: Einträge mit | sind Satzglieder, alles andere ist Zusatz (Bild, gesuchtes Satzglied). */
+function read(row, id) {
+  const s = { id, info: row.filter(x => !x.includes('|')), misses: 0, done: false };
+  s.parts = row.filter(x => x.includes('|')).map((x, i) => { const [t, r, shown] = x.split('|'); return { t, r, shown, i, text: i === 0 ? cap(t) : t }; });
+  return s;
+}
+const twoPart = s => s.parts.filter(p => p.r === 'P').length > 1;
+const answer = (s, r) => s.parts.filter(p => p.r === r).map(p => p.t).join(' … ');
+const the = r => `${ROLE[r].art} <b>${ROLE[r].name}</b>`;
+const rolePill = r => `<span class="pill k${r}">${ROLE[r].name}</span>`;
+const colored = (s, roles) => s.parts.map(p => roles.includes(p.r) ? `<span class="pill k${p.r}">${p.text}</span>` : p.text).join(' ') + '.';
+/* Baut die Frage nach einem Satzglied, z. B. „Wem schenkt Oma einen Roller?“ */
+function ask(s, r) {
+  if (r === 'P') return ROLE.P.q;
+  const P = s.parts.filter(p => p.r === 'P'), rest = s.parts.filter(p => p.r !== 'P' && p.r !== r);
+  const rank = p => p.r === 'S' ? 0 : PRON.includes(p.t) ? 1 : 2 + 'ZDO-A'.indexOf(p.r);
+  rest.sort((a, b) => rank(a) - rank(b));
+  return [ROLE[r].q.slice(0, -1), P[0].t, ...rest.map(p => p.t), ...P.slice(1).map(p => p.t)].join(' ') + '?';
+}
+const blkHTML = (p, r) => `<button class="blk${r ? ' on k' + r : ''}" data-i="${p.i}">${p.text}<small>${r ? ROLE[r].short : ''}</small></button>`;
+const blkEl = i => $(`#sent .blk[data-i="${i}"]`);
+function paint(el, r) { el.className = 'blk on k' + r; el.querySelector('small').textContent = ROLE[r].short; }
+const reviewAll = (list, roles) => `<div class="review c1"><div class="col plain"><h3>${roles.map(rolePill).join(' ')}</h3><ul>${list.map(s => `<li>${colored(s, roles)}</li>`).join('')}</ul></div></div>`;
+
+/* ---------- Spiel: Satz-Bauplan ---------- */
+const SHOW = ['P', 'S', 'D', 'A'];
+let all = [], queue = [], cur = null, place = [], locked = [], sel = null, hintAt = null;
+const slotEl = i => $(`.slot[data-i="${i}"]`);
+
+function startGame() {
+  all = SENTENCES.map((row, i) => read(row, i));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false; sel = hintAt = null;
+  place = cur.parts.map(() => null); locked = cur.parts.map(() => false);
+  cur.order = shuffle(cur.parts.map(p => p.i));
+  render();
+  say('Tippe eine Karte an und dann das passende Feld im Bauplan.');
+}
+
+function render() {
+  $('#plan').innerHTML = cur.parts.map((p, i) => {
+    const c = place[i] === null ? null : cur.parts[place[i]];
+    return `<button class="slot k${p.r}${locked[i] ? ' good' : ''}${hintAt === i ? ' hint' : ''}" data-i="${i}" aria-label="Feld ${i + 1}: ${ROLE[p.r].name}, ${c ? 'darin liegt ' + c.t : 'leer'}">` +
+      `<span class="sl-h">${ROLE[p.r].name}</span><span class="sl-b">${c ? (i === 0 ? cap(c.t) : c.t) : ''}</span></button>`;
+  }).join('') + STOP;
+  const free = cur.order.filter(i => !place.includes(i));
+  $('#pile').innerHTML = free.length ? free.map(i =>
+    `<button class="blk${sel === i ? ' selected' : ''}${hintAt === i ? ' hint' : ''}" data-i="${i}" aria-pressed="${sel === i}">${cur.parts[i].t}</button>`).join('')
+    : '<p class="empty">Alle Karten liegen. Lies den Satz und tippe auf „Prüfen“.</p>';
+}
+
+function tapCard(i) {
+  if (state.busy || !cur) return;
+  sel = sel === i ? null : i;
+  sfx.pick(); render();
+  if (sel !== null) say(`Was für ein Satzglied ist <b>${cur.parts[i].t}</b>? Tippe das passende Feld im Bauplan an.`);
+}
+function put(ci, si) {
+  if (state.busy || !cur || locked[si]) return;
+  place[si] = ci; sel = null; if (hintAt === ci) hintAt = null;
+  sfx.pick(); render();
+}
+function tapSlot(i) {
+  if (state.busy || !cur || locked[i]) return;
+  if (sel !== null) { put(sel, i); return; }
+  if (place[i] !== null) { place[i] = null; sfx.pick(); render(); }
+  else say('Tippe zuerst eine Karte an. Dann legst du sie in dieses Feld.');
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  if (place.includes(null)) { say('Lege zuerst alle Karten in den Bauplan.'); return; }
+  const wrong = place.map((c, i) => c === i ? -1 : i).filter(i => i >= 0);
+  if (wrong.length) {
+    const w = cur.parts[wrong[0]], r = w.r, tip = miss(cur, slotEl(wrong[0]));
+    const ok = place.length - wrong.length;
+    place.forEach((c, i) => { if (c === i) locked[i] = true; else place[i] = null; });
+    sel = null; hintAt = tip ? wrong[0] : null;
+    render();
+    const back = `${ok === 0 ? 'Noch liegt keine Karte richtig.' : ok === 1 ? 'Eine Karte liegt schon richtig.' : ok + ' Karten liegen schon richtig.'} Die anderen bekommst du zurück.`;
+    say(tip ? (r === 'P' ? `Tipp: Das Prädikat ist das Verb. In das leuchtende Feld gehört <b>${w.t}</b>.`
+        : `Tipp: ${ask(cur, r)} – <b>${w.t}</b>. Das ist ${the(r)}. Leg die leuchtende Karte in das leuchtende Feld.`)
+      : `Fast! ${back} ` + (r === 'P' ? 'Welche Karte ist ein Verb?' : `Für das Feld ${rolePill(r)} fragst du: <b>${ROLE[r].q}</b>`), 'think');
+    return;
+  }
+  state.busy = true;
+  locked = locked.map(() => true); hintAt = null; render();
+  solve(cur, $('#plan'), 'das');
+  say(`${pick(PRAISE, 'praise')} ${colored(cur, SHOW)}`, 'happy');
+  later(next, 2600);
+}
+
+$('#pile').addEventListener('click', e => {
+  if (suppressClick) return;
+  const b = e.target.closest('.blk');
+  if (b) tapCard(+b.dataset.i);
+});
+$('#plan').addEventListener('click', e => {
+  if (suppressClick) return;
+  const s = e.target.closest('.slot');
+  if (s) tapSlot(+s.dataset.i);
+});
+$('#check').addEventListener('click', check);
+enableDrag('#pile .blk', '.slot:not(.good)', (card, slot) => put(+card.dataset.i, +slot.dataset.i));

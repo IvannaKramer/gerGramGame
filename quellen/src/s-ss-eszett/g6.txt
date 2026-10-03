@@ -1,0 +1,158 @@
+@@meta
+file: 6-schreib-meister.html
+title: Schreib-Meister
+level: Profis
+nr: 6
+total: 20
+subtitle: Jetzt schreibst du selbst! In jedem Satz hat ein Wort eine Lücke. Schreibe das ganze Wort richtig auf.
+lead: Auch bei langen und seltenen Wörtern helfen dir die drei Regeln:
+id: meister
+desc: Schreibe knifflige Wörter mit s, ss oder ß.
+sample: scheu_lich → scheußlich
+drag: no
+@@tipp
+Prüfe das Wort in zwei Schritten. Erstens: Klingt der Vokal vor der Lücke <b>kurz</b>? Dann <b>ss</b>: hässlich. Zweitens: Ist er <b>lang</b> oder steht dort au, ei, eu? Dann sprich das Wort oder seine Verlängerung laut. <b>Zischt</b> es, schreibst du <b>ß</b>: außen. <b>Summt</b> es, schreibst du <b>s</b>: Beweis → Beweise.
+@@examples
+      <div class="ex ks" style="--tilt:-1.5deg"><div class="ex-head"><b>s</b><span>summt</span></div><div class="ex-body">Bewei<span class="a">s</span>e<span class="arrow" aria-hidden="true">▼</span>Bewei<span class="a">s</span></div></div>
+      <div class="ex kss" style="--tilt:1deg"><div class="ex-head"><b>ss</b><span>kurz</span></div><div class="ex-body">verpa<span class="a">ss</span>en<span class="arrow" aria-hidden="true">▼</span>verpa<span class="a">ss</span>t</div></div>
+      <div class="ex ksz" style="--tilt:-.5deg"><div class="ex-head"><b>ß</b><span>lang · zischt</span></div><div class="ex-body">wir sa<span class="a">ß</span>en<span class="arrow" aria-hidden="true">▼</span>ich sa<span class="a">ß</span></div></div>
+@@howto
+        <li>Lies den Satz. Das gelbe Wort hat eine Lücke: Dort fehlt s, ss oder ß.</li>
+        <li>Sprich das Wort laut. Schreibe dann das ganze Wort in das Feld. Achte auch auf große und kleine Anfangsbuchstaben.</li>
+        <li>Tippe auf „Prüfen“ oder drücke die Enter-Taste. Stimmt es noch nicht, bekommst du einen Tipp.</li>
+@@board
+    <div class="bench">
+      <p class="lbl">Schreibe das gelbe Wort vollständig auf.</p>
+      <p class="sentence" id="sentence"></p>
+      <form class="write" id="form" autocomplete="off">
+        <input id="answer" type="text" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" maxlength="24" aria-label="Das ganze Wort">
+      </form>
+      <div class="keys" id="keys" aria-label="Besondere Buchstaben">
+        <button type="button" class="keycap">ß</button><button type="button" class="keycap">ä</button><button type="button" class="keycap">ö</button><button type="button" class="keycap">ü</button>
+      </div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check" type="submit" form="form">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Schreib-Meister ---------- */
+.ks{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.kss{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.ksz{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.hit{color:var(--c);background:var(--cs);border-radius:8px;padding:0 .08em}
+.gap{display:inline-block;width:.62em;border-bottom:3px solid currentColor;margin:0 1px}
+.ex-body{padding-top:16px;font-size:clamp(1.05rem,2.8vw,1.6rem)}
+.ex-body .arrow{display:block;color:var(--ink-soft);font-size:1rem;line-height:1.1}
+.sentence{margin:10px auto 14px;max-width:26em;font-size:clamp(1.5rem,3.6vw,1.9rem);line-height:1.5}
+.sentence mark{background:var(--sun-soft);color:var(--ink);font-weight:700;border-radius:8px;padding:0 .15em;box-shadow:0 0 0 3px var(--sun);white-space:nowrap}
+.sentence mark.fixed{background:var(--cs);box-shadow:0 0 0 3px var(--c)}
+.write{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;font-weight:700;font-size:clamp(1.6rem,5.4vw,2.3rem)}
+.write input{font:inherit;color:var(--ink);background:var(--paper);border:3px solid var(--card-edge);border-radius:14px;padding:4px 14px;width:min(100%,10.5em);min-height:60px;text-align:left}
+.write input:focus{outline:none;border-color:var(--sun);box-shadow:0 0 0 4px var(--sun-soft)}
+.write input.good{border-color:var(--das);background:var(--das-soft)}
+.keys{display:flex;justify-content:center;gap:8px;margin-top:12px}
+.keycap{appearance:none;min-width:48px;min-height:48px;border:3px solid var(--card-edge);background:var(--card);border-radius:12px;font-weight:700;font-size:1.3rem;cursor:pointer;box-shadow:0 3px 0 var(--card-edge)}
+.keycap:active{transform:translateY(2px);box-shadow:0 1px 0 var(--card-edge)}
+@@data
+/* Aufbau: [Satz, was fehlt, Tipp mit der Regel]
+   Das Wort mit der Lücke steht in geschweiften Klammern, die Lücke ist der Unterstrich: {Bewei_}. */
+const SENTENCES = [
+  ['Der Detektiv sucht einen {Bewei_}.',                's',  'Verlängere: viele <b>Bewei·se</b>. Das s summt. Also einfaches <b>s</b>.'],
+  ['Wir sitzen alle zusammen im {Krei_}.',              's',  'Verlängere: viele <b>Krei·se</b>. Das s summt. Also einfaches <b>s</b>.'],
+  ['Auf dem Jahrmarkt kaufe ich ein {Lo_}.',            's',  'Verlängere: viele <b>Lo·se</b>. Das s summt. Also einfaches <b>s</b>.'],
+  ['Zum Abendbrot gibt es frisches {Gemü_e}.',          's',  'Das ü klingt lang und das s summt weich. Also einfaches <b>s</b>.'],
+  ['Eine kleine {Amei_e} trägt ein Blatt.',             's',  'Nach ei summt hier das s weich wie eine Biene. Also einfaches <b>s</b>.'],
+  ['Papa {nie_t} laut, weil er Schnupfen hat.',         's',  'Denk an die Grundform <b>nie·sen</b>: Dort summt das s. Also einfaches <b>s</b>.'],
+  ['Die bunte {Seifenbla_e} platzt in der Luft.',       's',  'Das a klingt lang und das s summt weich. Also einfaches <b>s</b>.'],
+  ['Die Hexe im Märchen ist alt und {hä_lich}.',        'ss', 'Das ä klingt kurz. Nach einem kurzen Vokal schreibst du <b>ss</b>.'],
+  ['Ich möchte noch ein {bi_chen} spielen.',            'ss', 'Das i klingt kurz. Nach einem kurzen Vokal schreibst du <b>ss</b>.'],
+  ['Im Sommer frühstücken wir auf der {Terra_e}.',      'ss', 'Das a vor der Lücke klingt kurz. Nach einem kurzen Vokal schreibst du <b>ss</b>.'],
+  ['Der Hai hat eine spitze {Flo_e} auf dem Rücken.',   'ss', 'Das o klingt kurz. Nach einem kurzen Vokal schreibst du <b>ss</b>.'],
+  ['An der {Ka_e} im Supermarkt bezahlen wir.',         'ss', 'Das a klingt kurz. Nach einem kurzen Vokal schreibst du <b>ss</b>.'],
+  ['Um acht Uhr ist {Schlu_} mit Fernsehen.',           'ss', 'Das u klingt kurz. Nach einem kurzen Vokal schreibst du <b>ss</b>.'],
+  ['Ich habe heute leider den Bus {verpa_t}.',          'ss', 'Denk an die Grundform <b>ver·pas·sen</b>: Das a klingt kurz. Also <b>ss</b>.'],
+  ['Ich habe {blo_} noch einen Euro.',                  'ß',  'Das o klingt lang und der s-Laut zischt scharf. Also <b>ß</b>.'],
+  ['Autsch, ich habe mir den Kopf {gesto_en}!',         'ß',  'Das o klingt lang und der s-Laut zischt scharf. Also <b>ß</b>.'],
+  ['Die Tür geht nur nach {au_en} auf.',                'ß',  'Nach au steht nie ss. Der s-Laut zischt scharf. Also <b>ß</b>.'],
+  ['Der kalte Tee schmeckt {scheu_lich}.',              'ß',  'Nach eu steht nie ss. Der s-Laut zischt scharf. Also <b>ß</b>.'],
+  ['Gestern {sa_} ich lange am Schreibtisch.',          'ß',  'Das a klingt lang und in <b>wir sa·ßen</b> zischt der s-Laut. Also <b>ß</b>.'],
+  ['Wir üben {regelmä_ig} für das Diktat.',             'ß',  'Das ä klingt lang und der s-Laut zischt scharf. Also <b>ß</b>.']
+];
+/* Die drei Gruppen: [Buchstabe, Farbe, Überschrift] */
+const LETTERS = [['s', 'ks', 's · summt'], ['ss', 'kss', 'ss · kurz'], ['ß', 'ksz', 'ß · lang, zischt']];
+
+const GAME = {
+  id: 'meister',
+  unit: 'Sätze',
+  next: null,
+  review: () => `<div class="review">${LETTERS.map(([l, k, h]) =>
+    `<div class="col ${k}"><h3>${h}</h3><ul>${all.filter(w => w.l === l).map(w => `<li>${w.html}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Schreib-Meister ---------- */
+const GAP = '<i class="gap"></i>';
+const KL = { s: 'ks', ss: 'kss', 'ß': 'ksz' }, COLOR = { s: 'der', ss: 'die', 'ß': 'das' };
+let all = [], queue = [], cur = null;
+const input = $('#answer');
+
+function startGame() {
+  all = SENTENCES.map(s => {
+    const gapw = s[0].match(/\{(.+?)\}/)[1];
+    return { sent: s[0], gapw, l: s[1], tip: s[2], right: gapw.replace('_', s[1]), html: gapw.replace('_', `<b>${s[1]}</b>`),
+      variants: ['s', 'ss', 'ß'].map(x => gapw.replace('_', x).toLowerCase()), misses: 0 };
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Sprich das gelbe Wort laut. Fehlt s, ss oder ß? Schreibe das ganze Wort in das Feld.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#sentence').innerHTML = cur.sent.replace(/\{(.+?)\}/, (m, w) => `<mark id="mark">${w.replace('_', GAP)}</mark>`);
+  input.value = ''; input.readOnly = false; input.classList.remove('good');
+  input.focus({ preventScroll: true });
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const v = input.value.trim().replace(/\s+/g, ' ');
+  if (!v) { say('Schreibe zuerst das Wort in das Feld.'); input.focus(); return; }
+  if (v !== cur.right) {
+    if (v.toLowerCase() === cur.right.toLowerCase()) {
+      wobble(input);
+      say(/^[A-ZÄÖÜ]/.test(cur.right) ? 'Fast richtig! Denk daran: Nomen schreibt man groß.' : 'Fast richtig! Dieses Wort schreibt man klein.', 'think');
+    } else {
+      miss(cur, input);
+      say(cur.misses === 1 ? (cur.variants.includes(v.toLowerCase())
+          ? 'Fast! Der s-Laut stimmt noch nicht. Sprich das Wort laut: Ist der Vokal kurz oder lang? Summt es oder zischt es?'
+          : 'Fast! Schau dir jeden Buchstaben genau an und probier es noch einmal.')
+        : cur.misses === 2 ? `Tipp: ${cur.tip}`
+        : `So ist es richtig: <span class="pill ${KL[cur.l]}">${cur.right}</span> Schreibe das Wort genau so ab.`, 'think');
+    }
+    input.focus();
+    return;
+  }
+  state.busy = true;
+  input.readOnly = true; input.classList.add('good');
+  const mark = $('#mark');
+  mark.className = 'fixed ' + KL[cur.l];
+  mark.innerHTML = cur.gapw.replace('_', `<b class="hit ${KL[cur.l]}">${cur.l}</b>`);
+  solve(cur, mark, COLOR[cur.l]);
+  say(`${pick(PRAISE, 'praise')} <span class="pill ${KL[cur.l]}">${cur.right}</span> mit <b>${cur.l}</b>.`, 'happy');
+  later(next, 2000);
+}
+
+$('#form').addEventListener('submit', e => { e.preventDefault(); check(); });
+$('#keys').addEventListener('click', e => {
+  const k = e.target.closest('.keycap');
+  if (!k || input.readOnly) return;
+  const a = input.selectionStart ?? input.value.length, b = input.selectionEnd ?? a;
+  input.value = input.value.slice(0, a) + k.textContent + input.value.slice(b);
+  input.focus();
+  input.setSelectionRange(a + 1, a + 1);
+});

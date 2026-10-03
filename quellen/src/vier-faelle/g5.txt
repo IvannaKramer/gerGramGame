@@ -1,0 +1,158 @@
+@@meta
+file: 5-wort-verwandler.html
+title: Wort-Verwandler
+level: Fortgeschrittene
+nr: 5
+total: 20
+subtitle: Im Satz fehlt ein Nomen. Welche Form passt in die Lücke? Setze sie ein.
+lead: Ein Nomen kann sich in jedem Fall verwandeln:
+id: verwandler
+desc: Setze das Nomen in der richtigen Form in den Satz ein.
+sample: Die Höhle gehört ___. → dem Bären
+drag: yes
+@@tipp
+Frag nach der Lücke, dann weißt du den Fall. Schau genau hin: Manchmal verändert sich auch das <b>Nomen</b>: <b>des</b> Zelt<b>es</b>, <b>dem</b> Bär<b>en</b>, <b>den</b> Spieler<b>n</b>.
+@@examples
+      <div class="ex gen" style="--tilt:-1.5deg"><div class="ex-head"><b>Wessen?</b><span>Genitiv</span></div><div class="ex-body">der Eingang <span class="a">des Zeltes</span></div></div>
+      <div class="ex dat" style="--tilt:1deg"><div class="ex-head"><b>Wem?</b><span>Dativ</span></div><div class="ex-body">Die Höhle gehört <span class="a">dem Bären</span>.</div></div>
+      <div class="ex akk" style="--tilt:-.5deg"><div class="ex-head"><b>Wen oder was?</b><span>Akkusativ</span></div><div class="ex-body">Der Hund jagt <span class="a">den Hasen</span>.</div></div>
+@@howto
+        <li><span>Lies den Satz mit der Lücke. Oben steht das Nomen, das fehlt.</span></li>
+        <li><span>Frag nach der Lücke: Wer oder was? Wessen? Wem? Wen oder was?</span></li>
+        <li><span>Tippe die passende Form an oder zieh sie in die Lücke. Auf der Tastatur kannst du auch 1, 2, 3 oder 4 drücken.</span></li>
+@@board
+    <div class="bench">
+      <p class="lbl">Dieses Nomen fehlt im Satz:</p>
+      <p class="from" id="base"></p>
+      <p class="sentence" id="sentence"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="forms" id="forms"></div>
+    </div>
+@@css
+/* ---------- Die vier Fälle: gemeinsame Farben ---------- */
+.nom{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.gen{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.dat{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.akk{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-head b{font-size:clamp(1.05rem,2.8vw,1.5rem)}
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.7}
+.bubble .pill{margin:2px 0}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.15rem;color:var(--c)}
+.review h3 small{font-weight:400;color:var(--ink-soft);font-size:.95rem}
+/* ---------- Wort-Verwandler ---------- */
+.bench{padding:22px 14px 30px}
+.bench .from{margin-bottom:14px}
+.gap{display:inline-block;min-width:5em;padding:0 .4em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);line-height:1.3;text-align:center}
+.gap.drop-over{border-color:var(--sun);background:var(--sun-soft)}
+.gap.filled{border-style:solid;border-color:var(--c);background:var(--c);color:#fff;min-width:0;white-space:nowrap}
+.forms{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(10px,2vw,18px);max-width:920px;margin:0 auto}
+.form{appearance:none;position:relative;font:inherit;font-weight:700;font-size:clamp(1.5rem,2.8vw,1.7rem);color:var(--ink);background:var(--card);border:3px solid var(--card-edge);border-radius:16px;
+  min-height:66px;min-width:150px;padding:8px 22px;cursor:grab;box-shadow:0 5px 0 var(--card-edge),0 10px 18px var(--lift);
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .12s ease,border-color .12s ease}
+@media (max-width:560px){.forms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.form{min-width:0;padding:8px 6px}}
+@media (hover:hover){.form:hover{border-color:var(--sun);transform:translateY(-2px)}}
+.form:active{transform:translateY(3px)}
+.form.dragging{opacity:.35}
+.form.hint{animation:glow 1.1s ease-in-out infinite;border-color:var(--sun)}
+.form .kbd{background:var(--card-edge);color:var(--ink-soft);top:3px;right:5px;font-size:.75rem}
+@@data
+/* Aufbau: [Satz mit Lücke ___, Grundform, alle Formen zur Auswahl, richtige Form, Fall, Frage]
+   Fall: nom = Nominativ, gen = Genitiv, dat = Dativ, akk = Akkusativ.
+   Zur Auswahl stehen nur Formen, die verschieden aussehen. Steht die Lücke am Satzanfang, beginnen die Formen groß. */
+const SENTENCES = [
+  ['Im Zoo brüllt ___.',                'der Löwe',        ['der Löwe', 'des Löwen', 'dem Löwen', 'den Löwen'],                          'der Löwe',        'nom', 'Wer oder was brüllt im Zoo?'],
+  ['___ fährt in den Hafen.',           'das Schiff',      ['Das Schiff', 'Des Schiffes', 'Dem Schiff'],                                 'Das Schiff',      'nom', 'Wer oder was fährt in den Hafen?'],
+  ['Auf dem Ast sitzen ___.',           'die Eulen',       ['die Eulen', 'der Eulen', 'den Eulen'],                                      'die Eulen',       'nom', 'Wer oder was sitzt auf dem Ast?'],
+  ['Morgen kommt ___ zu Besuch.',       'der Onkel',       ['der Onkel', 'des Onkels', 'dem Onkel', 'den Onkel'],                        'der Onkel',       'nom', 'Wer oder was kommt morgen zu Besuch?'],
+  ['___ blüht im Garten.',              'die Rose',        ['Die Rose', 'Der Rose'],                                                     'Die Rose',        'nom', 'Wer oder was blüht im Garten?'],
+  ['Der Hals ___ ist lang.',            'der Schwan',      ['der Schwan', 'des Schwans', 'dem Schwan', 'den Schwan'],                    'des Schwans',     'gen', 'Wessen Hals ist lang?'],
+  ['Der Eingang ___ ist offen.',        'das Zelt',        ['das Zelt', 'des Zeltes', 'dem Zelt'],                                       'des Zeltes',      'gen', 'Wessen Eingang ist offen?'],
+  ['Die Blätter ___ fallen im Herbst.', 'die Bäume',       ['die Bäume', 'der Bäume', 'den Bäumen'],                                     'der Bäume',       'gen', 'Wessen Blätter fallen im Herbst?'],
+  ['Die Hupe ___ ist laut.',            'der Bus',         ['der Bus', 'des Busses', 'dem Bus', 'den Bus'],                              'des Busses',      'gen', 'Wessen Hupe ist laut?'],
+  ['Das Auto ___ ist blau.',            'die Ärztin',      ['die Ärztin', 'der Ärztin'],                                                 'der Ärztin',      'gen', 'Wessen Auto ist blau?'],
+  ['Wir helfen ___ beim Tragen.',       'der Hausmeister', ['der Hausmeister', 'des Hausmeisters', 'dem Hausmeister', 'den Hausmeister'], 'dem Hausmeister', 'dat', 'Wem helfen wir beim Tragen?'],
+  ['Das Kleid passt ___ gut.',          'die Puppe',       ['die Puppe', 'der Puppe'],                                                   'der Puppe',       'dat', 'Wem passt das Kleid gut?'],
+  ['Die Trainerin gibt ___ neue Trikots.', 'die Spieler',  ['die Spieler', 'der Spieler', 'den Spielern'],                               'den Spielern',    'dat', 'Wem gibt die Trainerin neue Trikots?'],
+  ['Die Höhle gehört ___.',             'der Bär',         ['der Bär', 'des Bären', 'dem Bären', 'den Bären'],                           'dem Bären',       'dat', 'Wem gehört die Höhle?'],
+  ['Papa singt ___ ein Lied vor.',      'das Baby',        ['das Baby', 'des Babys', 'dem Baby'],                                        'dem Baby',        'dat', 'Wem singt Papa ein Lied vor?'],
+  ['Der Hund jagt ___.',                'der Hase',        ['der Hase', 'des Hasen', 'dem Hasen', 'den Hasen'],                          'den Hasen',       'akk', 'Wen oder was jagt der Hund?'],
+  ['Ich öffne ___.',                    'das Fenster',     ['das Fenster', 'des Fensters', 'dem Fenster'],                               'das Fenster',     'akk', 'Wen oder was öffne ich?'],
+  ['Wir sammeln ___.',                  'die Pilze',       ['die Pilze', 'der Pilze', 'den Pilzen'],                                     'die Pilze',       'akk', 'Wen oder was sammeln wir?'],
+  ['Mama sucht ___.',                   'der Regenschirm', ['der Regenschirm', 'des Regenschirms', 'dem Regenschirm', 'den Regenschirm'], 'den Regenschirm', 'akk', 'Wen oder was sucht Mama?'],
+  ['Jonas malt ___.',                   'die Giraffe',     ['die Giraffe', 'der Giraffe'],                                               'die Giraffe',     'akk', 'Wen oder was malt Jonas?']
+];
+
+const GAME = {
+  id: 'verwandler',
+  unit: 'Sätze',
+  next: { href: '6-fall-profi.html', title: 'Fall-Profi' },
+  review: () => `<div class="review c2">${ORDER.map(k =>
+    `<div class="col ${k}"><h3>${FALL[k].name} <small>${FALL[k].q}</small></h3><ul>${all.filter(s => s.k === k).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Wort-Verwandler ---------- */
+const FALL = {
+  nom: { name: 'Nominativ', q: 'Wer oder was?', color: 'der' },
+  gen: { name: 'Genitiv', q: 'Wessen?', color: 'bonus' },
+  dat: { name: 'Dativ', q: 'Wem?', color: 'das' },
+  akk: { name: 'Akkusativ', q: 'Wen oder was?', color: 'die' }
+};
+const ORDER = ['nom', 'gen', 'dat', 'akk'];
+let all = [], queue = [], cur = null;
+const full = s => s.text.replace('___', `<b class="w ${s.k}">${s.ans}</b>`);
+const formEl = i => $(`.form[data-i="${i}"]`);
+
+function startGame() {
+  all = SENTENCES.map(s => ({ text: s[0], base: s[1], forms: s[2], ans: s[3], k: s[4], q: s[5], misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Lies den Satz und frag nach der Lücke. Welche Form passt hinein?');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#base').textContent = cur.base;
+  $('#sentence').innerHTML = cur.text.replace('___', '<span class="gap" id="gap">?</span>');
+  $('#forms').innerHTML = cur.forms.map((f, i) =>
+    `<button class="form" type="button" data-i="${i}">${f}<span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+}
+
+function choose(i) {
+  if (state.busy || !cur) return;
+  const el = formEl(i), f = FALL[cur.k];
+  if (!el) return;
+  if (cur.forms[i] !== cur.ans) {
+    const hint = miss(cur, el);
+    if (hint) formEl(cur.forms.indexOf(cur.ans)).classList.add('hint');
+    say(!hint ? 'Fast! Frag nach der Lücke: Wer oder was? Wessen? Wem? Wen oder was?'
+      : `Tipp: Frag so: „${cur.q}“ Das ist der <b>${f.name}</b>. Im ${f.name} heißt es <b>${cur.ans.charAt(0).toLowerCase() + cur.ans.slice(1)}</b>.`, 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.form').forEach(b => { b.classList.remove('hint'); b.disabled = true; });
+  const gap = $('#gap');
+  gap.textContent = cur.ans; gap.className = 'gap filled ' + cur.k;
+  solve(cur, gap, f.color);
+  say(`${pick(PRAISE, 'praise')} <b>${cur.q}</b> – <span class="pill ${cur.k}">${cur.ans.charAt(0).toLowerCase() + cur.ans.slice(1)}</span>. Das ist der <b>${f.name}</b>.`, 'happy');
+  later(next, 2500);
+}
+
+$('#forms').addEventListener('click', e => {
+  if (suppressClick) return;
+  const b = e.target.closest('.form');
+  if (b) choose(+b.dataset.i);
+});
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-4]$/.test(e.key)) return;
+  choose(+e.key - 1);
+});
+enableDrag('.form:not(:disabled)', '#gap', src => choose(+src.dataset.i));

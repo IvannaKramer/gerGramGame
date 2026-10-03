@@ -1,0 +1,10 @@
+@@meta
+slug: wortbausteine
+title: Wortbausteine
+subtitle: Sechs Spiele rund um Vorsilbe, Wortstamm und Nachsilbe. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Bildern und Hilfen. Je 15 Wörter.
+lead2: Ohne Hilfe: Nomen bauen und Vorsilben einsetzen. Je 20 Aufgaben.
+lead3: Knifflige Nomen zum Selberschreiben. 20 Wörter.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Wörtern, dazu die Lösungen.
+@@tipp
+Wörter bestehen aus Bausteinen: <b>Vorsilbe</b>, <b>Wortstamm</b> und <b>Nachsilbe</b>, zum Beispiel Ver·pack·ung. Wörter mit <b style="white-space:nowrap">-ung</b>, <b style="white-space:nowrap">-heit</b>, <b style="white-space:nowrap">-keit</b> und <b style="white-space:nowrap">-nis</b> sind Nomen. Du schreibst sie groß: heilen → die Heilung, frei → die Freiheit.

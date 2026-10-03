@@ -1,0 +1,185 @@
+@@meta
+file: 6-regel-meister.html
+title: Regel-Meister
+level: Profis
+nr: 6
+total: 20
+subtitle: Jetzt schreibst du selbst! k oder ck, z oder tz? Bei diesen Wörtern musst du ganz genau hinschauen.
+lead: Drei Profi-Regeln für k und ck, z und tz:
+id: meister
+desc: Schreibe knifflige Wörter mit k, ck, z und tz.
+sample: Ban_ → Bank
+drag: no
+@@tipp
+<b>ck</b> und <b>tz</b> stehen nur <b>direkt nach einem kurzen Vokal</b>: Jacke, Katze. Nach <b>l, n, r</b>, das merke ja, steht nie tz und nie ck: Onkel, Holz. Auch nach einem <b>langen Vokal</b> und nach den Zwielauten <b>au, ei, eu</b> schreibst du nur k oder z: Haken, Pauke, Kreuz.
+@@examples
+      <div class="ex lnr" style="--tilt:-1.5deg"><div class="ex-head"><b>nach l, n, r</b></div><div class="ex-body">O<span class="a">n</span>kel<span class="arrow" aria-hidden="true">nur k</span>Ho<span class="a">l</span>z<span class="arrow" aria-hidden="true">nur z</span></div></div>
+      <div class="ex ku" style="--tilt:1deg"><div class="ex-head"><b>kurzer Vokal</b></div><div class="ex-body">J<span class="vk">a</span>cke<span class="arrow" aria-hidden="true">ck</span>K<span class="vk">a</span>tze<span class="arrow" aria-hidden="true">tz</span></div></div>
+      <div class="ex la" style="--tilt:-.5deg"><div class="ex-head"><b>lang, au, ei, eu</b></div><div class="ex-body">H<span class="vl">a</span>ken<span class="arrow" aria-hidden="true">nur k</span>W<span class="vl">ei</span>zen<span class="arrow" aria-hidden="true">nur z</span></div></div>
+@@howto
+        <li>Lies den Satz. Bei einem Wort fehlen ein oder zwei Buchstaben.</li>
+        <li>Schau auf den Buchstaben vor der Lücke: Ist es ein kurzer Vokal, ein Zwielaut oder ein l, n oder r? Schreibe das ganze Wort in das Feld.</li>
+        <li>Tippe auf „Prüfen“ oder drücke die Enter-Taste. Stimmt es noch nicht, bekommst du einen Tipp.</li>
+@@board
+    <div class="bench">
+      <p class="lbl">Welches Wort gehört in den Satz?</p>
+      <p class="sentence" id="sent"></p>
+      <form class="write" id="form" autocomplete="off">
+        <input id="answer" type="text" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" maxlength="24" aria-label="Das ganze Wort">
+      </form>
+      <div class="keys" id="keys" aria-label="Besondere Buchstaben">
+        <button type="button" class="keycap">ä</button><button type="button" class="keycap">ö</button><button type="button" class="keycap">ü</button>
+      </div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check" type="submit" form="form">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Kurz und lang: Farben und Zeichen (im ganzen Thema gleich) ---------- */
+.ku{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.la{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.vk,.vl{position:relative;display:inline-block;line-height:1}
+.vk{color:var(--die)}.vl{color:var(--der)}
+.vk::after,.vl::after{content:"";position:absolute;bottom:-.02em;background:currentColor}
+.vk::after{left:50%;width:.2em;height:.2em;margin-left:-.1em;border-radius:50%}
+.vl::after{left:.04em;right:.04em;height:.11em;border-radius:.06em}
+.pill .vk,.pill .vl{color:#fff}
+.pill{padding-bottom:.1em}
+.gap{display:inline-block;width:.9em;border-bottom:3px solid currentColor;margin:0 2px}
+.sym{display:inline-block;background:currentColor;vertical-align:middle;margin-right:.35em}
+.sym.dot{width:.42em;height:.42em;border-radius:50%}
+.sym.bar{width:1.1em;height:.2em;border-radius:.1em}
+.speakbtn{appearance:none;border:3px solid var(--card-edge);background:var(--card);color:var(--ink);border-radius:999px;min-height:48px;padding:4px 16px;font-weight:700;font-size:1rem;cursor:pointer;box-shadow:0 3px 0 var(--card-edge);margin:6px 0 0 6px;vertical-align:middle}
+.speakbtn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--card-edge)}
+/* ---------- Regel-Meister ---------- */
+.lnr{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.ex-head b{font-size:clamp(1rem,2.6vw,1.35rem)}
+.ex-body .arrow{font-size:.95rem;font-weight:400;margin-bottom:4px}
+.hl{color:var(--das)}
+.pill .hl{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.sentence{margin:6px auto 12px;font-size:clamp(1.3rem,3.8vw,1.75rem);line-height:1.5;max-width:34ch}
+.sentence .tw{font-weight:700;white-space:nowrap;background:var(--sun-soft);border-radius:8px;padding:0 .2em}
+.write{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;font-weight:700;font-size:clamp(1.6rem,5.4vw,2.4rem)}
+.write input{font:inherit;color:var(--ink);background:var(--paper);border:3px solid var(--card-edge);border-radius:14px;padding:4px 14px;width:min(100%,10.5em);min-height:60px;text-align:center}
+.write input:focus{outline:none;border-color:var(--sun);box-shadow:0 0 0 4px var(--sun-soft)}
+.write input.good{border-color:var(--das);background:var(--das-soft)}
+.keys{display:flex;justify-content:center;gap:8px;margin-top:12px}
+.keycap{appearance:none;min-width:48px;min-height:48px;border:3px solid var(--card-edge);background:var(--card);border-radius:12px;font-weight:700;font-size:1.3rem;cursor:pointer;box-shadow:0 3px 0 var(--card-edge)}
+.keycap:active{transform:translateY(2px);box-shadow:0 1px 0 var(--card-edge)}
+.review li{font-weight:700}
+@@data
+/* Aufbau: [Satz, Wort, Regel] – im Satz steht ___ für das gesuchte Wort.
+   Im Wort steht in eckigen Klammern der Buchstabe oder Vokal, auf den es ankommt (l, n, r, kurzer Vokal, langer Vokal, Zwielaut).
+   In runden Klammern stehen die Buchstaben, die im Satz als Lücke gezeigt werden. Die Regeln stehen darunter. */
+const WORDS = [
+  ['Im Park sitzt Opa auf einer ___.',                     'Ba[n](k)',       'lk'],
+  ['Am Himmel zieht eine graue ___ vorbei.',               'Wo[l](k)e',      'lk'],
+  ['Mama schneidet eine grüne ___ in Scheiben.',           'Gu[r](k)e',      'lk'],
+  ['Zum Geburtstag bekommt Mia ein tolles ___.',           'Gesche[n](k)',   'lk'],
+  ['Ohne Lampe ist es im Keller ganz ___.',                'du[n](k)el',     'lk'],
+  ['Vor Aufregung klopft mein ___ ganz schnell.',          'He[r](z)',       'lz'],
+  ['Unter der Tanne wächst ein kleiner ___.',              'Pi[l](z)',       'lz'],
+  ['Auf dem Geburtstagskuchen brennt eine ___.',           'Ke[r](z)e',      'lz'],
+  ['Auf dem Schulfest ___ alle Kinder zur Musik.',         'ta[n](z)en',     'lz'],
+  ['An den Pommes fehlt noch etwas ___.',                  'Sa[l](z)',       'lz'],
+  ['Die ___ kriecht langsam über den Weg.',                'Schn[e](ck)e',   'ku'],
+  ['Jeden Morgen klingelt mein ___ um sieben Uhr.',        'W[e](ck)er',     'ku'],
+  ['Tom hat das Rennen gewonnen und ist sehr ___.',        'gl[ü](ck)lich',  'ku'],
+  ['Beim Gewitter leuchtet ein heller ___ am Himmel.',     'Bl[i](tz)',      'ku'],
+  ['Das Licht geht ___ aus und alle staunen.',             'pl[ö](tz)lich',  'ku'],
+  ['Auf dem Spielplatz schwingt Lena auf der ___.',        'Sch[au](k)el',   'la'],
+  ['Im Orchester schlägt ein Mann laut auf die ___.',      'P[au](k)e',      'la'],
+  ['Mach hinter jede richtige Aufgabe ein ___.',           'Kr[eu](z)',      'la'],
+  ['Im Winter ___ wir das Wohnzimmer.',                    'h[ei](z)en',     'la'],
+  ['Der Hund hat eine feuchte ___.',                       'Schn[au](z)e',   'la']
+];
+/* Aufbau: Kürzel: [Überschrift, Farbe] */
+const RULES = {
+  lk: ['Nach l, n, r: nur k',               'lnr'],
+  lz: ['Nach l, n, r: nur z',               'lnr'],
+  ku: ['Kurzer Vokal: ck oder tz',          'ku'],
+  la: ['Zwielaut au, ei, eu: nur k oder z', 'la']
+};
+
+const GAME = {
+  id: 'meister',
+  next: null,
+  review: () => `<div class="review c2">${Object.keys(RULES).map(k =>
+    `<div class="col ${RULES[k][1]}"><h3>${RULES[k][0]}</h3><ul>${all.filter(w => w.k === k).map(w => `<li>${w.marked}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Regel-Meister ---------- */
+const GAP = '<i class="gap"></i>';
+const COLOR = { lnr: 'das', ku: 'die', la: 'der' };
+let all = [], queue = [], cur = null;
+const input = $('#answer');
+
+function ruleText(w) {
+  const wrong = w.fill.endsWith('k') ? 'ck' : 'tz', right = wrong === 'ck' ? 'k' : 'z';
+  if (w.cls === 'lnr') return `Vor der Lücke steht ein <b>${w.key}</b>. Nach l, n, r, das merke ja, steht nie tz und nie ck. Du schreibst nur <b>${right}</b>.`;
+  if (w.cls === 'ku') return `Das <b>${w.key}</b> vor der Lücke ist kurz. Direkt nach einem kurzen Vokal schreibst du <b>${wrong}</b>.`;
+  return `Vor der Lücke steht der Zwielaut <b>${w.key}</b>. Nach au, ei und eu schreibst du nur <b>${right}</b>, nie ${wrong}.`;
+}
+
+function startGame() {
+  all = WORDS.map(w => {
+    const key = w[1].match(/\[(.+?)\]/)[1], fill = w[1].match(/\((.+?)\)/)[1], cls = RULES[w[2]][1];
+    const mark = cls === 'lnr' ? '<span class="hl">$1</span>' : `<span class="${cls === 'ku' ? 'vk' : 'vl'}">$1</span>`;
+    return { k: w[2], cls, key, fill, misses: 0,
+      word: w[1].replace(/[\[\]()]/g, ''),
+      marked: w[1].replace(/\[(.+?)\]/, mark).replace(/[()]/g, ''),
+      html: w[0].replace('___', `<span class="tw">${w[1].replace(/\(.+?\)/, GAP).replace(/[\[\]]/g, '')}</span>`),
+      done: w[0].replace('___', `<span class="tw">${w[1].replace(/\[(.+?)\]/, mark).replace(/[()]/g, '')}</span>`) };
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Bei einem Wort fehlen Buchstaben. Schau auf den Buchstaben vor der Lücke und schreibe das ganze Wort in das Feld.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#sent').innerHTML = cur.html;
+  input.value = ''; input.readOnly = false; input.classList.remove('good');
+  input.focus({ preventScroll: true });
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const v = input.value.trim();
+  if (!v) { say('Schreibe zuerst das ganze Wort in das Feld.'); input.focus(); return; }
+  if (v.length <= 2) { wobble(input); say('Schreibe bitte das <b>ganze Wort</b> in das Feld, nicht nur die fehlenden Buchstaben.', 'think'); input.focus(); return; }
+  if (v !== cur.word) {
+    if (v.toLowerCase() === cur.word.toLowerCase()) {
+      wobble(input);
+      say(/^[A-ZÄÖÜ]/.test(cur.word) ? 'Fast richtig! Denk daran: Nomen schreibt man groß.' : 'Fast richtig! Dieses Wort schreibt man klein.', 'think');
+    } else {
+      miss(cur, input);
+      say(cur.misses === 1 ? 'Fast! Schau dir den Buchstaben vor der Lücke genau an und probier es noch einmal.'
+        : cur.misses === 2 ? 'Tipp: ' + ruleText(cur)
+        : `So ist es richtig: <span class="pill ${cur.cls}">${cur.word}</span> Schreibe das Wort genau so ab.`, 'think');
+    }
+    input.focus();
+    return;
+  }
+  state.busy = true;
+  input.readOnly = true; input.classList.add('good');
+  $('#sent').innerHTML = cur.done;
+  solve(cur, input, COLOR[cur.cls]);
+  say(`${pick(PRAISE, 'praise')} <span class="pill ${cur.cls}">${cur.marked}</span> ${ruleText(cur)}`, 'happy');
+  later(next, 2600);
+}
+
+$('#form').addEventListener('submit', e => { e.preventDefault(); check(); });
+$('#keys').addEventListener('click', e => {
+  const k = e.target.closest('.keycap');
+  if (!k || input.readOnly) return;
+  const a = input.selectionStart ?? input.value.length, b = input.selectionEnd ?? a;
+  input.value = input.value.slice(0, a) + k.textContent + input.value.slice(b);
+  input.focus();
+  input.setSelectionRange(a + 1, a + 1);
+});

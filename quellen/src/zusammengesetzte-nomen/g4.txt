@@ -1,0 +1,183 @@
+@@meta
+file: 4-woerter-baukasten.html
+title: Wörter-Baukasten
+level: Fortgeschrittene
+nr: 4
+total: 20
+subtitle: Erst baust du das Wort zusammen, dann suchst du den Artikel aus.
+lead: So baust du Wörter. Manchmal kommt ein Buchstabe dazwischen:
+id: baukasten
+desc: Baue das Wort und wähle den Artikel.
+sample: Garten + Zwerg = der …
+drag: yes
+@@tipp
+Stecke zwei Nomen zusammen. Das <b>Grundwort</b> steht hinten und bestimmt den Artikel. Manchmal brauchst du zwischen den Wörtern noch einen <b>Verbindungs-Buchstaben</b>: Tasche + <b>n</b> + Lampe = die Tasche<b>n</b>lampe.
+@@examples
+      <div class="ex der" style="--tilt:-1.5deg"><div class="ex-body"><span class="p">Garten + Zwerg</span><span class="arrow" aria-hidden="true">▼</span><span class="a">der Gartenzwerg</span></div></div>
+      <div class="ex die" style="--tilt:1deg"><div class="ex-body"><span class="p">Tasche + Lampe</span><span class="arrow" aria-hidden="true">▼</span><span class="a">die Tasche<u>n</u>lampe</span></div></div>
+      <div class="ex das" style="--tilt:-.5deg"><div class="ex-body"><span class="p">Kind + Zimmer</span><span class="arrow" aria-hidden="true">▼</span><span class="a">das Kind<u>er</u>zimmer</span></div></div>
+@@howto
+        <li>Ein Baustein fehlt. Tippe unten auf das Wort, das dazu passt. Du kannst es auch in die Lücke ziehen.</li>
+        <li>Gibt es das neue Wort wirklich? Dann wird es zusammengebaut.</li>
+        <li>Jetzt fehlt noch der Artikel. Denk an das Grundwort und tippe auf der, die oder das.</li>
+@@board
+    <div class="bench" id="bench">
+      <p class="lbl" id="lbl">Welcher Baustein fehlt?</p>
+      <div class="build" id="build"></div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="tiles" id="tiles"></div>
+    </div>
+@@css
+/* ---------- Wörter-Baukasten ---------- */
+.bw{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.gw{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.ex-body .p{display:block;font-weight:400;font-size:.8em}
+.ex-body .arrow{display:block;color:var(--ink-soft);font-size:1rem;line-height:1.1}
+.ex-body u,.fuge{text-decoration:none;background:var(--sun);color:var(--on-sun);border-radius:6px;padding:0 .08em;margin:0 .04em}
+.bench{transition:border-color .16s ease}
+.bench.drop-over{border-color:var(--sun)}
+.build{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px clamp(6px,2vw,16px);font-weight:700;font-size:clamp(1.5rem,5.2vw,2.6rem);line-height:1.2;min-height:112px;margin-top:8px}
+.blk{display:inline-flex;flex-direction:column;align-items:center;background:var(--c);color:#fff;border-radius:14px;padding:.12em .45em .16em;box-shadow:0 5px 0 var(--cd)}
+.blk small{font-size:.9rem;font-weight:400;line-height:1.2;opacity:.95}
+.blk.open{background:transparent;color:var(--ink-soft);border:3px dashed var(--ink-soft);box-shadow:none;min-width:3.2em}
+.blk.open small{color:var(--ink-soft)}
+.build .plus{color:var(--ink-soft)}
+.built{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 14px;animation:slotpop .35s ease-out}
+.built .w{overflow-wrap:anywhere;text-align:center}
+.aslot{display:inline-grid;place-items:center;min-width:2em;height:1.3em;padding:0 .2em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);font-size:.85em}
+.aslot.filled{border-color:transparent;background:var(--c);color:#fff;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.6)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,1.8vw,16px);max-width:900px;margin:0 auto}
+.tiles.three{grid-template-columns:repeat(3,minmax(0,1fr));max-width:700px}
+@media (max-width:700px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.tiles.three{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tile{appearance:none;position:relative;border:3px solid var(--card-edge);border-radius:16px;background:var(--card);color:var(--ink);min-height:clamp(64px,9vw,84px);padding:4px 6px;
+  display:flex;align-items:center;justify-content:center;cursor:grab;box-shadow:0 5px 0 var(--card-edge),0 10px 18px var(--lift);
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(1.5rem,3.2vw,1.9rem);line-height:1.1;overflow-wrap:anywhere}
+.tile.art{border:none;background:var(--c);color:#fff;box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift)}
+.tile.art b{font-size:clamp(1.8rem,5.4vw,2.6rem)}
+.tile:active{transform:translateY(4px)}
+.tile.dragging{opacity:.4}
+.tile.hint{animation:glow 1.1s ease-in-out infinite;border-color:var(--sun)}
+.tile .kbd{background:var(--paper);color:var(--ink-soft)}
+.tile.art .kbd{background:rgba(255,255,255,.25);color:#fff}
+@@data
+/* Aufbau: [Bestimmungswort, Verbindungs-Buchstabe ('' = keiner), Grundwort, Artikel, was fehlt ('gw' oder 'bw'), [drei falsche Bausteine]]
+   Wichtig: Die falschen Bausteine dürfen mit dem gegebenen Wort kein echtes Wort ergeben. */
+const WORDS = [
+  ['Garten',     '',   'Zwerg',        'der', 'gw', ['Löffel', 'Wolke', 'Ohr']],
+  ['Taxi',       '',   'Fahrer',       'der', 'gw', ['Blume', 'Teller', 'Zahn']],
+  ['Fahrrad',    '',   'Helm',         'der', 'gw', ['Suppe', 'Blatt', 'Zimmer']],
+  ['Blume',      'n',  'Strauß',       'der', 'gw', ['Zahn', 'Löffel', 'Bus']],
+  ['Kartoffel',  '',   'Brei',         'der', 'bw', ['Stuhl', 'Brief', 'Wolke']],
+  ['Pony',       '',   'Hof',          'der', 'bw', ['Löffel', 'Lampe', 'Wolke']],
+  ['Ei',         'er', 'Becher',       'der', 'bw', ['Wolke', 'Schuh', 'Brief']],
+  ['Topf',       '',   'Pflanze',      'die', 'gw', ['Wolke', 'Zahn', 'Bus']],
+  ['Bus',        '',   'Haltestelle',  'die', 'gw', ['Kartoffel', 'Wolke', 'Schuh']],
+  ['Hund',       'e',  'Hütte',        'die', 'gw', ['Löffel', 'Wolke', 'Brief']],
+  ['Fenster',    '',   'Bank',         'die', 'bw', ['Nase', 'Pilz', 'Hemd']],
+  ['Ritter',     '',   'Burg',         'die', 'bw', ['Teller', 'Apfel', 'Hose']],
+  ['Zucker',     '',   'Dose',         'die', 'bw', ['Lampe', 'Vogel', 'Regen']],
+  ['Tasche',     'n',  'Lampe',        'die', 'bw', ['Nase', 'Wolke', 'Brot']],
+  ['Märchen',    '',   'Buch',         'das', 'gw', ['Schuh', 'Topf', 'Wiese']],
+  ['Gemüse',     '',   'Beet',         'das', 'gw', ['Stuhl', 'Zahn', 'Brief']],
+  ['König',      's',  'Schloss',      'das', 'gw', ['Wolke', 'Zahn', 'Löffel']],
+  ['Zelt',       '',   'Lager',        'das', 'bw', ['Hose', 'Löffel', 'Wolke']],
+  ['Geld',       '',   'Stück',        'das', 'bw', ['Regen', 'Vogel', 'Schuh']],
+  ['Kind',       'er', 'Zimmer',       'das', 'bw', ['Regen', 'Löffel', 'Nase']]
+];
+
+const GAME = {
+  id: 'baukasten',
+  next: { href: '5-wort-dreher.html', title: 'Wort-Dreher' },
+  review: () => `<div class="review">${['der', 'die', 'das'].map(a =>
+    `<div class="col ${a}"><ul>${all.filter(w => w.art === a).map(w => `<li><b>${a} ${w.html}</b></li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Wörter-Baukasten ---------- */
+const ARTS = ['der', 'die', 'das'];
+let all = [], queue = [], cur = null, step = 1, stepMiss = 0, opts = [];
+const tileEl = v => $$('.tile').find(t => t.dataset.v === v);
+
+function startGame() {
+  all = WORDS.map(w => ({ bw: w[0], fuge: w[1], gw: w[2], art: w[3], gap: w[4], wrong: w[5], misses: 0,
+    word: w[0] + w[1] + w[2].toLowerCase(),
+    html: w[0] + (w[1] ? `<span class="fuge">${w[1]}</span>` : '') + w[2].toLowerCase() }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Welches Wort passt in die Lücke? Tippe es an oder zieh es nach oben.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false; step = 1; stepMiss = 0;
+  const open = '<span class="blk open" id="slot">?</span>';
+  const given = (w, cls, name) => `<span class="blk ${cls}">${w}<small>${name}</small></span>`;
+  $('#lbl').textContent = 'Welcher Baustein fehlt?';
+  $('#build').innerHTML = cur.gap === 'gw'
+    ? given(cur.bw, 'bw', 'Bestimmungswort') + '<span class="plus" aria-hidden="true">+</span>' + open
+    : open + '<span class="plus" aria-hidden="true">+</span>' + given(cur.gw, 'gw', 'Grundwort');
+  opts = shuffle([cur.gap === 'gw' ? cur.gw : cur.bw, ...cur.wrong]);
+  const tiles = $('#tiles');
+  tiles.classList.remove('three');
+  tiles.innerHTML = opts.map((o, i) => `<button class="tile" data-v="${o}"><b>${o}</b><span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+}
+
+function choose(v) {
+  if (state.busy || !cur) return;
+  if (step === 1) {
+    const right = cur.gap === 'gw' ? cur.gw : cur.bw, given = cur.gap === 'gw' ? cur.bw : cur.gw;
+    if (v !== right) {
+      miss(cur, tileEl(v));
+      const hint = ++stepMiss >= 2;
+      if (hint) tileEl(right).classList.add('hint');
+      const tried = cur.gap === 'gw' ? cur.bw + v.toLowerCase() : v + cur.gw.toLowerCase();
+      say(hint
+        ? `Tipp: Sprich jedes Wort mit <b>${given}</b> zusammen. Nur ein Wort gibt es wirklich. Der leuchtende Baustein passt.`
+        : `Hmm, „${tried}“ gibt es nicht. Probier einen anderen Baustein!`, 'think');
+      return;
+    }
+    step = 2; stepMiss = 0;
+    sfx.pick();
+    $('#lbl').textContent = 'Welcher Artikel passt?';
+    $('#build').innerHTML = `<span class="built"><span class="aslot" id="aslot">?</span><span class="w">${cur.html}</span></span>`;
+    opts = ARTS;
+    const tiles = $('#tiles');
+    tiles.classList.add('three');
+    tiles.innerHTML = ARTS.map((a, i) => `<button class="tile art ${a}" data-v="${a}"><b>${a}</b><span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+    say(`Gut gebaut: <b>${cur.word}</b>. ` + (cur.fuge ? `Zwischen den Wörtern steht hier noch <b>${cur.fuge}</b>. ` : '') + 'Welcher Artikel passt? Denk an das Grundwort!');
+    return;
+  }
+  if (v !== cur.art) {
+    miss(cur, tileEl(v));
+    const hint = ++stepMiss >= 2;
+    if (hint) tileEl(cur.art).classList.add('hint');
+    say(hint
+      ? `Tipp: Das Grundwort steht hinten. Es heißt <b>${cur.art} ${cur.gw}</b>. Also heißt es auch <b>${cur.art}</b> ${cur.word}.`
+      : `Fast! Das Grundwort ist <b>${cur.gw}</b>. Welchen Artikel hat es?`, 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.tile').forEach(t => t.classList.remove('hint'));
+  const slot = $('#aslot'); slot.textContent = cur.art; slot.className = 'aslot filled ' + cur.art;
+  solve(cur, slot, cur.art);
+  say(`${pick(PRAISE, 'praise')} ${cur.bw} + ${cur.gw} = <span class="pill ${cur.art}">${cur.art} ${cur.word}</span> Das Grundwort bestimmt den Artikel: <b>${cur.art} ${cur.gw}</b>.`, 'happy');
+  later(next, 2100);
+}
+
+$('#tiles').addEventListener('click', e => {
+  if (suppressClick) return;
+  const t = e.target.closest('.tile');
+  if (t) choose(t.dataset.v);
+});
+enableDrag('.tile', '.bench', tile => choose(tile.dataset.v));
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-4]$/.test(e.key)) return;
+  const v = opts[+e.key - 1];
+  if (v) choose(v);
+});

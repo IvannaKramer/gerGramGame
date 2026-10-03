@@ -1,0 +1,178 @@
+@@meta
+file: 6-schreib-profi.html
+title: Schreib-Profi
+level: Profis
+nr: 6
+total: 20
+subtitle: Schwierige Wörter in ganzen Sätzen: Finde heraus, was in die Lücke gehört, und schreibe das Wort selbst!
+lead: Manchmal ist das verwandte Wort gut versteckt:
+id: profi
+desc: Schreibe das Wort mit der Lücke richtig auf.
+sample: Geb_de → bauen → Gebäude
+drag: no
+@@tipp
+Manchmal musst du nach dem verwandten Wort länger suchen: <b>Gebäude</b> kommt von <b>bauen</b>, <b>gefährlich</b> von <b>Gefahr</b>. Achte auch auf den Satz: Die <b>Ställe</b> der Kühe kommen von <b>Stall</b>, aber die <b>Stelle</b> an der Straße hat kein verwandtes Wort mit a. Und denk an die Merkwörter!
+@@examples
+      <div class="ex kau" style="--tilt:-1.5deg"><div class="ex-head"><b>äu</b><span>von au</span></div><div class="ex-body">bauen<span class="arrow" aria-hidden="true">▼</span>Geb<span class="a">äu</span>de</div></div>
+      <div class="ex ka" style="--tilt:1deg"><div class="ex-head"><b>ä</b><span>von a</span></div><div class="ex-body">der Stall<span class="arrow" aria-hidden="true">▼</span>die St<span class="a">ä</span>lle</div></div>
+      <div class="ex ke" style="--tilt:-.5deg"><div class="ex-head"><b>e</b><span>kein Wort mit a</span></div><div class="ex-body">stellen<span class="arrow" aria-hidden="true">▼</span>die St<span class="a">e</span>lle</div></div>
+@@howto
+        <li>Lies den Satz. In einem Wort ist eine Lücke.</li>
+        <li>Suche ein verwandtes Wort: Gibt es eins mit a oder au?</li>
+        <li>Schreibe das ganze Wort in das Feld. Tippe dann auf „Prüfen“ oder drücke die Enter-Taste.</li>
+@@board
+    <div class="bench">
+      <p class="lbl">Schreibe das Wort mit der Lücke richtig auf.</p>
+      <p class="sentence" id="sentence"></p>
+      <form class="write" id="form" autocomplete="off">
+        <label for="answer">Das Wort:</label>
+        <input id="answer" type="text" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" maxlength="24" aria-label="Das Wort mit der Lücke, richtig geschrieben">
+      </form>
+      <div class="keys" id="keys" aria-label="Besondere Buchstaben">
+        <button type="button" class="keycap">ä</button><button type="button" class="keycap">ö</button><button type="button" class="keycap">ü</button><button type="button" class="keycap">ß</button>
+      </div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check" type="submit" form="form">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Schreib-Profi ---------- */
+.ka{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.ke{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.kau{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.keu{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.hit{color:var(--c);background:var(--cs);border-radius:8px;padding:0 .08em}
+.sentence{margin:10px auto 6px;max-width:30ch;font-weight:700;font-size:clamp(1.5rem,3.6vw,2rem);line-height:1.45}
+.gapw{white-space:nowrap;border-bottom:4px solid var(--sun);padding:0 2px}
+.gapw.fixed{border-color:var(--c);background:var(--cs);border-radius:8px 8px 0 0}
+.gap{display:inline-block;width:.8em;border-bottom:3px solid currentColor;margin:0 2px}
+.write{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;font-weight:700;font-size:clamp(1.5rem,5vw,2.2rem);margin-top:14px}
+.write label{font-size:.7em;color:var(--ink-soft)}
+.write input{font:inherit;color:var(--ink);background:var(--paper);border:3px solid var(--card-edge);border-radius:14px;padding:4px 14px;width:min(100%,10.5em);min-height:60px;text-align:left}
+.write input:focus{outline:none;border-color:var(--sun);box-shadow:0 0 0 4px var(--sun-soft)}
+.write input.good{border-color:var(--das);background:var(--das-soft)}
+.write input.hint{animation:glow 1.1s ease-in-out infinite}
+.keys{display:flex;justify-content:center;gap:8px;margin-top:12px}
+.keycap{appearance:none;min-width:48px;min-height:48px;border:3px solid var(--card-edge);background:var(--card);border-radius:12px;font-weight:700;font-size:1.3rem;cursor:pointer;box-shadow:0 3px 0 var(--card-edge)}
+.keycap:active{transform:translateY(2px);box-shadow:0 1px 0 var(--card-edge)}
+.review.c2 li{font-size:1.05rem}
+.review .mw{font-weight:400;color:var(--ink-soft);font-size:.95rem}
+@@data
+/* Aufbau: [Satz mit Lücke (_) in genau einem Wort, das Wort richtig geschrieben, verwandtes Wort mit a/au]
+   Beim verwandten Wort bedeutet '' (nichts): Es gibt keins, darum e oder eu.
+   'M' bedeutet: Merkwort (ä oder äu, obwohl es kein verwandtes Wort gibt). */
+const SENTENCES = [
+  ['Der Bauer hat zwei St_lle für seine Kühe.',         'Ställe',        'der Stall'],
+  ['Das Eis auf dem See ist dünn und gef_hrlich.',      'gefährlich',    'die Gefahr'],
+  ['Im Museum hängt ein berühmtes Gem_lde.',            'Gemälde',       'malen'],
+  ['Dieses R_tsel ist schwer zu lösen.',                'Rätsel',        'raten'],
+  ['Auf der Baustelle ist viel L_rm.',                  'Lärm',          'M'],
+  ['An dieser St_lle überqueren wir die Straße.',       'Stelle',        ''],
+  ['An der Gr_nze zeigen wir unsere Ausweise.',         'Grenze',        ''],
+  ['Ein bunter Schm_tterling sitzt auf der Blüte.',     'Schmetterling', ''],
+  ['Opa repariert das Rad mit seinem W_rkzeug.',        'Werkzeug',      ''],
+  ['Die K_tte an meinem Fahrrad ist abgesprungen.',     'Kette',         ''],
+  ['Unsere Schule ist ein großes Geb_de.',              'Gebäude',       'bauen'],
+  ['Um zwölf Uhr l_ten die Glocken.',                   'läuten',        'laut'],
+  ['Wale sind keine Fische, sondern S_getiere.',        'Säugetiere',    'saugen'],
+  ['Die Seife sch_mt in meinen Händen.',                'schäumt',       'der Schaum'],
+  ['Die Katze spielt mit einem Kn_el Wolle.',           'Knäuel',        'M'],
+  ['Das Stroh liegt trocken in der Sch_ne.',            'Scheune',       ''],
+  ['An der Kr_zung biegen wir links ab.',               'Kreuzung',      ''],
+  ['Sprich bitte laut und d_tlich!',                    'deutlich',      ''],
+  ['Im Märchen bewacht ein Ungeh_er den Schatz.',       'Ungeheuer',     ''],
+  ['Der Kapitän steht am St_er des Schiffes.',          'Steuer',        '']
+];
+/* Laute: CSS-Klasse (Farbe), Name der Farbe für die Funken, Überschrift */
+const SOUNDS = { 'ä': ['ka', 'der', 'ä'], 'e': ['ke', 'die', 'e'], 'äu': ['kau', 'das', 'äu'], 'eu': ['keu', 'bonus', 'eu'] };
+
+const GAME = {
+  id: 'profi',
+  unit: 'Sätze',
+  next: null,
+  review: () => `<div class="review c2">${Object.keys(SOUNDS).map(s =>
+    `<div class="col ${SOUNDS[s][0]}"><h3>${SOUNDS[s][2]}</h3><ul>${all.filter(w => w.l === s).map(w =>
+      `<li>${w.rel ? `<span>${w.rel} →</span> ` : ''}<b>${w.right}</b>${w.merk ? ' <span class="mw">(Merkwort)</span>' : ''}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Schreib-Profi ---------- */
+let all = [], queue = [], cur = null;
+const input = $('#answer');
+const cls = l => SOUNDS[l][0];
+const baseOf = l => l.length === 2 ? 'au' : 'a';
+const coloredWord = w => `${w.right.slice(0, w.pos)}<b class="hit ${cls(w.l)}">${w.l}</b>${w.right.slice(w.pos + w.l.length)}`;
+
+function startGame() {
+  all = SENTENCES.map(s => {
+    const tok = s[0].split(' ').find(t => t.includes('_'));
+    const pos = tok.indexOf('_');
+    const two = s[1].slice(pos, pos + 2);
+    const l = (two === 'äu' || two === 'eu') ? two : s[1][pos];
+    return { sent: s[0], right: s[1], merk: s[2] === 'M', rel: s[2] === 'M' ? '' : s[2], l, pos, misses: 0, wmiss: 0 };
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#sentence').innerHTML = cur.sent.split(' ').map(t => {
+    if (!t.includes('_')) return t;
+    const [, w, punct] = t.match(/^(.*?)([.,!?]*)$/);
+    return `<span class="gapw" id="gapw">${w.replace('_', '<i class="gap"></i>')}</span>${punct}`;
+  }).join(' ');
+  input.value = ''; input.readOnly = false; input.classList.remove('good', 'hint');
+  say('Suche ein verwandtes Wort mit a oder au. Schreibe dann das ganze Wort auf.');
+  if (matchMedia('(hover:hover)').matches) input.focus({ preventScroll: true });
+}
+
+function tip(w) {
+  if (w.merk) return `Tipp: Das ist ein Merkwort. Du schreibst es mit <b>${w.l}</b>, obwohl es kein verwandtes Wort mit ${baseOf(w.l)} gibt.`;
+  if (w.rel) return `Tipp: Das Wort ist verwandt mit <b>${w.rel}</b>. Aus ${baseOf(w.l)} wird <b>${w.l}</b>.`;
+  return `Tipp: Hier gibt es kein verwandtes Wort mit ${baseOf(w.l)}. Darum schreibst du <b>${w.l}</b>.`;
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const v = input.value.trim().replace(/\s+/g, ' ');
+  if (!v) { say('Schreibe zuerst das Wort in das Feld.'); input.focus(); return; }
+  if (v !== cur.right) {
+    if (v.toLowerCase() === cur.right.toLowerCase()) {
+      wobble(input);
+      say(/^[A-ZÄÖÜ]/.test(cur.right) ? 'Fast richtig! Denk daran: Nomen schreibt man groß.' : 'Fast richtig! Dieses Wort schreibt man hier klein.', 'think');
+    } else {
+      miss(cur, input); cur.wmiss++;
+      if (cur.wmiss >= 3) input.classList.add('hint');
+      say(cur.wmiss === 1 ? 'Fast! Schau dir jeden Buchstaben genau an. Gibt es ein verwandtes Wort mit a oder au?'
+        : cur.wmiss === 2 ? tip(cur)
+        : `So ist es richtig: <span class="pill ${cls(cur.l)}">${cur.right}</span> Schreibe das Wort genau so ab.`, 'think');
+    }
+    input.focus();
+    return;
+  }
+  state.busy = true;
+  input.readOnly = true; input.classList.remove('hint'); input.classList.add('good');
+  const g = $('#gapw');
+  g.className = 'gapw fixed ' + cls(cur.l);
+  g.innerHTML = coloredWord(cur);
+  solve(cur, g, SOUNDS[cur.l][1]);
+  say(`${pick(PRAISE, 'praise')} <span class="pill ${cls(cur.l)}">${cur.right}</span> ` + (cur.merk ? `ist ein Merkwort mit <b>${cur.l}</b>. Gut gemerkt!`
+    : cur.rel ? `mit <b>${cur.l}</b>, denn es ist verwandt mit <b>${cur.rel}</b>.`
+    : `mit <b>${cur.l}</b>, denn es gibt kein verwandtes Wort mit ${baseOf(cur.l)}.`), 'happy');
+  later(next, 2600);
+}
+
+$('#form').addEventListener('submit', e => { e.preventDefault(); check(); });
+$('#keys').addEventListener('click', e => {
+  const k = e.target.closest('.keycap');
+  if (!k || input.readOnly) return;
+  const a = input.selectionStart ?? input.value.length, b = input.selectionEnd ?? a;
+  input.value = input.value.slice(0, a) + k.textContent + input.value.slice(b);
+  input.focus();
+  input.setSelectionRange(a + 1, a + 1);
+});

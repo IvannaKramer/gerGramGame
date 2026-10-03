@@ -1,0 +1,173 @@
+@@meta
+file: 6-profi-werkstatt.html
+title: Profi-Werkstatt
+level: Profis
+nr: 6
+total: 20
+subtitle: Hier baust du die Wörter ganz allein und schreibst sie mit Artikel auf.
+lead: Drei Profi-Tricks für zusammengesetzte Nomen:
+id: werkstatt
+desc: Baue das Wort und schreibe es mit Artikel.
+sample: schreiben + Tisch = ?
+drag: no
+@@tipp
+Vorne kann auch ein <b>Verb</b> oder ein <b>Adjektiv</b> stehen: schreiben + Tisch = der <b>Schreib</b>tisch, hoch + Haus = das <b>Hoch</b>haus. Manchmal kommt ein <b>Verbindungs-Buchstabe</b> dazwischen: Sonne + <b>n</b> + Schirm. Das neue Wort ist immer ein Nomen. Du schreibst es groß und das Grundwort bestimmt den Artikel.
+@@examples
+      <div class="ex" style="--tilt:-1.5deg"><div class="ex-head"><b>Nomen + Nomen</b></div><div class="ex-body"><span class="p">Sonne + Schirm</span><span class="a der">der Sonne<u>n</u>schirm</span></div></div>
+      <div class="ex" style="--tilt:1deg"><div class="ex-head"><b>Verb + Nomen</b></div><div class="ex-body"><span class="p">turnen + Halle</span><span class="a die">die Turnhalle</span></div></div>
+      <div class="ex" style="--tilt:-.5deg"><div class="ex-head"><b>Adjektiv + Nomen</b></div><div class="ex-body"><span class="p">hoch + Haus</span><span class="a das">das Hochhaus</span></div></div>
+@@howto
+        <li>Lies die beiden Wörter und sprich das neue Wort leise vor. Klingt es richtig? Vielleicht fehlt noch ein Buchstabe dazwischen.</li>
+        <li>Schreibe das neue Wort mit Artikel in das Feld, zum Beispiel „der Sonnenschirm“.</li>
+        <li>Tippe auf „Prüfen“ oder drücke die Enter-Taste.</li>
+@@board
+    <div class="bench">
+      <p class="lbl" id="lbl">Baue daraus ein Nomen</p>
+      <p class="from" id="from"></p>
+      <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M5 13l7 7 7-7"/></svg>
+      <form class="write" id="form" autocomplete="off">
+        <input id="answer" type="text" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" maxlength="32" placeholder="der, die, das …" aria-label="Neues Wort mit Artikel">
+      </form>
+      <div class="keys" id="keys" aria-label="Besondere Buchstaben">
+        <button type="button" class="keycap">Ü</button><button type="button" class="keycap">ä</button><button type="button" class="keycap">ö</button><button type="button" class="keycap">ü</button><button type="button" class="keycap">ß</button>
+      </div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check" type="submit" form="form">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Profi-Werkstatt ---------- */
+.ex{--c:var(--ink-soft)}
+.ex-head b{font-size:clamp(.9rem,2.5vw,1.3rem)}
+.ex-body .p{display:block;font-weight:400;font-size:.8em}
+.ex-body .a{display:block;overflow-wrap:anywhere}
+.ex-body .a.der{--c:var(--der)}.ex-body .a.die{--c:var(--die)}.ex-body .a.das{--c:var(--das)}
+.ex-body u,.fuge{text-decoration:none;background:var(--sun);color:var(--on-sun);border-radius:6px;padding:0 .08em;margin:0 .04em}
+.bench .from{color:var(--ink);margin-top:4px}
+.bench .from .plus{color:var(--ink-soft);margin:0 .25em}
+.bench .from small{display:block;font-size:1rem;font-weight:700;color:var(--ink-soft)}
+.write{display:flex;justify-content:center;font-weight:700;font-size:clamp(1.35rem,4.6vw,2.3rem)}
+.write input{font:inherit;color:var(--ink);background:var(--paper);border:3px solid var(--card-edge);border-radius:14px;padding:4px 8px;width:min(100%,14.5em);min-height:60px;text-align:center}
+.write input::placeholder{color:var(--ink-soft);opacity:.55;font-weight:400}
+.write input:focus{outline:none;border-color:var(--sun);box-shadow:0 0 0 4px var(--sun-soft)}
+.write input.good{border-color:var(--c);background:var(--cs)}
+.keys{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:12px}
+.keycap{appearance:none;min-width:48px;min-height:48px;border:3px solid var(--card-edge);background:var(--card);border-radius:12px;font-weight:700;font-size:1.3rem;cursor:pointer;box-shadow:0 3px 0 var(--card-edge)}
+.keycap:active{transform:translateY(2px);box-shadow:0 1px 0 var(--card-edge)}
+.review .col{--c:var(--ink);--cs:var(--paper);border:3px solid var(--card-edge)}
+.review li{overflow-wrap:anywhere}
+.review li b.der{--c:var(--der)}.review li b.die{--c:var(--die)}.review li b.das{--c:var(--das)}
+@@data
+/* Aufbau: [erstes Wort, Verbindungs-Buchstabe ('' = keiner), Grundwort, Artikel, Art]
+   Art: 'f' = Nomen + Nomen mit Verbindungs-Buchstabe, 'v' = Verb + Nomen, 'a' = Adjektiv + Nomen
+   Bei Verben fällt die Endung -en weg (schreiben → Schreib-). Das berechnet das Spiel selbst. */
+const WORDS = [
+  ['Sonne',      'n',  'Schirm',   'der', 'f'],
+  ['Straße',     'n',  'Bahn',     'die', 'f'],
+  ['Banane',     'n',  'Schale',   'die', 'f'],
+  ['Geburtstag', 's',  'Geschenk', 'das', 'f'],
+  ['Übung',      's',  'Heft',     'das', 'f'],
+  ['Liebling',   's',  'Essen',    'das', 'f'],
+  ['Pferd',      'e',  'Stall',    'der', 'f'],
+  ['Bild',       'er', 'Rahmen',   'der', 'f'],
+  ['schreiben',  '',   'Tisch',    'der', 'v'],
+  ['kochen',     '',   'Löffel',   'der', 'v'],
+  ['turnen',     '',   'Halle',    'die', 'v'],
+  ['waschen',    '',   'Maschine', 'die', 'v'],
+  ['schwimmen',  '',   'Bad',      'das', 'v'],
+  ['springen',   '',   'Seil',     'das', 'v'],
+  ['blau',       '',   'Wal',      'der', 'a'],
+  ['frisch',     '',   'Käse',     'der', 'a'],
+  ['groß',       '',   'Stadt',    'die', 'a'],
+  ['süß',        '',   'Kartoffel', 'die', 'a'],
+  ['hoch',       '',   'Haus',     'das', 'a'],
+  ['klein',      '',   'Kind',     'das', 'a']
+];
+/* Aufbau: Art: [Überschrift, kleine Zeile über der Aufgabe] */
+const KINDS = {
+  f: ['Nomen + Nomen mit Verbindungs-Buchstabe', 'Nomen + Nomen'],
+  v: ['Verb + Nomen', 'Verb + Nomen'],
+  a: ['Adjektiv + Nomen', 'Adjektiv + Nomen']
+};
+
+const GAME = {
+  id: 'werkstatt',
+  next: null,
+  review: () => `<div class="review">${Object.keys(KINDS).map(k =>
+    `<div class="col"><h3>${KINDS[k][0]}</h3><ul>${all.filter(w => w.k === k).map(w => `<li><b class="${w.art}">${w.art} ${w.html}</b></li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Profi-Werkstatt ---------- */
+let all = [], queue = [], cur = null;
+const input = $('#answer');
+const cap = s => s[0].toUpperCase() + s.slice(1);
+
+function startGame() {
+  all = WORDS.map(w => {
+    const stem = cap(w[4] === 'v' ? w[0].replace(/en$/, '') : w[0]);
+    return { first: w[0], fuge: w[1], gw: w[2], art: w[3], k: w[4], stem, misses: 0,
+      word: stem + w[1] + w[2].toLowerCase(),
+      html: stem + (w[1] ? `<span class="fuge">${w[1]}</span>` : '') + w[2].toLowerCase() };
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Baue aus den zwei Wörtern ein neues Nomen. Schreibe es mit Artikel in das Feld.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#from').innerHTML = `<small>${KINDS[cur.k][1]}</small>${cur.first}<span class="plus" aria-hidden="true">+</span>${cur.gw}`;
+  input.value = ''; input.readOnly = false; input.className = '';
+  input.focus({ preventScroll: true });
+}
+
+function ruleTip() {
+  if (cur.k === 'f') return `Tipp: Zwischen die beiden Wörter kommt hier noch <b>${cur.fuge}</b>: ${cur.first} + <b>${cur.fuge}</b> + ${cur.gw.toLowerCase()}. Schreibe alles zusammen.`;
+  if (cur.k === 'v') return `Tipp: Vom Verb bleibt nur der Wortstamm: aus <b>${cur.first}</b> wird <b>${cur.stem}</b>-. Das neue Wort ist ein Nomen. Du schreibst es vorne groß.`;
+  return `Tipp: Das Adjektiv <b>${cur.first}</b> steht vorne. Das neue Wort ist ein Nomen. Du schreibst es zusammen und vorne groß.`;
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const v = input.value.trim().replace(/\s+/g, ' ');
+  if (!v) { say('Schreibe zuerst das neue Wort mit Artikel in das Feld.'); input.focus(); return; }
+  const m = v.match(/^(der|die|das) (.+)$/i);
+  if (!m) { wobble(input); say('Schreibe auch den Artikel dazu: <b>der</b>, <b>die</b> oder <b>das</b>?', 'think'); input.focus(); return; }
+  const art = m[1].toLowerCase(), noun = m[2];
+  if (noun !== cur.word || art !== cur.art) {
+    if (noun !== cur.word && noun.toLowerCase() === cur.word.toLowerCase()) {
+      wobble(input);
+      say('Fast richtig! Das neue Wort ist ein Nomen. Du schreibst es vorne groß und danach klein.', 'think');
+    } else if (noun === cur.word) {
+      miss(cur, input);
+      say(`Das Wort stimmt! Aber der Artikel passt noch nicht. Das Grundwort ist <b>${cur.gw}</b>. Welchen Artikel hat es?`, 'think');
+    } else {
+      miss(cur, input);
+      say(cur.misses === 1 ? 'Fast! Sprich das neue Wort langsam vor und probier es noch einmal.'
+        : cur.misses === 2 ? ruleTip()
+        : `So ist es richtig: <span class="pill ${cur.art}">${cur.art} ${cur.word}</span> Schreibe das Wort genau so ab.`, 'think');
+    }
+    input.focus();
+    return;
+  }
+  state.busy = true;
+  input.value = `${cur.art} ${cur.word}`; input.readOnly = true; input.className = 'good ' + cur.art;
+  solve(cur, input, cur.art);
+  say(`${pick(PRAISE, 'praise')} ${cur.first} + ${cur.gw} = <span class="pill ${cur.art}">${cur.art} ${cur.word}</span> Der Artikel kommt vom Grundwort: <b>${cur.art} ${cur.gw}</b>.`, 'happy');
+  later(next, 2100);
+}
+
+$('#form').addEventListener('submit', e => { e.preventDefault(); check(); });
+$('#keys').addEventListener('click', e => {
+  const k = e.target.closest('.keycap');
+  if (!k || input.readOnly) return;
+  const a = input.selectionStart ?? input.value.length, b = input.selectionEnd ?? a;
+  input.value = input.value.slice(0, a) + k.textContent + input.value.slice(b);
+  input.focus();
+  input.setSelectionRange(a + 1, a + 1);
+});

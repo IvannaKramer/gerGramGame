@@ -1,0 +1,202 @@
+@@meta
+file: 4-fehler-detektiv.html
+title: Fehler-Detektiv
+level: Fortgeschrittene
+nr: 4
+total: 20
+subtitle: In manchen Sätzen ist ein Wort falsch geschrieben: groß statt klein oder klein statt groß. Findest du es?
+lead: Das Signalwort ist im Spiel lila, das große Wort ist blau, das kleine Wort ist türkis:
+id: detektiv
+desc: Finde das falsch geschriebene Wort – oder ist alles richtig?
+sample: Beim essen reden wir. → Essen
+drag: no
+@@tipp
+Suche im Satz die Verben und Adjektive. Steht ein <b>Signalwort</b> davor, das zu ihnen gehört? Dann müssen sie <b>groß</b> sein. Achtung, Falle: In <b>das alte Haus</b> gehört „das“ zum Nomen „Haus“. Deshalb bleibt „alte“ klein. Und <b>zu</b> ist kein Signalwort – nur <b>zum</b>!
+@@examples
+      <div class="ex gr" style="--tilt:-1.5deg"><div class="ex-head"><b>groß</b><span>Signalwort davor</span></div><div class="ex-body"><s>Beim essen</s><span class="pr">richtig:</span><span class="w sig">Beim</span> <span class="w gr">Essen</span></div></div>
+      <div class="ex kl" style="--tilt:1deg"><div class="ex-head"><b>klein</b><span>kein Signalwort</span></div><div class="ex-body"><s>Ich will Malen.</s><span class="pr">richtig:</span>Ich will <span class="w kl">malen</span>.</div></div>
+      <div class="ex kl" style="--tilt:-.5deg"><div class="ex-head"><b>klein</b><span>Falle!</span></div><div class="ex-body"><s>das Alte Haus</s><span class="pr">richtig:</span>das <span class="w kl">alte</span> Haus</div></div>
+@@howto
+        <li><span>Lies den Satz genau. Achte auf die Verben und Adjektive.</span></li>
+        <li><span>Ist ein Wort falsch geschrieben? Dann tippe es an. Die Eule schreibt es richtig.</span></li>
+        <li><span>Findest du keinen Fehler? Dann tippe unten auf <b>Alles richtig!</b></span></li>
+@@board
+    <div class="bench">
+      <p class="lbl">Welches Wort ist falsch geschrieben?</p>
+      <p class="sentence toks" id="sentence"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="tiles one">
+        <button class="tile das" id="ok"><b>Alles richtig!</b><small>In diesem Satz ist kein Fehler.</small></button>
+      </div>
+    </div>
+@@css
+/* ---------- Nominalisierungen: gemeinsame Farben (Signalwort lila, groß blau, klein türkis) ---------- */
+.sig{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.gr{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.kl{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.ex-body .pr{display:block;font-weight:400;font-size:.8em;color:var(--ink-soft);margin-top:6px}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.5}
+.gap{display:inline-block;min-width:2.6em;padding:0 .3em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);line-height:1.25;text-align:center}
+.gap.filled{border-style:solid;border-color:var(--c);background:var(--c);color:#fff;min-width:0;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.caps{display:inline-block;background:var(--sun-soft);border:3px solid var(--sun);border-radius:12px;padding:0 .3em;line-height:1.25;letter-spacing:.03em;color:var(--ink)}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.3rem;color:var(--c)}
+.neutral{--cs:var(--paper)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,3vw,28px);max-width:720px;margin:0 auto}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:clamp(72px,10vw,96px);padding:6px 8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.1;overflow-wrap:anywhere}
+.tile small{font-size:clamp(.85rem,2.2vw,1.05rem);line-height:1.15}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+/* ---------- Fehler-Detektiv ---------- */
+.ex-body s{display:block;font-weight:400;color:var(--ink-soft);text-decoration-thickness:2px}
+.ex-body .pr{margin:4px 0 2px}
+.bench{padding:20px 14px 26px}
+.toks{line-height:2.1;margin-top:8px}
+.tok{appearance:none;border:3px solid var(--card-edge);background:var(--card);color:var(--ink);border-radius:12px;min-height:50px;min-width:48px;padding:0 .3em;
+  font:inherit;font-weight:700;line-height:1.25;cursor:pointer;box-shadow:0 3px 0 var(--card-edge);vertical-align:middle;transition:transform .12s ease}
+.tok:active{transform:translateY(2px)}
+.tok.hint{border-color:var(--sun);animation:glow 1.1s ease-in-out infinite}
+.toks.solved{line-height:1.6}
+.toks.solved .w{animation:slotpop .35s ease-out;display:inline-block}
+.tiles.one{grid-template-columns:minmax(0,1fr);max-width:460px}
+@@data
+/* Aufbau: [richtiger Satz, Signalwort oder Erklärung, 'falsch' oder 'richtig']
+   Das fragliche Wort steht in [Klammern] und ist hier richtig geschrieben.
+   Großes Wort: Dahinter steht das Signalwort. Kleines Wort: Dahinter steht die Erklärung für den Tipp.
+   'falsch': Das Spiel zeigt das Wort falsch an (groß und klein vertauscht). 'richtig': Der Satz wird ohne Fehler gezeigt. */
+const SENTENCES = [
+  ['Beim [Trinken] habe ich mich verschluckt.',     'Beim',   'falsch'],
+  ['Wir brauchen Mehl zum [Backen].',               'zum',    'falsch'],
+  ['Das [Klettern] macht den Kindern Spaß.',        'Das',    'falsch'],
+  ['Ich habe heute etwas [Komisches] erlebt.',      'etwas',  'falsch'],
+  ['Vom langen [Warten] bin ich müde geworden.',    'Vom',    'falsch'],
+  ['Im Urlaub haben wir viel [Interessantes] gesehen.', 'viel', 'falsch'],
+  ['Ich höre ein leises [Summen].',                 'ein',    'falsch'],
+  ['Zum Glück ist nichts [Schlimmes] passiert.',    'nichts', 'falsch'],
+  ['Papa will den Rasen [mähen].',                  'Vor „mähen“ steht „Rasen“. Das ist kein Signalwort. „mähen“ ist das, was Papa tun will.', 'falsch'],
+  ['Meine Schwester kann gut [zaubern].',           'Vor „zaubern“ steht „gut“. Das ist kein Signalwort.', 'falsch'],
+  ['Ich habe keine Lust zu [putzen].',              'Vor „putzen“ steht „zu“. Nur „zum“ ist ein Signalwort, „zu“ nicht.', 'falsch'],
+  ['Das [alte] Haus hat einen Turm.',               '„Das“ gehört zum Nomen „Haus“. „alte“ sagt nur, wie das Haus ist.', 'falsch'],
+  ['Der Hund ist heute sehr [brav].',               'Vor „brav“ steht „sehr“. Das ist kein Signalwort.', 'falsch'],
+  ['Am Abend dürfen wir lange [fernsehen].',        'Vor „fernsehen“ steht „lange“. Das ist kein Signalwort.', 'falsch'],
+  ['Beim [Rechnen] muss ich gut aufpassen.',        'Beim',   'richtig'],
+  ['Oma hat uns etwas [Praktisches] geschenkt.',    'etwas',  'richtig'],
+  ['Das [Schaukeln] gefällt meiner kleinen Schwester.', 'Das', 'richtig'],
+  ['Wir gehen am Samstag [angeln].',                'Vor „angeln“ steht „Samstag“. Das ist kein Signalwort.', 'richtig'],
+  ['Im [kalten] Wasser friere ich schnell.',        '„Im“ gehört zum Nomen „Wasser“. „kalten“ sagt nur, wie das Wasser ist.', 'richtig'],
+  ['Ich habe vergessen, die Blumen zu [gießen].',   'Vor „gießen“ steht „zu“. Nur „zum“ ist ein Signalwort, „zu“ nicht.', 'richtig']
+];
+
+const GAME = {
+  id: 'detektiv',
+  unit: 'Sätze',
+  next: { href: '5-adjektiv-werkstatt.html', title: 'Adjektiv-Werkstatt' },
+  review: () => `<div class="review c2">${[['gr', 'groß: mit Signalwort'], ['kl', 'klein: ohne Signalwort']].map(([k, h]) =>
+    `<div class="col ${k}"><h3>${h}</h3><ul>${all.filter(s => s.k === k).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Gemeinsame Helfer ---------- */
+const cap = w => w[0].toUpperCase() + w.slice(1);
+const low = w => w[0].toLowerCase() + w.slice(1);
+const VERSTECKT = { beim: 'bei dem', zum: 'zu dem', im: 'in dem', vom: 'von dem', ans: 'an das', am: 'an dem' };
+const MENGE = ['etwas', 'nichts', 'viel', 'wenig', 'alles'];
+/* Erklärt ein Signalwort in einem kurzen Satz */
+function sigText(sig) {
+  const l = sig.toLowerCase();
+  return VERSTECKT[l] ? `<span class="pill sig">${l}</span> ist ein versteckter Artikel (${l} = ${VERSTECKT[l]})`
+    : MENGE.includes(l) ? `<span class="pill sig">${l}</span> ist ein Mengenwort`
+    : `<span class="pill sig">${l}</span> ist ein Artikel`;
+}
+/* Zerlegt einen Satz in Wörter. Wörter in [Klammern] sind die fraglichen Wörter.
+   Großes Wort: hint ist das Signalwort. Kleines Wort: hint ist die Erklärung. */
+function make(text, hints) {
+  const toks = text.split(' ').map(tok => {
+    const m = tok.replace(/[\[\]]/g, '').match(/^(.*?)([.,!?:;]*)$/);
+    return { w: m[1], post: m[2], target: tok.includes('[') };
+  });
+  const gaps = [];
+  toks.forEach((t, ti) => {
+    if (!t.target) return;
+    const hint = hints[gaps.length] || '', big = t.w[0] !== t.w[0].toLowerCase();
+    let si = -1;
+    if (big) for (let i = ti - 1; i >= 0; i--) if (toks[i].w === hint) { si = i; break; }
+    gaps.push({ ti, si, word: t.w, big, k: big ? 'gr' : 'kl', sig: big ? hint : '', why: big ? '' : hint });
+    t.gap = gaps.length - 1;
+  });
+  return Object.assign({ text, toks, gaps, misses: 0, done: false }, gaps[0]);
+}
+/* Der ganze Satz in Farbe: Signalwort lila, großes Wort blau, kleines Wort türkis */
+function full(s, tag = 'b', cls = 'w') {
+  return s.toks.map((t, i) => {
+    const g = s.gaps.find(x => x.ti === i), sg = s.gaps.some(x => x.si === i);
+    return (g ? `<${tag} class="${cls} ${g.k}">${t.w}</${tag}>` : sg ? `<b class="w sig">${t.w}</b>` : t.w) + t.post;
+  }).join(' ');
+}
+
+/* ---------- Spiel: Fehler-Detektiv ---------- */
+let all = [], queue = [], cur = null;
+const tokEl = i => $(`.tok[data-i="${i}"]`);
+const pillW = s => `<span class="pill ${s.k}">${s.word}</span>`;
+/* Warum ist das Wort groß oder klein? */
+const reason = s => s.big ? `${sigText(s.sig)} und gehört zu ${pillW(s)}. Also groß!` : s.why;
+
+function startGame() {
+  all = SENTENCES.map(s => Object.assign(make(s[0], [s[1]]), { err: s[2] === 'falsch' }));
+  all.forEach(s => { s.shown = s.err ? (s.big ? low(s.word) : cap(s.word)) : s.word; });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Lies den Satz genau. Ist ein Wort falsch geschrieben? Tippe es an. Sonst tippe auf „Alles richtig!“.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#ok').classList.remove('hint');
+  const sen = $('#sentence');
+  sen.classList.remove('solved');
+  sen.innerHTML = cur.toks.map((t, i) => `<button class="tok" data-i="${i}">${i === cur.ti ? cur.shown : t.w}</button>${t.post}`).join(' ');
+}
+
+function choose(i) {
+  if (state.busy || !cur) return;
+  const el = i < 0 ? $('#ok') : tokEl(i);
+  const right = cur.err ? i === cur.ti : i < 0;
+  if (!right) {
+    const hint = miss(cur, el);
+    if (hint) (cur.err ? tokEl(cur.ti) : $('#ok')).classList.add('hint');
+    say(hint
+      ? (cur.err ? `Tipp: Schau dir „${cur.shown}“ an. ${cur.big ? `Dazu gehört das Signalwort „${cur.sig}“.` : cur.why}`
+                 : `Tipp: Hier ist alles richtig. ${cur.big ? `Zu „${cur.word}“ gehört das Signalwort „${cur.sig}“.` : cur.why}`)
+      : i < 0 ? 'Hier hat sich ein Fehler versteckt. Suche die Verben und Adjektive: Gehört ein Signalwort dazu?'
+              : 'Dieses Wort ist richtig geschrieben. Suche die Verben und Adjektive: Gehört ein Signalwort dazu?', 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.hint').forEach(h => h.classList.remove('hint'));
+  const sen = $('#sentence');
+  sen.classList.add('solved');
+  sen.innerHTML = full(cur);
+  solve(cur, $('.w.' + cur.k, sen), cur.big ? 'der' : 'teal');
+  say(cur.err
+    ? `${pick(PRAISE, 'praise')} Richtig heißt es ${pillW(cur)}. ${reason(cur)}`
+    : `${pick(PRAISE, 'praise')} Hier ist alles richtig. ${reason(cur)}`, 'happy');
+  later(next, 3400);
+}
+
+$('#sentence').addEventListener('click', e => {
+  const t = e.target.closest('.tok');
+  if (t) { sfx.pick(); choose(+t.dataset.i); }
+});
+$('#ok').addEventListener('click', () => choose(-1));
+document.addEventListener('keydown', e => { if (gameOn() && e.key === '0') choose(-1); });

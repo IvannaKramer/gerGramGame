@@ -1,0 +1,10 @@
+@@meta
+slug: subjekt-praedikat-objekt
+title: Subjekt, Prädikat und Objekte
+subtitle: Sechs Spiele rund um die Satzglieder und ihre Fragen. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Bildern und fertigen Fragen. Je 15 Sätze.
+lead2: Alle vier Farben, ohne Hilfe. Je 20 Sätze.
+lead3: Mit Zeit und Ort. Finde den Fehler! 20 Sätze.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Sätzen, dazu die Lösungen.
+@@tipp
+Mit Fragen findest du die Satzglieder. Das <b>Prädikat</b> ist das Verb: Was tut jemand? Nach dem <b>Subjekt</b> fragst du <b>Wer oder was?</b>, nach dem <b>Dativobjekt</b> <b>Wem?</b> und nach dem <b>Akkusativobjekt</b> <b>Wen oder was?</b> Beispiel: Oma schenkt dem Enkel einen Roller. Wem schenkt Oma einen Roller? → dem Enkel.

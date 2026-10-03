@@ -1,0 +1,156 @@
+@@meta
+file: 3-stufe-gesucht.html
+title: Stufe gesucht
+level: Anfänger
+nr: 3
+total: 15
+subtitle: Auf der Treppe fehlt ein Wort. Welche der drei Karten passt auf die leere Stufe?
+lead: So sieht eine fertige Treppe aus:
+id: gesucht
+desc: Finde das Wort für die leere Stufe.
+sample: 🌞 warm – ? – am wärmsten
+drag: no
+@@tipp
+Die <b>Vergleichsstufe</b> endet immer auf <b>-er</b>: wärmer. Die <b>Höchststufe</b> beginnt mit <b>am</b> und endet auf <b>-sten</b>: am wärmsten. Aus a, o, u wird manchmal ä, ö, ü. Sprich die Wörter leise vor, dein Ohr hilft dir!
+@@examples
+      <div class="ex s1" style="--tilt:-1.5deg"><div class="ex-head"><b>Grundstufe</b><span>Stufe 1</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🌞</span><span class="a">warm</span></div></div>
+      <div class="ex s2" style="--tilt:1deg"><div class="ex-head"><b>Vergleichsstufe</b><span>Stufe 2</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🌞🌞</span><span class="a">wärmer</span></div></div>
+      <div class="ex s3" style="--tilt:-.5deg"><div class="ex-head"><b>Höchststufe</b><span>Stufe 3</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🌞🌞🌞</span><span class="a">am wärmsten</span></div></div>
+@@howto
+        <li><span>Lies die beiden Wörter, die schon auf der Treppe stehen.</span></li>
+        <li><span>Sprich die drei Stufen leise vor. Welches Wort fehlt auf der leeren Stufe?</span></li>
+        <li><span>Tippe die richtige Karte an. Passt sie nicht, probierst du einfach eine andere.</span></li>
+@@board
+    <p class="ask" id="ask"></p>
+    <div class="stairs" id="stairs"></div>
+@@tray
+    <div class="tray">
+      <div class="opts" id="opts"></div>
+    </div>
+@@css
+/* ---------- Adjektive steigern: feste Farben der drei Stufen ---------- */
+.s1{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.s2{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.s3{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.w{color:var(--c);font-weight:700}
+.hero>div{min-width:0}
+@media (max-width:560px){.title{font-size:clamp(1.55rem,7.4vw,2.4rem);overflow-wrap:anywhere}}
+.ex-head b{font-size:clamp(1.1rem,2.5vw,1.45rem)}
+.ex-body .emo{white-space:nowrap;font-size:clamp(1.4rem,3.6vw,2.2rem)}
+@media (max-width:560px){.legend{grid-template-columns:minmax(0,1fr);gap:10px}.ex-body{padding:6px 8px 10px}.ex-body .emo{display:inline;margin-right:10px}}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review .col.plain{background:var(--sun-soft)}
+/* ---------- Treppe mit Lücke ---------- */
+.ask{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 12px;font-weight:700;font-size:1.2rem;text-align:center}
+.ask .pic{font-size:2.4rem;line-height:1}
+.stairs{display:grid;gap:10px;max-width:860px;margin:0 auto 16px;--off:clamp(16px,7vw,96px)}
+.step{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;background:var(--c);color:#fff;border-radius:16px;padding:8px 12px;min-height:74px;
+  box-shadow:0 5px 0 var(--cd),0 10px 18px var(--lift)}
+.step.s3{margin-left:calc(var(--off)*2)}
+.step.s2{margin-left:var(--off)}
+.step .num{flex:none;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.26);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.25rem}
+.step .nm{font-weight:700;font-size:1.1rem;line-height:1.15;width:8.6em}
+.step .slot{flex:1 1 190px;min-height:54px;border-radius:12px;border:3px solid var(--card);background:var(--card);color:var(--c);display:grid;place-items:center;text-align:center;
+  font-weight:700;font-size:clamp(1.5rem,3.2vw,1.9rem);line-height:1.15;padding:2px 10px}
+.step.open .slot{border:3px dashed rgba(255,255,255,.8);background:transparent;color:#fff}
+.step.pop .slot{animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.6)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+@media (max-width:560px){.step{flex-wrap:nowrap;min-height:0;padding:7px 10px}.step .nm{display:none}.step .slot{flex:1 1 auto;min-height:48px}.ask{font-size:1.1rem;margin-bottom:8px}.ask .pic{font-size:2rem}.stairs{gap:8px}}
+.opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,2vw,18px);max-width:860px;margin:0 auto}
+.opt{appearance:none;position:relative;background:var(--card);border:3px solid var(--card-edge);border-radius:16px;min-height:70px;padding:8px 10px;cursor:pointer;
+  font-weight:700;font-size:clamp(1.5rem,2.9vw,1.8rem);line-height:1.15;box-shadow:0 5px 0 var(--card-edge),0 10px 18px var(--lift);transition:transform .12s ease,opacity .2s ease}
+.opt:active{transform:translateY(4px);box-shadow:0 1px 0 var(--card-edge)}
+.opt:disabled{opacity:.4;cursor:default;box-shadow:none}
+.opt.right{background:var(--c);border-color:var(--c);color:#fff;opacity:1}
+.opt.hint{animation:glow 1.1s ease-in-out infinite;border-color:var(--sun)}
+@media (max-width:640px){.opts{grid-template-columns:minmax(0,1fr);gap:8px}.opt{min-height:56px;padding:4px 10px}.tray{padding-top:12px}}
+@@data
+/* Aufbau: [Grundstufe, Vergleichsstufe, Höchststufe, fehlende Stufe (2 oder 3), [zwei falsche Formen], Bild] */
+const WORDS = [
+  ['warm',   'wärmer',   'am wärmsten',    2, ['warmer', 'wärmerer'],               '🌞'],
+  ['jung',   'jünger',   'am jüngsten',    3, ['am jungsten', 'am jüngersten'],     '👶'],
+  ['stark',  'stärker',  'am stärksten',   2, ['starker', 'stärkerer'],             '💪'],
+  ['tief',   'tiefer',   'am tiefsten',    3, ['am tiefesten', 'am tiefersten'],    '🌊'],
+  ['weit',   'weiter',   'am weitesten',   3, ['am weitsten', 'am weitersten'],     '✈️'],
+  ['dünn',   'dünner',   'am dünnsten',    2, ['mehr dünn', 'dünnerer'],            '🧵'],
+  ['reich',  'reicher',  'am reichsten',   2, ['mehr reich', 'reicherer'],          '💰'],
+  ['nett',   'netter',   'am nettesten',   3, ['am nettsten', 'am nettersten'],     '😊'],
+  ['wild',   'wilder',   'am wildesten',   3, ['am wildsten', 'am wildersten'],     '🐅'],
+  ['müde',   'müder',    'am müdesten',    2, ['mehr müde', 'müderer'],             '😴'],
+  ['kühl',   'kühler',   'am kühlsten',    3, ['am kühlesten', 'am kühlersten'],    '🧊'],
+  ['frech',  'frecher',  'am frechsten',   2, ['mehr frech', 'frecherer'],          '😜'],
+  ['hübsch', 'hübscher', 'am hübschesten', 3, ['am hübschsten', 'am hübschersten'], '🎀'],
+  ['still',  'stiller',  'am stillsten',   2, ['mehr still', 'stillerer'],          '🌙'],
+  ['steil',  'steiler',  'am steilsten',   2, ['mehr steil', 'steilerer'],          '⛰️']
+];
+
+const GAME = {
+  id: 'gesucht',
+  next: { href: '4-stufen-werkstatt.html', title: 'Stufen-Werkstatt' },
+  review: () => {
+    const half = Math.ceil(all.length / 2);
+    return `<div class="review c2"><div class="col plain"><ul>${all.slice(0, half).map(triLi).join('')}</ul></div>
+      <div class="col plain"><ul>${all.slice(half).map(triLi).join('')}</ul></div></div>`;
+  }
+};
+@@js
+/* ---------- Spiel: Stufe gesucht ---------- */
+const NAME = { 1: 'Grundstufe', 2: 'Vergleichsstufe', 3: 'Höchststufe' };
+const COLOR = { 1: 'der', 2: 'das', 3: 'die' };
+let all = [], queue = [], cur = null;
+const tri = w => `<span class="w s1">${w.f[1]}</span> – <span class="w s2">${w.f[2]}</span> – <span class="w s3">${w.f[3]}</span>`;
+const triLi = w => `<li>${tri(w)}</li>`;
+
+function startGame() {
+  all = WORDS.map(w => ({ f: { 1: w[0], 2: w[1], 3: w[2] }, gap: w[3], wrong: w[4], emoji: w[5], misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Welches Wort fehlt auf der Treppe? Sprich die drei Stufen leise vor.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  cur.ans = cur.f[cur.gap];
+  $('#ask').innerHTML = `<span class="pic" aria-hidden="true">${cur.emoji}</span><span>Welches Wort ist die <span class="pill s${cur.gap}">${NAME[cur.gap]}</span>?</span>`;
+  $('#stairs').innerHTML = [3, 2, 1].map(lv =>
+    `<div class="step s${lv}${lv === cur.gap ? ' open' : ''}" data-lv="${lv}"><span class="num" aria-hidden="true">${lv}</span><span class="nm">${NAME[lv]}</span>
+      <span class="slot">${lv === cur.gap ? '<span role="img" aria-label="Hier fehlt ein Wort">?</span>' : cur.f[lv]}</span></div>`).join('');
+  $('#opts').innerHTML = shuffle([cur.ans, ...cur.wrong]).map((o, i) =>
+    `<button class="opt" data-o="${o}">${o}<span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+}
+
+function tipp(w) {
+  return w.gap === 2
+    ? `Tipp: Die Vergleichsstufe ist <b>ein</b> Wort und endet auf <b>-er</b>. Sprich laut: ${w.f[1]} – … – ${w.f[3]}. Die leuchtende Karte ist richtig.`
+    : `Tipp: Die Höchststufe heißt <b>am</b> … <b>-sten</b>. Sprich die Karten laut: Welche kannst du gut aussprechen? Die leuchtende Karte ist richtig.`;
+}
+
+function choose(el) {
+  if (!el || state.busy || el.disabled) return;
+  if (el.dataset.o !== cur.ans) {
+    const hint = miss(cur, el);
+    el.disabled = true;
+    if (hint) $(`.opt[data-o="${cur.ans}"]`).classList.add('hint');
+    say(hint ? tipp(cur) : 'Fast! Sprich alle drei Stufen laut. Was klingt richtig?', 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.opt').forEach(b => { b.classList.remove('hint'); if (b !== el) b.disabled = true; });
+  el.classList.add('right', 's' + cur.gap);
+  const step = $(`.step[data-lv="${cur.gap}"]`);
+  step.classList.remove('open'); step.classList.add('pop');
+  $('.slot', step).textContent = cur.ans;
+  solve(cur, $('.slot', step), COLOR[cur.gap]);
+  say(`${pick(PRAISE, 'praise')} ${tri(cur)}`, 'happy');
+  later(next, 1900);
+}
+
+$('#opts').addEventListener('click', e => choose(e.target.closest('.opt')));
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-3]$/.test(e.key)) return;
+  choose($$('.opt')[+e.key - 1]);
+});

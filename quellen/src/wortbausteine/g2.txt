@@ -1,0 +1,172 @@
+@@meta
+file: 2-wortfamilien-haeuser.html
+title: Wortfamilien-Häuser
+level: Anfänger
+nr: 2
+total: 15
+subtitle: Wörter mit dem gleichen Wortstamm wohnen zusammen. Bring jedes Wort in sein Haus!
+lead: Der Wortstamm ist im Spiel immer grün:
+id: familien
+desc: Sortiere die Wörter nach ihrem Wortstamm.
+sample: 🚗 die Abfahrt → fahr
+drag: yes
+@@tipp
+Wörter mit dem gleichen <b>Wortstamm</b> gehören zu einer <b>Wortfamilie</b>: <b>fahr</b>en, der <b>Fahr</b>er, die Ab<b>fahr</b>t. Manchmal wird im Wortstamm aus <b>a</b> ein <b>ä</b> oder aus <b>au</b> ein <b>äu</b>: die <b>Fähr</b>e, der <b>Läuf</b>er.
+@@examples
+      <div class="ex ws" style="--tilt:-1.5deg"><div class="ex-head"><b>fahr</b></div><div class="ex-body"><span class="emo" aria-hidden="true">🚗</span>die Ab<span class="a">fahr</span>t</div></div>
+      <div class="ex ws" style="--tilt:1deg"><div class="ex-head"><b>lauf</b></div><div class="ex-body"><span class="emo" aria-hidden="true">🏃</span>der <span class="a">Läuf</span>er</div></div>
+      <div class="ex ws" style="--tilt:-.5deg"><div class="ex-head"><b>back</b></div><div class="ex-body"><span class="emo" aria-hidden="true">🥨</span>das Ge<span class="a">bäck</span></div></div>
+@@howto
+        <li>Tippe eine Karte an und lies das Wort. Welcher Wortstamm steckt darin?</li>
+        <li>Tippe dann auf das Haus der passenden Wortfamilie. Du kannst die Karte auch mit dem Finger in das Haus ziehen.</li>
+        <li>Passt es, zieht das Wort ein. Passt es nicht, probierst du einfach ein anderes Haus.</li>
+@@board
+    <div class="words" id="words"></div>
+@@tray
+    <div class="tray">
+      <div class="houses" id="houses"></div>
+    </div>
+@@css
+/* ---------- Wortfamilien-Häuser ---------- */
+.vs{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.ws{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.ns{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.t{color:var(--c)}
+.word-card{min-height:84px}
+.word-card .word{font-size:clamp(1.5rem,2.5vw,1.7rem)}
+.houses{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,3vw,32px);max-width:760px;margin:0 auto}
+.house{appearance:none;border:none;position:relative;margin-top:26px;border-radius:6px 6px 18px 18px;background:var(--c);color:#fff;min-height:clamp(84px,12vw,104px);padding:0 2px 6px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .16s ease,box-shadow .16s ease}
+.house::before{content:"";position:absolute;left:-3px;right:-3px;top:-25px;height:26px;background:var(--cd);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.house .emo{font-size:clamp(1.4rem,4vw,1.9rem);line-height:1.1}
+.house b{font-size:clamp(1.5rem,4.6vw,2.2rem);line-height:1.1}
+.house small{font-size:clamp(.85rem,2.4vw,1rem);line-height:1.2}
+.house.selected,.house.drop-over{transform:translateY(-6px);box-shadow:0 0 0 5px var(--sun),0 14px 24px var(--lift)}
+.house.hint{animation:glow 1.1s ease-in-out infinite}
+.review.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.review.c3 li{font-size:1.05rem}
+@media (max-width:700px){.review.c3{grid-template-columns:1fr}}
+@@data
+/* Wortfamilien. Aufbau: [Wortstamm, Grundwort, Bild] */
+const FAMILIES = [
+  ['fahr', 'fahren', '🚗'],
+  ['lauf', 'laufen', '🏃'],
+  ['back', 'backen', '🥨']
+];
+/* Aufbau: [Wort, Wortstamm der Familie] – der Wortstamm im Wort steht in eckigen Klammern */
+const WORDS = [
+  ['der [Fahr]er',     'fahr'],
+  ['die Ab[fahr]t',    'fahr'],
+  ['das [Fahr]rad',    'fahr'],
+  ['die [Fähr]e',      'fahr'],
+  ['los[fahr]en',      'fahr'],
+  ['der [Läuf]er',     'lauf'],
+  ['ver[lauf]en',      'lauf'],
+  ['der Wett[lauf]',   'lauf'],
+  ['weg[lauf]en',      'lauf'],
+  ['der [Lauf]schuh',  'lauf'],
+  ['der [Bäck]er',     'back'],
+  ['die [Bäck]erei',   'back'],
+  ['das Ge[bäck]',     'back'],
+  ['der [Back]ofen',   'back'],
+  ['das [Back]blech',  'back']
+];
+
+const GAME = {
+  id: 'familien',
+  next: { href: '3-gross-oder-klein.html', title: 'Groß oder klein?' },
+  review: () => `<div class="review c3">${FAMILIES.map(([f, base, emo]) =>
+    `<div class="col ws"><h3>${emo} ${f} – ${base}</h3><ul>${items.filter(w => w.fam === f).map(w => `<li>${w.html}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Wortfamilien-Häuser ---------- */
+let items = [], selWord = null, selFam = null;
+const byId = id => items.find(w => w.id === id);
+const cardEl = id => $(`.word-card[data-id="${id}"]`);
+const houseEl = f => $(`.house[data-fam="${f}"]`);
+
+$('#houses').innerHTML = FAMILIES.map(([f, base, emo]) =>
+  `<button class="house ws" data-fam="${f}" aria-pressed="false" aria-label="Wortfamilie ${f}, wie ${base}"><span class="emo" aria-hidden="true">${emo}</span><b>${f}</b><small>${base}</small></button>`).join('');
+
+function startGame() {
+  items = shuffle(WORDS.map((w, i) => {
+    const stem = w[0].match(/\[(.+?)\]/)[1];
+    return { id: 'w' + i, text: w[0].replace(/[\[\]]/g, ''), html: w[0].replace(/\[(.+?)\]/, '<span class="t ws">$1</span>'),
+      stem, fam: w[1], changed: stem.toLowerCase() !== w[1], misses: 0, done: false };
+  }));
+  resetState(items.length);
+  selWord = selFam = null;
+  $('#words').innerHTML = items.map(w =>
+    `<button class="word-card" data-id="${w.id}" aria-pressed="false" style="--tilt:${(Math.random() * 3 - 1.5).toFixed(2)}deg"><span class="word">${w.text}</span></button>`).join('');
+  renderSelection();
+  say('Tippe eine Karte an und dann das passende Haus. Welcher Wortstamm steckt im Wort?');
+  show('game');
+}
+
+function renderSelection() {
+  $$('.word-card').forEach(el => {
+    const on = el.dataset.id === selWord;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+  });
+  $$('.house').forEach(el => {
+    const on = el.dataset.fam === selFam;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+    el.classList.remove('hint');
+  });
+  const w = selWord && byId(selWord);
+  if (w && w.misses >= 2) houseEl(w.fam).classList.add('hint');
+}
+
+function tapWord(id) {
+  const w = byId(id);
+  if (!w || w.done || state.busy) return;
+  if (selFam) { attempt(id, selFam); return; }
+  selWord = selWord === id ? null : id;
+  sfx.pick(); renderSelection();
+  if (selWord) say(`<b>${w.text}</b> – zu welcher Wortfamilie gehört das Wort?`);
+}
+function tapHouse(f) {
+  if (state.busy) return;
+  if (selWord) { attempt(selWord, f); return; }
+  selFam = selFam === f ? null : f;
+  sfx.pick(); renderSelection();
+  if (selFam) say(`Welches Wort gehört zur Wortfamilie <span class="pill ws">${f}</span>?`);
+}
+
+/* Umlaut im Wortstamm erklären: a → ä, au → äu */
+const change = w => w.fam.includes('au') ? 'Aus <b>au</b> wird hier <b>äu</b>.' : 'Aus <b>a</b> wird hier <b>ä</b>.';
+
+function attempt(id, f) {
+  const w = byId(id);
+  if (!w || w.done) return;
+  if (w.fam !== f) {
+    miss(w, cardEl(id));
+    wobble(houseEl(f));
+    selWord = id; selFam = null;
+    renderSelection();
+    say(w.misses >= 2
+      ? `Tipp: Such den Wortstamm! In <b>${w.html}</b> steckt <span class="pill ws">${w.stem.toLowerCase()}</span>. ${w.changed ? change(w) + ' ' : ''}Das leuchtende Haus ist richtig.`
+      : 'Das passt noch nicht. Sprich das Wort langsam: Welcher Wortstamm steckt darin?', 'think');
+    return;
+  }
+  const card = cardEl(id);
+  selWord = selFam = null;
+  renderSelection();
+  card.classList.add('vanish');
+  later(() => { card.classList.remove('vanish'); card.classList.add('done'); card.disabled = true; }, 330);
+  solve(w, houseEl(f), 'das');
+  say(`${pick(PRAISE, 'praise')} <b>${w.html}</b> gehört zur Wortfamilie <span class="pill ws">${f}</span>.${w.changed ? ' ' + change(w) : ''}`, 'happy');
+  if (state.solved === state.total) { state.busy = true; later(finish, 1500); }
+}
+
+$('#words').addEventListener('click', e => {
+  if (suppressClick) return;
+  const c = e.target.closest('.word-card');
+  if (c) tapWord(c.dataset.id);
+});
+$$('.house').forEach(b => b.addEventListener('click', () => { if (!suppressClick) tapHouse(b.dataset.fam); }));
+enableDrag('.word-card:not(.done)', '.house', (card, house) => attempt(card.dataset.id, house.dataset.fam));
