@@ -1,0 +1,161 @@
+@@meta
+file: 4-wort-detektiv.html
+title: Wort-Detektiv
+level: Fortgeschrittene
+nr: 4
+total: 20
+subtitle: Welches Wort fehlt – und welche Aufgabe hat es im Satz?
+lead: „das“ hat drei Aufgaben. „dass“ ist immer ein Bindewort:
+id: detektiv
+desc: Finde heraus, welche Aufgabe das Wort im Satz hat.
+sample: ___ gefällt mir. → das (Pronomen)
+drag: no
+@@tipp
+<b>das</b> kann ein <b>Artikel</b> sein (das Haus), ein <b>Pronomen</b> (Das gefällt mir.) oder ein <b>Relativpronomen</b> (das Buch, das ich lese). <b>dass</b> ist ein <b>Bindewort</b>. Es verbindet zwei Sätze: Ich hoffe, dass du kommst.
+@@examples
+      <div class="ex das" style="--tilt:-1.5deg"><div class="ex-head"><b>das</b><span>Artikel</span></div><div class="ex-body"><span class="a">das</span> Haus<span class="pr">begleitet ein Nomen</span></div></div>
+      <div class="ex das" style="--tilt:1deg"><div class="ex-head"><b>das</b><span>Pronomen</span></div><div class="ex-body"><span class="a">Das</span> gefällt mir.<span class="pr">steht für eine Sache</span></div></div>
+      <div class="ex das" style="--tilt:-.5deg"><div class="ex-head"><b>das</b><span>Relativ&shy;pronomen</span></div><div class="ex-body">das Buch, <span class="a">das</span> ich lese<span class="pr">erklärt ein Nomen genauer</span></div></div>
+@@howto
+        <li><span>Lies den Satz mit der Lücke. Mach im Kopf die Probe mit „dieses“ und „welches“.</span></li>
+        <li><span>Überlege: Fehlt hier <b>das</b> oder <b>dass</b>? Und welche Aufgabe hat das Wort?</span></li>
+        <li><span>Tippe unten auf die passende Karte. Stimmt es noch nicht, probierst du einfach eine andere.</span></li>
+@@board
+    <div class="bench">
+      <p class="lbl">Welches Wort fehlt hier?</p>
+      <p class="sentence" id="sentence"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="tiles four" id="tiles"></div>
+    </div>
+@@css
+/* ---------- das oder dass: gemeinsame Farben ---------- */
+.dass{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.ex-body .pr{display:block;font-weight:400;font-size:.8em;color:var(--ink-soft);margin-top:6px}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.5}
+.gap{display:inline-block;min-width:2.6em;padding:0 .3em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);line-height:1.25;text-align:center}
+.gap.filled{border-style:solid;border-color:var(--c);background:var(--c);color:#fff;min-width:0;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.3rem;color:var(--c)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,3vw,28px);max-width:720px;margin:0 auto}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:clamp(76px,10vw,96px);padding:6px 8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(1.6rem,4.4vw,2.2rem);line-height:1.1}
+.tile small{font-size:clamp(.85rem,2.2vw,1.05rem);line-height:1.15}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+/* ---------- Wort-Detektiv ---------- */
+.ex-head span{min-width:0;max-width:100%}
+@media (max-width:560px){.ex-head span{font-size:.9rem}}
+.bench{padding:22px 14px 30px}
+.bench .sentence{margin-top:10px}
+.tiles.four{grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,1.6vw,16px);max-width:900px}
+.tiles.four .tile small{font-size:clamp(.85rem,1.7vw,1.05rem);font-weight:700;hyphens:manual}
+@media (max-width:640px){.tiles.four{grid-template-columns:repeat(2,minmax(0,1fr))}.tiles.four .tile{min-height:66px}.tiles.four .tile b{font-size:1.45rem}}
+.review.c2 .col h3 small{font-weight:400;color:var(--ink-soft);font-size:1rem}
+@@data
+/* Aufbau: [Satz mit Lücke ___, Lösung (das, Das oder dass), Aufgabe]
+   Aufgaben: 'A' = Artikel, 'P' = Pronomen, 'R' = Relativpronomen, 'B' = Bindewort (nur bei dass) */
+const SENTENCES = [
+  ['___ Pferd steht auf der Wiese.',                    'Das',  'A'],
+  ['Mila schneidet ___ Papier.',                        'das',  'A'],
+  ['Am Abend wird ___ Licht ausgemacht.',               'das',  'A'],
+  ['Wir schmücken ___ Klassenzimmer.',                  'das',  'A'],
+  ['___ kleine Küken piept.',                           'Das',  'A'],
+  ['___ gefällt mir gut.',                              'Das',  'P'],
+  ['___ glaube ich dir nicht.',                         'Das',  'P'],
+  ['Hast du ___ gehört?',                               'das',  'P'],
+  ['___ kann jeder lernen.',                            'Das',  'P'],
+  ['Wer hat ___ gesagt?',                               'das',  'P'],
+  ['Das Kind, ___ dort winkt, ist mein Bruder.',        'das',  'R'],
+  ['Ich suche das Heft, ___ ich gestern gekauft habe.', 'das',  'R'],
+  ['Im Hafen liegt ein Schiff, ___ morgen abfährt.',    'das',  'R'],
+  ['Mein Opa hat ein Auto, ___ sehr alt ist.',          'das',  'R'],
+  ['Wir essen das Gemüse, ___ im Garten wächst.',       'das',  'R'],
+  ['Ich weiß, ___ Wale keine Fische sind.',             'dass', 'B'],
+  ['Die Lehrerin hofft, ___ alle pünktlich sind.',      'dass', 'B'],
+  ['Es stimmt, ___ Igel Winterschlaf halten.',          'dass', 'B'],
+  ['Ben erzählt, ___ er einen Fuchs gesehen hat.',      'dass', 'B'],
+  ['Wir wünschen dir, ___ du schnell gesund wirst.',    'dass', 'B']
+];
+/* Aufbau: Kürzel: [Wort, Aufgabe, Farbe, Erklärung nach der richtigen Antwort, Tipp nach zwei Fehlversuchen] */
+const JOBS = {
+  A: ['das',  'Artikel',         'das',  'Es begleitet ein Nomen.',
+      'Tipp: Hinter der Lücke steht ein Nomen. Du kannst <b>dieses</b> einsetzen. Das Wort begleitet das Nomen. Es ist ein <b>Artikel</b>.'],
+  P: ['das',  'Pronomen',        'das',  'Es steht allein und vertritt eine Sache.',
+      'Tipp: Du kannst <b>dieses</b> einsetzen. Aber hinter der Lücke steht kein Nomen. Das Wort steht allein für eine Sache. Es ist ein <b>Pronomen</b>.'],
+  R: ['das',  'Relativpronomen', 'das',  'Es erklärt das Nomen vor dem Komma genauer.',
+      'Tipp: Vor der Lücke steht ein Komma. Du kannst <b>welches</b> einsetzen. Das Wort erklärt das Nomen davor genauer. Es ist ein <b>Relativpronomen</b>.'],
+  B: ['dass', 'Bindewort',       'dass', 'Es verbindet zwei Sätze. Davor steht ein Komma.',
+      'Tipp: Hier passt weder <b>dieses</b> noch <b>welches</b>. Dann fehlt <b>dass</b> mit zwei s. Es ist ein <b>Bindewort</b>.']
+};
+
+const GAME = {
+  id: 'detektiv',
+  unit: 'Sätze',
+  next: { href: '5-luecken-geschichten.html', title: 'Lücken-Geschichten' },
+  review: () => `<div class="review c2">${Object.keys(JOBS).map(j =>
+    `<div class="col ${JOBS[j][2]}"><h3>${JOBS[j][0]} <small>${JOBS[j][1]}</small></h3><ul>${all.filter(s => s.j === j).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Wort-Detektiv ---------- */
+const ORDER = Object.keys(JOBS);
+let all = [], queue = [], cur = null;
+const tileEl = j => $(`.tile[data-j="${j}"]`);
+const full = s => s.text.replace('___', `<b class="w ${JOBS[s.j][2]}">${s.ans}</b>`);
+
+$('#tiles').innerHTML = ORDER.map((j, i) => {
+  const [word, job, cls] = JOBS[j];
+  return `<button class="tile ${cls}" data-j="${j}" aria-label="${word}, ${job}"><b>${word}</b><small>${job.replace('Relativ', 'Relativ&shy;')}</small><span class="kbd" aria-hidden="true">${i + 1}</span></button>`;
+}).join('');
+
+function startGame() {
+  all = SENTENCES.map(s => ({ text: s[0], ans: s[1], j: s[2], misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Welches Wort fehlt? Und welche Aufgabe hat es im Satz? Tippe auf die passende Karte.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $$('.tile').forEach(t => t.classList.remove('hint'));
+  $('#sentence').innerHTML = cur.text.replace('___', '<span class="gap" id="gap">?</span>');
+}
+
+function choose(j) {
+  if (state.busy || !cur) return;
+  const [word, job, cls, why, tip] = JOBS[cur.j];
+  if (j !== cur.j) {
+    const hint = miss(cur, tileEl(j));
+    if (hint) tileEl(cur.j).classList.add('hint');
+    say(hint ? tip
+      : JOBS[j][0] !== word ? 'Mach die Probe: Passt „dieses“ oder „welches“ in die Lücke? Dann fehlt das. Sonst fehlt dass.'
+      : 'Fast! <b class="w das">das</b> mit einem s stimmt. Aber welche Aufgabe hat es hier?', 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.tile').forEach(t => t.classList.remove('hint'));
+  const gap = $('#gap');
+  gap.textContent = cur.ans; gap.className = 'gap filled ' + cls;
+  solve(cur, gap, cls === 'das' ? 'das' : 'bonus');
+  say(`${pick(PRAISE, 'praise')} <span class="pill ${cls}">${word}</span> ist hier ein <b>${job}</b>. ${why}<br>${full(cur)}`, 'happy');
+  later(next, 2600);
+}
+
+$('#tiles').addEventListener('click', e => {
+  const t = e.target.closest('.tile');
+  if (t) choose(t.dataset.j);
+});
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-4]$/.test(e.key)) return;
+  choose(ORDER[+e.key - 1]);
+});

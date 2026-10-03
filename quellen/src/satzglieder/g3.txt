@@ -1,0 +1,161 @@
+@@meta
+file: 3-satzglieder-zaehlen.html
+title: Satzglieder zählen
+level: Anfänger
+nr: 3
+total: 15
+subtitle: Der Satz wird für dich umgestellt. Schau genau hin: Wie viele Satzglieder hat er?
+lead: Ein Satzglied kann ein Wort sein oder aus mehreren Wörtern bestehen:
+id: zaehlen
+desc: Zähle die Satzglieder mit der Umstellprobe.
+sample: Felix | holt | am Morgen | die Post. → 4
+drag: no
+@@tipp
+Wörter, die beim Umstellen <b>zusammenbleiben</b>, sind zusammen <b>ein</b> Satzglied. Auch das <b>Verb</b> ist ein Satzglied. <b>Mia | tanzt | gern.</b> hat also 3 Satzglieder.
+@@examples
+      <div class="ex sg" style="--tilt:-1.5deg"><div class="ex-head"><b>1 Wort</b></div><div class="ex-body"><span class="a">Mia</span></div></div>
+      <div class="ex vb" style="--tilt:1deg"><div class="ex-head"><b>das Verb</b></div><div class="ex-body"><span class="a">tanzt</span></div></div>
+      <div class="ex sg" style="--tilt:-.5deg"><div class="ex-head"><b>3 Wörter</b></div><div class="ex-body"><span class="a">den ganzen Tag</span></div></div>
+@@howto
+        <li>Lies den Satz. Darunter steht derselbe Satz noch einmal, aber umgestellt.</li>
+        <li>Vergleiche: Welche Wörter sind zusammengeblieben? Sie zählen als ein Satzglied. Mit „Anders umstellen“ siehst du noch eine Möglichkeit.</li>
+        <li>Tippe die richtige Zahl an. Auf der Tastatur kannst du auch 2, 3, 4 oder 5 drücken.</li>
+@@board
+    <div class="bench">
+      <p class="lbl">So steht der Satz da:</p>
+      <p class="sent" id="base"></p>
+      <p class="lbl">Umgestellt:</p>
+      <p class="sent moved" id="moved"></p>
+      <button class="btn btn-secondary" id="again" type="button">Anders umstellen</button>
+    </div>
+@@tray
+    <div class="tray">
+      <p class="ask">Wie viele Satzglieder hat der Satz?</p>
+      <div class="nums" id="nums"></div>
+    </div>
+@@css
+/* ---------- Satzglieder zählen ---------- */
+.sg{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.vb{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.n2{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.n3{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.n4{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.n5{--c:var(--sun-deep);--cd:var(--sun-deep);--cs:var(--sun-soft)}
+.bubble .pill{margin:2px 0}
+.review li{font-weight:400;font-size:1.1rem;line-height:1.35;padding:2px 0}
+.review li b{color:var(--die)}
+.review li i{font-style:normal;color:var(--ink-soft);padding:0 .3em}
+.review h3{color:var(--ink)}
+.sent{margin:2px 0 12px;font-weight:700;font-size:clamp(1.5rem,3.8vw,2rem);line-height:1.3}
+.sent.moved{color:var(--ink-soft)}
+.sent.none{font-size:1.15rem;font-weight:400}
+.chip{display:inline-block;border:3px solid var(--c);background:var(--cs);border-radius:12px;padding:2px 12px;margin:4px 3px;color:var(--ink)}
+.bench .btn{font-size:1.05rem;min-height:48px;padding:6px 18px}
+.ask{text-align:center;font-weight:700;margin:0 0 10px}
+.nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,2vw,18px);max-width:620px;margin:0 auto}
+.num{appearance:none;border:none;border-radius:18px;background:var(--sun);color:var(--on-sun);min-height:clamp(66px,10vw,84px);
+  font-family:var(--f-display);font-weight:800;font-size:clamp(2rem,5vw,2.6rem);cursor:pointer;
+  box-shadow:0 6px 0 var(--sun-deep),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.num:active{transform:translateY(4px);box-shadow:0 2px 0 var(--sun-deep),0 6px 12px var(--lift)}
+.num.hint{animation:glow 1.1s ease-in-out infinite;outline:4px solid var(--ink)}
+.review.c4{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:700px){.review.c4{grid-template-columns:1fr}}
+@@data
+/* Aufbau: die Satzglieder eines Satzes in der normalen Reihenfolge, das Verb an zweiter Stelle.
+   Schreibe jedes Satzglied so, wie es mitten im Satz steht (also „der Frosch“, nicht „Der Frosch“).
+   Die Anzahl der Satzglieder (2 bis 5) ist die Lösung. Das Verb zählt mit. */
+const SENTENCES = [
+  ['das kleine Küken', 'piept'],
+  ['meine beste Freundin', 'lacht'],
+  ['die alte Uhr', 'tickt'],
+  ['die Tulpen', 'blühen', 'im Frühling'],
+  ['unser Lehrer', 'erzählt', 'eine Geschichte'],
+  ['Mia', 'tanzt', 'gern'],
+  ['der Frosch', 'hüpft', 'ins Wasser'],
+  ['Felix', 'holt', 'am Morgen', 'die Post'],
+  ['die Kuh', 'kaut', 'den ganzen Tag', 'frisches Gras'],
+  ['mein Bruder', 'hört', 'in seinem Zimmer', 'Musik'],
+  ['der Gärtner', 'gießt', 'am Abend', 'die Beete'],
+  ['Emma', 'bringt', 'ihrem Opa', 'am Sonntag', 'einen Kuchen'],
+  ['der Bauer', 'fährt', 'im Sommer', 'mit dem Traktor', 'auf das Feld'],
+  ['die Zwillinge', 'bauen', 'im Winter', 'auf der Wiese', 'einen Schneemann'],
+  ['Ben', 'zeigt', 'seiner Mutter', 'stolz', 'sein Zeugnis']
+];
+
+const GAME = {
+  id: 'zaehlen',
+  unit: 'Sätze',
+  next: { href: '4-satz-schere.html', title: 'Satz-Schere' },
+  review: () => `<div class="review c4">${[2, 3, 4, 5].map(n =>
+    `<div class="col n${n}"><h3>${n} Satzglieder</h3><ul>${all.filter(s => s.parts.length === n).map(s =>
+      `<li>${s.parts.map((p, i) => i === 1 ? `<b>${p}</b>` : (i === 0 ? cap(p) : p)).join('<i>|</i>')}.</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Satzglieder zählen ---------- */
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const sentence = parts => cap(parts.join(' ')) + '.';
+let all = [], queue = [], cur = null, variant = 0;
+const numEl = n => $(`.num[data-n="${n}"]`);
+const pills = s => s.parts.map((p, i) => `<span class="pill ${i === 1 ? 'vb' : 'sg'}">${i === 0 ? cap(p) : p}</span>`).join(' ') + '.';
+const chips = s => s.parts.map((p, i) => `<span class="chip ${i === 1 ? 'vb' : 'sg'}">${i === 0 ? cap(p) : p}</span>`).join('') + '.';
+
+$('#nums').innerHTML = [2, 3, 4, 5].map(n => `<button class="num" data-n="${n}" aria-label="${n} Satzglieder">${n}</button>`).join('');
+
+function startGame() {
+  all = SENTENCES.map(p => ({ parts: p, misses: 0 }));
+  /* jede Umstellung: ein anderes Satzglied wandert nach vorn, das Verb bleibt an zweiter Stelle */
+  all.forEach(s => {
+    s.variants = s.parts.map((_, i) => i).filter(i => i > 1).map(first =>
+      sentence([first, 1, ...s.parts.map((_, i) => i).filter(i => i !== 1 && i !== first)].map(i => s.parts[i])));
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Vergleiche die beiden Sätze. Welche Wörter bleiben zusammen? Zähle die Satzglieder!');
+  show('game');
+  next();
+}
+
+function showVariant() {
+  const m = $('#moved'), has = cur.variants.length > 0;
+  m.classList.toggle('none', !has);
+  m.textContent = has ? cur.variants[variant % cur.variants.length] : 'Hier kannst du nichts umstellen. Das Verb muss an zweiter Stelle bleiben.';
+  $('#again').hidden = cur.variants.length < 2;
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false; variant = 0;
+  $$('.num').forEach(b => b.classList.remove('hint'));
+  $('#base').textContent = sentence(cur.parts);
+  showVariant();
+}
+
+function choose(n) {
+  if (state.busy || !cur) return;
+  const right = cur.parts.length;
+  if (n !== right) {
+    const hint = miss(cur, numEl(n));
+    if (hint) { numEl(right).classList.add('hint'); $('#base').innerHTML = chips(cur); }
+    say(hint ? 'Tipp: Jedes Kästchen ist ein Satzglied. Auch das Verb zählt mit. Zähle die Kästchen!'
+      : n < right ? 'Fast! Es sind mehr Satzglieder. Hast du das Verb mitgezählt?'
+      : 'Fast! Es sind weniger. Wörter, die zusammenbleiben, zählen zusammen nur als ein Satzglied.', 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.num').forEach(b => b.classList.remove('hint'));
+  $('#base').innerHTML = chips(cur);
+  solve(cur, numEl(n), 'sun');
+  say(`${pick(PRAISE, 'praise')} Das sind <b>${n} Satzglieder</b>: ${pills(cur)}`, 'happy');
+  later(next, 2400);
+}
+
+$('#nums').addEventListener('click', e => {
+  const b = e.target.closest('.num');
+  if (b) choose(+b.dataset.n);
+});
+$('#again').addEventListener('click', () => { if (state.busy || !cur) return; variant++; sfx.pick(); showVariant(); });
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[2-5]$/.test(e.key)) return;
+  choose(+e.key);
+});

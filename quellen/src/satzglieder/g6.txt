@@ -1,0 +1,207 @@
+@@meta
+file: 6-satzanfang-profi.html
+title: Satzanfang-Profi
+level: Profis
+nr: 6
+total: 20
+subtitle: Lange Sätze, lange Satzglieder! Finde alle Wortgruppen, die allein am Satzanfang stehen können.
+lead: Mach die Umstellprobe. Nur ein ganzes Satzglied kann vor dem Verb stehen:
+id: profi
+desc: Finde alle möglichen Satzanfänge.
+sample: Am frühen Morgen vergräbt der kleine Dackel …
+drag: no
+@@tipp
+Ein <b>ganzes Satzglied</b> kann allein vor dem Verb stehen, und der Satz klingt immer noch richtig. Fehlt ein Wort oder ist eines zu viel, klingt der Satz falsch. So prüfst du mit der <b>Umstellprobe</b>, welche Wörter zusammengehören.
+@@examples
+      <div class="ex ok" style="--tilt:-1.5deg"><div class="ex-head"><b>ganzes Satzglied</b></div><div class="ex-body"><span class="a">Am frühen Morgen</span> vergräbt der Dackel einen Knochen.</div></div>
+      <div class="ex no" style="--tilt:1deg"><div class="ex-head"><b>ein Wort fehlt</b></div><div class="ex-body"><span class="a">Am frühen</span> vergräbt der Dackel Morgen einen Knochen.</div></div>
+      <div class="ex no" style="--tilt:-.5deg"><div class="ex-head"><b>ein Wort zu viel</b></div><div class="ex-body"><span class="a">Morgen einen</span> vergräbt der Dackel am frühen Knochen.</div></div>
+@@howto
+        <li>Lies den Satz. Tippe eine Karte an. Dann zeigt dir die Umstellprobe den Satz mit dieser Wortgruppe am Anfang.</li>
+        <li>Klingt der Satz richtig? Dann lass die Karte ausgewählt. Klingt er falsch? Dann tippe die Karte noch einmal an.</li>
+        <li>Hast du alle ganzen Satzglieder gefunden? Dann tippe auf „Prüfen“. Es sind immer mehrere!</li>
+@@board
+    <div class="bench">
+      <p class="lbl">Der Satz:</p>
+      <p class="sent" id="base"></p>
+      <p class="lbl">Umstellprobe:</p>
+      <p class="probe" id="probe"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <p class="ask">Welche Wortgruppen können allein am Satzanfang stehen? Finde alle!</p>
+      <div class="cands" id="cands"></div>
+      <div class="actions"><button class="btn btn-primary big" id="check">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Satzanfang-Profi ---------- */
+.sg{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.vb{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.ok{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.no{--c:var(--ink-soft)}
+.ex-head b{font-size:clamp(.95rem,2.4vw,1.3rem)}
+.ex-body{font-size:clamp(.95rem,2.3vw,1.25rem);padding:10px 8px 14px;font-weight:400}
+.ex-body .a{font-weight:700;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px}
+.bubble .pill{margin:2px 0}
+.review.c1{grid-template-columns:1fr}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;padding:3px 0}
+.review li b{color:var(--die)}
+.review li i{font-style:normal;color:var(--ink-soft);padding:0 .3em}
+.bench{padding-bottom:16px}
+.sent{margin:2px 0 12px;font-weight:700;font-size:clamp(1.3rem,3.2vw,1.75rem);line-height:1.3}
+.probe{margin:2px 0 0;font-size:clamp(1.25rem,3vw,1.6rem);line-height:1.3;min-height:2.6em}
+.probe b{background:var(--sun-soft);border-bottom:4px solid var(--sun);border-radius:6px 6px 0 0;padding:0 4px}
+.probe.empty{color:var(--ink-soft);font-size:1.1rem}
+.ask{text-align:center;font-weight:700;margin:0 0 10px}
+.cands{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px}
+@media (max-width:620px){.cands{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.cand{appearance:none;position:relative;background:var(--card);border:3px solid var(--card-edge);border-radius:16px;min-height:72px;padding:8px 10px;
+  font-weight:700;font-size:clamp(1.5rem,2.6vw,1.7rem);line-height:1.15;cursor:pointer;box-shadow:0 4px 0 var(--card-edge),0 10px 18px var(--lift);
+  transition:transform .14s ease,border-color .14s ease,background-color .14s ease}
+.cand .kbd{background:var(--paper);color:var(--ink-soft);top:4px;right:6px}
+.cand[aria-pressed="true"]{border-color:var(--sun);background:var(--sun-soft);transform:translateY(-4px);box-shadow:0 4px 0 var(--sun-deep),0 14px 22px var(--lift)}
+.cand.hint{animation:glow 1.1s ease-in-out infinite}
+.cand.good{border-color:var(--der);background:var(--der-soft);transform:none;box-shadow:0 4px 0 var(--der-deep)}
+.cand.off{opacity:.45}
+@media (max-width:620px){.tray{position:static;padding-top:6px}}
+@media (max-width:620px){.cand{min-height:60px;font-size:1.5rem}.probe{min-height:0}}
+@@data
+/* Aufbau: [Satzglieder des Satzes, sechs Wortgruppen als Karten]
+   Satzglieder: in der normalen Reihenfolge, das Verb an zweiter Stelle, geschrieben wie mitten im Satz.
+   Karten: Wortgruppen, die genau so im Satz hintereinander stehen. Eine Karte ist richtig,
+   wenn sie genau ein ganzes Satzglied ist. Alle anderen Karten sind falsch (ein Wort fehlt oder ist zu viel). */
+const SENTENCES = [
+  [['der kleine Dackel', 'vergräbt', 'am frühen Morgen', 'einen dicken Knochen'],
+    ['am frühen Morgen', 'einen dicken Knochen', 'der kleine Dackel', 'am frühen', 'Morgen einen', 'der kleine']],
+  [['Finn', 'spielt', 'am späten Nachmittag', 'mit seinem besten Freund', 'Tischtennis'],
+    ['mit seinem besten Freund', 'am späten Nachmittag', 'mit seinem', 'besten Freund', 'am späten', 'Nachmittag mit seinem']],
+  [['unsere neue Lehrerin', 'erzählt', 'der ganzen Klasse', 'jeden Freitag', 'ein spannendes Märchen'],
+    ['unsere neue Lehrerin', 'der ganzen Klasse', 'jeden Freitag', 'ein spannendes Märchen', 'der ganzen', 'Freitag ein spannendes']],
+  [['die mutige Feuerwehrfrau', 'rettet', 'mit einer langen Leiter', 'eine kleine Katze'],
+    ['mit einer langen Leiter', 'eine kleine Katze', 'mit einer', 'langen Leiter', 'die mutige', 'Leiter eine kleine']],
+  [['mein großer Bruder', 'fährt', 'bei jedem Wetter', 'mit dem Fahrrad', 'zur Schule'],
+    ['bei jedem Wetter', 'zur Schule', 'mein großer Bruder', 'bei jedem', 'dem Fahrrad', 'Wetter mit dem']],
+  [['die fleißigen Ameisen', 'tragen', 'an warmen Tagen', 'kleine Zweige', 'in ihren Bau'],
+    ['an warmen Tagen', 'kleine Zweige', 'in ihren Bau', 'an warmen', 'die fleißigen', 'Zweige in ihren']],
+  [['der alte Fischer', 'repariert', 'vor dem Sturm', 'sein kaputtes Netz'],
+    ['vor dem Sturm', 'sein kaputtes Netz', 'der alte', 'kaputtes Netz', 'vor dem', 'Sturm sein kaputtes']],
+  [['viele Kinder', 'basteln', 'in der letzten Stunde', 'bunte Laternen'],
+    ['viele Kinder', 'in der letzten Stunde', 'bunte Laternen', 'in der letzten', 'letzten Stunde', 'der letzten Stunde']],
+  [['meine Großeltern', 'schicken', 'meiner Schwester', 'zu Weihnachten', 'ein großes Paket'],
+    ['meiner Schwester', 'zu Weihnachten', 'ein großes Paket', 'meine Großeltern', 'ein großes', 'Schwester zu Weihnachten']],
+  [['der freche Papagei', 'ruft', 'den ganzen Vormittag', 'lustige Wörter'],
+    ['den ganzen Vormittag', 'lustige Wörter', 'den ganzen', 'der freche', 'ganzen Vormittag', 'Vormittag lustige']],
+  [['die beiden Freundinnen', 'wandern', 'an einem sonnigen Tag', 'durch den dunklen Wald', 'zu einer alten Burg'],
+    ['an einem sonnigen Tag', 'durch den dunklen Wald', 'zu einer alten Burg', 'an einem sonnigen', 'den dunklen Wald', 'einer alten Burg']],
+  [['der junge Tierarzt', 'untersucht', 'in seiner Praxis', 'ein krankes Meerschweinchen'],
+    ['der junge Tierarzt', 'in seiner Praxis', 'ein krankes Meerschweinchen', 'in seiner', 'ein krankes', 'Praxis ein krankes']],
+  [['zwei freche Spatzen', 'picken', 'vor dem kleinen Café', 'die letzten Krümel'],
+    ['vor dem kleinen Café', 'die letzten Krümel', 'zwei freche', 'vor dem kleinen', 'die letzten', 'kleinen Café']],
+  [['unser Trainer', 'erklärt', 'der ganzen Mannschaft', 'vor dem Spiel', 'die neuen Regeln'],
+    ['unser Trainer', 'der ganzen Mannschaft', 'vor dem Spiel', 'die neuen Regeln', 'die neuen', 'ganzen Mannschaft']],
+  [['der dicke Kater', 'liegt', 'seit zwei Stunden', 'faul', 'auf der warmen Heizung'],
+    ['seit zwei Stunden', 'faul', 'auf der warmen Heizung', 'seit zwei', 'auf der warmen', 'Stunden faul']],
+  [['die ganze Klasse', 'fährt', 'in der nächsten Woche', 'mit dem Bus', 'ins Museum'],
+    ['die ganze Klasse', 'in der nächsten Woche', 'mit dem Bus', 'ins Museum', 'in der nächsten', 'der nächsten Woche']],
+  [['ein starker Wind', 'fegt', 'an diesem Herbsttag', 'bunte Blätter', 'durch die leeren Straßen'],
+    ['an diesem Herbsttag', 'bunte Blätter', 'durch die leeren Straßen', 'ein starker', 'durch die leeren', 'Blätter durch die']],
+  [['mein kleiner Cousin', 'malt', 'mit seinen neuen Stiften', 'einen bunten Regenbogen'],
+    ['mit seinen neuen Stiften', 'einen bunten Regenbogen', 'mein kleiner Cousin', 'mit seinen neuen', 'bunten Regenbogen', 'Stiften einen']],
+  [['der berühmte Detektiv', 'sucht', 'mit einer großen Lupe', 'nach geheimen Spuren'],
+    ['mit einer großen Lupe', 'nach geheimen Spuren', 'der berühmte Detektiv', 'einer großen Lupe', 'nach geheimen', 'der berühmte']],
+  [['die müden Wanderer', 'erreichen', 'nach einem langen Tag', 'endlich', 'die kleine Hütte'],
+    ['nach einem langen Tag', 'endlich', 'die kleine Hütte', 'die müden Wanderer', 'einem langen Tag', 'die kleine']]
+];
+
+const GAME = {
+  id: 'profi',
+  unit: 'Sätze',
+  next: null,
+  review: () => `<div class="review c1"><div class="col sg"><ul>${all.map(s =>
+    `<li>${s.parts.map((p, i) => i === 1 ? `<b>${p}</b>` : (i === 0 ? cap(p) : p)).join('<i>|</i>')}.</li>`).join('')}</ul></div></div>`
+};
+@@js
+/* ---------- Spiel: Satzanfang-Profi ---------- */
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const sentence = parts => cap(parts.join(' ')) + '.';
+const EMPTY = 'Tippe eine Karte an. Dann steht hier der Satz mit dieser Wortgruppe am Anfang.';
+let all = [], queue = [], cur = null;
+const candEl = i => $(`.cand[data-i="${i}"]`);
+const chosen = () => $$('.cand[aria-pressed="true"]').map(c => +c.dataset.i);
+
+/* Umstellprobe: die Wortgruppe wandert nach vorn, dann das Verb, dann alle übrigen Wörter */
+function probe(s, group) {
+  const words = s.parts.join(' ').split(' '), g = group.split(' '), vi = s.parts[0].split(' ').length;
+  let at = -1;
+  for (let i = 0; i + g.length <= words.length && at < 0; i++) if (g.every((w, k) => words[i + k] === w)) at = i;
+  const rest = words.filter((_, i) => i !== vi && (i < at || i >= at + g.length));
+  return `<b>${cap(group)}</b> ${words[vi]} ${rest.join(' ')}.`;
+}
+
+function startGame() {
+  all = SENTENCES.map(([parts, cands]) => ({ parts, cands, misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Tippe die Karten an und lies die Umstellprobe. Wähle alle Wortgruppen aus, bei denen der Satz richtig klingt.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  cur.order = shuffle(cur.cands.slice());
+  cur.right = cur.order.map((c, i) => i).filter(i => i !== undefined && cur.parts.includes(cur.order[i]) && cur.order[i] !== cur.parts[1]);
+  $('#base').textContent = sentence(cur.parts);
+  const p = $('#probe'); p.textContent = EMPTY; p.classList.add('empty');
+  $('#cands').innerHTML = cur.order.map((c, i) =>
+    `<button class="cand" data-i="${i}" aria-pressed="false">${c}<span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+}
+
+function showProbe(i) {
+  const p = $('#probe');
+  p.innerHTML = probe(cur, cur.order[i]); p.classList.remove('empty');
+}
+
+function toggle(i) {
+  const c = candEl(i);
+  if (state.busy || !cur || !c) return;
+  c.setAttribute('aria-pressed', String(c.getAttribute('aria-pressed') !== 'true'));
+  c.classList.remove('hint');
+  sfx.pick(); showProbe(i);
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const mine = chosen();
+  if (!mine.length) { say('Wähle zuerst die Karten aus, die allein am Satzanfang stehen können.'); return; }
+  const wrong = mine.filter(i => !cur.right.includes(i)), missing = cur.right.filter(i => !mine.includes(i));
+  if (wrong.length || missing.length) {
+    const hint = miss(cur, wrong.length ? candEl(wrong[0]) : $('#cands'));
+    if (wrong.length) showProbe(wrong[0]);
+    if (hint) {
+      wrong.forEach(i => candEl(i).setAttribute('aria-pressed', 'false'));
+      missing.forEach(i => candEl(i).classList.add('hint'));
+      say(`Tipp: Ein ganzes Satzglied kann allein vor dem Verb <span class="pill vb">${cur.parts[1]}</span> stehen. ` +
+        (missing.length ? 'Die leuchtenden Karten fehlen dir noch.' : 'Die falschen Karten habe ich abgewählt.'), 'think');
+    } else say(wrong.length ? `Fast! Lies die Umstellprobe mit <b>${cur.order[wrong[0]]}</b> noch einmal laut. Klingt der Satz richtig?`
+      : 'Fast! Alle ausgewählten Karten stimmen. Aber es gibt noch mehr ganze Satzglieder.', 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.cand').forEach(c => { c.classList.remove('hint'); c.classList.add(c.getAttribute('aria-pressed') === 'true' ? 'good' : 'off'); c.setAttribute('aria-pressed', 'false'); });
+  solve(cur, $('#cands'), 'der');
+  say(`${pick(PRAISE, 'praise')} ` + cur.parts.map((p, i) => `<span class="pill ${i === 1 ? 'vb' : 'sg'}">${i === 0 ? cap(p) : p}</span>`).join(' ') + '.', 'happy');
+  later(next, 2600);
+}
+
+$('#cands').addEventListener('click', e => {
+  const c = e.target.closest('.cand');
+  if (c) toggle(+c.dataset.i);
+});
+$('#check').addEventListener('click', check);
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-6]$/.test(e.key)) return;
+  toggle(+e.key - 1);
+});

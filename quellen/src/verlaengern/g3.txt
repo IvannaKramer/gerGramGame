@@ -1,0 +1,175 @@
+@@meta
+file: 3-verlaengerungs-memory.html
+title: Verlängerungs-Memory
+level: Anfänger
+nr: 3
+total: 15
+subtitle: Finde die Paare: Welche Verlängerung gehört zu welchem Wort mit Lücke?
+lead: So verrät dir die Verlängerung den fehlenden Buchstaben:
+id: memory
+desc: Finde die Paare aus Wort und Verlängerung.
+sample: 🖐️ Han_ + Hän·de
+drag: no
+@@tipp
+Jedes Wort mit Lücke hat einen Partner: seine <b>Verlängerung</b>. Bei Nomen ist das die Mehrzahl (Hand → Hän·de), bei Verben die Grundform (sie schreibt → schrei·ben). Adjektive kannst du steigern (klug → klü·ger).
+@@examples
+      <div class="ex pd" style="--tilt:-1.5deg"><div class="ex-head"><b>Nomen</b><span>Mehrzahl</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🖐️</span>Hän·<span class="a">d</span>e<span class="arrow" aria-hidden="true">▼</span>Han<span class="a">d</span></div></div>
+      <div class="ex pb" style="--tilt:1deg"><div class="ex-head"><b>Verb</b><span>Grundform</span></div><div class="ex-body"><span class="emo" aria-hidden="true">✍️</span>schrei·<span class="a">b</span>en<span class="arrow" aria-hidden="true">▼</span>sie schrei<span class="a">b</span>t</div></div>
+      <div class="ex pg" style="--tilt:-.5deg"><div class="ex-head"><b>Adjektiv</b><span>steigern</span></div><div class="ex-body"><span class="emo" aria-hidden="true">🦉</span>klü·<span class="a">g</span>er<span class="arrow" aria-hidden="true">▼</span>klu<span class="a">g</span></div></div>
+@@howto
+        <li>Tippe eine lila Karte an. Sie dreht sich um und zeigt ein Wort mit Lücke.</li>
+        <li>Tippe dann eine türkise Karte an. Sie zeigt eine Verlängerung.</li>
+        <li>Gehören beide zusammen? Dann bleibt das Paar offen und die Lücke wird gefüllt. Wenn nicht, drehen sich die Karten wieder um.</li>
+@@board
+    <p class="round" id="round">Runde 1 von 3</p>
+    <div class="memo" id="memo"></div>
+@@tray
+@@css
+/* ---------- Verlängerungs-Memory ---------- */
+.pb{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.pd{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.pg{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.hit{color:var(--c);background:var(--cs);border-radius:8px;padding:0 .08em}
+.gap{display:inline-block;width:.62em;border-bottom:3px solid currentColor;margin:0 1px}
+.kw{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.lw{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.memo{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:14px;perspective:1200px}
+@media (max-width:860px){.memo{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:520px){.memo{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}}
+.mcard{appearance:none;border:none;background:none;padding:0;height:clamp(124px,17vw,152px);cursor:pointer;border-radius:18px}
+.mcard .inner{position:relative;display:block;width:100%;height:100%;transition:transform .4s ease;transform-style:preserve-3d}
+.mcard.open .inner{transform:rotateY(180deg)}
+.mcard .back,.mcard .face{position:absolute;inset:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 4px 0 var(--cd),0 10px 18px var(--lift)}
+.mcard .back{background:var(--c);color:#fff}
+.mcard .back b{font-size:1.5rem;line-height:1.2}
+.mcard .back small{font-size:.95rem;font-weight:700;line-height:1.15;text-align:center}
+.mcard .face{background:var(--card);border:4px solid var(--c);transform:rotateY(180deg);padding:4px}
+.mcard .pic{font-size:clamp(1.7rem,4.4vw,2.5rem);line-height:1.15;white-space:nowrap;color:var(--c);font-weight:700}
+.mcard .word{font-weight:700;font-size:clamp(1.1rem,2.5vw,1.5rem);line-height:1.15;color:var(--ink);text-align:center}
+.mcard.found{cursor:default}
+.mcard.found .face{background:var(--cs)}
+@media (hover:hover){.mcard:not(.open):hover .inner{transform:translateY(-3px)}}
+@@data
+/* Aufbau: [Wort mit Lücke (_), fehlender Buchstabe, Bild, Verlängerung] – immer 5 Paare bilden eine Runde.
+   In der Verlängerung steht der gesuchte Buchstabe in eckigen Klammern, der Punkt trennt die Silben. */
+const WORDS = [
+  ['Urlau_',       'b', '🧳', 'Urlau·[b]e'],
+  ['hal_',         'b', '🍕', 'eine hal·[b]e Pizza'],
+  ['sie schrei_t', 'b', '✍️', 'schrei·[b]en'],
+  ['Mikrosko_',    'p', '🔬', 'Mikrosko·[p]e'],
+  ['Han_',         'd', '🖐️', 'Hän·[d]e'],
+  ['Ra_',          'd', '🚲', 'Rä·[d]er'],
+  ['Stran_',       'd', '🏖️', 'Strän·[d]e'],
+  ['Wel_',         't', '🌍', 'Wel·[t]en'],
+  ['Elefan_',      't', '🐘', 'Elefan·[t]en'],
+  ['lau_',         't', '🔊', 'lau·[t]er'],
+  ['Zwei_',        'g', '🌿', 'Zwei·[g]e'],
+  ['Ta_',          'g', '📅', 'Ta·[g]e'],
+  ['klu_',         'g', '🦉', 'klü·[g]er'],
+  ['Fabri_',       'k', '🏭', 'Fabri·[k]en'],
+  ['er trin_t',    'k', '🥛', 'trin·[k]en']
+];
+const PAIRS_PER_ROUND = 5;
+const PAIR = { b: 'pb', p: 'pb', d: 'pd', t: 'pd', g: 'pg', k: 'pg' };
+
+const GAME = {
+  id: 'memory',
+  next: { href: '4-welches-wort-hilft.html', title: 'Welches Wort hilft?' },
+  /* Sterne nach Versuchen: Jedes Paar braucht mindestens einen Versuch. */
+  stars: () => { const extra = tries - state.total; return extra <= 9 ? 3 : extra <= 18 ? 2 : 1; },
+  note: stars => stars === 3
+    ? `Du hast nur ${tries} Versuche gebraucht. Starkes Gedächtnis!`
+    : `Du hast ${tries} Versuche gebraucht. Spiel nochmal, dann findest du die Paare noch schneller!`,
+  review: () => {
+    const all = rounds.flat();
+    return `<div class="review">${[['pb', 'b oder p'], ['pd', 'd oder t'], ['pg', 'g oder k']].map(([p, h]) =>
+      `<div class="col ${p}"><h3>${h}</h3><ul>${all.filter(w => w.pair === p).map(w =>
+        `<li><span>${plainExt(w)} →</span> <b>${w.full}</b></li>`).join('')}</ul></div>`).join('')}</div>`;
+  }
+};
+@@js
+/* ---------- Spiel: Verlängerungs-Memory ---------- */
+const GAP = '<i class="gap"></i>';
+const KIND = { kw: 'Wort mit Lücke', lw: 'Verlängerung' };
+const BACK = { kw: 'Wort', lw: '↔' };
+const plainExt = w => w.ext.replace(/[\[\]]/g, '');
+const colorExt = w => w.ext.replace(/\[(.)\]/, `<b class="hit ${w.pair}">$1</b>`);
+const colorFull = w => w.gap.replace('_', `<b class="hit ${w.pair}">${w.l}</b>`);
+let rounds = [], round = 0, cards = [], open = [], tries = 0, left = 0;
+const closedLabel = c => `Karte ${KIND[c.kind]}, verdeckt`;
+const faceText = c => c.kind === 'kw' ? c.w.gap.replace('_', ' Lücke ') : plainExt(c.w);
+
+function startGame() {
+  const all = shuffle(WORDS.map((w, i) => ({ nr: i, gap: w[0], l: w[1], emoji: w[2], ext: w[3], pair: PAIR[w[1]], full: w[0].replace('_', w[1]), misses: 0 })));
+  rounds = [];
+  for (let i = 0; i < all.length; i += PAIRS_PER_ROUND) rounds.push(all.slice(i, i + PAIRS_PER_ROUND));
+  resetState(all.length);
+  round = 0; tries = 0;
+  startRound();
+  say('Dreh zwei Karten um: eine lila Karte und eine türkise. Passt die Verlängerung zum Wort?');
+  show('game');
+}
+
+function startRound() {
+  open = []; left = rounds[round].length;
+  cards = shuffle(rounds[round].flatMap(w => [{ w, kind: 'kw' }, { w, kind: 'lw' }]));
+  $('#round').textContent = `Runde ${round + 1} von ${rounds.length}`;
+  $('#memo').innerHTML = cards.map((c, i) => {
+    const text = c.kind === 'kw' ? c.w.gap.replace('_', GAP) : plainExt(c.w);
+    const pic = c.kind === 'kw' ? c.w.emoji : '↔';
+    return `<button class="mcard ${c.kind}" data-i="${i}" data-p="${c.w.nr}" aria-label="${closedLabel(c)}">
+      <span class="inner">
+        <span class="back" aria-hidden="true"><b>${BACK[c.kind]}</b><small>${c.kind === 'kw' ? 'mit Lücke' : 'Verlängerung'}</small></span>
+        <span class="face" aria-hidden="true"><span class="pic">${pic}</span><span class="word">${text}</span></span>
+      </span></button>`;
+  }).join('');
+}
+
+$('#memo').addEventListener('click', e => {
+  const el = e.target.closest('.mcard');
+  if (!el || state.busy) return;
+  const c = cards[+el.dataset.i];
+  if (c.open || c.found) return;
+  sfx.pick();
+  c.open = true;
+  el.classList.add('open');
+  el.setAttribute('aria-label', `${KIND[c.kind]}: ${faceText(c)}`);
+  open.push({ c, el });
+  if (open.length < 2) return;
+
+  tries++;
+  const [a, b] = open; open = [];
+  state.busy = true;
+  if (a.c.w === b.c.w) {
+    const w = a.c.w;
+    a.c.found = b.c.found = true;
+    later(() => {
+      [a, b].forEach(o => {
+        o.el.classList.add('found');
+        $('.word', o.el).innerHTML = o.c.kind === 'kw' ? colorFull(w) : colorExt(w);
+        o.el.setAttribute('aria-label', `Gefunden: ${o.c.kind === 'kw' ? w.full : plainExt(w)}`);
+      });
+      solve(w, b.el, 'bonus');
+      say(`${pick(PRAISE, 'praise')} ${colorExt(w)} → <span class="pill ${w.pair}">${w.full}</span> mit <b>${w.l}</b>.`, 'happy');
+      state.busy = false;
+      if (--left === 0) roundDone();
+    }, 450);
+  } else {
+    const same = a.c.kind === b.c.kind;
+    say(same
+      ? 'Das sind zwei Karten mit derselben Farbe. Dreh eine lila und eine türkise Karte um!'
+      : 'Das passt noch nicht. Merk dir, wo die Karten liegen!', 'think');
+    later(() => {
+      [a, b].forEach(o => { o.c.open = false; o.el.classList.remove('open'); o.el.setAttribute('aria-label', closedLabel(o.c)); });
+      state.busy = false;
+    }, 1700);
+  }
+});
+
+function roundDone() {
+  state.busy = true;
+  if (round < rounds.length - 1) {
+    later(() => { say('Runde geschafft! Hier kommen neue Karten.', 'happy'); round++; startRound(); state.busy = false; }, 1600);
+  } else later(finish, 1300);
+}

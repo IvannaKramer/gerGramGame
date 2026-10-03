@@ -1,0 +1,188 @@
+@@meta
+file: 6-verb-meister.html
+title: Verb-Meister
+level: Profis
+nr: 6
+total: 20
+subtitle: Jetzt schreibst du selbst! Wie heißen Präteritum und Perfekt von diesen starken Verben?
+lead: Bei diesen Verben wechselt der Vokal. Vier Muster helfen dir:
+id: meister
+desc: Schreibe Präteritum und Perfekt von unregelmäßigen Verben.
+sample: bleiben → blieb → ist geblieben
+drag: no
+@@tipp
+Manche Verben verändern in der Vergangenheit ihren <b>Vokal</b>: singen – sang – hat gesungen. Das Partizip endet bei ihnen auf <b>-en</b>. Viele Verben folgen dem gleichen Muster. Kennst du eins, kennst du viele!
+@@examples
+      <div class="ex grp" style="--tilt:-1.5deg"><div class="ex-head"><b>ei – ie – ie</b></div><div class="ex-body">bleiben<span class="e-pt">blieb</span><span class="e-pf">ist geblieben</span></div></div>
+      <div class="ex grp" style="--tilt:1deg"><div class="ex-head"><b>i – a – u</b></div><div class="ex-body">finden<span class="e-pt">fand</span><span class="e-pf">hat gefunden</span></div></div>
+      <div class="ex grp" style="--tilt:-.5deg"><div class="ex-head"><b>e – a – o</b></div><div class="ex-body">helfen<span class="e-pt">half</span><span class="e-pf">hat geholfen</span></div></div>
+@@howto
+        <li>Lies das Verb in der Grundform. Überlege: Welches Muster passt?</li>
+        <li><span>Schreibe das Präteritum in das grüne Feld und das Perfekt in das pinke Feld. Beim Perfekt gehört <b>hat</b> oder <b>ist</b> dazu.</span></li>
+        <li>Tippe auf „Prüfen“ oder drücke die Enter-Taste. Stimmt es noch nicht, bekommst du einen Tipp.</li>
+@@board
+    <div class="bench">
+      <p class="lbl">Grundform</p>
+      <p class="from" id="from"></p>
+      <form class="write" id="form" autocomplete="off">
+        <label class="pt" for="a1">Präteritum</label>
+        <input class="pt" id="a1" type="text" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" maxlength="24">
+        <label class="pf" for="a2">Perfekt</label>
+        <input class="pf" id="a2" type="text" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" maxlength="24" placeholder="hat … / ist …">
+      </form>
+      <div class="keys" id="keys" aria-label="Besondere Buchstaben">
+        <button type="button" class="keycap">ä</button><button type="button" class="keycap">ö</button><button type="button" class="keycap">ü</button><button type="button" class="keycap">ß</button>
+      </div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check" type="submit" form="form">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Verb-Meister ---------- */
+.pt{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.pf{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.grp{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.ex-head b{font-size:clamp(1rem,2.6vw,1.4rem)}
+.ex-body{font-size:clamp(1rem,2.5vw,1.45rem)}
+.ex-body .e-pt{display:block;color:var(--das)}
+.ex-body .e-pf{display:block;color:var(--die)}
+.bench .from{color:var(--ink);font-size:clamp(1.9rem,6vw,2.7rem);margin-bottom:12px}
+.write{display:grid;grid-template-columns:auto minmax(0,15em);justify-content:center;align-items:center;gap:12px 14px;font-weight:700;font-size:clamp(1.35rem,4vw,1.9rem)}
+.write label{justify-self:end;background:var(--c);color:#fff;border-radius:999px;padding:2px 16px;font-size:clamp(1rem,2.6vw,1.2rem)}
+.write input{font:inherit;color:var(--ink);background:var(--paper);border:3px solid var(--c);border-radius:14px;padding:4px 14px;width:100%;min-height:58px;text-align:left}
+.write input::placeholder{color:var(--ink-soft);opacity:.55;font-weight:400}
+.write input:focus{outline:none;box-shadow:0 0 0 4px var(--sun)}
+.write input.good{background:var(--cs);border-color:var(--cd)}
+.keys{display:flex;justify-content:center;gap:8px;margin-top:14px}
+.keycap{appearance:none;min-width:48px;min-height:48px;border:3px solid var(--card-edge);background:var(--card);border-radius:12px;font-weight:700;font-size:1.3rem;cursor:pointer;box-shadow:0 3px 0 var(--card-edge)}
+.keycap:active{transform:translateY(2px);box-shadow:0 1px 0 var(--card-edge)}
+@media (max-width:520px){.write{grid-template-columns:minmax(0,1fr);gap:4px}.write label{justify-self:start;margin-top:6px}}
+.review li{font-size:1.02rem;font-weight:400}
+.review li b{font-weight:700}
+@@data
+/* Aufbau: [Grundform, Präteritum, Perfekt, Muster] – die Muster stehen darunter */
+const VERBS = [
+  ['bleiben',   'blieb',   'ist geblieben',    'ei'],
+  ['schreiben', 'schrieb', 'hat geschrieben',  'ei'],
+  ['steigen',   'stieg',   'ist gestiegen',    'ei'],
+  ['scheinen',  'schien',  'hat geschienen',   'ei'],
+  ['leihen',    'lieh',    'hat geliehen',     'ei'],
+  ['finden',    'fand',    'hat gefunden',     'i'],
+  ['singen',    'sang',    'hat gesungen',     'i'],
+  ['trinken',   'trank',   'hat getrunken',    'i'],
+  ['sinken',    'sank',    'ist gesunken',     'i'],
+  ['binden',    'band',    'hat gebunden',     'i'],
+  ['helfen',    'half',    'hat geholfen',     'e'],
+  ['nehmen',    'nahm',    'hat genommen',     'e'],
+  ['sprechen',  'sprach',  'hat gesprochen',   'e'],
+  ['treffen',   'traf',    'hat getroffen',    'e'],
+  ['werfen',    'warf',    'hat geworfen',     'e'],
+  ['verlieren', 'verlor',  'hat verloren',     'ie'],
+  ['schließen', 'schloss', 'hat geschlossen',  'ie'],
+  ['gießen',    'goss',    'hat gegossen',     'ie'],
+  ['riechen',   'roch',    'hat gerochen',     'ie'],
+  ['schieben',  'schob',   'hat geschoben',    'ie']
+];
+/* Aufbau: Kürzel: [Überschrift, Tipp nach zwei Fehlversuchen] */
+const RULES = {
+  ei: ['ei – ie – ie', 'Tipp: Aus <b>ei</b> wird <b>ie</b>, im Präteritum und im Perfekt. So wie bei: schweigen – schwieg – hat geschwiegen.'],
+  i:  ['i – a – u',    'Tipp: Aus <b>i</b> wird im Präteritum <b>a</b> und im Perfekt <b>u</b>. So wie bei: klingen – klang – hat geklungen.'],
+  e:  ['e – a – o',    'Tipp: Aus <b>e</b> wird im Präteritum <b>a</b> und im Perfekt <b>o</b>. So wie bei: stehlen – stahl – hat gestohlen.'],
+  ie: ['ie – o – o',   'Tipp: Aus <b>ie</b> wird <b>o</b>, im Präteritum und im Perfekt. So wie bei: schießen – schoss – hat geschossen.']
+};
+
+const GAME = {
+  id: 'meister',
+  unit: 'Verben',
+  next: null,
+  review: () => `<div class="review c2">${Object.keys(RULES).map(k =>
+    `<div class="col grp"><h3>${RULES[k][0]}</h3><ul>${all.filter(w => w.k === k).map(w =>
+      `<li>${w.gf} – <b class="pt">${w.pt}</b> – <b class="pf">${w.pf}</b></li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Verb-Meister ---------- */
+let all = [], queue = [], cur = null;
+const in1 = $('#a1'), in2 = $('#a2');
+let lastInput = in1;
+const clean = el => el.value.trim().replace(/\s+/g, ' ').replace(/^(er|sie|es) /i, '');
+
+function startGame() {
+  all = VERBS.map(w => ({ gf: w[0], pt: w[1], pf: w[2], k: w[3], misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Schreibe das Präteritum und das Perfekt. Überlege zuerst: Wie wechselt der Vokal?');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  cur.ok1 = cur.ok2 = false;
+  $('#from').textContent = cur.gf;
+  [in1, in2].forEach(i => { i.value = ''; i.readOnly = false; i.classList.remove('good'); });
+  lastInput = in1;
+  in1.focus({ preventScroll: true });
+}
+
+function lock(input, text) { input.value = text; input.readOnly = true; input.classList.add('good'); }
+
+function check() {
+  if (state.busy || !cur) return;
+  const v1 = clean(in1), v2 = clean(in2);
+  if ((!cur.ok1 && !v1) || (!cur.ok2 && !v2)) {
+    say('Fülle zuerst beide Felder aus: Präteritum und Perfekt.');
+    (!cur.ok1 && !v1 ? in1 : in2).focus();
+    return;
+  }
+  const part = cur.pf.split(' ')[1];
+  let soft = '', wrong = [], auxOnly = false;
+  if (!cur.ok1) {
+    if (v1 === cur.pt) { cur.ok1 = true; lock(in1, cur.pt); }
+    else if (v1.toLowerCase() === cur.pt) soft = 'Fast richtig! Denk daran: Verben schreibt man klein.';
+    else wrong.push(in1);
+  }
+  if (!cur.ok2) {
+    if (v2 === cur.pf) { cur.ok2 = true; lock(in2, cur.pf); }
+    else if (v2.toLowerCase() === cur.pf) soft = 'Fast richtig! Denk daran: Verben schreibt man klein.';
+    else if (v2.toLowerCase() === part) soft = 'Das Partizip stimmt! Im Perfekt fehlt aber noch <b>hat</b> oder <b>ist</b> davor.';
+    else { wrong.push(in2); auxOnly = /^(hat|ist) /.test(v2) && v2.split(' ')[1] === part; }
+  }
+  if (cur.ok1 && cur.ok2) {
+    state.busy = true;
+    solve(cur, in2, 'die');
+    say(`${pick(PRAISE, 'praise')} <b>${cur.gf}</b> – <span class="pill pt">${cur.pt}</span> – <span class="pill pf">${cur.pf}</span>`, 'happy');
+    later(next, 2100);
+    return;
+  }
+  if (!wrong.length) {
+    wobble(cur.ok1 ? in2 : in1);
+    say(soft, 'think');
+    (cur.ok1 ? in2 : in1).focus();
+    return;
+  }
+  miss(cur, wrong[0]);
+  if (wrong.length > 1) wobble(wrong[1]);
+  const which = wrong.length > 1 ? 'Beide Formen stimmen noch nicht.'
+    : wrong[0] === in1 ? 'Das Perfekt passt. Schau dir das Präteritum noch einmal an.'
+    : auxOnly ? 'Das Partizip stimmt schon. Aber heißt es <b>hat</b> oder <b>ist</b>?'
+    : (cur.ok1 ? 'Das Präteritum stimmt schon. ' : '') + 'Schau dir das Perfekt noch einmal an.';
+  say(cur.misses === 1 ? `Fast! ${which}`
+    : cur.misses === 2 ? RULES[cur.k][1]
+    : `So ist es richtig: <span class="pill pt">${cur.pt}</span> <span class="pill pf">${cur.pf}</span> Schreibe die Formen genau so ab.`, 'think');
+  wrong[0].focus();
+}
+
+$('#form').addEventListener('submit', e => { e.preventDefault(); check(); });
+[in1, in2].forEach(i => i.addEventListener('focus', () => { lastInput = i; }));
+$('#keys').addEventListener('click', e => {
+  const k = e.target.closest('.keycap');
+  const input = lastInput;
+  if (!k || input.readOnly) return;
+  const a = input.selectionStart ?? input.value.length, b = input.selectionEnd ?? a;
+  input.value = input.value.slice(0, a) + k.textContent + input.value.slice(b);
+  input.focus();
+  input.setSelectionRange(a + 1, a + 1);
+});

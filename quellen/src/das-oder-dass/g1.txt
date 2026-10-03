@@ -1,0 +1,149 @@
+@@meta
+file: 1-proben-lupe.html
+title: Proben-Lupe
+level: Anfänger
+nr: 1
+total: 15
+subtitle: das oder dass? Der Probe-Satz mit „dieses“ oder „welches“ verrät es dir.
+lead: das ist im Spiel grün, dass ist lila:
+id: lupe
+desc: Lies den Probe-Satz und entscheide: das oder dass?
+sample: Ich lese ___ Buch. → das
+drag: no
+@@tipp
+Mach die Probe: Setze <b>dieses</b> oder <b>welches</b> in die Lücke. Klingt der Satz richtig? Dann schreibst du <b>das</b>. Klingt er falsch? Dann schreibst du <b>dass</b>.
+@@examples
+      <div class="ex das" style="--tilt:-1.5deg"><div class="ex-head"><b>das</b><span>Probe passt</span></div><div class="ex-body">Ich lese <span class="a">das</span> Buch.<span class="pr">Probe: dieses Buch</span></div></div>
+      <div class="ex dass" style="--tilt:1deg"><div class="ex-head"><b>dass</b><span>Probe passt nicht</span></div><div class="ex-body">Ich hoffe, <span class="a">dass</span> du kommst.<span class="pr">Probe: dieses du kommst?</span></div></div>
+      <div class="ex das" style="--tilt:-.5deg"><div class="ex-head"><b>das</b><span>Probe passt</span></div><div class="ex-body">ein Tier, <span class="a">das</span> bellt<span class="pr">Probe: welches bellt</span></div></div>
+@@howto
+        <li><span>Lies den Satz mit der Lücke.</span></li>
+        <li><span>Lies dann den Probe-Satz darunter leise vor. In der Lücke steht jetzt „dieses“ oder „welches“.</span></li>
+        <li><span>Klingt der Probe-Satz richtig? Dann tippe auf <b>das</b>. Klingt er falsch? Dann tippe auf <b>dass</b>.</span></li>
+@@board
+    <div class="bench">
+      <p class="bpic" id="pic" aria-hidden="true"></p>
+      <p class="sentence" id="sentence"></p>
+      <div class="probe">
+        <span class="probe-tag"><span aria-hidden="true">🔍</span> Probe</span>
+        <p class="probe-s" id="probe"></p>
+        <p class="probe-q">Klingt dieser Satz richtig?</p>
+      </div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="tiles" id="tiles">
+        <button class="tile das" data-k="das" aria-label="das: Die Probe klingt richtig."><b>das</b><small>Die Probe klingt richtig.</small><span class="kbd" aria-hidden="true">1</span></button>
+        <button class="tile dass" data-k="dass" aria-label="dass: Die Probe klingt falsch."><b>dass</b><small>Die Probe klingt falsch.</small><span class="kbd" aria-hidden="true">2</span></button>
+      </div>
+    </div>
+@@css
+/* ---------- das oder dass: gemeinsame Farben ---------- */
+.dass{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.ex-body .pr{display:block;font-weight:400;font-size:.8em;color:var(--ink-soft);margin-top:6px}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.5}
+.gap{display:inline-block;min-width:2.6em;padding:0 .3em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);line-height:1.25;text-align:center}
+.gap.filled{border-style:solid;border-color:var(--c);background:var(--c);color:#fff;min-width:0;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.3rem;color:var(--c)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,3vw,28px);max-width:720px;margin:0 auto}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:clamp(76px,10vw,96px);padding:6px 8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(1.6rem,4.4vw,2.2rem);line-height:1.1}
+.tile small{font-size:clamp(.85rem,2.2vw,1.05rem);line-height:1.15}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+/* ---------- Proben-Lupe ---------- */
+.bpic{margin:0;font-size:clamp(2.2rem,6vw,3rem);line-height:1.2}
+.probe{position:relative;margin:22px auto 0;max-width:640px;background:var(--sun-soft);border:3px solid var(--sun);border-radius:18px;padding:20px 14px 10px}
+.probe-tag{position:absolute;top:-17px;left:16px;background:var(--sun);color:var(--on-sun);font-family:var(--f-display);font-weight:800;padding:2px 14px;border-radius:999px;transform:rotate(-2deg)}
+.probe-s{margin:0;font-size:clamp(1.5rem,3.6vw,1.8rem);line-height:1.4}
+.probe-s mark{background:var(--card);color:var(--ink);font-weight:700;border-bottom:4px solid var(--sun);border-radius:8px;padding:0 .2em}
+.probe-q{margin:6px 0 0;color:var(--ink-soft);font-size:1.05rem;font-weight:700}
+@@data
+/* Aufbau: [Satz mit Lücke ___, Lösung (das, Das oder dass), Probewort für die Lücke, Bild]
+   Probewort: „dieses“ für Artikel und Pronomen, „welches“ nach einem Komma. Bei dass klingt die Probe immer falsch. */
+const SENTENCES = [
+  ['Ich lese ___ Buch über Pferde.',           'das',  'dieses',  '📖'],
+  ['___ Mädchen malt ein Bild.',               'Das',  'Dieses',  '🎨'],
+  ['Leo füttert ___ Kaninchen.',               'das',  'dieses',  '🐇'],
+  ['___ schmeckt mir sehr gut.',               'Das',  'Dieses',  '🍝'],
+  ['Dort steht ein Fahrrad, ___ ich mir wünsche.', 'das', 'welches', '🚲'],
+  ['Wir haben ein Zelt, ___ sehr groß ist.',   'das',  'welches', '⛺'],
+  ['Tom hat ein Pferd, ___ Blitz heißt.',      'das',  'welches', '🐴'],
+  ['Ich hoffe, ___ du bald kommst.',           'dass', 'dieses',  '🤞'],
+  ['Mama sagt, ___ wir jetzt essen.',          'dass', 'welches', '🍽️'],
+  ['Ich weiß, ___ du gut schwimmen kannst.',   'dass', 'dieses',  '🏊'],
+  ['Papa glaubt, ___ es heute regnet.',        'dass', 'welches', '☔'],
+  ['Wir freuen uns, ___ bald Ferien sind.',    'dass', 'dieses',  '🏖️'],
+  ['Schön, ___ du da bist!',                   'dass', 'welches', '🤗'],
+  ['Oma wünscht sich, ___ wir sie besuchen.',  'dass', 'welches', '👵'],
+  ['Ich finde es toll, ___ ihr mitspielt.',    'dass', 'dieses',  '⚽']
+];
+
+const GAME = {
+  id: 'lupe',
+  unit: 'Sätze',
+  next: { href: '2-zwei-koerbe.html', title: 'Zwei Körbe' },
+  review: () => `<div class="review c2">${['das', 'dass'].map(k =>
+    `<div class="col ${k}"><h3>${k}</h3><ul>${all.filter(s => s.k === k).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Proben-Lupe ---------- */
+const COLOR = { das: 'das', dass: 'bonus' };
+let all = [], queue = [], cur = null;
+const tileEl = k => $(`.tile[data-k="${k}"]`);
+const full = s => s.text.replace('___', `<b class="w ${s.k}">${s.ans}</b>`);
+const probeText = s => s.text.replace('___', `<b>${s.probe}</b>`);
+
+function startGame() {
+  all = SENTENCES.map(s => ({ text: s[0], ans: s[1], probe: s[2], emoji: s[3], k: s[1].toLowerCase(), misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Lies den Satz mit der Lücke. Lies dann den Probe-Satz leise vor. Klingt er richtig?');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $$('.tile').forEach(t => t.classList.remove('hint'));
+  $('#pic').textContent = cur.emoji;
+  $('#sentence').innerHTML = cur.text.replace('___', '<span class="gap" id="gap">?</span>');
+  $('#probe').innerHTML = cur.text.replace('___', `<mark>${cur.probe}</mark>`);
+}
+
+function choose(k) {
+  if (state.busy || !cur) return;
+  if (k !== cur.k) {
+    const hint = miss(cur, tileEl(k));
+    if (hint) tileEl(cur.k).classList.add('hint');
+    say(!hint ? pick(['Fast! Lies den Probe-Satz noch einmal leise vor.', 'Hmm, das passt noch nicht. Hör genau hin: Klingt der Probe-Satz richtig?'], 'retry')
+      : cur.k === 'das'
+        ? `Tipp: Der Probe-Satz klingt richtig: „${probeText(cur)}“ Dann schreibst du <b>das</b> mit einem s.`
+        : `Tipp: Der Probe-Satz klingt falsch: „${probeText(cur)}“ So spricht niemand! Dann schreibst du <b>dass</b> mit zwei s.`, 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.tile').forEach(t => t.classList.remove('hint'));
+  const gap = $('#gap');
+  gap.textContent = cur.ans; gap.className = 'gap filled ' + k;
+  solve(cur, gap, COLOR[k]);
+  say(`${pick(PRAISE, 'praise')} ${k === 'das' ? `„${cur.probe}“ passt.` : `„${cur.probe}“ passt nicht.`} Also <span class="pill ${k}">${k}</span>: ${full(cur)}`, 'happy');
+  later(next, 2400);
+}
+
+$('#tiles').addEventListener('click', e => {
+  const t = e.target.closest('.tile');
+  if (t) choose(t.dataset.k);
+});
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[12]$/.test(e.key)) return;
+  choose(e.key === '1' ? 'das' : 'dass');
+});

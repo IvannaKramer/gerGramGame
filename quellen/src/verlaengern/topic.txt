@@ -1,0 +1,10 @@
+@@meta
+slug: verlaengern
+title: Verlängern: b oder p, d oder t, g oder k?
+subtitle: Sechs Spiele rund um den Verlängerungs-Trick. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Bildern und mit Hilfe beim Verlängern. Je 15 Wörter.
+lead2: Ohne Bilder: Du verlängerst selbst. Je 20 Aufgaben.
+lead3: Fehler finden und Wörter selbst schreiben. 20 Sätze.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Wörtern, dazu die Lösungen.
+@@tipp
+Am Wortende klingt <b>b</b> wie p, <b>d</b> wie t und <b>g</b> wie k. Der Trick: <b>Verlängere</b> das Wort! Dann hörst du den richtigen Buchstaben: der Hund → die Hun·<b>d</b>e, er fragt → fra·<b>g</b>en, gelb → gel·<b>b</b>e Zitronen.

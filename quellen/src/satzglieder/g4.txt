@@ -1,0 +1,167 @@
+@@meta
+file: 4-satz-schere.html
+title: Satz-Schere
+level: Fortgeschrittene
+nr: 4
+total: 20
+subtitle: Zerschneide den Satz in seine Satzglieder. Wo musst du schneiden?
+lead: So sieht ein fertig zerschnittener Satz aus:
+id: schere
+desc: Schneide den Satz in Satzglieder.
+sample: Meine Oma ✂ strickt ✂ warme Socken.
+drag: no
+@@tipp
+Mach im Kopf die <b>Umstellprobe</b>: Welche Wörter wandern nur gemeinsam nach vorn? Sie sind zusammen ein Satzglied. Das <b>Verb</b> ist immer ein eigenes Satzglied. Davor und dahinter kommt also ein Schnitt.
+@@examples
+      <div class="ex sg" style="--tilt:-1.5deg"><div class="ex-head"><b>Satzglied</b></div><div class="ex-body"><span class="a">Meine Oma</span></div></div>
+      <div class="ex vb" style="--tilt:1deg"><div class="ex-head"><b>Verb</b></div><div class="ex-body"><span class="a">strickt</span></div></div>
+      <div class="ex sg" style="--tilt:-.5deg"><div class="ex-head"><b>Satzglied</b></div><div class="ex-body"><span class="a">warme Socken.</span></div></div>
+@@howto
+        <li>Lies den Satz und stelle ihn im Kopf um. Welche Wörter bleiben zusammen?</li>
+        <li>Tippe auf die Lücke zwischen zwei Wörtern. Dort schneidet die Schere. Tippst du noch einmal, verschwindet der Schnitt wieder.</li>
+        <li>Hast du alle Schnitte gesetzt? Dann tippe auf „Prüfen“.</li>
+@@board
+    <div class="bench">
+      <p class="lbl">Tippe auf die Lücken, an denen ein Satzglied aufhört:</p>
+      <div class="cut" id="cut"></div>
+      <p class="help" id="count" aria-live="polite"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Satz-Schere ---------- */
+.sg{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.vb{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.ex-body{font-size:clamp(1.05rem,2.8vw,1.5rem)}
+.bubble .pill{margin:2px 0}
+.also{display:block;color:var(--ink-soft);margin-top:4px}
+.review.c1{grid-template-columns:1fr}
+.review li{font-weight:400;font-size:1.1rem;line-height:1.35;padding:2px 0}
+.review li b{color:var(--die)}
+.review li i{font-style:normal;color:var(--ink-soft);padding:0 .3em}
+.cut{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 0;margin:10px 0 4px;font-weight:700;font-size:clamp(1.5rem,3.6vw,2rem);line-height:1.2}
+.unit{display:inline-flex;align-items:center;white-space:nowrap}
+.gap{appearance:none;border:none;background:none;position:relative;width:48px;height:64px;padding:0;cursor:pointer;border-radius:12px;flex:none}
+.gap::before{content:"";position:absolute;left:50%;top:10px;bottom:10px;border-left:3px dotted var(--ink-soft);opacity:.55;transform:translateX(-50%)}
+.gap::after{content:"✂";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:1.3rem;line-height:1;color:var(--ink-soft);opacity:.6}
+@media (hover:hover){.gap:hover{background:var(--sun-soft)}}
+.gap[aria-pressed="true"]{background:var(--sun-soft)}
+.gap[aria-pressed="true"]::before{border-left:4px solid var(--sun-deep);top:2px;bottom:2px;opacity:1}
+.gap[aria-pressed="true"]::after{opacity:1;color:var(--ink);background:var(--sun-soft);padding:3px 0}
+.gap.hint{animation:glow 1.1s ease-in-out infinite}
+.chip{display:inline-block;border:3px solid var(--c);background:var(--cs);border-radius:12px;padding:3px 12px;margin:4px 3px;color:var(--ink)}
+@media (max-width:520px){.gap{width:40px}}
+@@data
+/* Aufbau: die Satzglieder eines Satzes in der normalen Reihenfolge, das Verb an zweiter Stelle.
+   Schreibe jedes Satzglied so, wie es mitten im Satz steht (also „der Koch“, nicht „Der Koch“).
+   Zwischen zwei Satzgliedern muss das Kind einen Schnitt setzen. */
+const SENTENCES = [
+  ['der Briefträger', 'bringt', 'heute', 'eine Postkarte'],
+  ['meine Oma', 'strickt', 'warme Socken'],
+  ['die Schüler', 'schreiben', 'morgen', 'einen Test'],
+  ['der Koch', 'schneidet', 'das Gemüse', 'in kleine Stücke'],
+  ['unsere Katze', 'schläft', 'oft', 'auf dem Sofa'],
+  ['der Clown', 'zeigt', 'einen tollen Trick'],
+  ['die Vögel', 'fliegen', 'im Herbst', 'gemeinsam', 'in den Süden'],
+  ['Leon', 'putzt', 'jeden Abend', 'gründlich', 'seine Zähne'],
+  ['das Mädchen', 'wirft', 'einen Schneeball', 'über den Zaun'],
+  ['der Hausmeister', 'öffnet', 'um sieben Uhr', 'das Tor'],
+  ['die Ärztin', 'hilft', 'dem kranken Kind'],
+  ['viele Leute', 'warten', 'an der Haltestelle', 'auf den Bus'],
+  ['Sophie', 'leiht', 'ihrem Bruder', 'heute', 'einen Stift'],
+  ['der Mond', 'leuchtet', 'in der Nacht', 'hell'],
+  ['die Fans', 'jubeln', 'nach dem Tor', 'laut'],
+  ['mein Vater', 'grillt', 'heute', 'im Garten', 'Würstchen'],
+  ['der Pirat', 'vergräbt', 'auf der Insel', 'einen Schatz'],
+  ['die Lehrerin', 'diktiert', 'der Klasse', 'deutlich', 'einen Satz'],
+  ['zwei Affen', 'klettern', 'flink', 'auf den Baum'],
+  ['das Flugzeug', 'landet', 'in München']
+];
+
+const GAME = {
+  id: 'schere',
+  unit: 'Sätze',
+  next: { href: '5-neuer-satzanfang.html', title: 'Neuer Satzanfang' },
+  review: () => {
+    const li = s => `<li>${s.parts.map((p, i) => i === 1 ? `<b>${p}</b>` : (i === 0 ? cap(p) : p)).join('<i>|</i>')}.</li>`;
+    const half = Math.ceil(all.length / 2);
+    return `<div class="review c2"><div class="col sg"><ul>${all.slice(0, half).map(li).join('')}</ul></div>
+      <div class="col sg"><ul>${all.slice(half).map(li).join('')}</ul></div></div>`;
+  }
+};
+@@js
+/* ---------- Spiel: Satz-Schere ---------- */
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const sentence = parts => cap(parts.join(' ')) + '.';
+let all = [], queue = [], cur = null;
+const gapEl = i => $(`.gap[data-i="${i}"]`);
+const cuts = () => $$('.gap[aria-pressed="true"]').map(g => +g.dataset.i);
+
+function startGame() {
+  all = SENTENCES.map(p => {
+    const words = p.join(' ').split(' ');
+    /* Schnittstellen: nach dem wievielten Wort hört ein Satzglied auf? */
+    const ends = []; let n = 0;
+    p.slice(0, -1).forEach(part => { n += part.split(' ').length; ends.push(n - 1); });
+    return { parts: p, words, ends, misses: 0 };
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Wo hört ein Satzglied auf? Tippe auf die Lücken und schneide den Satz in Satzglieder.');
+  show('game');
+  next();
+}
+
+function showCount() {
+  const n = cuts().length + 1;
+  $('#count').textContent = n === 1 ? 'Noch kein Schnitt.' : `Du hast den Satz in ${n} Teile geschnitten.`;
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#cut').innerHTML = cur.words.map((w, i) => {
+    const word = i === 0 ? cap(w) : w, last = i === cur.words.length - 1;
+    return `<span class="unit"><span class="w">${word}${last ? '.' : ''}</span>` +
+      (last ? '' : `<button class="gap" data-i="${i}" aria-pressed="false" aria-label="Schnitt nach ${word}"></button>`) + '</span>';
+  }).join('');
+  showCount();
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const mine = cuts();
+  if (!mine.length) { say('Setze zuerst deine Schnitte. Tippe dazu auf die Lücken zwischen den Wörtern.'); return; }
+  const wrong = mine.filter(i => !cur.ends.includes(i)), missing = cur.ends.filter(i => !mine.includes(i));
+  if (wrong.length || missing.length) {
+    const hint = miss(cur, $('#cut'));
+    if (hint) {
+      wrong.forEach(i => gapEl(i).setAttribute('aria-pressed', 'false'));
+      missing.forEach(i => gapEl(i).classList.add('hint'));
+      showCount();
+      say(`Tipp: Das Verb <span class="pill vb">${cur.parts[1]}</span> ist ein eigenes Satzglied. ` +
+        (missing.length ? 'An den leuchtenden Stellen fehlt noch ein Schnitt.' : 'Die falschen Schnitte habe ich weggenommen.'), 'think');
+    } else say(wrong.length ? 'Fast! Ein Schnitt trennt Wörter, die zusammengehören. Mach die Umstellprobe!'
+      : 'Fast! Da fehlt noch ein Schnitt. Welche Wörter können allein nach vorn wandern?', 'think');
+    return;
+  }
+  state.busy = true;
+  $('#cut').innerHTML = cur.parts.map((p, i) => `<span class="chip ${i === 1 ? 'vb' : 'sg'}">${i === 0 ? cap(p) : p}</span>`).join('') + '.';
+  $('#count').textContent = `${cur.parts.length} Satzglieder`;
+  solve(cur, $('#cut'), 'der');
+  const n = cur.parts.length, probe = [n - 1, 1, 0, ...cur.parts.map((_, i) => i).filter(i => i > 1 && i < n - 1)];
+  say(`${pick(PRAISE, 'praise')} Der Satz hat <b>${n} Satzglieder</b>.<span class="also">Umstellprobe: ${sentence(probe.map(i => cur.parts[i]))}</span>`, 'happy');
+  later(next, 2600);
+}
+
+$('#cut').addEventListener('click', e => {
+  const g = e.target.closest('.gap');
+  if (!g || state.busy) return;
+  g.setAttribute('aria-pressed', String(g.getAttribute('aria-pressed') !== 'true'));
+  g.classList.remove('hint');
+  sfx.pick(); showCount();
+});
+$('#check').addEventListener('click', check);

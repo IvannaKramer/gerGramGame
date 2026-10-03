@@ -1,0 +1,820 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Satzanfang-Profi: Satzglieder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Grandstander:wght@600;800&display=swap">
+<style>
+:root{
+  --f-display:'Grandstander','Trebuchet MS','Segoe UI',system-ui,sans-serif;
+  --f-text:'Andika','Segoe UI','Helvetica Neue',Arial,sans-serif;
+  --on-sun:#2A2308;
+
+  --paper:#F5F9FD; --rule:#D5E3F1; --ink:#22304A; --ink-soft:#56657F;
+  --card:#FFFFFF; --card-edge:#D9E1EB; --lift:rgba(34,48,74,.14);
+  --sun:#FFB627; --sun-deep:#D98E00; --sun-soft:#FFF2CF;
+  --der:#2B6BE0; --der-deep:#1C4DA8; --der-soft:#E4EDFF;
+  --die:#DE3A76; --die-deep:#A8285A; --die-soft:#FFE4EE;
+  --das:#1A8C4B; --das-deep:#116536; --das-soft:#DCF3E5;
+  --owl:#8A5A3B; --owl-wing:#6E4630; --owl-belly:#EBCDA5;
+  --bubble:#FFFFFF;
+  --bonus:#7A4FD8; --bonus-deep:#5B34B0; --bonus-soft:#EEE7FF;
+  --sky-top:#D3E7FF; --sky-bot:#F3F8FF; --cloud:#FFFFFF;
+  --ground:#EBD9B4; --ground-edge:#D2B77F;
+  --block:#F5DFAE; --block-edge:#D6AE5E;
+  --scrim:rgba(245,249,253,.9);
+  color-scheme:light;
+
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#161D2E; --rule:#222C42; --ink:#EEF2FA; --ink-soft:#A6B2C8;
+    --card:#222C43; --card-edge:#34405B; --lift:rgba(0,0,0,.45);
+    --sun:#FFC247; --sun-deep:#C98A00; --sun-soft:#3E3217;
+    --der:#3F7DEB; --der-deep:#2456B8; --der-soft:#1B2A4D;
+    --die:#E74E86; --die-deep:#B03062; --die-soft:#43192C;
+    --das:#23A05A; --das-deep:#157040; --das-soft:#163826;
+    --owl:#9C6A48; --owl-wing:#7A5036; --owl-belly:#E6C79E;
+    --bubble:#26314B;
+    --bonus:#9D7FF0; --bonus-deep:#6E4FCC; --bonus-soft:#2E2650;
+    --sky-top:#1A2542; --sky-bot:#253360; --cloud:#34436A;
+    --ground:#4A3F2A; --ground-edge:#6B5A38;
+    --block:#5A4A2C; --block-edge:#8A7240;
+    --scrim:rgba(22,29,46,.92);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#161D2E; --rule:#222C42; --ink:#EEF2FA; --ink-soft:#A6B2C8;
+  --card:#222C43; --card-edge:#34405B; --lift:rgba(0,0,0,.45);
+  --sun:#FFC247; --sun-deep:#C98A00; --sun-soft:#3E3217;
+  --der:#3F7DEB; --der-deep:#2456B8; --der-soft:#1B2A4D;
+  --die:#E74E86; --die-deep:#B03062; --die-soft:#43192C;
+  --das:#23A05A; --das-deep:#157040; --das-soft:#163826;
+  --owl:#9C6A48; --owl-wing:#7A5036; --owl-belly:#E6C79E;
+  --bubble:#26314B;
+  --bonus:#9D7FF0; --bonus-deep:#6E4FCC; --bonus-soft:#2E2650;
+  --sky-top:#1A2542; --sky-bot:#253360; --cloud:#34436A;
+  --ground:#4A3F2A; --ground-edge:#6B5A38;
+  --block:#5A4A2C; --block-edge:#8A7240;
+  --scrim:rgba(22,29,46,.92);
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{
+  margin:0; color:var(--ink); font-family:var(--f-text); font-size:1.15rem; line-height:1.5;
+  background-color:var(--paper);
+  background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);
+  -webkit-tap-highlight-color:transparent;
+}
+button{font:inherit;color:inherit}
+:focus-visible{outline:4px solid var(--sun);outline-offset:4px}
+:focus:not(:focus-visible){outline:none}
+
+.der{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.die{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.das{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:20px clamp(14px,3vw,32px) 28px}
+.screen{display:none}
+.screen.active{display:block}
+
+/* ---------- Eule ---------- */
+.owl{display:block;transition:transform .25s ease}
+.owl .eyes-happy{display:none}
+.owl.happy .eyes-open{display:none}
+.owl.happy .eyes-happy{display:inline}
+.owl.happy{animation:hop .5s ease}
+.owl.think{transform:rotate(-9deg)}
+@keyframes hop{0%,100%{transform:translateY(0)}40%{transform:translateY(-12px)}}
+
+/* ---------- Startseite ---------- */
+.hero{display:flex;align-items:center;gap:clamp(12px,3vw,28px);margin:6px 0 24px}
+.hero .owl{width:clamp(88px,14vw,132px);flex:none}
+.title{font-family:var(--f-display);font-weight:800;font-size:clamp(2.4rem,7vw,4.2rem);line-height:1;margin:0 0 10px;letter-spacing:-.01em}
+.subtitle{margin:0;font-size:clamp(1.15rem,2.4vw,1.45rem);color:var(--ink-soft);max-width:34ch}
+
+.section-lead{font-weight:700;margin:0 0 10px;font-size:1.2rem}
+.legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,2.4vw,24px);margin:0 0 30px}
+.ex{background:var(--card);border-radius:18px;overflow:hidden;text-align:center;
+  box-shadow:0 4px 0 var(--card-edge),0 10px 20px var(--lift);transform:rotate(var(--tilt,0deg))}
+.ex-head{background:var(--c);color:#fff;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:2px 10px;padding:8px 10px}
+.ex-head b{font-size:1.5rem;line-height:1.1}
+.ex-head span{font-size:1rem}
+.ex-body{padding:10px 8px 16px;font-size:clamp(1.25rem,3vw,1.65rem);font-weight:700;line-height:1.2}
+.ex-body .emo{display:block;font-size:clamp(2rem,5vw,2.6rem);line-height:1.25;margin-bottom:2px}
+.ex-body .a{color:var(--c)}
+
+.howto{background:var(--card);border:3px solid var(--card-edge);border-radius:22px;padding:18px clamp(16px,3vw,26px);margin:0 0 30px;box-shadow:0 4px 0 var(--card-edge)}
+.howto h2,.choose{font-family:var(--f-display);font-weight:800;font-size:1.6rem;margin:0 0 12px;line-height:1.15}
+.howto ol{list-style:none;counter-reset:step;margin:0;padding:0;display:grid;gap:12px}
+.howto li{counter-increment:step;display:flex;gap:12px;align-items:flex-start;max-width:62ch}
+.howto li::before{content:counter(step);flex:none;width:36px;height:36px;border-radius:50%;background:var(--sun);color:var(--on-sun);
+  font-family:var(--f-display);font-weight:800;display:grid;place-items:center;margin-top:-2px}
+.stars{display:inline-flex;gap:2px}
+.stars svg{width:28px;height:28px}
+.star-on{fill:var(--sun);stroke:var(--sun-deep)}
+.star-off{fill:var(--card-edge);stroke:var(--card-edge)}
+
+.start-foot{display:flex;justify-content:center;margin-top:22px}
+.linkbtn{appearance:none;background:none;border:none;color:var(--ink-soft);text-decoration:underline;text-underline-offset:3px;font-size:1rem;cursor:pointer;padding:10px}
+.linkbtn.warn{color:var(--die);font-weight:700}
+/* ---------- Spiel ---------- */
+.topbar{display:flex;align-items:center;flex-wrap:wrap;gap:12px 16px;margin-bottom:20px}
+.iconbtn{appearance:none;border:3px solid var(--card-edge);background:var(--card);border-radius:14px;min-height:50px;min-width:50px;
+  padding:6px 12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;box-shadow:0 3px 0 var(--card-edge)}
+.iconbtn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--card-edge)}
+.iconbtn svg{width:24px;height:24px;flex:none}
+.phase-title{font-family:var(--f-display);font-weight:800;font-size:clamp(1.3rem,3vw,1.75rem);margin:0;line-height:1.1}
+.progress{flex:1 1 240px;min-width:200px}
+.progress-text{font-weight:700;font-size:1.05rem;margin-bottom:4px}
+.segs{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
+.seg{height:14px;border-radius:7px;background:var(--card-edge);transition:background-color .3s ease}
+.seg.on{background:var(--c)}
+.score{font-weight:700;font-size:1.1rem;background:var(--card);border:3px solid var(--card-edge);border-radius:14px;padding:6px 14px;min-height:50px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.score svg{width:24px;height:24px}
+@media (max-width:680px){
+  .progress{order:10;flex-basis:100%}
+  .phase-title{flex:1}
+}
+.words{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:14px}
+@media (max-width:860px){.words{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:520px){.words{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+.word-card{appearance:none;background:var(--card);border:3px solid var(--card-edge);border-radius:18px;min-height:98px;padding:12px 8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:grab;position:relative;
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
+  box-shadow:0 4px 0 var(--card-edge),0 10px 18px var(--lift);transform:rotate(var(--tilt,0deg));
+  transition:transform .16s ease,border-color .16s ease,background-color .16s ease,box-shadow .16s ease}
+.with-pics .word-card{min-height:142px}
+.word-card .pic{font-size:3.1rem;line-height:1.15}
+.word-card .word{font-weight:700;font-size:clamp(1.45rem,2.6vw,1.85rem);line-height:1.15;overflow-wrap:anywhere;text-align:center}
+@media (hover:hover){.word-card:hover{transform:rotate(0deg) translateY(-2px)}}
+.word-card.selected{border-color:var(--sun);background:var(--sun-soft);transform:rotate(0deg) translateY(-6px);box-shadow:0 4px 0 var(--sun-deep),0 16px 26px var(--lift)}
+.word-card.drop-over{border-color:var(--sun);transform:scale(1.06)}
+.word-card.dragging{opacity:.35}
+.word-card.vanish{animation:vanish .32s ease-in forwards}
+.word-card.done{background:transparent;border:3px dashed var(--card-edge);box-shadow:none;transform:none;cursor:default;pointer-events:none}
+.word-card.done > *{visibility:hidden}
+@keyframes vanish{0%{transform:scale(1)}35%{transform:scale(1.1)}100%{transform:scale(.2);opacity:0}}
+.coach{display:flex;align-items:center;gap:14px;margin:6px 0 8px;min-height:88px}
+.coach .owl{width:76px;flex:none}
+.bubble{position:relative;flex:1;background:var(--bubble);border:3px solid var(--card-edge);border-radius:18px;padding:12px 18px;font-size:1.2rem;box-shadow:0 3px 0 var(--card-edge)}
+.bubble::before{content:"";position:absolute;left:-12px;top:50%;width:20px;height:20px;background:var(--bubble);
+  border-left:3px solid var(--card-edge);border-bottom:3px solid var(--card-edge);transform:translateY(-50%) rotate(45deg)}
+.pill{display:inline-block;padding:0 10px;border-radius:999px;background:var(--c);color:#fff;font-weight:700;white-space:nowrap}
+.tray{position:sticky;bottom:0;z-index:5;padding:18px 0 calc(10px + env(safe-area-inset-bottom,0px));
+  background:linear-gradient(to bottom,transparent,var(--paper) 26%)}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 var(--sun),0 12px 22px var(--lift)}50%{box-shadow:0 0 0 9px var(--sun),0 12px 22px var(--lift)}}
+.ghost{position:fixed!important;z-index:60;pointer-events:none;margin:0;transition:none!important;animation:none!important;box-shadow:0 18px 32px var(--lift)!important}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:70;overflow:hidden}
+.spark{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%}
+.spark.star{border-radius:0;width:16px;height:16px;margin:-8px 0 0 -8px;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+.pts{position:absolute;font-family:var(--f-display);font-weight:800;font-size:1.9rem;color:var(--sun-deep);transform:translate(-50%,-50%);text-shadow:0 2px 0 var(--paper)}
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80;display:none}
+/* ---------- Erfolgsbildschirm ---------- */
+.done-card{max-width:780px;margin:10px auto;background:var(--card);border:3px solid var(--card-edge);border-radius:28px;
+  padding:clamp(20px,4vw,40px);text-align:center;box-shadow:0 6px 0 var(--card-edge),0 20px 40px var(--lift)}
+.done-card .owl,.done-card .trophy{width:112px;margin:0 auto 6px;display:block}
+.done-title{font-family:var(--f-display);font-weight:800;font-size:clamp(2.2rem,6vw,3.4rem);line-height:1.05;margin:0 0 8px}
+.big-stars{display:flex;justify-content:center;gap:10px;margin:8px 0 14px}
+.big-stars svg{width:clamp(58px,11vw,86px);height:auto}
+.big-stars svg{animation:starpop .55s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes starpop{from{transform:scale(0) rotate(-40deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.done-text{font-size:1.25rem;margin:0 auto 6px;max-width:42ch}
+.done-text.soft{color:var(--ink-soft)}
+.review{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:22px 0 26px;text-align:left}
+.review .col{border-radius:16px;background:var(--cs);padding:12px 16px}
+.review h3{margin:0 0 6px;font-size:1.05rem;color:var(--ink-soft);font-weight:700}
+.review ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.review li{font-weight:700;font-size:1.25rem}
+.review li b{color:var(--c)}
+@media (max-width:560px){.review{grid-template-columns:1fr}}
+.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.btn{appearance:none;font-weight:700;font-size:1.2rem;border-radius:16px;padding:12px 22px;min-height:58px;cursor:pointer;border:3px solid transparent}
+.btn:active{transform:translateY(4px)}
+.btn-primary{background:var(--sun);color:var(--on-sun);box-shadow:0 5px 0 var(--sun-deep)}
+.btn-primary:active{box-shadow:0 1px 0 var(--sun-deep)}
+.btn-secondary{background:var(--card);border-color:var(--card-edge);box-shadow:0 5px 0 var(--card-edge)}
+.btn-secondary:active{box-shadow:0 1px 0 var(--card-edge)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.tally{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 16px}
+.tally span{background:var(--card);border:3px solid var(--card-edge);border-radius:999px;padding:4px 14px;font-weight:700;font-size:1.05rem}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* ---------- Einzahl und Mehrzahl: gemeinsame Bausteine ---------- */
+:root{--teal:#0B8791;--teal-deep:#086169;--teal-soft:#D8F1F3}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--teal:#1FA3AD;--teal-deep:#0F7078;--teal-soft:#12363A}
+}
+:root[data-theme="dark"]{--teal:#1FA3AD;--teal-deep:#0F7078;--teal-soft:#12363A}
+.ez{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.mz{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+
+.back-link{display:inline-block;color:var(--ink-soft);font-weight:700;text-decoration:none;padding:8px 0;margin-bottom:4px}
+.back-link:hover{color:var(--ink)}
+.level{display:inline-block;background:var(--bonus);color:#fff;font-weight:700;font-size:.95rem;padding:2px 12px;border-radius:999px;margin-bottom:8px}
+.subtitle{max-width:40ch}
+.tipp{position:relative;background:var(--sun-soft);border:3px solid var(--sun);border-radius:18px;padding:22px 20px 14px;margin:0 0 26px;font-size:1.2rem;max-width:70ch}
+.tipp-tag{position:absolute;top:-17px;left:16px;background:var(--sun);color:var(--on-sun);font-family:var(--f-display);font-weight:800;padding:2px 14px;border-radius:999px;transform:rotate(-2deg)}
+.tipp p{margin:0}
+.ex-body{font-size:clamp(1.05rem,2.8vw,1.5rem);overflow-wrap:anywhere}
+.ex-body .e1{display:block;color:var(--der)}
+.ex-body .e2{display:block;color:var(--die)}
+.ex-body .arrow{display:block;color:var(--ink-soft);font-size:1rem;line-height:1.1}
+.startbox{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:6px}
+.startbox .tally{align-items:center;justify-content:center;margin:0}
+.btn.big{font-size:1.5rem;padding:14px 34px;min-height:66px}
+a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+a.btn-secondary{color:var(--ink)}
+.segs{--c:var(--das)}
+.round{font-weight:700;color:var(--ink-soft);margin:0 0 10px}
+.record-badge{display:inline-block;background:var(--bonus);color:#fff;font-weight:700;border-radius:999px;padding:4px 16px;margin:0 0 8px}
+.review-lead{margin:22px 0 0;font-size:1.1rem;color:var(--ink-soft)}
+.review{margin-top:10px}
+.review.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.review li{font-size:1.1rem;overflow-wrap:anywhere}
+.review li span{font-weight:400}
+@media (max-width:560px){.review.c2{grid-template-columns:1fr}}
+
+/* Aufgabenkarte: Einzahl oben, Mehrzahl unten */
+.bench{background:var(--card);border:3px solid var(--card-edge);border-radius:26px;padding:18px 14px 22px;text-align:center;
+  box-shadow:0 4px 0 var(--card-edge),0 10px 20px var(--lift);margin-bottom:14px}
+.bench .lbl{margin:0;font-size:1rem;font-weight:700;color:var(--ink-soft)}
+.bench .from{margin:0 0 4px;font-weight:700;font-size:clamp(1.6rem,4.6vw,2.2rem);color:var(--der);line-height:1.2}
+.bench .down{width:30px;height:30px;color:var(--ink-soft);display:block;margin:2px auto 6px}
+.bench .help{margin:10px auto 0;color:var(--ink-soft);font-size:1.05rem;max-width:46ch}
+.kbd{position:absolute;top:6px;right:8px;font-size:.85rem;background:rgba(255,255,255,.25);border-radius:6px;padding:0 7px;font-weight:700}
+@media (hover:none){.kbd{display:none}}
+[hidden]{display:none!important}
+[tabindex="-1"]:focus-visible{outline:none}
+.review.c5{gap:8px}
+.review.c5 .col{padding:10px}
+.review.c5 li{font-size:1rem}
+
+/* ---------- Satzanfang-Profi ---------- */
+.sg{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.vb{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.ok{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.no{--c:var(--ink-soft)}
+.ex-head b{font-size:clamp(.95rem,2.4vw,1.3rem)}
+.ex-body{font-size:clamp(.95rem,2.3vw,1.25rem);padding:10px 8px 14px;font-weight:400}
+.ex-body .a{font-weight:700;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px}
+.bubble .pill{margin:2px 0}
+.review.c1{grid-template-columns:1fr}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;padding:3px 0}
+.review li b{color:var(--die)}
+.review li i{font-style:normal;color:var(--ink-soft);padding:0 .3em}
+.bench{padding-bottom:16px}
+.sent{margin:2px 0 12px;font-weight:700;font-size:clamp(1.3rem,3.2vw,1.75rem);line-height:1.3}
+.probe{margin:2px 0 0;font-size:clamp(1.25rem,3vw,1.6rem);line-height:1.3;min-height:2.6em}
+.probe b{background:var(--sun-soft);border-bottom:4px solid var(--sun);border-radius:6px 6px 0 0;padding:0 4px}
+.probe.empty{color:var(--ink-soft);font-size:1.1rem}
+.ask{text-align:center;font-weight:700;margin:0 0 10px}
+.cands{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px}
+@media (max-width:620px){.cands{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.cand{appearance:none;position:relative;background:var(--card);border:3px solid var(--card-edge);border-radius:16px;min-height:72px;padding:8px 10px;
+  font-weight:700;font-size:clamp(1.5rem,2.6vw,1.7rem);line-height:1.15;cursor:pointer;box-shadow:0 4px 0 var(--card-edge),0 10px 18px var(--lift);
+  transition:transform .14s ease,border-color .14s ease,background-color .14s ease}
+.cand .kbd{background:var(--paper);color:var(--ink-soft);top:4px;right:6px}
+.cand[aria-pressed="true"]{border-color:var(--sun);background:var(--sun-soft);transform:translateY(-4px);box-shadow:0 4px 0 var(--sun-deep),0 14px 22px var(--lift)}
+.cand.hint{animation:glow 1.1s ease-in-out infinite}
+.cand.good{border-color:var(--der);background:var(--der-soft);transform:none;box-shadow:0 4px 0 var(--der-deep)}
+.cand.off{opacity:.45}
+@media (max-width:620px){.tray{position:static;padding-top:6px}}
+@media (max-width:620px){.cand{min-height:60px;font-size:1.5rem}.probe{min-height:0}}
+</style>
+</head>
+<body>
+<noscript><p style="padding:20px">Bitte JavaScript aktivieren, damit das Spiel funktioniert.</p></noscript>
+
+<main class="wrap">
+
+  <!-- Startseite -->
+  <section id="screen-start" class="screen active" aria-labelledby="start-title">
+    <a class="back-link" href="index.html">← Alle Spiele</a>
+    <div class="hero">
+      <span class="owl-slot" data-owl></span>
+      <div>
+        <span class="level">Profis · Spiel 6 von 6</span>
+        <h1 class="title" id="start-title" tabindex="-1">Satzanfang-Profi</h1>
+        <p class="subtitle">Lange Sätze, lange Satzglieder! Finde alle Wortgruppen, die allein am Satzanfang stehen können.</p>
+      </div>
+    </div>
+
+    <div class="tipp"><span class="tipp-tag">Tipp</span><p>Ein <b>ganzes Satzglied</b> kann allein vor dem Verb stehen, und der Satz klingt immer noch richtig. Fehlt ein Wort oder ist eines zu viel, klingt der Satz falsch. So prüfst du mit der <b>Umstellprobe</b>, welche Wörter zusammengehören.</p></div>
+
+    <p class="section-lead">Mach die Umstellprobe. Nur ein ganzes Satzglied kann vor dem Verb stehen:</p>
+    <div class="legend">
+      <div class="ex ok" style="--tilt:-1.5deg"><div class="ex-head"><b>ganzes Satzglied</b></div><div class="ex-body"><span class="a">Am frühen Morgen</span> vergräbt der Dackel einen Knochen.</div></div>
+      <div class="ex no" style="--tilt:1deg"><div class="ex-head"><b>ein Wort fehlt</b></div><div class="ex-body"><span class="a">Am frühen</span> vergräbt der Dackel Morgen einen Knochen.</div></div>
+      <div class="ex no" style="--tilt:-.5deg"><div class="ex-head"><b>ein Wort zu viel</b></div><div class="ex-body"><span class="a">Morgen einen</span> vergräbt der Dackel am frühen Knochen.</div></div>
+    </div>
+
+    <div class="howto">
+      <h2>So geht’s</h2>
+      <ol>
+        <li>Lies den Satz. Tippe eine Karte an. Dann zeigt dir die Umstellprobe den Satz mit dieser Wortgruppe am Anfang.</li>
+        <li>Klingt der Satz richtig? Dann lass die Karte ausgewählt. Klingt er falsch? Dann tippe die Karte noch einmal an.</li>
+        <li>Hast du alle ganzen Satzglieder gefunden? Dann tippe auf „Prüfen“. Es sind immer mehrere!</li>
+      </ol>
+    </div>
+
+    <div class="startbox">
+      <div class="tally" id="tally" hidden></div>
+      <button class="btn btn-primary big" id="start-btn">Spiel starten</button>
+    </div>
+    <div class="start-foot"><button class="linkbtn" id="reset">Fortschritt löschen</button></div>
+  </section>
+
+  <!-- Spiel -->
+  <section id="screen-game" class="screen" aria-labelledby="game-title">
+    <div class="topbar">
+      <button class="iconbtn" id="home" aria-label="Zur Startseite">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+        <span>Start</span>
+      </button>
+      <h2 class="phase-title" id="game-title" tabindex="-1">Satzanfang-Profi</h2>
+      <div class="progress">
+        <div class="progress-text" id="progress-text" aria-live="polite">0 von 20 geschafft</div>
+        <div class="segs" id="segs" aria-hidden="true"></div>
+      </div>
+      <div class="score" aria-live="polite">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="star-on" d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span id="score">0 Punkte</span>
+      </div>
+      <button class="iconbtn sound-btn" aria-pressed="true" aria-label="Ton an"></button>
+    </div>
+
+    <div class="bench">
+      <p class="lbl">Der Satz:</p>
+      <p class="sent" id="base"></p>
+      <p class="lbl">Umstellprobe:</p>
+      <p class="probe" id="probe"></p>
+    </div>
+
+    <div class="coach">
+      <span class="owl-slot" data-owl data-owl-id="coach-owl"></span>
+      <div class="bubble" id="bubble" aria-live="polite"></div>
+    </div>
+
+    <div class="tray">
+      <p class="ask">Welche Wortgruppen können allein am Satzanfang stehen? Finde alle!</p>
+      <div class="cands" id="cands"></div>
+      <div class="actions"><button class="btn btn-primary big" id="check">Prüfen</button></div>
+    </div>
+  </section>
+
+  <!-- Erfolg -->
+  <section id="screen-done" class="screen" aria-labelledby="done-title">
+    <div class="done-card" id="done-card"></div>
+  </section>
+</main>
+
+<div id="fx" aria-hidden="true"></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<script>
+(() => {
+'use strict';
+
+/* ================= Daten: Hier kann die Lehrkraft die Wörter ändern ================= */
+/* Aufbau: [Satzglieder des Satzes, sechs Wortgruppen als Karten]
+   Satzglieder: in der normalen Reihenfolge, das Verb an zweiter Stelle, geschrieben wie mitten im Satz.
+   Karten: Wortgruppen, die genau so im Satz hintereinander stehen. Eine Karte ist richtig,
+   wenn sie genau ein ganzes Satzglied ist. Alle anderen Karten sind falsch (ein Wort fehlt oder ist zu viel). */
+const SENTENCES = [
+  [['der kleine Dackel', 'vergräbt', 'am frühen Morgen', 'einen dicken Knochen'],
+    ['am frühen Morgen', 'einen dicken Knochen', 'der kleine Dackel', 'am frühen', 'Morgen einen', 'der kleine']],
+  [['Finn', 'spielt', 'am späten Nachmittag', 'mit seinem besten Freund', 'Tischtennis'],
+    ['mit seinem besten Freund', 'am späten Nachmittag', 'mit seinem', 'besten Freund', 'am späten', 'Nachmittag mit seinem']],
+  [['unsere neue Lehrerin', 'erzählt', 'der ganzen Klasse', 'jeden Freitag', 'ein spannendes Märchen'],
+    ['unsere neue Lehrerin', 'der ganzen Klasse', 'jeden Freitag', 'ein spannendes Märchen', 'der ganzen', 'Freitag ein spannendes']],
+  [['die mutige Feuerwehrfrau', 'rettet', 'mit einer langen Leiter', 'eine kleine Katze'],
+    ['mit einer langen Leiter', 'eine kleine Katze', 'mit einer', 'langen Leiter', 'die mutige', 'Leiter eine kleine']],
+  [['mein großer Bruder', 'fährt', 'bei jedem Wetter', 'mit dem Fahrrad', 'zur Schule'],
+    ['bei jedem Wetter', 'zur Schule', 'mein großer Bruder', 'bei jedem', 'dem Fahrrad', 'Wetter mit dem']],
+  [['die fleißigen Ameisen', 'tragen', 'an warmen Tagen', 'kleine Zweige', 'in ihren Bau'],
+    ['an warmen Tagen', 'kleine Zweige', 'in ihren Bau', 'an warmen', 'die fleißigen', 'Zweige in ihren']],
+  [['der alte Fischer', 'repariert', 'vor dem Sturm', 'sein kaputtes Netz'],
+    ['vor dem Sturm', 'sein kaputtes Netz', 'der alte', 'kaputtes Netz', 'vor dem', 'Sturm sein kaputtes']],
+  [['viele Kinder', 'basteln', 'in der letzten Stunde', 'bunte Laternen'],
+    ['viele Kinder', 'in der letzten Stunde', 'bunte Laternen', 'in der letzten', 'letzten Stunde', 'der letzten Stunde']],
+  [['meine Großeltern', 'schicken', 'meiner Schwester', 'zu Weihnachten', 'ein großes Paket'],
+    ['meiner Schwester', 'zu Weihnachten', 'ein großes Paket', 'meine Großeltern', 'ein großes', 'Schwester zu Weihnachten']],
+  [['der freche Papagei', 'ruft', 'den ganzen Vormittag', 'lustige Wörter'],
+    ['den ganzen Vormittag', 'lustige Wörter', 'den ganzen', 'der freche', 'ganzen Vormittag', 'Vormittag lustige']],
+  [['die beiden Freundinnen', 'wandern', 'an einem sonnigen Tag', 'durch den dunklen Wald', 'zu einer alten Burg'],
+    ['an einem sonnigen Tag', 'durch den dunklen Wald', 'zu einer alten Burg', 'an einem sonnigen', 'den dunklen Wald', 'einer alten Burg']],
+  [['der junge Tierarzt', 'untersucht', 'in seiner Praxis', 'ein krankes Meerschweinchen'],
+    ['der junge Tierarzt', 'in seiner Praxis', 'ein krankes Meerschweinchen', 'in seiner', 'ein krankes', 'Praxis ein krankes']],
+  [['zwei freche Spatzen', 'picken', 'vor dem kleinen Café', 'die letzten Krümel'],
+    ['vor dem kleinen Café', 'die letzten Krümel', 'zwei freche', 'vor dem kleinen', 'die letzten', 'kleinen Café']],
+  [['unser Trainer', 'erklärt', 'der ganzen Mannschaft', 'vor dem Spiel', 'die neuen Regeln'],
+    ['unser Trainer', 'der ganzen Mannschaft', 'vor dem Spiel', 'die neuen Regeln', 'die neuen', 'ganzen Mannschaft']],
+  [['der dicke Kater', 'liegt', 'seit zwei Stunden', 'faul', 'auf der warmen Heizung'],
+    ['seit zwei Stunden', 'faul', 'auf der warmen Heizung', 'seit zwei', 'auf der warmen', 'Stunden faul']],
+  [['die ganze Klasse', 'fährt', 'in der nächsten Woche', 'mit dem Bus', 'ins Museum'],
+    ['die ganze Klasse', 'in der nächsten Woche', 'mit dem Bus', 'ins Museum', 'in der nächsten', 'der nächsten Woche']],
+  [['ein starker Wind', 'fegt', 'an diesem Herbsttag', 'bunte Blätter', 'durch die leeren Straßen'],
+    ['an diesem Herbsttag', 'bunte Blätter', 'durch die leeren Straßen', 'ein starker', 'durch die leeren', 'Blätter durch die']],
+  [['mein kleiner Cousin', 'malt', 'mit seinen neuen Stiften', 'einen bunten Regenbogen'],
+    ['mit seinen neuen Stiften', 'einen bunten Regenbogen', 'mein kleiner Cousin', 'mit seinen neuen', 'bunten Regenbogen', 'Stiften einen']],
+  [['der berühmte Detektiv', 'sucht', 'mit einer großen Lupe', 'nach geheimen Spuren'],
+    ['mit einer großen Lupe', 'nach geheimen Spuren', 'der berühmte Detektiv', 'einer großen Lupe', 'nach geheimen', 'der berühmte']],
+  [['die müden Wanderer', 'erreichen', 'nach einem langen Tag', 'endlich', 'die kleine Hütte'],
+    ['nach einem langen Tag', 'endlich', 'die kleine Hütte', 'die müden Wanderer', 'einem langen Tag', 'die kleine']]
+];
+
+const GAME = {
+  id: 'profi',
+  unit: 'Sätze',
+  next: null,
+  review: () => `<div class="review c1"><div class="col sg"><ul>${all.map(s =>
+    `<li>${s.parts.map((p, i) => i === 1 ? `<b>${p}</b>` : (i === 0 ? cap(p) : p)).join('<i>|</i>')}.</li>`).join('')}</ul></div></div>`
+};
+
+const PRAISE = ['Richtig!','Super!','Klasse!','Genau!','Prima!','Toll gemacht!','Stark!'];
+const RETRY = [
+  'Fast! Probier es noch einmal.',
+  'Hmm, das passt noch nicht. Sprich das Wort mal laut.',
+  'Guter Versuch! Was klingt besser?',
+  'Nicht schlimm! Versuch es gleich noch einmal.'
+];
+
+/* ================= Hilfen ================= */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const reduced = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+let lastPick = {};
+const pick = (arr, key) => { let v; do { v = arr[Math.floor(Math.random() * arr.length)]; } while (arr.length > 1 && v === lastPick[key]); lastPick[key] = v; return v; };
+const pairLi = w => `<li><span>${w.ez} →</span> <b>${w.mz}</b></li>`;
+
+const STAR_PATH = 'M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z';
+const starSVG = (on, style = '') => `<svg viewBox="0 0 24 24" class="${on ? 'star-on' : 'star-off'}" style="${style}" aria-hidden="true"><path d="${STAR_PATH}" stroke-width="1.6" stroke-linejoin="round"/></svg>`;
+const starsRow = n => `<span class="stars" role="img" aria-label="${n} von 3 Sternen">${[0,1,2].map(i => starSVG(i < n)).join('')}</span>`;
+
+function owlSVG(id = '', mood = '') {
+  return `<svg class="owl ${mood}" ${id ? `id="${id}"` : ''} viewBox="0 0 120 120" aria-hidden="true">
+    <path d="M30 42 L32 12 L52 30 Z" fill="var(--owl)"/>
+    <path d="M90 42 L88 12 L68 30 Z" fill="var(--owl)"/>
+    <ellipse cx="60" cy="66" rx="40" ry="44" fill="var(--owl)"/>
+    <ellipse cx="25" cy="76" rx="9" ry="21" fill="var(--owl-wing)" transform="rotate(14 25 76)"/>
+    <ellipse cx="95" cy="76" rx="9" ry="21" fill="var(--owl-wing)" transform="rotate(-14 95 76)"/>
+    <ellipse cx="60" cy="84" rx="25" ry="24" fill="var(--owl-belly)"/>
+    <path d="M50 80 q4 4 8 0 M62 80 q4 4 8 0 M56 90 q4 4 8 0" fill="none" stroke="var(--owl)" stroke-width="2" stroke-linecap="round" opacity=".45"/>
+    <circle cx="44" cy="52" r="16" fill="#fff"/><circle cx="76" cy="52" r="16" fill="#fff"/>
+    <g class="eyes-open"><circle cx="46" cy="54" r="7.5" fill="#22304A"/><circle cx="78" cy="54" r="7.5" fill="#22304A"/>
+      <circle cx="48.5" cy="51.5" r="2.4" fill="#fff"/><circle cx="80.5" cy="51.5" r="2.4" fill="#fff"/></g>
+    <g class="eyes-happy" fill="none" stroke="#22304A" stroke-width="4.5" stroke-linecap="round"><path d="M36 56 Q44 45 52 56"/><path d="M68 56 Q76 45 84 56"/></g>
+    <path d="M54 63 L66 63 L60 73 Z" fill="#FFB627" stroke="#D98E00" stroke-width="1.5" stroke-linejoin="round"/>
+    <ellipse cx="48" cy="109" rx="7" ry="4" fill="#FFB627"/><ellipse cx="72" cy="109" rx="7" ry="4" fill="#FFB627"/>
+  </svg>`;
+}
+$$('[data-owl]').forEach(slot => { slot.outerHTML = owlSVG(slot.dataset.owlId || ''); });
+
+/* ================= Fortschritt (lokal im Browser) ================= */
+const KEY = 'satzglieder-' + GAME.id + '-v1';
+const fresh = () => ({ stars: 0, best: 0, sound: true });
+function load() {
+  try {
+    const p = JSON.parse(localStorage.getItem(KEY)) || {};
+    return { stars: Math.max(0, Math.min(3, p.stars | 0)), best: Math.max(0, p.best | 0), sound: p.sound !== false };
+  } catch (e) { return fresh(); }
+}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(progress)); } catch (e) { /* ohne Speicher weiterspielen */ } }
+let progress = load();
+
+/* ================= Ton (erzeugt, keine Dateien) ================= */
+let actx = null;
+function audio() {
+  if (!progress.sound) return null;
+  try {
+    if (!actx) { const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; actx = new AC(); }
+    if (actx.state === 'suspended') actx.resume();
+  } catch (e) { return null; }
+  return actx;
+}
+function tone(f, at, dur, type = 'sine', vol = .12) {
+  const a = audio(); if (!a) return;
+  const o = a.createOscillator(), g = a.createGain(), t = a.currentTime + at;
+  o.type = type; o.frequency.value = f;
+  g.gain.setValueAtTime(.0001, t);
+  g.gain.exponentialRampToValueAtTime(vol, t + .02);
+  g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  o.connect(g); g.connect(a.destination); o.start(t); o.stop(t + dur + .05);
+}
+const sfx = {
+  pick: () => tone(740, 0, .08, 'sine', .05),
+  success: () => { tone(784, 0, .16, 'triangle', .13); tone(1175, .09, .26, 'triangle', .13); },
+  fanfare: () => { [523, 659, 784, 1047].forEach((f, i) => tone(f, i * .12, .3, 'triangle', .12)); tone(1319, .52, .7, 'sine', .08); }
+};
+function renderSound() {
+  $$('.sound-btn').forEach(b => {
+    b.setAttribute('aria-pressed', String(progress.sound));
+    b.setAttribute('aria-label', progress.sound ? 'Ton ausschalten' : 'Ton einschalten');
+    b.innerHTML = progress.sound
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>';
+  });
+}
+$$('.sound-btn').forEach(b => b.addEventListener('click', () => { progress.sound = !progress.sound; save(); renderSound(); if (progress.sound) sfx.pick(); }));
+renderSound();
+
+/* ================= Bildschirme ================= */
+function show(name) {
+  $$('.screen').forEach(s => s.classList.toggle('active', s.id === 'screen-' + name));
+  window.scrollTo(0, 0);
+}
+const gameOn = () => $('#screen-game').classList.contains('active');
+
+function renderStart() {
+  const tally = $('#tally');
+  tally.hidden = progress.best === 0;
+  tally.innerHTML = `${starsRow(progress.stars)}<span>Dein Rekord: ${progress.best} Punkte</span>`;
+  $('#start-btn').textContent = progress.best > 0 ? 'Nochmal spielen' : 'Spiel starten';
+}
+$('#start-btn').addEventListener('click', () => { audio(); startGame(); });
+
+const resetBtn = $('#reset');
+let resetTimer = null;
+resetBtn.addEventListener('click', () => {
+  if (!resetBtn.classList.contains('warn')) {
+    resetBtn.classList.add('warn');
+    resetBtn.textContent = 'Wirklich löschen? Nochmal tippen.';
+    resetTimer = setTimeout(() => { resetBtn.classList.remove('warn'); resetBtn.textContent = 'Fortschritt löschen'; }, 3500);
+    return;
+  }
+  clearTimeout(resetTimer);
+  progress = { ...fresh(), sound: progress.sound }; save();
+  resetBtn.classList.remove('warn'); resetBtn.textContent = 'Fortschritt gelöscht';
+  setTimeout(() => { resetBtn.textContent = 'Fortschritt löschen'; }, 2000);
+  renderStart();
+});
+
+/* ================= Spielstand, Punkte, Eule ================= */
+const state = { score: 0, mistakes: 0, solved: 0, total: 0, busy: false, timers: [] };
+function later(fn, ms) {
+  const id = setTimeout(() => { state.timers = state.timers.filter(t => t !== id); fn(); }, ms);
+  state.timers.push(id);
+}
+function resetState(total) {
+  state.timers.forEach(clearTimeout);
+  Object.assign(state, { score: 0, mistakes: 0, solved: 0, total, busy: false, timers: [] });
+  const segs = $('#segs');
+  segs.style.gridTemplateColumns = `repeat(${total},1fr)`;
+  segs.innerHTML = '<span class="seg"></span>'.repeat(total);
+  updateHud();
+}
+function updateHud() {
+  $('#progress-text').textContent = `${state.solved} von ${state.total} geschafft`;
+  $$('#segs .seg').forEach((s, i) => s.classList.toggle('on', i < state.solved));
+  $('#score').textContent = `${state.score} Punkte`;
+}
+function say(html, mood = 'idle') {
+  $('#bubble').innerHTML = html;
+  const owl = $('#coach-owl');
+  owl.classList.remove('happy', 'think');
+  if (mood !== 'idle') { void owl.getBoundingClientRect(); owl.classList.add(mood); }
+}
+/* Richtig: 10 Punkte beim ersten Versuch, sonst 5 */
+function solve(item, el, color) {
+  const pts = item.misses === 0 ? 10 : 5;
+  item.done = true;
+  state.score += pts; state.solved++;
+  updateHud(); sfx.success();
+  if (el) {
+    const r = el.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+    burst(x, y, color); floatPoints('+' + pts, x, y);
+  }
+}
+/* Falsch: kein Fehler-Ton, nur ein Wackeln. Gibt true zurück, wenn jetzt ein Tipp dran ist. */
+function miss(item, el) {
+  item.misses++; state.mistakes++;
+  wobble(el);
+  return item.misses >= 2;
+}
+$('#home').addEventListener('click', () => { state.timers.forEach(clearTimeout); state.timers = []; state.busy = false; renderStart(); show('start'); });
+
+/* ================= Animationen ================= */
+function wobble(el) {
+  if (reduced || !el || !el.animate) return;
+  el.animate([{ rotate: '0deg' }, { rotate: '-5deg' }, { rotate: '5deg' }, { rotate: '-3deg' }, { rotate: '2deg' }, { rotate: '0deg' }],
+    { duration: 480, easing: 'ease-in-out' });
+}
+const fx = $('#fx');
+const cssVar = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+function burst(x, y, color) {
+  if (reduced) return;
+  const col = cssVar('--' + color), sun = cssVar('--sun');
+  for (let i = 0; i < 14; i++) {
+    const s = document.createElement('span');
+    s.className = 'spark' + (i % 3 === 0 ? ' star' : '');
+    s.style.left = x + 'px'; s.style.top = y + 'px';
+    s.style.background = i % 3 === 0 ? sun : col;
+    fx.appendChild(s);
+    const ang = (i / 14) * Math.PI * 2 + Math.random() * .4, dist = 60 + Math.random() * 50;
+    s.animate([{ transform: 'translate(0,0) scale(1)', opacity: 1 },
+               { transform: `translate(${Math.cos(ang) * dist}px, ${Math.sin(ang) * dist}px) scale(.3)`, opacity: 0 }],
+      { duration: 650, easing: 'cubic-bezier(.2,.8,.3,1)' }).onfinish = () => s.remove();
+  }
+}
+function floatPoints(txt, x, y) {
+  const p = document.createElement('span');
+  p.className = 'pts'; p.textContent = txt;
+  p.style.left = x + 'px'; p.style.top = y + 'px';
+  fx.appendChild(p);
+  if (reduced) { setTimeout(() => p.remove(), 700); return; }
+  p.animate([{ transform: 'translate(-50%,-50%)', opacity: 0 }, { transform: 'translate(-50%,-110%)', opacity: 1, offset: .25 },
+             { transform: 'translate(-50%,-260%)', opacity: 0 }], { duration: 900, easing: 'ease-out' }).onfinish = () => p.remove();
+}
+let confettiRun = 0;
+function confetti() {
+  if (reduced) return;
+  const run = ++confettiRun;
+  const c = $('#confetti'), ctx = c.getContext('2d');
+  const W = innerWidth, H = innerHeight, dpr = Math.min(2, window.devicePixelRatio || 1);
+  c.width = W * dpr; c.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const cols = ['--der', '--die', '--das', '--sun'].map(cssVar).concat('#8B5CF6');
+  const parts = [];
+  for (let i = 0; i < 170; i++) {
+    const left = i % 2 === 0;
+    parts.push({ x: left ? -10 : W + 10, y: H * .6 + Math.random() * H * .2,
+      vx: (left ? 1 : -1) * (3 + Math.random() * 9), vy: -(9 + Math.random() * 12),
+      s: 8 + Math.random() * 8, r: Math.random() * 6.28, vr: (Math.random() - .5) * .35,
+      c: cols[i % cols.length], star: Math.random() < .25, wob: Math.random() * 6.28 });
+  }
+  const drawStar = (r) => {
+    ctx.beginPath();
+    for (let k = 0; k < 10; k++) {
+      const rad = k % 2 ? r * .45 : r, ang = -Math.PI / 2 + k * Math.PI / 5;
+      ctx.lineTo(Math.cos(ang) * rad, Math.sin(ang) * rad);
+    }
+    ctx.closePath(); ctx.fill();
+  };
+  c.style.display = 'block';
+  const t0 = performance.now();
+  (function frame(t) {
+    if (run !== confettiRun) return;
+    const el = t - t0;
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalAlpha = el > 3000 ? Math.max(0, 1 - (el - 3000) / 900) : 1;
+    for (const p of parts) {
+      p.vy += .32; p.vx *= .99; p.vy *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.wob += .12;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c;
+      if (p.star) drawStar(p.s * .75);
+      else { const h = p.s * .6 * Math.abs(Math.cos(p.wob)) + 1; ctx.fillRect(-p.s / 2, -h / 2, p.s, h); }
+      ctx.restore();
+    }
+    if (el < 3900) requestAnimationFrame(frame);
+    else { ctx.clearRect(0, 0, W, H); c.style.display = 'none'; }
+  })(t0);
+}
+
+/* ================= Geschafft ================= */
+function finish() {
+  const t = state.total, m = state.mistakes;
+  const stars = GAME.stars ? GAME.stars() : (m <= Math.round(t * .1) ? 3 : m <= Math.round(t * .4) ? 2 : 1);
+  const record = progress.best > 0 && state.score > progress.best;
+  progress.stars = Math.max(progress.stars, stars);
+  progress.best = Math.max(progress.best, state.score);
+  save();
+
+  let note;
+  if (GAME.note) note = GAME.note(stars);
+  else if (m === 0) note = 'Kein einziger Fehlversuch. Stark!';
+  else if (stars === 3) note = m === 1 ? 'Nur ein Fehlversuch. Super!' : `Nur ${m} Fehlversuche. Super!`;
+  else if (stars === 2) note = `Du hattest ${m} Fehlversuche. Spiel nochmal, dann holst du 3 Sterne!`;
+  else note = `Du hattest ${m} Fehlversuche. Übung macht den Meister – spiel ruhig nochmal!`;
+
+  const nextBtn = GAME.next
+    ? `<a class="btn btn-primary" href="${GAME.next.href}">Nächstes Spiel: ${GAME.next.title}</a>`
+    : '<a class="btn btn-primary" href="index.html">Alle Spiele ansehen</a>';
+  $('#done-card').innerHTML = `
+    ${owlSVG('', 'happy')}
+    <h2 class="done-title" id="done-title" tabindex="-1">Geschafft!</h2>
+    <div class="big-stars" role="img" aria-label="${stars} von 3 Sternen">
+      ${[0, 1, 2].map(i => starSVG(i < stars, `animation-delay:${.25 + i * .22}s`)).join('')}
+    </div>
+    ${record ? '<p class="record-badge">Neuer Rekord!</p>' : ''}
+    <p class="done-text">Du hast alle ${t} ${GAME.unit || 'Wörter'} geschafft und <b>${state.score} Punkte</b> gesammelt.</p>
+    <p class="done-text soft">${note}</p>
+    <h3 class="review-lead">Alle Lösungen zum Nachlesen</h3>
+    ${GAME.review()}
+    <div class="actions">${nextBtn}
+      <button class="btn btn-secondary" data-act="again">Nochmal spielen</button>
+      <button class="btn btn-secondary" data-act="home">Zur Startseite</button></div>`;
+  show('done');
+  $('#done-title').focus({ preventScroll: true });
+  sfx.fanfare();
+  confetti();
+}
+$('#done-card').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]');
+  if (!b) return;
+  confettiRun++; $('#confetti').style.display = 'none';
+  if (b.dataset.act === 'again') startGame(); else { renderStart(); show('start'); }
+});
+
+/* ---------- Spiel: Satzanfang-Profi ---------- */
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const sentence = parts => cap(parts.join(' ')) + '.';
+const EMPTY = 'Tippe eine Karte an. Dann steht hier der Satz mit dieser Wortgruppe am Anfang.';
+let all = [], queue = [], cur = null;
+const candEl = i => $(`.cand[data-i="${i}"]`);
+const chosen = () => $$('.cand[aria-pressed="true"]').map(c => +c.dataset.i);
+
+/* Umstellprobe: die Wortgruppe wandert nach vorn, dann das Verb, dann alle übrigen Wörter */
+function probe(s, group) {
+  const words = s.parts.join(' ').split(' '), g = group.split(' '), vi = s.parts[0].split(' ').length;
+  let at = -1;
+  for (let i = 0; i + g.length <= words.length && at < 0; i++) if (g.every((w, k) => words[i + k] === w)) at = i;
+  const rest = words.filter((_, i) => i !== vi && (i < at || i >= at + g.length));
+  return `<b>${cap(group)}</b> ${words[vi]} ${rest.join(' ')}.`;
+}
+
+function startGame() {
+  all = SENTENCES.map(([parts, cands]) => ({ parts, cands, misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Tippe die Karten an und lies die Umstellprobe. Wähle alle Wortgruppen aus, bei denen der Satz richtig klingt.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  cur.order = shuffle(cur.cands.slice());
+  cur.right = cur.order.map((c, i) => i).filter(i => i !== undefined && cur.parts.includes(cur.order[i]) && cur.order[i] !== cur.parts[1]);
+  $('#base').textContent = sentence(cur.parts);
+  const p = $('#probe'); p.textContent = EMPTY; p.classList.add('empty');
+  $('#cands').innerHTML = cur.order.map((c, i) =>
+    `<button class="cand" data-i="${i}" aria-pressed="false">${c}<span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+}
+
+function showProbe(i) {
+  const p = $('#probe');
+  p.innerHTML = probe(cur, cur.order[i]); p.classList.remove('empty');
+}
+
+function toggle(i) {
+  const c = candEl(i);
+  if (state.busy || !cur || !c) return;
+  c.setAttribute('aria-pressed', String(c.getAttribute('aria-pressed') !== 'true'));
+  c.classList.remove('hint');
+  sfx.pick(); showProbe(i);
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const mine = chosen();
+  if (!mine.length) { say('Wähle zuerst die Karten aus, die allein am Satzanfang stehen können.'); return; }
+  const wrong = mine.filter(i => !cur.right.includes(i)), missing = cur.right.filter(i => !mine.includes(i));
+  if (wrong.length || missing.length) {
+    const hint = miss(cur, wrong.length ? candEl(wrong[0]) : $('#cands'));
+    if (wrong.length) showProbe(wrong[0]);
+    if (hint) {
+      wrong.forEach(i => candEl(i).setAttribute('aria-pressed', 'false'));
+      missing.forEach(i => candEl(i).classList.add('hint'));
+      say(`Tipp: Ein ganzes Satzglied kann allein vor dem Verb <span class="pill vb">${cur.parts[1]}</span> stehen. ` +
+        (missing.length ? 'Die leuchtenden Karten fehlen dir noch.' : 'Die falschen Karten habe ich abgewählt.'), 'think');
+    } else say(wrong.length ? `Fast! Lies die Umstellprobe mit <b>${cur.order[wrong[0]]}</b> noch einmal laut. Klingt der Satz richtig?`
+      : 'Fast! Alle ausgewählten Karten stimmen. Aber es gibt noch mehr ganze Satzglieder.', 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.cand').forEach(c => { c.classList.remove('hint'); c.classList.add(c.getAttribute('aria-pressed') === 'true' ? 'good' : 'off'); c.setAttribute('aria-pressed', 'false'); });
+  solve(cur, $('#cands'), 'der');
+  say(`${pick(PRAISE, 'praise')} ` + cur.parts.map((p, i) => `<span class="pill ${i === 1 ? 'vb' : 'sg'}">${i === 0 ? cap(p) : p}</span>`).join(' ') + '.', 'happy');
+  later(next, 2600);
+}
+
+$('#cands').addEventListener('click', e => {
+  const c = e.target.closest('.cand');
+  if (c) toggle(+c.dataset.i);
+});
+$('#check').addEventListener('click', check);
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-6]$/.test(e.key)) return;
+  toggle(+e.key - 1);
+});
+
+/* ---------- Los geht's ---------- */
+renderStart();
+})();
+
+</script>
+</body>
+</html>

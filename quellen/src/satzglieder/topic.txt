@@ -1,0 +1,10 @@
+@@meta
+slug: satzglieder
+title: Satzglieder
+subtitle: Sechs Spiele rund um die Umstellprobe. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Bildern und farbigen Blöcken. Je 15 Sätze.
+lead2: Selbst schneiden und umstellen. Je 20 Sätze.
+lead3: Lange Sätze mit langen Satzgliedern. 20 Sätze.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Sätzen, dazu die Lösungen.
+@@tipp
+Ein Satz besteht aus <b>Satzgliedern</b>. Ein Satzglied kann ein Wort sein oder aus mehreren Wörtern bestehen. Mit der <b>Umstellprobe</b> findest du sie: Wörter, die beim Umstellen zusammenbleiben, sind ein Satzglied. Das <b>Verb</b> bleibt im Aussagesatz an zweiter Stelle: Opa liest am Abend. → Am Abend liest Opa.

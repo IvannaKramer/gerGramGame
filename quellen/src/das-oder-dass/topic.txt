@@ -1,0 +1,10 @@
+@@meta
+slug: das-oder-dass
+title: das oder dass?
+subtitle: Sechs Spiele rund um das und dass. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Probe-Satz und farbigen Wörtern. Je 15 Sätze.
+lead2: Ohne Hilfe. Je 20 Aufgaben.
+lead3: Knifflige Sätze zum Selberschreiben. 20 Sätze.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Sätzen, dazu die Lösungen.
+@@tipp
+Mach die Probe: Kannst du <b>dieses</b> oder <b>welches</b> einsetzen? Dann schreibst du <b>das</b> mit einem s. Passt keins von beiden? Dann schreibst du <b>dass</b> mit zwei s. Vor <b>dass</b> steht ein Komma.

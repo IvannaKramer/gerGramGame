@@ -1,0 +1,215 @@
+@@meta
+file: 5-luecken-geschichten.html
+title: Lücken-Geschichten
+level: Fortgeschrittene
+nr: 5
+total: 20
+subtitle: Vier kleine Geschichten mit Lücken. Setze „das“ oder „dass“ ein.
+lead: Die Probe-Lupe hilft dir, wenn du unsicher bist:
+id: geschichten
+desc: Fülle den Lückentext. Die Probe-Lupe hilft dir.
+sample: Ich hoffe, ___ die Affen wach sind.
+drag: no
+@@tipp
+Mach bei jeder Lücke die Probe: Passt <b>dieses</b> oder <b>welches</b>? Dann schreibst du <b>das</b>. Passt keins von beiden? Dann schreibst du <b>dass</b>. Vor <b>dass</b> steht ein Komma.
+@@examples
+      <div class="ex das" style="--tilt:-1.5deg"><div class="ex-head"><b>das</b><span>dieses passt</span></div><div class="ex-body">Wir sehen <span class="a">das</span> Zebra.<span class="pr">Probe: dieses Zebra</span></div></div>
+      <div class="ex das" style="--tilt:1deg"><div class="ex-head"><b>das</b><span>welches passt</span></div><div class="ex-body">ein Eis, <span class="a">das</span> lecker ist<span class="pr">Probe: welches lecker ist</span></div></div>
+      <div class="ex dass" style="--tilt:-.5deg"><div class="ex-head"><b>dass</b><span>nichts passt</span></div><div class="ex-body">Er ruft, <span class="a">dass</span> er Hunger hat.<span class="pr">Probe: dieses er Hunger hat?</span></div></div>
+@@howto
+        <li><span>Lies die Geschichte. Die gelbe Lücke ist gerade dran. Du kannst auch eine andere Lücke antippen.</span></li>
+        <li><span>Tippe unten auf <b>das</b> oder <b>dass</b>. Stimmt es, steht das Wort in der Lücke.</span></li>
+        <li><span>Bist du unsicher? Tippe auf die Lupe. Dann zeigt dir die Eule den Probe-Satz. Entscheiden musst du selbst!</span></li>
+@@board
+    <div class="story">
+      <p class="round" id="round"></p>
+      <p class="story-text" id="story"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="tiles three" id="tiles">
+        <button class="tile das" data-k="das"><b>das</b><span class="kbd" aria-hidden="true">1</span></button>
+        <button class="tile dass" data-k="dass"><b>dass</b><span class="kbd" aria-hidden="true">2</span></button>
+        <button class="tile lupe" id="lupe" aria-label="Probe-Lupe: Probe-Satz zeigen"><b aria-hidden="true">🔍</b><small>Probe</small><span class="kbd" aria-hidden="true">3</span></button>
+      </div>
+    </div>
+@@css
+/* ---------- das oder dass: gemeinsame Farben ---------- */
+.dass{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.ex-body .pr{display:block;font-weight:400;font-size:.8em;color:var(--ink-soft);margin-top:6px}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.5}
+.gap{display:inline-block;min-width:2.6em;padding:0 .3em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);line-height:1.25;text-align:center}
+.gap.filled{border-style:solid;border-color:var(--c);background:var(--c);color:#fff;min-width:0;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.3rem;color:var(--c)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,3vw,28px);max-width:720px;margin:0 auto}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:clamp(76px,10vw,96px);padding:6px 8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(1.6rem,4.4vw,2.2rem);line-height:1.1}
+.tile small{font-size:clamp(.85rem,2.2vw,1.05rem);line-height:1.15}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+/* ---------- Lücken-Geschichten ---------- */
+.story{background:var(--card);border:3px solid var(--card-edge);border-radius:26px;padding:16px clamp(14px,3vw,28px) 20px;box-shadow:0 4px 0 var(--card-edge),0 10px 20px var(--lift);margin-bottom:14px}
+.story .round{margin:0 0 4px}
+.story-text{margin:0;font-size:clamp(1.5rem,3vw,1.7rem);line-height:2.3}
+.lgap{appearance:none;border:3px dashed var(--ink-soft);background:var(--paper);color:var(--ink-soft);border-radius:12px;min-width:3.4em;min-height:48px;padding:0 .4em;
+  font-weight:700;line-height:1.2;cursor:pointer;vertical-align:middle;margin:0 2px}
+.lgap.cur{border:3px solid var(--sun);background:var(--sun-soft);color:var(--ink)}
+.lgap.filled{border:3px solid var(--c);background:var(--c);color:#fff;cursor:default;min-width:0;animation:slotpop .35s ease-out}
+.tiles.three{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(88px,.5fr);gap:clamp(8px,2.4vw,24px);max-width:760px}
+.tile.lupe{background:var(--sun);color:var(--on-sun);box-shadow:0 6px 0 var(--sun-deep),0 12px 22px var(--lift)}
+.tile.lupe b{font-size:1.7rem}
+.tile.lupe:active{box-shadow:0 2px 0 var(--sun-deep),0 6px 12px var(--lift)}
+.tile.lupe .kbd{background:rgba(0,0,0,.12)}
+@media (max-width:560px){
+  .story-text{font-size:1.3rem;line-height:2.6}
+  .coach{position:sticky;bottom:calc(98px + env(safe-area-inset-bottom,0px));z-index:6;background:var(--paper);margin:0 -14px;padding:8px 14px 0}
+  .coach .owl{width:56px}
+  .bubble{font-size:1.1rem;padding:8px 14px}
+}
+.neutral{--cs:var(--paper)}
+.review .col p{margin:0;font-size:1.05rem;line-height:1.5}
+.review h3{color:var(--ink)}
+@@data
+/* Aufbau: [Überschrift, [Sätze]]. Jede Lücke steht in eckigen Klammern: [Lösung|Probewort].
+   Probewort: „dieses“ für Artikel und Pronomen, „welches“ nach einem Komma. In jedem Satz steht höchstens eine Lücke. */
+const TEXTS = [
+  ['Im Zoo', [
+    'Heute gehen wir in den Zoo.',
+    'Ich hoffe, [dass|welches] die Affen wach sind.',
+    'Zuerst sehen wir [das|dieses] Zebra.',
+    'Mein Bruder ruft, [dass|dieses] er Hunger hat.',
+    'Also kaufen wir ein Eis, [das|welches] nach Erdbeere schmeckt.',
+    '[Das|Dieses] finden wir beide lecker.'
+  ]],
+  ['Im Schwimmbad', [
+    'Am Samstag fahre ich ins Schwimmbad.',
+    'Mama sagt, [dass|welches] ich die Badehose einpacken soll.',
+    'Ich nehme auch [das|dieses] Handtuch mit.',
+    'Im Wasser merke ich, [dass|dieses] es ziemlich kalt ist.',
+    'Dann springe ich von einem Brett, [das|welches] ganz oben ist.',
+    'Ich bin stolz, [dass|welches] ich mich getraut habe.'
+  ]],
+  ['Unser Kaninchen', [
+    'Wir haben ein Kaninchen, [das|welches] Flocke heißt.',
+    'Jeden Morgen fülle ich [das|dieses] Wasser nach.',
+    'Ich weiß, [dass|welches] Flocke gern Möhren frisst.',
+    'Papa meint, [dass|dieses] der Stall zu klein ist.',
+    'Deshalb bauen wir ein Gehege, [das|welches] viel Platz hat.'
+  ]],
+  ['Omas Geburtstag', [
+    'Morgen hat Oma Geburtstag.',
+    'Ich glaube, [dass|welches] sie sich über Blumen freut.',
+    'Meine Schwester malt [das|dieses] Bild für die Karte.',
+    'Wir hoffen, [dass|dieses] Oma nichts merkt.',
+    'Die Geschenke liegen in einem Zimmer, [das|welches] Oma nie benutzt.',
+    'Es ist schön, [dass|welches] wir zusammen feiern.'
+  ]]
+];
+
+const GAME = {
+  id: 'geschichten',
+  unit: 'Lücken',
+  next: { href: '6-schreib-profi.html', title: 'Schreib-Profi' },
+  review: () => `<div class="review c2">${texts.map(t =>
+    `<div class="col neutral"><h3>${t.title}</h3><p>${t.sents.map(s => s.g ? fill(s, `<b class="w ${s.g.k}">${s.g.ans}</b>`) : s.text).join(' ')}</p></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Lücken-Geschichten ---------- */
+const COLOR = { das: 'das', dass: 'bonus' };
+const GAP = /\[(\w+)\|(\w+)\]/;
+let texts = [], t = 0, sel = null;
+const fill = (s, html) => s.text.replace(GAP, html);
+const gapEl = g => $(`.lgap[data-g="${g.id}"]`);
+const tileEl = k => $(`.tile[data-k="${k}"]`);
+const openGaps = () => texts[t].sents.filter(s => s.g && !s.g.done).map(s => s.g);
+
+function startGame() {
+  let id = 0;
+  texts = TEXTS.map(([title, list]) => ({ title, sents: list.map(text => {
+    const m = text.match(GAP);
+    const s = { text, g: m ? { id: id++, ans: m[1], probe: m[2], k: m[1].toLowerCase(), misses: 0, done: false } : null };
+    if (s.g) s.g.s = s;
+    return s;
+  }) }));
+  resetState(id);
+  t = 0;
+  startText();
+  say('Lies die Geschichte. Welches Wort fehlt in der gelben Lücke: das oder dass?');
+  show('game');
+}
+
+function startText() {
+  const cur = texts[t];
+  $('#round').textContent = `Geschichte ${t + 1} von ${texts.length}: ${cur.title}`;
+  $('#story').innerHTML = cur.sents.map(s => s.g
+    ? fill(s, `<button class="lgap" data-g="${s.g.id}" aria-label="Lücke"><span aria-hidden="true">?</span></button>`) : s.text).join(' ');
+  select(openGaps()[0]);
+}
+
+function select(g) {
+  sel = g || null;
+  $$('.tile').forEach(el => el.classList.remove('hint'));
+  $$('.lgap').forEach(el => {
+    const on = !!sel && +el.dataset.g === sel.id;
+    el.classList.toggle('cur', on);
+    el.setAttribute('aria-label', el.classList.contains('filled') ? el.textContent : on ? 'Lücke, ausgewählt' : 'Lücke');
+  });
+  if (sel && sel.misses >= 2) tileEl(sel.k).classList.add('hint');
+  /* Auf kleinen Bildschirmen die Lücke in die Mitte holen, falls sie verdeckt ist */
+  const el = sel && gapEl(sel), r = el && el.getBoundingClientRect();
+  if (r && (r.top < 80 || r.bottom > innerHeight - 260)) el.scrollIntoView({ block: 'center', behavior: reduced ? 'auto' : 'smooth' });
+}
+
+function probe() {
+  if (state.busy || !sel) return;
+  sfx.pick();
+  say(`<span aria-hidden="true">🔍</span> Probe: „${fill(sel.s, `<mark>${sel.probe}</mark>`)}“<br>Klingt das richtig? Dann fehlt <b>das</b>. Klingt es falsch? Dann fehlt <b>dass</b>.`, 'think');
+}
+
+function choose(k) {
+  if (state.busy || !sel) return;
+  const g = sel;
+  if (k !== g.k) {
+    const hint = miss(g, tileEl(k));
+    wobble(gapEl(g));
+    if (hint) tileEl(g.k).classList.add('hint');
+    say(!hint ? 'Fast! Mach die Probe: Passt „dieses“ oder „welches“ in die Lücke?'
+      : g.k === 'das'
+        ? `Tipp: Hier passt die Probe: „${fill(g.s, `<b>${g.probe}</b>`)}“ Dann schreibst du <b>das</b> mit einem s.`
+        : 'Tipp: Hier passt weder „dieses“ noch „welches“. Dann schreibst du <b>dass</b> mit zwei s. Davor steht ein Komma.', 'think');
+    return;
+  }
+  g.done = true;
+  const el = gapEl(g);
+  el.textContent = g.ans; el.className = 'lgap filled ' + k; el.disabled = true;
+  solve(g, el, COLOR[k]);
+  say(`${pick(PRAISE, 'praise')} ${fill(g.s, `<span class="pill ${k}">${g.ans}</span>`)}`, 'happy');
+  const open = openGaps();
+  if (open.length) { select(open.find(o => o.id > g.id) || open[0]); return; }
+  select(null);
+  state.busy = true;
+  if (t < texts.length - 1) later(() => { t++; startText(); state.busy = false; say('Geschichte geschafft! Hier kommt die nächste.', 'happy'); }, 2400);
+  else later(finish, 2200);
+}
+
+$('#story').addEventListener('click', e => {
+  const el = e.target.closest('.lgap');
+  if (!el || state.busy || el.classList.contains('filled')) return;
+  const g = openGaps().find(o => o.id === +el.dataset.g);
+  if (g) { sfx.pick(); select(g); }
+});
+$('#tiles').addEventListener('click', e => {
+  const tile = e.target.closest('.tile');
+  if (!tile) return;
+  if (tile.id === 'lupe') probe(); else choose(tile.dataset.k);
+});
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[123]$/.test(e.key)) return;
+  if (e.key === '3') probe(); else choose(e.key === '1' ? 'das' : 'dass');
+});

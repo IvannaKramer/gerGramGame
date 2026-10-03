@@ -1,0 +1,155 @@
+@@meta
+file: 1-mehrzahl-memory.html
+title: Mehrzahl-Memory
+level: Anfänger
+nr: 1
+total: 15
+subtitle: Finde die Paare: Welche Einzahl gehört zu welcher Mehrzahl?
+lead: Einzahl ist im Spiel blau, Mehrzahl ist pink:
+id: memory
+desc: Finde die Paare aus Einzahl und Mehrzahl.
+sample: 🐕 der Hund + die Hunde
+drag: no
+@@tipp
+<b>Einzahl</b> heißt: nur eins. <b>Mehrzahl</b> heißt: zwei oder mehr. In der Mehrzahl heißt der Artikel immer <b>die</b>.
+@@examples
+      <div class="ex" style="--tilt:-1.5deg"><div class="ex-body"><span class="emo" aria-hidden="true">🐕</span><span class="e1">der Hund</span><span class="arrow" aria-hidden="true">▼</span><span class="e2">die Hunde</span></div></div>
+      <div class="ex" style="--tilt:1deg"><div class="ex-body"><span class="emo" aria-hidden="true">📖</span><span class="e1">das Buch</span><span class="arrow" aria-hidden="true">▼</span><span class="e2">die Bücher</span></div></div>
+      <div class="ex" style="--tilt:-.5deg"><div class="ex-body"><span class="emo" aria-hidden="true">🌸</span><span class="e1">die Blume</span><span class="arrow" aria-hidden="true">▼</span><span class="e2">die Blumen</span></div></div>
+@@howto
+        <li>Tippe eine blaue Karte an. Sie dreht sich um und zeigt ein Wort in der Einzahl.</li>
+        <li>Tippe dann eine pinke Karte an. Sie zeigt ein Wort in der Mehrzahl.</li>
+        <li>Gehören beide Wörter zusammen? Dann bleibt das Paar offen. Wenn nicht, drehen sich die Karten wieder um.</li>
+@@board
+    <p class="round" id="round">Runde 1 von 3</p>
+    <div class="memo" id="memo"></div>
+@@tray
+@@css
+/* ---------- Memory ---------- */
+.memo{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:14px;perspective:1200px}
+@media (max-width:860px){.memo{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:520px){.memo{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}}
+.mcard{appearance:none;border:none;background:none;padding:0;height:clamp(124px,17vw,152px);cursor:pointer;border-radius:18px}
+.mcard .inner{position:relative;display:block;width:100%;height:100%;transition:transform .4s ease;transform-style:preserve-3d}
+.mcard.open .inner{transform:rotateY(180deg)}
+.mcard .back,.mcard .face{position:absolute;inset:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 4px 0 var(--cd),0 10px 18px var(--lift)}
+.mcard .back{background:var(--c);color:#fff}
+.mcard .back b{font-size:1.5rem;letter-spacing:.12em;line-height:1.2}
+.mcard .back small{font-size:1rem;font-weight:700}
+.mcard .face{background:var(--card);border:4px solid var(--c);transform:rotateY(180deg);padding:4px}
+.mcard .pic{font-size:clamp(1.7rem,4.4vw,2.5rem);line-height:1.15;white-space:nowrap}
+.mcard .word{font-weight:700;font-size:clamp(1.1rem,2.5vw,1.5rem);line-height:1.15;color:var(--ink);overflow-wrap:anywhere;text-align:center}
+.mcard.found{cursor:default}
+.mcard.found .face{background:var(--cs)}
+@media (hover:hover){.mcard:not(.open):hover .inner{transform:translateY(-3px)}}
+@@data
+/* Aufbau: [Einzahl, Mehrzahl, Bild] – immer 5 Paare bilden eine Runde */
+const WORDS = [
+  ['der Hund',   'die Hunde',   '🐕'],
+  ['die Katze',  'die Katzen',  '🐈'],
+  ['das Auto',   'die Autos',   '🚗'],
+  ['der Ball',   'die Bälle',   '⚽'],
+  ['das Buch',   'die Bücher',  '📖'],
+  ['die Blume',  'die Blumen',  '🌸'],
+  ['der Baum',   'die Bäume',   '🌳'],
+  ['das Haus',   'die Häuser',  '🏠'],
+  ['der Fisch',  'die Fische',  '🐟'],
+  ['die Maus',   'die Mäuse',   '🐭'],
+  ['der Apfel',  'die Äpfel',   '🍎'],
+  ['das Ei',     'die Eier',    '🥚'],
+  ['der Stern',  'die Sterne',  '⭐'],
+  ['die Banane', 'die Bananen', '🍌'],
+  ['der Schuh',  'die Schuhe',  '👟']
+];
+const PAIRS_PER_ROUND = 5;
+
+const GAME = {
+  id: 'memory',
+  next: { href: '2-eins-oder-viele.html', title: 'Eins oder viele?' },
+  /* Sterne nach Versuchen: Jedes Paar braucht mindestens einen Versuch. */
+  stars: () => { const extra = tries - state.total; return extra <= 9 ? 3 : extra <= 18 ? 2 : 1; },
+  note: stars => stars === 3
+    ? `Du hast nur ${tries} Versuche gebraucht. Starkes Gedächtnis!`
+    : `Du hast ${tries} Versuche gebraucht. Spiel nochmal, dann findest du die Paare noch schneller!`,
+  review: () => {
+    const all = rounds.flat(), half = Math.ceil(all.length / 2);
+    return `<div class="review c2"><div class="col mz"><ul>${all.slice(0, half).map(pairLi).join('')}</ul></div>
+      <div class="col mz"><ul>${all.slice(half).map(pairLi).join('')}</ul></div></div>`;
+  }
+};
+@@js
+/* ---------- Spiel: Mehrzahl-Memory ---------- */
+const KIND = { ez: 'Einzahl', mz: 'Mehrzahl' };
+const BACK = { ez: '●', mz: '●●●' };
+let rounds = [], round = 0, cards = [], open = [], tries = 0, left = 0;
+const closedLabel = c => `${KIND[c.kind]}-Karte, verdeckt`;
+
+function startGame() {
+  const all = shuffle(WORDS.map(w => ({ ez: w[0], mz: w[1], emoji: w[2], misses: 0 })));
+  rounds = [];
+  for (let i = 0; i < all.length; i += PAIRS_PER_ROUND) rounds.push(all.slice(i, i + PAIRS_PER_ROUND));
+  resetState(all.length);
+  round = 0; tries = 0;
+  startRound();
+  say('Dreh zwei Karten um: eine blaue und eine pinke. Passen Einzahl und Mehrzahl zusammen?');
+  show('game');
+}
+
+function startRound() {
+  open = []; left = rounds[round].length;
+  cards = shuffle(rounds[round].flatMap(w => [{ w, kind: 'ez' }, { w, kind: 'mz' }]));
+  $('#round').textContent = `Runde ${round + 1} von ${rounds.length}`;
+  $('#memo').innerHTML = cards.map((c, i) => {
+    const text = c.kind === 'ez' ? c.w.ez : c.w.mz;
+    const pic = c.kind === 'ez' ? c.w.emoji : c.w.emoji + c.w.emoji;
+    return `<button class="mcard ${c.kind}" data-i="${i}" aria-label="${closedLabel(c)}">
+      <span class="inner">
+        <span class="back" aria-hidden="true"><b>${BACK[c.kind]}</b><small>${KIND[c.kind]}</small></span>
+        <span class="face" aria-hidden="true"><span class="pic">${pic}</span><span class="word">${text}</span></span>
+      </span></button>`;
+  }).join('');
+}
+
+$('#memo').addEventListener('click', e => {
+  const el = e.target.closest('.mcard');
+  if (!el || state.busy) return;
+  const c = cards[+el.dataset.i];
+  if (c.open || c.found) return;
+  sfx.pick();
+  c.open = true;
+  el.classList.add('open');
+  el.setAttribute('aria-label', `${KIND[c.kind]}: ${c.kind === 'ez' ? c.w.ez : c.w.mz}`);
+  open.push({ c, el });
+  if (open.length < 2) return;
+
+  tries++;
+  const [a, b] = open; open = [];
+  state.busy = true;
+  if (a.c.w === b.c.w) {
+    a.c.found = b.c.found = true;
+    later(() => {
+      a.el.classList.add('found'); b.el.classList.add('found');
+      solve(a.c.w, b.el, 'die');
+      say(`${pick(PRAISE, 'praise')} <span class="pill ez">${a.c.w.ez}</span> und <span class="pill mz">${a.c.w.mz}</span> gehören zusammen.`, 'happy');
+      state.busy = false;
+      if (--left === 0) roundDone();
+    }, 450);
+  } else {
+    const same = a.c.kind === b.c.kind;
+    say(same
+      ? `Das sind zwei ${KIND[a.c.kind]}-Karten. Dreh eine blaue und eine pinke Karte um!`
+      : 'Das passt noch nicht. Merk dir, wo die Karten liegen!', 'think');
+    later(() => {
+      [a, b].forEach(o => { o.c.open = false; o.el.classList.remove('open'); o.el.setAttribute('aria-label', closedLabel(o.c)); });
+      state.busy = false;
+    }, 1700);
+  }
+});
+
+function roundDone() {
+  state.busy = true;
+  if (round < rounds.length - 1) {
+    later(() => { say('Runde geschafft! Hier kommen neue Karten.', 'happy'); round++; startRound(); state.busy = false; }, 1600);
+  } else later(finish, 1300);
+}

@@ -1,0 +1,177 @@
+@@meta
+file: 2-buchstaben-koerbe.html
+title: Buchstaben-Körbe
+level: Anfänger
+nr: 2
+total: 15
+subtitle: Welcher Buchstabe fehlt? Sortiere jede Karte in den richtigen Buchstaben-Korb.
+lead: Jedes Buchstabenpaar hat im Spiel seine eigene Farbe:
+id: koerbe
+desc: Sortiere die Wörter in sechs Buchstaben-Körbe.
+sample: 🐴 Pfer_ → Korb d
+drag: yes
+@@tipp
+Unter jedem Wort steht schon die <b>Verlängerung</b>. Sprich sie laut in Silben: „Pfer·de“. Nach dem Punkt hörst du den Buchstaben, der fehlt. Hier ist es ein <b>d</b>.
+@@examples
+      <div class="ex pb" style="--tilt:-1.5deg"><div class="ex-head"><b>b oder p?</b></div><div class="ex-body"><span class="emo" aria-hidden="true">🔭</span>Telesko·<span class="a">p</span>e<span class="arrow" aria-hidden="true">▼</span>Telesko<span class="a">p</span></div></div>
+      <div class="ex pd" style="--tilt:1deg"><div class="ex-head"><b>d oder t?</b></div><div class="ex-body"><span class="emo" aria-hidden="true">🐴</span>Pfer·<span class="a">d</span>e<span class="arrow" aria-hidden="true">▼</span>Pfer<span class="a">d</span></div></div>
+      <div class="ex pg" style="--tilt:-.5deg"><div class="ex-head"><b>g oder k?</b></div><div class="ex-body"><span class="emo" aria-hidden="true">🏰</span>Bur·<span class="a">g</span>en<span class="arrow" aria-hidden="true">▼</span>Bur<span class="a">g</span></div></div>
+@@howto
+        <li>Tippe eine Karte an. Lies das Wort und sprich die Verlängerung darunter laut.</li>
+        <li>Welchen Buchstaben hörst du? Tippe auf den passenden Korb. Du kannst die Karte auch mit dem Finger in den Korb ziehen.</li>
+        <li>Passt es, verschwindet die Karte. Passt es nicht, probierst du einfach einen anderen Korb.</li>
+@@board
+    <div class="words with-pics" id="words"></div>
+@@tray
+    <div class="tray">
+      <div class="baskets" id="baskets"></div>
+    </div>
+@@css
+/* ---------- Buchstaben-Körbe ---------- */
+.pb{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.pd{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.pg{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.hit{color:var(--c);background:var(--cs);border-radius:8px;padding:0 .08em}
+.gap{display:inline-block;width:.62em;border-bottom:3px solid currentColor;margin:0 1px}
+.with-pics .word-card{min-height:150px;padding:10px 6px}
+.word-card .pic{font-size:2.5rem}
+.word-card .word{font-size:clamp(1.5rem,2.6vw,1.75rem)}
+.word-card .long{font-size:1.05rem;color:var(--ink-soft);line-height:1.2;text-align:center}
+.baskets{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(8px,1.6vw,16px);max-width:860px;margin:0 auto}
+.basket{appearance:none;border:none;position:relative;border-radius:12px 12px 26px 26px;background:var(--c);color:#fff;min-height:clamp(62px,9vw,88px);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:inset 0 8px 0 rgba(255,255,255,.22),0 6px 0 var(--cd),0 12px 22px var(--lift);
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .16s ease,box-shadow .16s ease}
+.basket b{font-size:clamp(2rem,5vw,2.6rem);line-height:1}
+.basket.selected,.basket.drop-over{transform:translateY(-6px);box-shadow:inset 0 8px 0 rgba(255,255,255,.22),0 0 0 5px var(--sun),0 14px 24px var(--lift)}
+.basket.hint{animation:glow 1.1s ease-in-out infinite}
+@media (max-width:560px){
+  .baskets{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,auto);grid-auto-flow:column;gap:12px 10px}
+  .basket{min-height:56px}
+}
+@@data
+/* Aufbau: [Wort mit Lücke (_), fehlender Buchstabe, Bild, Verlängerung]
+   In der Verlängerung steht der gesuchte Buchstabe in eckigen Klammern, der Punkt trennt die Silben.
+   Auf der Karte wird die Verlängerung auch mit Lücke gezeigt. */
+const WORDS = [
+  ['Kal_',       'b', '🐄', 'viele Käl·[b]er'],
+  ['Zaubersta_', 'b', '🪄', 'viele Zauberstä·[b]e'],
+  ['es kle_t',   'b', '🩹', 'kle·[b]en'],
+  ['Telesko_',   'p', '🔭', 'viele Telesko·[p]e'],
+  ['Pfer_',      'd', '🐴', 'viele Pfer·[d]e'],
+  ['Mon_',       'd', '🌙', 'viele Mon·[d]e'],
+  ['Klei_',      'd', '👗', 'viele Klei·[d]er'],
+  ['Boo_',       't', '⛵', 'viele Boo·[t]e'],
+  ['bun_',       't', '🌈', 'bun·[t]e Farben'],
+  ['Bar_',       't', '🧔', 'viele Bär·[t]e'],
+  ['Bur_',       'g', '🏰', 'viele Bur·[g]en'],
+  ['er flie_t',  'g', '🐦', 'flie·[g]en'],
+  ['Flugzeu_',   'g', '✈️', 'viele Flugzeu·[g]e'],
+  ['Geträn_',    'k', '🥤', 'viele Geträn·[k]e'],
+  ['kran_',      'k', '🤒', 'ein kran·[k]es Kind']
+];
+/* Die sechs Körbe: [Buchstabe, Farbe des Buchstabenpaars] */
+const BASKETS = [['b', 'pb'], ['p', 'pb'], ['d', 'pd'], ['t', 'pd'], ['g', 'pg'], ['k', 'pg']];
+
+const GAME = {
+  id: 'koerbe',
+  next: { href: '3-verlaengerungs-memory.html', title: 'Verlängerungs-Memory' },
+  review: () => `<div class="review">${['pb', 'pd', 'pg'].map(p =>
+    `<div class="col ${p}"><h3>${BASKETS.filter(b => b[1] === p).map(b => b[0]).join(' oder ')}</h3><ul>${items.filter(w => w.pair === p).sort((a, b) => a.l < b.l ? -1 : 1).map(w =>
+      `<li><span>${plainExt(w)} →</span> <b>${w.full}</b></li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Buchstaben-Körbe ---------- */
+const GAP = '<i class="gap"></i>';
+const COLOR = { pb: 'der', pd: 'die', pg: 'das' };
+const pairOf = l => BASKETS.find(b => b[0] === l)[1];
+const plainExt = w => w.ext.replace(/[\[\]]/g, '');
+const colorExt = w => w.ext.replace(/\[(.)\]/, `<b class="hit ${w.pair}">$1</b>`);
+let items = [], selWord = null, selL = null;
+const byId = id => items.find(w => w.id === id);
+const cardEl = id => $(`.word-card[data-id="${id}"]`);
+const basketEl = l => $(`.basket[data-l="${l}"]`);
+
+$('#baskets').innerHTML = BASKETS.map(([l, p]) =>
+  `<button class="basket ${p}" data-l="${l}" aria-pressed="false" aria-label="Korb ${l}"><b>${l}</b></button>`).join('');
+
+function startGame() {
+  items = shuffle(WORDS.map((w, i) => ({ id: 'w' + i, gap: w[0], l: w[1], emoji: w[2], ext: w[3], pair: pairOf(w[1]), full: w[0].replace('_', w[1]), misses: 0, done: false })));
+  resetState(items.length);
+  selWord = selL = null;
+  $('#words').innerHTML = items.map(w =>
+    `<button class="word-card" data-id="${w.id}" aria-pressed="false" aria-label="${w.gap.replace('_', ' Lücke ')}" style="--tilt:${(Math.random() * 3 - 1.5).toFixed(2)}deg">
+      <span class="pic" aria-hidden="true">${w.emoji}</span><span class="word">${w.gap.replace('_', GAP)}</span>
+      <span class="long">${w.ext.replace(/\[.\]/, GAP)}</span></button>`).join('');
+  renderSelection();
+  say('Tippe eine Karte an. Sprich die Verlängerung laut und tippe dann auf den passenden Korb.');
+  show('game');
+}
+
+function renderSelection() {
+  $$('.word-card').forEach(el => {
+    const on = el.dataset.id === selWord;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+  });
+  $$('.basket').forEach(el => {
+    const on = el.dataset.l === selL;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+    el.classList.remove('hint');
+  });
+  const w = selWord && byId(selWord);
+  if (w && w.misses >= 2) basketEl(w.l).classList.add('hint');
+}
+
+function tapWord(id) {
+  const w = byId(id);
+  if (!w || w.done || state.busy) return;
+  if (selL) { attempt(id, selL); return; }
+  selWord = selWord === id ? null : id;
+  sfx.pick(); renderSelection();
+  if (selWord) say(`Sprich die Verlängerung laut in Silben. Welcher Buchstabe fehlt bei <b>${w.gap.replace('_', GAP)}</b>?`);
+}
+function tapBasket(l) {
+  if (state.busy) return;
+  if (selWord) { attempt(selWord, l); return; }
+  selL = selL === l ? null : l;
+  sfx.pick(); renderSelection();
+  if (selL) say(`Welche Karte gehört in den Korb <span class="pill ${pairOf(l)}">${l}</span>?`);
+}
+
+function attempt(id, l) {
+  const w = byId(id);
+  if (!w || w.done) return;
+  if (w.l !== l) {
+    miss(w, cardEl(id));
+    wobble(basketEl(l));
+    selWord = id; selL = null;
+    renderSelection();
+    say(w.misses >= 2
+      ? `Tipp: Sprich ganz deutlich <b>${plainExt(w)}</b>. Nach dem Punkt hörst du ein <b>${w.l}</b>. Der leuchtende Korb ist richtig.`
+      : pairOf(l) !== w.pair ? 'Hmm, dieser Buchstabe klingt ganz anders. Sprich die Verlängerung noch einmal laut.'
+      : 'Fast! Sprich die Verlängerung langsam in Silben. Was hörst du nach dem Punkt?', 'think');
+    return;
+  }
+  const card = cardEl(id);
+  selWord = selL = null;
+  renderSelection();
+  card.classList.add('vanish');
+  later(() => { card.classList.remove('vanish'); card.classList.add('done'); card.disabled = true; }, 330);
+  solve(w, basketEl(l), COLOR[w.pair]);
+  say(`${pick(PRAISE, 'praise')} ${colorExt(w)} → <span class="pill ${w.pair}">${w.full}</span> mit <b>${w.l}</b>.`, 'happy');
+  if (state.solved === state.total) { state.busy = true; later(finish, 1700); }
+}
+
+$('#words').addEventListener('click', e => {
+  if (suppressClick) return;
+  const c = e.target.closest('.word-card');
+  if (c) tapWord(c.dataset.id);
+});
+$$('.basket').forEach(b => b.addEventListener('click', () => { if (!suppressClick) tapBasket(b.dataset.l); }));
+enableDrag('.word-card:not(.done)', '.basket', (card, basket) => attempt(card.dataset.id, basket.dataset.l));
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-6]$/.test(e.key)) return;
+  tapBasket(BASKETS[+e.key - 1][0]);
+});

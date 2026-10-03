@@ -1,0 +1,189 @@
+@@meta
+file: 1-satz-zug.html
+title: Satz-Zug
+level: Anfänger
+nr: 1
+total: 15
+subtitle: Jeder Wagen ist ein Satzglied. Stelle die Wagen so um, dass ein richtiger Satz entsteht.
+lead: Das Verb ist im Spiel pink, alle anderen Satzglieder sind blau:
+id: zug
+desc: Bringe die Wagen in eine richtige Reihenfolge.
+sample: 🚂 Am Abend | liest | Opa | die Zeitung.
+drag: yes
+@@tipp
+Im Aussagesatz steht das <b>Verb</b> immer an <b>zweiter Stelle</b>. Die anderen Satzglieder dürfen ihre Plätze tauschen: <b>Der Hund bellt laut.</b> oder <b>Laut bellt der Hund.</b>
+@@examples
+      <div class="ex sg" style="--tilt:-1.5deg"><div class="ex-head"><b>Platz 1</b><span>ein Satzglied</span></div><div class="ex-body"><span class="a">Am Abend</span></div></div>
+      <div class="ex vb" style="--tilt:1deg"><div class="ex-head"><b>Platz 2</b><span>das Verb</span></div><div class="ex-body"><span class="a">liest</span></div></div>
+      <div class="ex sg" style="--tilt:-.5deg"><div class="ex-head"><b>danach</b><span>der Rest</span></div><div class="ex-body"><span class="a">Opa die Zeitung.</span></div></div>
+@@howto
+        <li>Lies die Wörter auf den Wagen. Der pinke Wagen ist das Verb.</li>
+        <li>Tippe zwei Wagen nacheinander an, dann tauschen sie die Plätze. Du kannst einen Wagen auch mit dem Finger auf einen anderen ziehen.</li>
+        <li>Steht das Verb auf Platz 2? Dann tippe auf „Prüfen“. Oft gibt es mehrere richtige Lösungen!</li>
+@@board
+    <div class="bench">
+      <p class="zpic" id="pic" aria-hidden="true"></p>
+      <div class="train" id="train"></div>
+      <p class="help">Tasten: Mit ← und → fährt der ausgewählte Wagen einen Platz weiter.</p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Satz-Zug ---------- */
+.sg{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.vb{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.ex-body{font-size:clamp(1.05rem,2.8vw,1.5rem)}
+.bubble .pill{margin:2px 0}
+.also{display:block;color:var(--ink-soft)}
+.bubble .also{margin-top:4px}
+.review .also{font-size:1rem}
+.review.c1{grid-template-columns:1fr}
+.review li{font-weight:400;font-size:1.1rem;line-height:1.35;padding:2px 0}
+.review li b{color:var(--die)}
+.review li i{font-style:normal;color:var(--ink-soft);padding:0 .3em}
+.zpic{font-size:3rem;line-height:1.1;margin:0 0 16px}
+.train{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:26px 12px;padding:6px 0 14px}
+.train .loco{font-size:2.8rem;line-height:1.3}
+.train .stop{font-weight:700;font-size:2.2rem;line-height:1.6}
+.wagon{appearance:none;position:relative;background:var(--card);border:3px solid var(--card-edge);border-radius:14px;min-height:64px;padding:8px 18px 10px;
+  font-weight:700;font-size:clamp(1.5rem,3.6vw,2rem);line-height:1.2;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
+  box-shadow:0 4px 0 var(--card-edge),0 10px 18px var(--lift);transition:transform .16s ease,border-color .16s ease,background-color .16s ease}
+.wagon::before,.wagon::after{content:"";position:absolute;bottom:-15px;width:20px;height:20px;border-radius:50%;background:var(--ink-soft);border:4px solid var(--card)}
+.wagon::before{left:12px}
+.wagon::after{right:12px}
+.wagon.vb{border-color:var(--c);background:var(--cs)}
+.wagon .nr{position:absolute;top:-14px;left:-10px;width:28px;height:28px;border-radius:50%;background:var(--sun);color:var(--on-sun);
+  font-family:var(--f-display);font-weight:800;font-size:.95rem;display:grid;place-items:center}
+.wagon.selected{border-color:var(--sun);background:var(--sun-soft);transform:translateY(-8px)}
+.wagon.drop-over{border-color:var(--sun);transform:scale(1.06)}
+.wagon.dragging{opacity:.35}
+.wagon.hint{animation:glow 1.1s ease-in-out infinite}
+.train.solved .wagon{border-color:var(--c);background:var(--cs);cursor:default}
+@media (hover:none),(max-width:620px){.bench .help{display:none}}
+@@data
+/* Aufbau: [Bild, Satzglied 1, Verb, Satzglied 3, (Satzglied 4)]
+   Die Satzglieder stehen in der normalen Reihenfolge, das Verb immer an zweiter Stelle.
+   Schreibe jedes Satzglied so, wie es mitten im Satz steht (also „der Hund“, nicht „Der Hund“).
+   Das Spiel nimmt jede Reihenfolge an, bei der das Verb auf Platz 2 steht. */
+const SENTENCES = [
+  ['🐕', 'der Hund',  'bellt',      'laut'],
+  ['🌞', 'die Sonne', 'scheint',    'heute'],
+  ['🐟', 'der Fisch', 'schwimmt',   'im Teich'],
+  ['👶', 'das Baby',  'schläft',    'im Kinderwagen'],
+  ['🐦', 'der Vogel', 'singt',      'am Morgen'],
+  ['📰', 'Opa',       'liest',      'am Abend',        'die Zeitung'],
+  ['⚽', 'Tim',       'schießt',    'den Ball',        'ins Tor'],
+  ['🐈', 'die Katze', 'trinkt',     'in der Küche',    'Milch'],
+  ['🍲', 'Oma',       'kocht',      'am Sonntag',      'eine Suppe'],
+  ['🚌', 'der Bus',   'hält',       'am Morgen',       'vor der Schule'],
+  ['🎨', 'Lena',      'malt',       'nach der Schule', 'ein Bild'],
+  ['🐎', 'das Pferd', 'frisst',     'im Stall',        'Heu'],
+  ['🚲', 'Papa',      'repariert',  'in der Garage',   'das Fahrrad'],
+  ['🌧️', 'der Regen', 'tropft',     'leise',           'auf das Dach'],
+  ['🐝', 'die Biene', 'fliegt',     'im Sommer',       'zu den Blumen']
+];
+
+const GAME = {
+  id: 'zug',
+  unit: 'Sätze',
+  next: { href: '2-welcher-satz-stimmt.html', title: 'Welcher Satz stimmt?' },
+  review: () => {
+    const li = s => `<li>${s.parts.map((p, i) => i === 1 ? `<b>${p}</b>` : (i === 0 ? cap(p) : p)).join('<i>|</i>')}.<br><span class="also">oder: ${sentence(altOrder(s, [0]).map(i => s.parts[i]))}</span></li>`;
+    const half = Math.ceil(all.length / 2);
+    return `<div class="review c2"><div class="col sg"><ul>${all.slice(0, half).map(li).join('')}</ul></div>
+      <div class="col sg"><ul>${all.slice(half).map(li).join('')}</ul></div></div>`;
+  }
+};
+@@js
+/* ---------- Spiel: Satz-Zug ---------- */
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const sentence = parts => cap(parts.join(' ')) + '.';
+const TRY = ['Fast! Zähle nach: Auf welchem Platz steht das Verb?', 'Noch nicht ganz. Das pinke Verb braucht einen anderen Platz.', 'Guter Versuch! Schau auf den pinken Wagen.'];
+let all = [], queue = [], cur = null, order = [], sel = null;
+
+/* Eine andere richtige Reihenfolge als die übergebene: ein anderes Satzglied wandert nach vorn */
+function altOrder(s, now) {
+  const n = s.parts.length, first = now[0] === 2 ? (n > 3 ? 3 : 0) : 2;
+  const rest = s.parts.map((_, i) => i).filter(i => i !== 1 && i !== first);
+  return [first, 1, ...rest];
+}
+const pills = (s, ord) => ord.map((i, pos) => `<span class="pill ${i === 1 ? 'vb' : 'sg'}">${pos === 0 ? cap(s.parts[i]) : s.parts[i]}</span>`).join(' ') + '.';
+
+function startGame() {
+  all = SENTENCES.map(s => ({ emoji: s[0], parts: s.slice(1), misses: 0 }));
+  /* zuerst die kurzen Sätze, dann die langen */
+  queue = shuffle(all.filter(s => s.parts.length === 3)).concat(shuffle(all.filter(s => s.parts.length > 3)));
+  resetState(all.length);
+  say('Stelle die Wagen um. Tippe zwei Wagen an, dann tauschen sie die Plätze. Das <span class="pill vb">Verb</span> gehört auf Platz 2.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false; sel = null;
+  do { order = shuffle(cur.parts.map((_, i) => i)); } while (order[1] === 1);
+  $('#pic').textContent = cur.emoji;
+  $('#train').classList.remove('solved');
+  render();
+}
+
+function render(focusPos) {
+  $('#train').innerHTML = '<span class="loco" aria-hidden="true">🚂</span>' + order.map((pi, pos) =>
+    `<button class="wagon ${pi === 1 ? 'vb' : 'sg'}${sel === pos ? ' selected' : ''}" data-pos="${pos}" aria-pressed="${sel === pos}" aria-label="Platz ${pos + 1}: ${cur.parts[pi]}${pi === 1 ? ' (Verb)' : ''}">` +
+    `<span class="nr" aria-hidden="true">${pos + 1}</span>${pos === 0 ? cap(cur.parts[pi]) : cur.parts[pi]}</button>`).join('') + '<span class="stop" aria-hidden="true">.</span>';
+  if (focusPos != null) { const w = $(`.wagon[data-pos="${focusPos}"]`); if (w) w.focus(); }
+}
+
+function swap(a, b, focus) {
+  if (state.busy || a === b || a < 0 || b < 0 || a >= order.length || b >= order.length) return;
+  [order[a], order[b]] = [order[b], order[a]];
+  sel = null; sfx.pick();
+  render(focus ? b : null);
+}
+
+function tap(pos) {
+  if (state.busy) return;
+  if (sel === null) {
+    sel = pos; sfx.pick(); render(pos);
+    say(`Tippe jetzt den Wagen an, mit dem <b>${cur.parts[order[pos]]}</b> den Platz tauschen soll.`);
+  } else if (sel === pos) { sel = null; render(pos); }
+  else swap(sel, pos, true);
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const vpos = order.indexOf(1), verb = `<span class="pill vb">${cur.parts[1]}</span>`;
+  if (vpos !== 1) {
+    sel = null; render();
+    const hint = miss(cur, $('.wagon.vb'));
+    if (hint) $('.wagon.vb').classList.add('hint');
+    say(hint ? `Tipp: Das Verb ${verb} gehört auf <b>Platz 2</b>. Davor steht genau ein Satzglied.`
+      : vpos === 0 ? `So beginnt eine Frage. Im Aussagesatz steht das Verb ${verb} an zweiter Stelle.`
+      : pick(TRY, 'try'), 'think');
+    return;
+  }
+  state.busy = true; sel = null; render();
+  $('#train').classList.add('solved');
+  solve(cur, $('#train'), 'die');
+  say(`${pick(PRAISE, 'praise')} ${pills(cur, order)}<span class="also">So geht es auch: ${sentence(altOrder(cur, order).map(i => cur.parts[i]))}</span>`, 'happy');
+  later(next, 2600);
+}
+
+$('#train').addEventListener('click', e => {
+  if (suppressClick) return;
+  const w = e.target.closest('.wagon');
+  if (w) tap(+w.dataset.pos);
+});
+$('#train').addEventListener('keydown', e => {
+  const w = e.target.closest('.wagon');
+  if (!w || (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight')) return;
+  e.preventDefault();
+  const pos = +w.dataset.pos;
+  swap(pos, pos + (e.key === 'ArrowLeft' ? -1 : 1), true);
+});
+$('#check').addEventListener('click', check);
+enableDrag('.wagon', '.wagon', (src, tgt) => swap(+src.dataset.pos, +tgt.dataset.pos, false));

@@ -1,0 +1,10 @@
+@@meta
+slug: einzahl-mehrzahl
+title: Einzahl und Mehrzahl
+subtitle: Sechs Spiele rund um eins und viele. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Bildern. Je 15 Wörter.
+lead2: Endungen und Umlaute. Je 20 Wörter.
+lead3: Knifflige Wörter zum Selberschreiben. 20 Wörter.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Wörtern, dazu die Lösungen.
+@@tipp
+<b>Einzahl</b> heißt: nur eins. <b>Mehrzahl</b> heißt: zwei oder mehr. In der Mehrzahl heißt der Artikel immer <b>die</b>: der Hund → die Hunde, das Buch → die Bücher.

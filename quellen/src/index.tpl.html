@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{TOPIC}}: 6 Lernspiele</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Grandstander:wght@600;800&display=swap">
+<style>
+{{CSS}}
+/* ---------- Übersicht ---------- */
+.choose{font-family:var(--f-display);font-weight:800;font-size:1.6rem;margin:30px 0 4px;line-height:1.15}
+.choose-lead{margin:0 0 14px;color:var(--ink-soft)}
+a.phase{text-decoration:none;color:var(--ink)}
+a.phase:hover{transform:translateY(-3px);border-color:var(--sun)}
+.phases.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.phases.one{grid-template-columns:minmax(0,1fr);max-width:520px}
+.phase .record{color:var(--ink-soft);font-size:1rem}
+.sheets{margin-top:36px;background:var(--card);border:3px solid var(--card-edge);border-radius:22px;padding:18px clamp(16px,3vw,26px);box-shadow:0 4px 0 var(--card-edge);
+  display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+.sheets p{margin:0;flex:1 1 300px}
+.sheets a{background:var(--sun);color:var(--on-sun);font-weight:700;padding:10px 20px;border-radius:14px;box-shadow:0 4px 0 var(--sun-deep);text-decoration:none}
+@media (max-width:760px){.phases.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="hero">
+    <span id="owl"></span>
+    <div>
+      <h1 class="title">{{TOPIC}}</h1>
+      <p class="subtitle">{{SUBTITLE}}</p>
+    </div>
+  </div>
+
+  <div class="tipp"><span class="tipp-tag">Tipp</span><p>{{TIPP}}</p></div>
+
+  <h2 class="choose">Für Anfänger</h2>
+  <p class="choose-lead">{{LEAD1}}</p>
+  <div class="phases" data-games="{{IDS1}}"></div>
+
+  <h2 class="choose">Für Fortgeschrittene</h2>
+  <p class="choose-lead">{{LEAD2}}</p>
+  <div class="phases two" data-games="{{IDS2}}"></div>
+
+  <h2 class="choose">Für Profis</h2>
+  <p class="choose-lead">{{LEAD3}}</p>
+  <div class="phases one" data-games="{{IDS3}}"></div>
+
+  <div class="sheets">
+    <p><b>Übungsblätter zum Ausdrucken:</b> {{SHEETS}}</p>
+    <a href="../../arbeitsblaetter/{{SLUG}}.pdf">Übungsblätter öffnen (PDF)</a>
+  </div>
+</main>
+
+<script>
+(() => {
+'use strict';
+const GAMES = {{GAMES}};
+const STAR_PATH = 'M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z';
+const starsRow = n => `<span class="stars" role="img" aria-label="${n} von 3 Sternen">${[0, 1, 2].map(i =>
+  `<svg viewBox="0 0 24 24" class="${i < n ? 'star-on' : 'star-off'}" aria-hidden="true"><path d="${STAR_PATH}" stroke-width="1.6" stroke-linejoin="round"/></svg>`).join('')}</span>`;
+function saved(id) {
+  try { const p = JSON.parse(localStorage.getItem('{{SLUG}}-' + id + '-v1')) || {}; return { stars: Math.max(0, Math.min(3, p.stars | 0)), best: Math.max(0, p.best | 0) }; }
+  catch (e) { return { stars: 0, best: 0 }; }
+}
+document.querySelectorAll('[data-games]').forEach(box => {
+  box.innerHTML = box.dataset.games.split(',').map(id => {
+    const g = GAMES[id], s = saved(id);
+    return `<a class="phase" href="${g.href}">
+      <span class="num">Spiel ${g.nr}</span>
+      <span class="name">${g.name}</span>
+      <span class="desc">${g.desc}</span>
+      <span class="sample" aria-hidden="true">${g.sample}</span>
+      <span class="record">${s.best > 0 ? `Dein Rekord: ${s.best} Punkte` : 'Noch nicht gespielt'}</span>
+      <span class="foot">${starsRow(s.stars)}<span class="go">${s.best > 0 ? 'Nochmal spielen' : 'Spielen'}</span></span>
+    </a>`;
+  }).join('');
+});
+document.getElementById('owl').outerHTML = `<svg class="owl" viewBox="0 0 120 120" aria-hidden="true">
+  <path d="M30 42 L32 12 L52 30 Z" fill="var(--owl)"/><path d="M90 42 L88 12 L68 30 Z" fill="var(--owl)"/>
+  <ellipse cx="60" cy="66" rx="40" ry="44" fill="var(--owl)"/>
+  <ellipse cx="25" cy="76" rx="9" ry="21" fill="var(--owl-wing)" transform="rotate(14 25 76)"/>
+  <ellipse cx="95" cy="76" rx="9" ry="21" fill="var(--owl-wing)" transform="rotate(-14 95 76)"/>
+  <ellipse cx="60" cy="84" rx="25" ry="24" fill="var(--owl-belly)"/>
+  <circle cx="44" cy="52" r="16" fill="#fff"/><circle cx="76" cy="52" r="16" fill="#fff"/>
+  <circle cx="46" cy="54" r="7.5" fill="#22304A"/><circle cx="78" cy="54" r="7.5" fill="#22304A"/>
+  <circle cx="48.5" cy="51.5" r="2.4" fill="#fff"/><circle cx="80.5" cy="51.5" r="2.4" fill="#fff"/>
+  <path d="M54 63 L66 63 L60 73 Z" fill="#FFB627" stroke="#D98E00" stroke-width="1.5" stroke-linejoin="round"/>
+  <ellipse cx="48" cy="109" rx="7" ry="4" fill="#FFB627"/><ellipse cx="72" cy="109" rx="7" ry="4" fill="#FFB627"/>
+</svg>`;
+})();
+</script>
+</body>
+</html>

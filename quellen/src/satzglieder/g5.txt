@@ -1,0 +1,188 @@
+@@meta
+file: 5-neuer-satzanfang.html
+title: Neuer Satzanfang
+level: Fortgeschrittene
+nr: 5
+total: 20
+subtitle: Immer derselbe Satzanfang ist langweilig! Stelle den Satz um, sodass er anders beginnt.
+lead: So wird aus einem Satz ein Satz mit neuem Anfang:
+id: anfang
+desc: Baue den Satz mit einem neuen Satzanfang.
+sample: Am Freitag besucht Marie ihre Tante.
+drag: no
+@@tipp
+Mit der Umstellprobe machst du deine Sätze abwechslungsreich. Ein anderes Satzglied wandert nach vorn. Danach kommt sofort das <b>Verb</b>, denn es bleibt an <b>zweiter Stelle</b>. Wörter, die zusammengehören, bleiben nebeneinander.
+@@examples
+      <div class="ex sg" style="--tilt:-1.5deg"><div class="ex-head"><b>neuer Anfang</b></div><div class="ex-body"><span class="a">Am Freitag</span></div></div>
+      <div class="ex vb" style="--tilt:1deg"><div class="ex-head"><b>dann das Verb</b></div><div class="ex-body"><span class="a">besucht</span></div></div>
+      <div class="ex sg" style="--tilt:-.5deg"><div class="ex-head"><b>dann der Rest</b></div><div class="ex-body"><span class="a">Marie ihre Tante.</span></div></div>
+@@howto
+        <li>Lies den Satz. Darunter steht schon der neue Satzanfang.</li>
+        <li>Tippe die Wörter in der richtigen Reihenfolge an. Hast du dich vertippt? Tippe das Wort im Satz an, dann springt es zurück.</li>
+        <li>Sind alle Wörter verbraucht? Dann tippe auf „Prüfen“.</li>
+@@board
+    <div class="bench">
+      <p class="lbl">Der Satz:</p>
+      <p class="sent" id="base"></p>
+      <p class="lbl">Stelle um. Der neue Satz beginnt so:</p>
+      <div class="build" id="build"></div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="tiles" id="tiles"></div>
+      <div class="actions"><button class="btn btn-primary big" id="check">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Neuer Satzanfang ---------- */
+.sg{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.vb{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.ex-body{font-size:clamp(1.05rem,2.8vw,1.5rem)}
+.ex-head b{font-size:clamp(1.05rem,2.6vw,1.4rem)}
+.bubble .pill{margin:2px 0}
+.review.c1{grid-template-columns:1fr}
+.review li{font-weight:400;font-size:1.1rem;line-height:1.35;padding:2px 0}
+.review li b{color:var(--die)}
+.review li i{font-style:normal;color:var(--ink-soft);padding:0 .3em}
+.also{display:block;color:var(--ink-soft);font-size:1rem}
+.sent{margin:2px 0 14px;font-weight:700;font-size:clamp(1.35rem,3.4vw,1.8rem);line-height:1.3;color:var(--ink-soft)}
+.build{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;min-height:70px;margin-top:8px;font-weight:700;font-size:clamp(1.5rem,3.6vw,2rem);line-height:1.2}
+.build .start,.chip{display:inline-block;border:3px solid var(--c);background:var(--cs);border-radius:12px;padding:3px 12px;color:var(--ink)}
+.build .rest{color:var(--ink-soft);letter-spacing:.1em}
+.wtile{appearance:none;background:var(--card);border:3px solid var(--card-edge);border-radius:14px;min-height:56px;min-width:56px;padding:6px 16px;
+  font-weight:700;font-size:clamp(1.5rem,3.6vw,1.9rem);line-height:1.2;cursor:pointer;box-shadow:0 4px 0 var(--card-edge),0 8px 14px var(--lift);transition:transform .12s ease}
+.wtile:active{transform:translateY(3px)}
+.build .wtile{border-style:dashed;box-shadow:none}
+.wtile.used{visibility:hidden}
+.wtile.hint{animation:glow 1.1s ease-in-out infinite;border-color:var(--sun)}
+.tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:860px;margin:0 auto 14px}
+@media (max-width:620px){.tray{position:static;padding-top:6px}}
+@@data
+/* Aufbau: [Satzglieder des Satzes, neuer Satzanfang]
+   Satzglieder: in der normalen Reihenfolge, das Verb an zweiter Stelle, geschrieben wie mitten im Satz.
+   Der neue Satzanfang ist eines dieser Satzglieder (nicht das erste und nicht das Verb).
+   Das Spiel nimmt jede Reihenfolge an, bei der das Verb an zweiter Stelle steht und die Satzglieder ganz bleiben. */
+const SENTENCES = [
+  [['Marie', 'besucht', 'am Freitag', 'ihre Tante'], 'am Freitag'],
+  [['der Fuchs', 'schleicht', 'leise', 'um den Hühnerstall'], 'leise'],
+  [['wir', 'feiern', 'morgen', 'ein großes Fest'], 'morgen'],
+  [['die Mannschaft', 'gewinnt', 'heute', 'das letzte Spiel'], 'das letzte Spiel'],
+  [['Herr Becker', 'trinkt', 'nach dem Essen', 'einen Kaffee'], 'nach dem Essen'],
+  [['der Wecker', 'klingelt', 'um sechs Uhr', 'laut'], 'um sechs Uhr'],
+  [['die Hühner', 'legen', 'jeden Tag', 'frische Eier'], 'frische Eier'],
+  [['Nele', 'schenkt', 'ihrem Vater', 'zum Geburtstag', 'ein Buch'], 'zum Geburtstag'],
+  [['der Hund', 'holt', 'den Stock', 'aus dem Wasser'], 'aus dem Wasser'],
+  [['meine Eltern', 'pflanzen', 'im Frühling', 'einen Apfelbaum'], 'im Frühling'],
+  [['die Raupe', 'frisst', 'langsam', 'ein grünes Blatt'], 'langsam'],
+  [['der Torwart', 'fängt', 'den Ball', 'mit beiden Händen'], 'mit beiden Händen'],
+  [['Frau Klein', 'trägt', 'die schwere Tasche', 'in den Keller'], 'die schwere Tasche'],
+  [['die Sterne', 'funkeln', 'nachts', 'am Himmel'], 'nachts'],
+  [['unser Nachbar', 'mäht', 'jeden Samstag', 'den Rasen'], 'den Rasen'],
+  [['der Lehrer', 'schreibt', 'das Datum', 'an die Tafel'], 'an die Tafel'],
+  [['Lukas', 'erzählt', 'seinen Freunden', 'einen lustigen Witz'], 'einen lustigen Witz'],
+  [['die Familie', 'fährt', 'in den Osterferien', 'mit dem Zug', 'zu den Großeltern'], 'mit dem Zug'],
+  [['das Pony', 'galoppiert', 'fröhlich', 'über die Wiese'], 'über die Wiese'],
+  [['Jana', 'sammelt', 'am Strand', 'bunte Muscheln'], 'am Strand']
+];
+
+const GAME = {
+  id: 'anfang',
+  unit: 'Sätze',
+  next: { href: '6-satzanfang-profi.html', title: 'Satzanfang-Profi' },
+  review: () => {
+    const li = s => `<li>${sentence(s.parts)}<span class="also">→ ${[s.first, 1, ...s.rest].map((i, pos) => i === 1 ? `<b>${s.parts[i]}</b>` : (pos === 0 ? cap(s.parts[i]) : s.parts[i])).join('<i>|</i>')}.</span></li>`;
+    const half = Math.ceil(all.length / 2);
+    return `<div class="review c2"><div class="col sg"><ul>${all.slice(0, half).map(li).join('')}</ul></div>
+      <div class="col sg"><ul>${all.slice(half).map(li).join('')}</ul></div></div>`;
+  }
+};
+@@js
+/* ---------- Spiel: Neuer Satzanfang ---------- */
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const sentence = parts => cap(parts.join(' ')) + '.';
+let all = [], queue = [], cur = null, pool = [], placed = [];
+
+function perms(a) {
+  if (a.length <= 1) return [a];
+  return a.flatMap((x, i) => perms([...a.slice(0, i), ...a.slice(i + 1)]).map(p => [x, ...p]));
+}
+
+function startGame() {
+  all = SENTENCES.map(([parts, start]) => {
+    const first = parts.indexOf(start), rest = parts.map((_, i) => i).filter(i => i !== 1 && i !== first);
+    /* alle richtigen Fortsetzungen: zuerst das Verb, dann die übrigen Satzglieder in beliebiger Reihenfolge */
+    const valid = perms(rest).map(p => [1, ...p].map(i => parts[i]).join(' '));
+    return { parts, first, rest, valid, misses: 0 };
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Tippe die Wörter in der richtigen Reihenfolge an. Denk daran: Nach dem ersten Satzglied kommt das Verb.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false; placed = [];
+  const words = [1, ...cur.rest].flatMap(i => cur.parts[i].split(' '));
+  let order;
+  do { order = shuffle(words.map((_, i) => i)); } while (words.length > 2 && order.every((v, i) => v === i));
+  pool = order.map((wi, id) => ({ id, text: words[wi] }));
+  $('#base').textContent = sentence(cur.parts);
+  render();
+}
+
+function render(focusId) {
+  $('#build').innerHTML = `<span class="start sg">${cap(cur.parts[cur.first])}</span>` +
+    placed.map(id => `<button class="wtile" data-id="${id}" aria-label="${pool[id].text} zurücklegen">${pool[id].text}</button>`).join('') +
+    (placed.length < pool.length ? '<span class="rest" aria-hidden="true">…</span>' : '<span>.</span>');
+  $('#tiles').innerHTML = pool.map(w =>
+    `<button class="wtile${placed.includes(w.id) ? ' used' : ''}" data-id="${w.id}"${placed.includes(w.id) ? ' disabled' : ''}>${w.text}</button>`).join('');
+  if (focusId != null) { const t = $(`#tiles .wtile[data-id="${focusId}"]:not(.used)`) || $('#tiles .wtile:not(.used)') || $('#check'); t.focus(); }
+}
+
+function tapTile(id, back) {
+  if (state.busy || !cur) return;
+  if (back) placed = placed.filter(p => p !== id);
+  else if (!placed.includes(id)) placed.push(id);
+  sfx.pick(); render(id);
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  if (placed.length < pool.length) { say('Benutze zuerst alle Wörter. Tippe sie der Reihe nach an.'); return; }
+  const mine = placed.map(id => pool[id].text), verb = `<span class="pill vb">${cur.parts[1]}</span>`;
+  if (!cur.valid.includes(mine.join(' '))) {
+    const hint = miss(cur, $('#build'));
+    if (hint) {
+      say(`Tipp: Nach <b>${cap(cur.parts[cur.first])}</b> kommt das Verb ${verb}. Diese Wörter bleiben zusammen: ` +
+        cur.rest.map(i => `<span class="pill sg">${cur.parts[i]}</span>`).join(' '), 'think');
+      const v = $$('#build .wtile').find(b => b.textContent === cur.parts[1]);
+      if (v) v.classList.add('hint');
+    } else say(mine[0] !== cur.parts[1] ? `Fast! Nach dem ersten Satzglied kommt sofort das Verb. Wo steht ${verb} bei dir?`
+      : 'Fast! Hier wurde ein Satzglied zerrissen. Welche Wörter gehören zusammen? Tippe ein Wort im Satz an, dann springt es zurück.', 'think');
+    return;
+  }
+  state.busy = true;
+  /* die gebaute Reihenfolge der Satzglieder wiederfinden */
+  const ord = perms(cur.rest).find(p => [1, ...p].map(i => cur.parts[i]).join(' ') === mine.join(' '));
+  $('#build').innerHTML = [cur.first, 1, ...ord].map((i, pos) => `<span class="chip ${i === 1 ? 'vb' : 'sg'}">${pos === 0 ? cap(cur.parts[i]) : cur.parts[i]}</span>`).join('') + '<span>.</span>';
+  solve(cur, $('#build'), 'der');
+  say(`${pick(PRAISE, 'praise')} ${sentence([cur.first, 1, ...ord].map(i => cur.parts[i]))} Das Verb ${verb} steht an zweiter Stelle.`, 'happy');
+  later(next, 2400);
+}
+
+$('#tiles').addEventListener('click', e => {
+  const t = e.target.closest('.wtile');
+  if (t && !t.disabled) tapTile(+t.dataset.id, false);
+});
+$('#build').addEventListener('click', e => {
+  const t = e.target.closest('.wtile');
+  if (t) tapTile(+t.dataset.id, true);
+});
+$('#check').addEventListener('click', check);
+document.addEventListener('keydown', e => {
+  if (!gameOn() || e.key !== 'Backspace' || state.busy || !placed.length) return;
+  e.preventDefault();
+  tapTile(placed[placed.length - 1], true);
+});

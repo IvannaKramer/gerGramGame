@@ -1,0 +1,168 @@
+@@meta
+file: 3-komma-waechter.html
+title: Komma-Wächter
+level: Anfänger
+nr: 3
+total: 15
+subtitle: Vor „dass“ steht ein Komma. Findest du die Stelle, an der es fehlt?
+lead: das ist im Spiel grün, dass ist lila:
+id: komma
+desc: Setze das Komma vor dass an die richtige Stelle.
+sample: Ich glaube, dass du gewinnst.
+drag: no
+@@tipp
+Steht in einem Satz <b>dass</b> mit zwei s? Dann gehört direkt davor ein <b>Komma</b>: Ich hoffe<b>,</b> dass du kommst. Der Artikel <b>das</b> braucht kein Komma: Ich lese das Buch.
+@@examples
+      <div class="ex dass" style="--tilt:-1.5deg"><div class="ex-head"><b>dass</b><span>mit Komma</span></div><div class="ex-body">Ich hoffe<span class="cm">,</span> <span class="a">dass</span> du kommst.</div></div>
+      <div class="ex das" style="--tilt:1deg"><div class="ex-head"><b>das</b><span>ohne Komma</span></div><div class="ex-body">Ich lese <span class="a">das</span> Buch.</div></div>
+      <div class="ex dass" style="--tilt:-.5deg"><div class="ex-head"><b>dass</b><span>mit Komma</span></div><div class="ex-body">Es ist schön<span class="cm">,</span> <span class="a">dass</span> du da bist.</div></div>
+@@howto
+        <li><span>Lies den Satz. Das Wort <b>das</b> ist grün, das Wort <b>dass</b> ist lila.</span></li>
+        <li><span>Fehlt ein Komma? Dann tippe auf das Kästchen zwischen den beiden Wörtern, wo es stehen muss.</span></li>
+        <li><span>Braucht der Satz kein Komma? Dann tippe unten auf „Kein Komma nötig“.</span></li>
+@@board
+    <div class="bench">
+      <p class="lbl">Wo fehlt ein Komma?</p>
+      <p class="sentence commas" id="sentence"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-secondary big" id="none">Kein Komma nötig <span class="k0" aria-hidden="true">0</span></button></div>
+    </div>
+@@css
+/* ---------- das oder dass: gemeinsame Farben ---------- */
+.dass{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.ex-body .pr{display:block;font-weight:400;font-size:.8em;color:var(--ink-soft);margin-top:6px}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.5}
+.gap{display:inline-block;min-width:2.6em;padding:0 .3em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);line-height:1.25;text-align:center}
+.gap.filled{border-style:solid;border-color:var(--c);background:var(--c);color:#fff;min-width:0;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.3rem;color:var(--c)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,3vw,28px);max-width:720px;margin:0 auto}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:clamp(76px,10vw,96px);padding:6px 8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(1.6rem,4.4vw,2.2rem);line-height:1.1}
+.tile small{font-size:clamp(.85rem,2.2vw,1.05rem);line-height:1.15}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+/* ---------- Komma-Wächter ---------- */
+.ex-body .cm{color:var(--sun-deep);font-size:1.3em;line-height:.8}
+.commas{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;row-gap:6px;margin-top:8px}
+.commas .wd{display:inline-flex;align-items:center;white-space:nowrap}
+.cgap{appearance:none;border:none;background:none;width:48px;height:56px;padding:0;margin:0 -5px;display:inline-grid;place-items:center;cursor:pointer;border-radius:12px}
+.cgap i{display:block;width:26px;height:34px;border:3px dashed var(--ink-soft);opacity:.55;border-radius:10px;transition:border-color .12s ease,background-color .12s ease}
+@media (hover:hover){.cgap:hover i{opacity:1;border-color:var(--sun);background:var(--sun-soft)}}
+.cgap.hint i{opacity:1;border-color:var(--sun);background:var(--sun-soft);animation:glow 1.1s ease-in-out infinite}
+.commas.solved .cgap{width:.32em;height:auto;margin:0;pointer-events:none}
+.commas.solved .cgap i{display:none}
+.commas.solved .cgap.set{width:auto;margin-right:.3em;color:var(--sun-deep);font-size:1.25em;line-height:1;font-weight:700}
+.commas.solved .cgap.set::after{content:","}
+.k0{font-size:.85rem;background:var(--card-edge);border-radius:6px;padding:0 7px;margin-left:8px;vertical-align:middle}
+@media (hover:none){.k0{display:none}}
+#none.hint{animation:glow 1.1s ease-in-out infinite}
+@@data
+/* Aufbau: der richtige Satz – mit Komma, wenn eins nötig ist. Das Spiel nimmt das Komma heraus.
+   In jedem Satz steht genau einmal das oder dass und höchstens ein Komma. */
+const SENTENCES = [
+  'Das Kind lacht laut.',
+  'Wir besuchen das Museum.',
+  'Der Hund frisst das Futter.',
+  'Das Wetter ist heute schön.',
+  'Emma holt das Brot vom Bäcker.',
+  'Das macht mir Spaß.',
+  'Im Garten steht das Zelt.',
+  'Ich glaube, dass du gewinnst.',
+  'Lea hofft, dass die Sonne scheint.',
+  'Der Lehrer sagt, dass wir leise sein sollen.',
+  'Wir wissen, dass Hunde gern spielen.',
+  'Es ist toll, dass du mitkommst.',
+  'Mir gefällt, dass ihr teilt.',
+  'Jonas merkt, dass sein Schuh offen ist.',
+  'Ich bin froh, dass heute Freitag ist.'
+];
+
+const GAME = {
+  id: 'komma',
+  unit: 'Sätze',
+  next: { href: '4-wort-detektiv.html', title: 'Wort-Detektiv' },
+  review: () => `<div class="review c2">
+    <div class="col dass"><h3>dass – mit Komma</h3><ul>${all.filter(s => s.k === 'dass').map(s => `<li>${full(s)}</li>`).join('')}</ul></div>
+    <div class="col das"><h3>das – ohne Komma</h3><ul>${all.filter(s => s.k === 'das').map(s => `<li>${full(s)}</li>`).join('')}</ul></div></div>`
+};
+@@js
+/* ---------- Spiel: Komma-Wächter ---------- */
+const COLOR = { das: 'das', dass: 'bonus' };
+let all = [], queue = [], cur = null;
+const isSignal = w => /^dass?$/i.test(w.replace(/[.,!?]/g, ''));
+const mark = (w, k) => isSignal(w) ? `<b class="w ${k}">${w}</b>` : w;
+const full = s => s.words.map((w, i) => mark(w, s.k) + (i === s.at ? '<b>,</b>' : '')).join(' ');
+
+function startGame() {
+  all = SENTENCES.map(t => {
+    const raw = t.split(' ');
+    const at = raw.findIndex(w => w.endsWith(','));
+    const words = raw.map(w => w.replace(/,$/, ''));
+    return { words, at, k: words.some(w => /^dass$/i.test(w)) ? 'dass' : 'das', misses: 0 };
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Lies den Satz. Fehlt ein Komma? Tippe auf die richtige Stelle. Oder tippe auf „Kein Komma nötig“.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#none').classList.remove('hint');
+  const box = $('#sentence');
+  box.classList.remove('solved');
+  box.innerHTML = cur.words.map((w, i) => `<span class="wd">${mark(w, cur.k)}` + (i < cur.words.length - 1
+    ? `<button class="cgap" data-i="${i}" aria-label="Komma nach „${w}“ setzen"><i></i></button>` : '') + '</span>').join('');
+}
+
+function hint() {
+  if (cur.at >= 0) {
+    $(`.cgap[data-i="${cur.at}"]`).classList.add('hint');
+    return 'Tipp: Vor <b class="w dass">dass</b> steht immer ein Komma. Such das lila Wort. Das Komma gehört direkt davor.';
+  }
+  $('#none').classList.add('hint');
+  return 'Tipp: In diesem Satz steht <b class="w das">das</b> mit einem s. Du kannst <b>dieses</b> dafür einsetzen. Hier fehlt kein Komma.';
+}
+
+function choose(i, el) {
+  if (state.busy || !cur) return;
+  if (i !== cur.at) {
+    const tip = miss(cur, el);
+    say(tip ? hint()
+      : cur.at < 0 ? 'Hmm. In diesem Satz steht <b class="w das">das</b> mit einem s. Braucht der Satz wirklich ein Komma?'
+      : i < 0 ? 'Schau genau hin: Im Satz steht <b class="w dass">dass</b> mit zwei s. Was gehört davor?'
+      : 'Fast! Such das Wort <b class="w dass">dass</b>. Wo muss das Komma stehen?', 'think');
+    return;
+  }
+  state.busy = true;
+  $('#none').classList.remove('hint');
+  const box = $('#sentence');
+  const target = i >= 0 ? $(`.cgap[data-i="${i}"]`) : $('#none');
+  solve(cur, target, COLOR[cur.k]);
+  if (i >= 0) target.classList.add('set');
+  box.classList.add('solved');
+  say(cur.k === 'dass'
+    ? `${pick(PRAISE, 'praise')} Vor <span class="pill dass">dass</span> steht ein Komma: ${full(cur)}`
+    : `${pick(PRAISE, 'praise')} Hier steht <span class="pill das">das</span> mit einem s. Der Satz braucht kein Komma: ${full(cur)}`, 'happy');
+  later(next, 2400);
+}
+
+$('#sentence').addEventListener('click', e => {
+  const g = e.target.closest('.cgap');
+  if (g) choose(+g.dataset.i, g);
+});
+$('#none').addEventListener('click', () => choose(-1, $('#none')));
+document.addEventListener('keydown', e => {
+  if (gameOn() && e.key === '0') choose(-1, $('#none'));
+});

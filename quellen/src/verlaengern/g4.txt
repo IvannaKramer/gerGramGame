@@ -1,0 +1,184 @@
+@@meta
+file: 4-welches-wort-hilft.html
+title: Welches Wort hilft?
+level: Fortgeschrittene
+nr: 4
+total: 20
+subtitle: Nicht jedes verwandte Wort hilft dir. Finde die echte Verlängerung und wähle dann den Buchstaben.
+lead: Nur bei der echten Verlängerung hörst du den Buchstaben:
+id: helfer
+desc: Finde die echte Verlängerung, dann den Buchstaben.
+sample: er gi_t → ge_en → b
+drag: no
+@@tipp
+Eine echte <b>Verlängerung</b> hilft dir nur, wenn nach der Lücke ein Selbstlaut kommt (a, e, i, o, u, ä, ö, ü). Dann beginnt mit dem gesuchten Buchstaben eine neue Silbe und du hörst ihn deutlich: <b>ge·ben</b>. Bei „du gibst“ oder „er gab“ hörst du ihn nicht.
+@@examples
+      <div class="ex pb" style="--tilt:-1.5deg"><div class="ex-head"><b>Hilft</b></div><div class="ex-body">er gibt<span class="arrow" aria-hidden="true">▼</span>ge·<span class="a">b</span>en</div></div>
+      <div class="ex pd" style="--tilt:1deg"><div class="ex-head"><b>Hilft</b></div><div class="ex-body">der Freund<span class="arrow" aria-hidden="true">▼</span>Freun·<span class="a">d</span>e</div></div>
+      <div class="ex no" style="--tilt:-.5deg"><div class="ex-head"><b>Hilft nicht</b></div><div class="ex-body">er gibt<span class="arrow" aria-hidden="true">▼</span>du gibst</div></div>
+@@howto
+        <li>Lies das Wort mit der Lücke.</li>
+        <li>Unten stehen drei verwandte Wörter. Tippe das Wort an, das dir hilft: Nach der Lücke muss ein Selbstlaut kommen.</li>
+        <li>Sprich das Wort in Silben und tippe dann den Buchstaben an, den du hörst.</li>
+@@board
+    <div class="bench" id="bench">
+      <p class="lbl">Welcher Buchstabe fehlt?</p>
+      <p class="gapword" id="word"></p>
+      <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M5 13l7 7 7-7"/></svg>
+      <p class="lbl">Verlängert</p>
+      <p class="ext" id="ext"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <p class="ask" id="ask"></p>
+      <div class="opts" id="opts"></div>
+    </div>
+@@css
+/* ---------- Welches Wort hilft? ---------- */
+.pb{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.pd{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.pg{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.no{--c:var(--ink-soft)}
+.hit{color:var(--c);background:var(--cs);border-radius:8px;padding:0 .08em}
+.gap{display:inline-block;width:.62em;border-bottom:3px solid currentColor;margin:0 1px}
+.gapword{margin:0 0 4px;font-weight:700;font-size:clamp(2rem,7vw,3.2rem);line-height:1.25}
+.slot{display:inline-grid;place-items:center;min-width:1.1em;height:1.2em;margin:0 3px;padding:0 .1em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);font-size:.85em;vertical-align:.04em}
+.slot.filled{border-color:transparent;background:var(--c);color:#fff;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.ext{margin:0;min-height:1.5em;font-weight:700;font-size:clamp(1.6rem,5.4vw,2.4rem);line-height:1.3}
+.ext .ph{font-weight:400;font-size:1.05rem;color:var(--ink-soft)}
+.ask{margin:0 0 8px;text-align:center;font-weight:700;color:var(--ink-soft);font-size:1.05rem}
+.opts{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(8px,2vw,18px);max-width:860px;margin:0 auto}
+.opt{appearance:none;position:relative;flex:1 1 180px;max-width:270px;background:var(--card);border:3px solid var(--card-edge);border-radius:16px;min-height:62px;padding:8px 26px 8px 12px;cursor:pointer;
+  font-weight:700;font-size:clamp(1.35rem,3.4vw,1.7rem);line-height:1.15;box-shadow:0 5px 0 var(--card-edge),0 10px 18px var(--lift);touch-action:manipulation;transition:transform .12s ease,opacity .2s ease}
+.opt:active{transform:translateY(3px);box-shadow:0 2px 0 var(--card-edge)}
+.opt .kbd{background:var(--paper);color:var(--ink-soft)}
+.opt.limp{opacity:.4;cursor:default;box-shadow:none}
+.opt.hint,.tile.hint{animation:glow 1.1s ease-in-out infinite}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-width:clamp(86px,18vw,120px);min-height:clamp(62px,10vw,84px);padding:4px 10px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);
+  touch-action:manipulation;transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(2rem,6vw,2.7rem);line-height:1}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+@media (max-width:560px){.opts.words{flex-direction:column;align-items:stretch}.opts.words .opt{flex:none;max-width:none;min-height:54px}}
+@@data
+/* Aufbau: [Wort mit Lücke (_), fehlender Buchstabe, echte Verlängerung, [zwei verwandte Wörter, die nicht helfen]]
+   In der Verlängerung steht der gesuchte Buchstabe in eckigen Klammern, der Punkt trennt die Silben.
+   Bei den Wörtern, die nicht helfen, steht die Lücke am Silbenende (danach folgt ein Mitlaut oder nichts). */
+const WORDS = [
+  ['der Stau_',     'b', 'stau·[b]ig',   ['Stau_sauger', 'Stau_tuch']],
+  ['er gi_t',       'b', 'ge·[b]en',     ['du gi_st', 'er ga_']],
+  ['sie blei_t',    'b', 'blei·[b]en',   ['du blei_st', 'Blei_ hier!']],
+  ['der Rau_',      'b', 'rau·[b]en',     ['Rau_tier', 'Rau_vogel']],
+  ['der Pie_matz',  'p', 'pie·[p]en',    ['Pie_ton', 'der Pie_s']],
+  ['das Fel_',      'd', 'Fel·[d]er',    ['Fel_weg', 'Fel_maus']],
+  ['gesun_',        'd', 'gesün·[d]er',  ['Gesun_heit', 'ungesun_']],
+  ['der Freun_',    'd', 'Freun·[d]e',   ['Freun_schaft', 'freun_lich']],
+  ['wil_',          'd', 'wil·[d]er',    ['Wil_nis', 'Wil_schwein']],
+  ['das Wor_',      't', 'Wör·[t]er',    ['Wor_spiel', 'Antwor_']],
+  ['die Zei_',      't', 'Zei·[t]en',    ['Zei_schrift', 'Mahlzei_']],
+  ['al_',           't', 'äl·[t]er',     ['al_modisch', 'ural_']],
+  ['der Mu_',       't', 'mu·[t]ig',     ['Mu_probe', 'Übermu_']],
+  ['sie trä_t',     'g', 'tra·[g]en',    ['du trä_st', 'er tru_']],
+  ['der We_',       'g', 'We·[g]e',      ['Radwe_', 'We_weiser']],
+  ['er sa_t',       'g', 'sa·[g]en',     ['du sa_st', 'gesa_t']],
+  ['das Wer_',      'k', 'Wer·[k]e',     ['Wer_zeug', 'Wer_statt']],
+  ['sie den_t',     'k', 'den·[k]en',    ['du den_st', 'Den_mal']],
+  ['der Schran_',   'k', 'Schrän·[k]e',  ['Schran_tür', 'Kleiderschran_']],
+  ['das Vol_',      'k', 'Völ·[k]er',    ['Vol_sfest', 'Vol_slied']]
+];
+/* Buchstabenpaare: Farbe (CSS-Klasse), die zwei Buchstaben, Überschrift */
+const PAIRS = { pb: ['b', 'p', 'b oder p'], pd: ['d', 't', 'd oder t'], pg: ['g', 'k', 'g oder k'] };
+
+const GAME = {
+  id: 'helfer',
+  next: { href: '5-grundform-trick.html', title: 'Grundform-Trick' },
+  review: () => `<div class="review">${Object.keys(PAIRS).map(p =>
+    `<div class="col ${p}"><h3>${PAIRS[p][2]}</h3><ul>${all.filter(w => w.pair === p).map(w =>
+      `<li><span>${plainExt(w)} →</span> <b>${w.full}</b></li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Welches Wort hilft? ---------- */
+const GAP = '<i class="gap"></i>';
+const COLOR = { pb: 'der', pd: 'die', pg: 'das' };
+const pairOf = l => Object.keys(PAIRS).find(p => PAIRS[p].includes(l));
+const plainExt = w => w.ext.replace(/[\[\]]/g, '');
+const gapExt = w => w.ext.replace(/\[.\]/, GAP);
+const colorExt = w => w.ext.replace(/\[(.)\]/, `<b class="hit ${w.pair}">$1</b>`);
+let all = [], queue = [], cur = null, step = 1, options = [];
+
+function startGame() {
+  all = WORDS.map(w => ({ gap: w[0], l: w[1], ext: w[2], wrong: w[3], pair: pairOf(w[1]), full: w[0].replace('_', w[1]), misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Welches der drei Wörter hilft dir? Such das Wort, bei dem nach der Lücke ein Selbstlaut kommt.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false; step = 1;
+  $('#word').innerHTML = cur.gap.replace('_', '<span class="slot" id="slot">?</span>');
+  $('#ext').innerHTML = '<span class="ph">Wähle unten das Wort, das dir hilft.</span>';
+  $('#ask').textContent = 'Welches Wort hilft dir?';
+  /* Im ersten Schritt zeigen alle drei Wörter eine Lücke, damit die Schreibung nichts verrät */
+  options = shuffle([{ ok: true, html: gapExt(cur).replace('·', ''), label: plainExt(cur).replace('·', '') },
+    ...cur.wrong.map(o => ({ ok: false, html: o.replace('_', GAP), label: o }))]);
+  $('#opts').className = 'opts words';
+  $('#opts').innerHTML = options.map((o, i) =>
+    `<button class="opt" data-i="${i}" aria-label="Wort ${i + 1}: ${o.label.replace('_', ' Lücke ')}">${o.html}<span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+}
+
+function chooseWord(i) {
+  const o = options[i], el = $(`.opt[data-i="${i}"]`);
+  if (!o || !el || el.disabled) return;
+  if (!o.ok) {
+    const hint = miss(cur, el);
+    el.disabled = true; el.classList.add('limp');
+    if (hint) $(`.opt[data-i="${options.findIndex(x => x.ok)}"]`).classList.add('hint');
+    say(hint ? 'Tipp: Such das Wort, bei dem nach der Lücke ein Selbstlaut kommt. Das leuchtende Wort ist die echte Verlängerung.'
+      : `Bei <b>${o.html}</b> steht die Lücke am Ende einer Silbe. Dort hörst du den Buchstaben nicht deutlich. Welches Wort hilft besser?`, 'think');
+    return;
+  }
+  sfx.pick();
+  step = 2;
+  $('#ext').innerHTML = gapExt(cur);
+  $('#ask').textContent = 'Welchen Buchstaben hörst du?';
+  $('#opts').className = 'opts';
+  $('#opts').innerHTML = PAIRS[cur.pair].slice(0, 2).map((l, k) =>
+    `<button class="tile ${cur.pair}" data-l="${l}" aria-label="Buchstabe ${l}"><b>${l}</b><span class="kbd" aria-hidden="true">${k + 1}</span></button>`).join('');
+  say(`Genau, dieses Wort hilft! Sprich es laut in Silben: <b>${gapExt(cur)}</b>. Welchen Buchstaben hörst du nach dem Punkt?`, 'happy');
+}
+
+function chooseLetter(l) {
+  const tile = $(`.tile[data-l="${l}"]`);
+  if (!tile) return;
+  if (l !== cur.l) {
+    const hint = miss(cur, tile);
+    if (hint) $(`.tile[data-l="${cur.l}"]`).classList.add('hint');
+    say(hint ? `Tipp: Sprich ganz deutlich <b>${plainExt(cur)}</b>. Nach dem Punkt hörst du ein <b>${cur.l}</b>. Der leuchtende Buchstabe ist richtig.`
+      : 'Hmm, hör noch einmal genau hin. Sprich das lange Wort langsam in Silben.', 'think');
+    return;
+  }
+  state.busy = true;
+  $$('.tile').forEach(t => t.classList.remove('hint'));
+  const slot = $('#slot');
+  slot.textContent = cur.l; slot.className = 'slot filled ' + cur.pair;
+  $('#ext').innerHTML = colorExt(cur);
+  solve(cur, slot, COLOR[cur.pair]);
+  say(`${pick(PRAISE, 'praise')} ${colorExt(cur)} → <span class="pill ${cur.pair}">${cur.full}</span> mit <b>${cur.l}</b>.`, 'happy');
+  later(next, 2000);
+}
+
+$('#opts').addEventListener('click', e => {
+  if (state.busy || !cur) return;
+  const o = e.target.closest('.opt'), t = e.target.closest('.tile');
+  if (o) chooseWord(+o.dataset.i); else if (t) chooseLetter(t.dataset.l);
+});
+document.addEventListener('keydown', e => {
+  if (!gameOn() || state.busy || !cur || !/^[1-3]$/.test(e.key)) return;
+  if (step === 1) chooseWord(+e.key - 1);
+  else if (e.key !== '3') chooseLetter(PAIRS[cur.pair][+e.key - 1]);
+});

@@ -1,0 +1,140 @@
+@@meta
+file: 3-zwei-teile-detektiv.html
+title: Zwei-Teile-Detektiv
+level: Anfänger
+nr: 3
+total: 15
+subtitle: Im Perfekt und im Futur hat das Verb zwei Teile. Findest du beide im Satz?
+lead: So sehen die zwei Teile im Perfekt (pink) und im Futur (lila) aus:
+id: detektiv
+desc: Tippe die zwei Teile des Verbs im Satz an.
+sample: 🐕 hat … geholt
+drag: no
+@@tipp
+Im <b>Perfekt</b> und im <b>Futur</b> besteht das Verb aus <b>zwei Teilen</b>. Der erste Teil steht vorn: hat, ist oder wird. Der zweite Teil steht ganz <b>am Ende</b> vom Satz: Der Hund <b>hat</b> den Ball <b>geholt</b>.
+@@examples
+      <div class="ex pf" style="--tilt:-1.5deg"><div class="ex-head"><b>Perfekt</b><span>hat + ge…</span></div><div class="ex-body">Ida <span class="a">hat</span> Tee <span class="a">gekocht</span>.</div></div>
+      <div class="ex pf" style="--tilt:1deg"><div class="ex-head"><b>Perfekt</b><span>ist + ge…</span></div><div class="ex-body">Ole <span class="a">ist</span> weit <span class="a">gesprungen</span>.</div></div>
+      <div class="ex fu" style="--tilt:-.5deg"><div class="ex-head"><b>Futur</b><span>wird + Grundform</span></div><div class="ex-body">Ida <span class="a">wird</span> Tee <span class="a">kochen</span>.</div></div>
+@@howto
+        <li>Lies den Satz. Jedes Wort steht auf einem eigenen Kärtchen.</li>
+        <li>Tippe die zwei Wörter an, die zusammen das Verb bilden. Ein Teil steht vorn, der andere ganz am Ende.</li>
+        <li>Hast du beide Teile gefunden, zeigt dir die Farbe die Zeitform: pink für Perfekt, lila für Futur.</li>
+@@board
+    <div class="bench">
+      <span class="pic" id="pic" aria-hidden="true"></span>
+      <div class="toks" id="toks"></div>
+      <p class="found" id="found" aria-live="polite"></p>
+      <p class="help">Perfekt: <b>hat</b> oder <b>ist</b> + Wort mit <b>ge</b> · Futur: <b>wird</b> + Grundform</p>
+    </div>
+@@tray
+@@css
+/* ---------- Zwei-Teile-Detektiv ---------- */
+.pf{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.fu{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.ex-head b{font-size:clamp(1.1rem,2.8vw,1.5rem)}
+.ex-head span{font-size:clamp(.8rem,2vw,1rem)}
+.ex-body{font-size:clamp(1.05rem,2.6vw,1.5rem)}
+.bench .pic{display:block;font-size:clamp(2.6rem,7vw,3.4rem);line-height:1.2;margin-bottom:8px}
+.toks{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px clamp(6px,1.4vw,12px);font-weight:700;font-size:clamp(1.5rem,3.6vw,2.1rem)}
+.tok{appearance:none;border:3px solid var(--card-edge);background:var(--paper);border-radius:14px;min-height:56px;min-width:48px;padding:4px clamp(8px,1.6vw,14px);font:inherit;color:var(--ink);cursor:pointer;
+  box-shadow:0 4px 0 var(--card-edge);touch-action:manipulation;transition:transform .1s ease,background-color .15s ease,border-color .15s ease}
+.tok:active{transform:translateY(3px);box-shadow:0 1px 0 var(--card-edge)}
+@media (hover:hover){.tok:not(:disabled):hover{border-color:var(--sun)}}
+.tok.hit{background:var(--sun-soft);border-color:var(--sun);box-shadow:0 4px 0 var(--sun-deep);cursor:default}
+.toks.solved .tok.hit{background:var(--c);border-color:var(--cd);color:#fff;box-shadow:0 4px 0 var(--cd)}
+.tok.no{opacity:.45;box-shadow:none;cursor:default}
+.tok.hint{animation:glow 1.1s ease-in-out infinite}
+.toks .dot{margin-left:-6px}
+.bench .help{max-width:none}
+.found{margin:14px 0 0;min-height:1.6em;font-size:1.15rem;font-weight:700;color:var(--ink-soft)}
+.review li{font-weight:400;font-size:1.05rem}
+@@data
+/* Aufbau: [Satz, Zeitform, Bild] – vor den beiden Teilen des Verbs (Prädikats) steht ein Sternchen *.
+   Zeitformen: 'pf' = Perfekt, 'fu' = Futur */
+const SENTENCES = [
+  ['Der Hund *hat den Ball *geholt.',                'pf', '🐕'],
+  ['Emma *hat eine Sandburg *gebaut.',               'pf', '🏰'],
+  ['Wir *sind durch den Wald *gewandert.',           'pf', '🌲'],
+  ['Die Kinder *haben ein Lied *geübt.',             'pf', '🎵'],
+  ['Ich *habe mein Zimmer *aufgeräumt.',             'pf', '🧹'],
+  ['Der Zug *ist pünktlich *angekommen.',            'pf', '🚆'],
+  ['Mama *hat das Auto *geparkt.',                   'pf', '🚗'],
+  ['Du *bist sehr schnell *gerannt.',                'pf', '🏃'],
+  ['Papa *wird das Regal *reparieren.',              'fu', '🔧'],
+  ['Wir *werden einen Kuchen *backen.',              'fu', '🍰'],
+  ['Ich *werde dir einen Brief *schicken.',          'fu', '✉️'],
+  ['Die Klasse *wird ein Theaterstück *proben.',     'fu', '🎭'],
+  ['Du *wirst das Rätsel bestimmt *lösen.',          'fu', '🧩'],
+  ['Nina *wird ihren Hamster *füttern.',             'fu', '🐹'],
+  ['Die Vögel *werden bald nach Süden *ziehen.',     'fu', '🐦']
+];
+/* Aufbau: Kürzel: [Name, Farbe für Funken, Tipp nach zwei Fehlversuchen] */
+const TENSES = {
+  pf: ['Perfekt', 'die',   'Tipp: Such vorn eine Form von <b>haben</b> oder <b>sein</b> (hat, habe, ist, sind …) und am Satzende das Wort mit <b>ge</b>. Die beiden Teile leuchten.'],
+  fu: ['Futur',   'bonus', 'Tipp: Such vorn eine Form von <b>werden</b> (wird, werde, wirst …) und am Satzende die <b>Grundform</b>. Die beiden Teile leuchten.']
+};
+
+const GAME = {
+  id: 'detektiv',
+  unit: 'Sätze',
+  next: { href: '4-zeitmaschine.html', title: 'Zeitmaschine' },
+  review: () => `<div class="review c2">${Object.keys(TENSES).map(k =>
+    `<div class="col ${k}"><h3>${TENSES[k][0]}</h3><ul>${all.filter(s => s.k === k).map(s =>
+      `<li>${s.words.map(w => w.v ? `<b>${w.t}</b>` : w.t).join(' ')}.</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Zwei-Teile-Detektiv ---------- */
+const MISS = ['Fast! Dieses Wort gehört nicht zum Verb. Probier ein anderes.', 'Hmm, das ist kein Teil vom Verb. Was tut hier jemand?', 'Guter Versuch! Schau mal ganz ans Ende vom Satz.'];
+let all = [], queue = [], cur = null;
+
+function startGame() {
+  all = SENTENCES.map(([text, k, emoji]) => ({ k, emoji, misses: 0,
+    words: text.replace(/\.$/, '').split(' ').map(w => w[0] === '*' ? { t: w.slice(1), v: true } : { t: w, v: false }) }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Das Verb hat hier zwei Teile. Tippe beide Teile an!');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  cur.words.forEach(w => { w.hit = false; });
+  $('#pic').textContent = cur.emoji;
+  $('#found').textContent = '';
+  const toks = $('#toks');
+  toks.className = 'toks';
+  toks.innerHTML = cur.words.map((w, i) => `<button class="tok" data-i="${i}">${w.t}</button>`).join('') + '<span class="dot" aria-hidden="true">.</span>';
+}
+
+$('#toks').addEventListener('click', e => {
+  const el = e.target.closest('.tok');
+  if (!el || state.busy || el.disabled || el.classList.contains('hit')) return;
+  const w = cur.words[+el.dataset.i];
+  if (!w.v) {
+    const hint = miss(cur, el);
+    el.disabled = true; el.classList.add('no');
+    if (hint) cur.words.forEach((x, i) => { if (x.v && !x.hit) $(`.tok[data-i="${i}"]`).classList.add('hint'); });
+    say(hint ? TENSES[cur.k][2] : pick(MISS, 'miss'), 'think');
+    return;
+  }
+  w.hit = true;
+  el.classList.remove('hint'); el.classList.add('hit');
+  const parts = cur.words.filter(x => x.v);
+  if (parts.some(x => !x.hit)) {
+    sfx.pick();
+    say(`Genau, <b>${w.t}</b> gehört zum Verb. Wo ist der zweite Teil?`);
+    return;
+  }
+  state.busy = true;
+  const verb = parts.map(x => x.t).join(' … ');
+  $$('.tok').forEach(t => t.classList.remove('hint'));
+  $('#toks').classList.add('solved', cur.k);
+  $('#found').innerHTML = `<span class="pill ${cur.k}">${verb}</span> = ${TENSES[cur.k][0]}`;
+  solve(cur, el, TENSES[cur.k][1]);
+  say(`${pick(PRAISE, 'praise')} <span class="pill ${cur.k}">${verb}</span> ist ${TENSES[cur.k][0]}.`, 'happy');
+  later(next, 2000);
+});

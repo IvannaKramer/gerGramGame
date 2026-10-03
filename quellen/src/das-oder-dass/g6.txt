@@ -1,0 +1,170 @@
+@@meta
+file: 6-schreib-profi.html
+title: Schreib-Profi
+level: Profis
+nr: 6
+total: 20
+subtitle: Jetzt schreibst du selbst! In manchen Sätzen fehlen sogar zwei Wörter.
+lead: Bei Profis stehen „dass“ und „das“ oft direkt hintereinander:
+id: profi
+desc: Schreibe das oder dass selbst in die Lücken.
+sample: Ich weiß, ___ ___ Kind müde ist.
+drag: no
+@@tipp
+Mach bei <b>jeder</b> Lücke die Probe mit <b>dieses</b> und <b>welches</b>. Oft folgt auf <b>dass</b> gleich ein <b>das</b>: Ich weiß, dass das Kind müde ist. Am Satzanfang schreibst du groß: <b>Das</b> oder <b>Dass</b>.
+@@examples
+      <div class="ex dass" style="--tilt:-1.5deg"><div class="ex-head"><b>dass das</b></div><div class="ex-body">Ich weiß, <span class="a">dass</span> <span class="a das">das</span> Kind müde ist.</div></div>
+      <div class="ex das" style="--tilt:1deg"><div class="ex-head"><b>Das …, das</b></div><div class="ex-body"><span class="a">Das</span> Spiel, <span class="a">das</span> wir spielen, ist lustig.</div></div>
+      <div class="ex dass" style="--tilt:-.5deg"><div class="ex-head"><b>Dass</b><span>am Satzanfang</span></div><div class="ex-body"><span class="a">Dass</span> du hilfst, finde ich toll.</div></div>
+@@howto
+        <li><span>Lies den Satz. Mach bei jeder Lücke die Probe: Passt „dieses“ oder „welches“?</span></li>
+        <li><span>Schreibe <b>das</b> oder <b>dass</b> in jede Lücke. Am Satzanfang schreibst du das Wort groß.</span></li>
+        <li><span>Tippe auf „Prüfen“ oder drücke die Enter-Taste. Stimmt es noch nicht, bekommst du einen Tipp.</span></li>
+@@board
+    <form class="bench" id="form" autocomplete="off">
+      <p class="lbl">Schreibe das oder dass in jede Lücke.</p>
+      <p class="sentence write" id="sentence"></p>
+    </form>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check" type="submit" form="form">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- das oder dass: gemeinsame Farben ---------- */
+.dass{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.ex-body .pr{display:block;font-weight:400;font-size:.8em;color:var(--ink-soft);margin-top:6px}
+.sentence{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.5}
+.gap{display:inline-block;min-width:2.6em;padding:0 .3em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);line-height:1.25;text-align:center}
+.gap.filled{border-style:solid;border-color:var(--c);background:var(--c);color:#fff;min-width:0;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.3rem;color:var(--c)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,3vw,28px);max-width:720px;margin:0 auto}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:clamp(76px,10vw,96px);padding:6px 8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(1.6rem,4.4vw,2.2rem);line-height:1.1}
+.tile small{font-size:clamp(.85rem,2.2vw,1.05rem);line-height:1.15}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+/* ---------- Schreib-Profi ---------- */
+.ex-head b{font-size:clamp(1.05rem,2.8vw,1.5rem)}
+.bench{padding:22px 14px 30px}
+.write{margin-top:10px;line-height:2.1}
+.write input{font:inherit;color:var(--ink);background:var(--paper);border:3px solid var(--card-edge);border-radius:14px;padding:0 8px;width:3.6em;min-height:54px;text-align:center;margin:0 2px}
+.write input:focus{outline:none;border-color:var(--sun);box-shadow:0 0 0 4px var(--sun-soft)}
+.write input.good{border-color:var(--c);background:var(--cs);color:var(--c)}
+.write input.hint{border-color:var(--sun);animation:glow 1.1s ease-in-out infinite}
+@@data
+/* Aufbau: der richtige Satz. Jede Lücke steht in eckigen Klammern.
+   Bei das steht dahinter das Probewort: [das|dieses] oder [das|welches]. Bei dass passt keine Probe: [dass]. */
+const SENTENCES = [
+  'Ich weiß, [dass] [das|dieses] Kind müde ist.',
+  'Mama sagt, [dass] [das|dieses] Essen fertig ist.',
+  'Es kann sein, [dass] [das|dieses] Paket morgen kommt.',
+  '[Dass] [das|dieses] nicht stimmt, weiß ich schon lange.',
+  'Er hofft, [dass] ihm [das|dieses] Geschenk gefällt.',
+  '[Das|Dieses] freut mich, [dass] du gewonnen hast.',
+  '[Das|Dieses] Gewitter war so laut, [dass] ich aufgewacht bin.',
+  '[Das|Dieses] Pferd, [das|welches] dort grast, gehört Lena.',
+  '[Dass] du mir hilfst, finde ich toll.',
+  'Es regnet so stark, [dass] wir drinnen bleiben.',
+  'Er geht, ohne [dass] er sich verabschiedet.',
+  'Pass auf, [dass] du nicht hinfällst!',
+  'Weißt du, [dass] Delfine Säugetiere sind?',
+  'Ich bin sicher, [dass] sie die Wahrheit sagt.',
+  'Weil [das|dieses] Seil zu kurz war, holten wir ein neues.',
+  'Kannst du mir [das|dieses] noch einmal erklären?',
+  'Sie nimmt den Füller und legt [das|dieses] Mäppchen dazu.',
+  'Das Märchen, [das|welches] Oma vorliest, kenne ich schon.',
+  'Zeig mir bitte das Bild, [das|welches] du gemalt hast.',
+  '[Das|Dieses] hätte ich nie gedacht!'
+];
+
+const GAME = {
+  id: 'profi',
+  unit: 'Sätze',
+  next: null,
+  review: () => {
+    const half = Math.ceil(all.length / 2), li = s => `<li>${full(s, 'w')}</li>`;
+    return `<div class="review c2"><div class="col neutral"><ul>${all.slice(0, half).map(li).join('')}</ul></div>
+      <div class="col neutral"><ul>${all.slice(half).map(li).join('')}</ul></div></div>`;
+  }
+};
+@@js
+/* ---------- Spiel: Schreib-Profi ---------- */
+const GAPS = /\[(\w+)(?:\|(\w+))?\]/g;
+let all = [], queue = [], cur = null;
+const kind = ans => ans.toLowerCase();
+const full = (s, cls) => { let i = 0; return s.text.replace(GAPS, () => { const g = s.gaps[i++]; return `<${cls === 'w' ? 'b' : 'span'} class="${cls} ${g.k}">${g.ans}</${cls === 'w' ? 'b' : 'span'}>`; }); };
+const inputs = () => $$('#sentence input');
+
+function startGame() {
+  all = SENTENCES.map(text => ({ text, misses: 0,
+    gaps: [...text.matchAll(GAPS)].map(m => ({ ans: m[1], probe: m[2] || '', k: kind(m[1]), start: m.index === 0 })) }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Schreibe das oder dass in jede Lücke. Mach bei jeder Lücke die Probe!');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  let i = 0;
+  $('#sentence').innerHTML = cur.text.replace(GAPS, () => { i++;
+    return `<input type="text" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" maxlength="6" aria-label="Lücke ${i}${cur.gaps.length > 1 ? ' von ' + cur.gaps.length : ''}">`; });
+  inputs()[0].focus({ preventScroll: true });
+}
+
+function tip(i) {
+  const g = cur.gaps[i], where = cur.gaps.length > 1 ? ` für Lücke ${i + 1}` : '';
+  return g.k === 'das'
+    ? `Tipp${where}: Hier passt die Probe mit <b>${g.probe.toLowerCase()}</b>. Also schreibst du <b>${g.ans}</b> mit einem s.`
+    : `Tipp${where}: Hier passt weder „dieses“ noch „welches“. Also schreibst du <b>${g.ans}</b> mit zwei s.`;
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const ins = inputs();
+  const empty = ins.find(inp => !inp.value.trim());
+  if (empty) { say(ins.length > 1 ? 'Fülle zuerst alle Lücken aus.' : 'Schreibe zuerst das Wort in die Lücke.'); empty.focus(); return; }
+  const wrong = [], nearly = [];
+  ins.forEach((inp, i) => {
+    const v = inp.value.trim(), g = cur.gaps[i];
+    inp.classList.remove('hint');
+    if (v === g.ans) { inp.value = g.ans; inp.readOnly = true; inp.classList.add('good', g.k); }
+    else if (v.toLowerCase() === g.ans.toLowerCase() || v.toLowerCase() === g.ans.toLowerCase().replace('ss', 'ß')) nearly.push(i);
+    else wrong.push(i);
+  });
+  if (wrong.length) {
+    const first = ins[wrong[0]];
+    miss(cur, first);
+    wrong.slice(1).forEach(i => wobble(ins[i]));
+    if (cur.misses === 2) first.classList.add('hint');
+    say(cur.misses === 1 ? 'Fast! Mach bei jeder Lücke die Probe: Passt „dieses“ oder „welches“?'
+      : cur.misses === 2 ? tip(wrong[0])
+      : `So ist es richtig: ${full(cur, 'pill')} Schreibe die Wörter genau so ab.`, 'think');
+    first.focus();
+    return;
+  }
+  if (nearly.length) {
+    const inp = ins[nearly[0]], g = cur.gaps[nearly[0]];
+    wobble(inp);
+    say(/ß/.test(inp.value) ? 'Fast richtig! Heute schreibt man <b>dass</b> mit ss.'
+      : g.start ? 'Fast richtig! Am Satzanfang schreibt man groß.'
+      : 'Fast richtig! Mitten im Satz schreibt man das Wort klein.', 'think');
+    inp.focus();
+    return;
+  }
+  state.busy = true;
+  solve(cur, ins[ins.length - 1], 'sun');
+  say(`${pick(PRAISE, 'praise')} ${full(cur, 'pill')}`, 'happy');
+  later(next, 2600);
+}
+
+$('#form').addEventListener('submit', e => { e.preventDefault(); check(); });

@@ -1,0 +1,10 @@
+@@meta
+slug: zeitformen
+title: Zeitformen der Verben
+subtitle: Sechs Spiele rund um Präsens, Präteritum, Perfekt und Futur. Steig ein in die Zeitmaschine!
+lead1: Mit Bildern und Hilfen. Je 15 Aufgaben.
+lead2: Zeitmaschine und Perfekt-Baukasten. Je 20 Sätze.
+lead3: Unregelmäßige Verben zum Selberschreiben. 20 Verben.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Sätzen und Verben, dazu die Lösungen.
+@@tipp
+Verben zeigen, <b>wann</b> etwas passiert. <b>Präsens</b>: er spielt (jetzt). <b>Präteritum</b>: er spielte (früher). <b>Perfekt</b>: er hat gespielt (früher, zwei Teile). <b>Futur</b>: er wird spielen (später, zwei Teile).

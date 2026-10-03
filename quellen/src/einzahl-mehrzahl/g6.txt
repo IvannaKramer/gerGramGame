@@ -1,0 +1,149 @@
+@@meta
+file: 6-mehrzahl-meister.html
+title: Mehrzahl-Meister
+level: Profis
+nr: 6
+total: 20
+subtitle: Jetzt schreibst du selbst! Wie heißt die Mehrzahl von diesen kniffligen Wörtern?
+lead: Vier Profi-Regeln helfen dir bei schwierigen Wörtern:
+id: meister
+desc: Schreibe die Mehrzahl von kniffligen Wörtern.
+sample: das Baby → die Babys
+drag: no
+@@tipp
+Manche Wörter haben eine besondere Mehrzahl. Wörter mit <b>-y</b> bekommen nur ein <b>-s</b>. Aus <b>-in</b> wird <b>-innen</b>. Aus <b>-nis</b>, <b>-is</b> und <b>-us</b> wird <b>-sse</b>. Und aus <b>-um</b> wird <b>-en</b>.
+@@examples
+      <div class="ex r1" style="--tilt:-1.5deg"><div class="ex-head"><b>-y → -ys</b></div><div class="ex-body">das Handy<span class="arrow" aria-hidden="true">▼</span>die Hand<span class="a">ys</span></div></div>
+      <div class="ex r2" style="--tilt:1deg"><div class="ex-head"><b>-in → -innen</b></div><div class="ex-body">die Köchin<span class="arrow" aria-hidden="true">▼</span>die Köch<span class="a">innen</span></div></div>
+      <div class="ex r3" style="--tilt:-.5deg"><div class="ex-head"><b>-nis → -nisse</b></div><div class="ex-body">das Erlebnis<span class="arrow" aria-hidden="true">▼</span>die Erleb<span class="a">nisse</span></div></div>
+@@howto
+        <li>Lies das Wort in der Einzahl und überlege: Welche Regel passt?</li>
+        <li>Schreibe die Mehrzahl in das Feld. Der Artikel <b>die</b> steht schon da. Denk daran: Nomen schreibt man groß!</li>
+        <li>Tippe auf „Prüfen“ oder drücke die Enter-Taste. Stimmt es noch nicht, bekommst du einen Tipp.</li>
+@@board
+    <div class="bench">
+      <p class="lbl">Einzahl</p>
+      <p class="from" id="from"></p>
+      <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M5 13l7 7 7-7"/></svg>
+      <p class="lbl">Mehrzahl</p>
+      <form class="write" id="form" autocomplete="off">
+        <label for="answer">die</label>
+        <input id="answer" type="text" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" maxlength="24" aria-label="Mehrzahl ohne Artikel">
+      </form>
+      <div class="keys" id="keys" aria-label="Besondere Buchstaben">
+        <button type="button" class="keycap">Ä</button><button type="button" class="keycap">ä</button><button type="button" class="keycap">ö</button><button type="button" class="keycap">ü</button><button type="button" class="keycap">ß</button>
+      </div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check" type="submit" form="form">Prüfen</button></div>
+    </div>
+@@css
+/* ---------- Mehrzahl-Meister ---------- */
+.r1{--c:var(--der);--cd:var(--der-deep);--cs:var(--der-soft)}
+.r2{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.r3{--c:var(--das);--cd:var(--das-deep);--cs:var(--das-soft)}
+.r4{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.ex-head b{font-size:clamp(1rem,2.6vw,1.4rem)}
+.write{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;font-weight:700;font-size:clamp(1.6rem,5.4vw,2.5rem)}
+.write input{font:inherit;color:var(--ink);background:var(--paper);border:3px solid var(--card-edge);border-radius:14px;padding:4px 14px;width:min(100%,11.5em);min-height:60px;text-align:left}
+.write input:focus{outline:none;border-color:var(--sun);box-shadow:0 0 0 4px var(--sun-soft)}
+.write input.good{border-color:var(--die);background:var(--die-soft)}
+.keys{display:flex;justify-content:center;gap:8px;margin-top:12px}
+.keycap{appearance:none;min-width:48px;min-height:48px;border:3px solid var(--card-edge);background:var(--card);border-radius:12px;font-weight:700;font-size:1.3rem;cursor:pointer;box-shadow:0 3px 0 var(--card-edge)}
+.keycap:active{transform:translateY(2px);box-shadow:0 1px 0 var(--card-edge)}
+@@data
+/* Aufbau: [Einzahl, Mehrzahl, Regel] – die Regeln stehen darunter */
+const WORDS = [
+  ['das Baby',      'die Babys',        'y'],
+  ['das Hobby',     'die Hobbys',       'y'],
+  ['das Pony',      'die Ponys',        'y'],
+  ['die Party',     'die Partys',       'y'],
+  ['der Teddy',     'die Teddys',       'y'],
+  ['die Freundin',  'die Freundinnen',  'in'],
+  ['die Lehrerin',  'die Lehrerinnen',  'in'],
+  ['die Ärztin',    'die Ärztinnen',    'in'],
+  ['die Königin',   'die Königinnen',   'in'],
+  ['die Schülerin', 'die Schülerinnen', 'in'],
+  ['das Zeugnis',   'die Zeugnisse',    'ss'],
+  ['das Geheimnis', 'die Geheimnisse',  'ss'],
+  ['das Ergebnis',  'die Ergebnisse',   'ss'],
+  ['der Bus',       'die Busse',        'ss'],
+  ['der Kürbis',    'die Kürbisse',     'ss'],
+  ['das Museum',    'die Museen',       'um'],
+  ['das Aquarium',  'die Aquarien',     'um'],
+  ['das Zentrum',   'die Zentren',      'um'],
+  ['das Datum',     'die Daten',        'um'],
+  ['das Album',     'die Alben',        'um']
+];
+/* Aufbau: Kürzel: [Überschrift, Farbe, Tipp nach zwei Fehlversuchen] */
+const RULES = {
+  y:  ['-y → -ys',             'r1', 'Tipp: Wörter mit <b>-y</b> bekommen nur ein <b>-s</b>. Das y bleibt stehen: das Handy → die Handys.'],
+  in: ['-in → -innen',         'r2', 'Tipp: Aus <b>-in</b> wird <b>-innen</b> mit zwei n: die Köchin → die Köchinnen.'],
+  ss: ['-nis, -is, -us → -sse', 'r3', 'Tipp: Das <b>s</b> am Ende wird verdoppelt und es kommt ein <b>-e</b> dazu: das Erlebnis → die Erlebnisse.'],
+  um: ['-um → -en',            'r4', 'Tipp: Die Endung <b>-um</b> fällt weg. Dafür kommt <b>-en</b>: das Gymnasium → die Gymnasien.']
+};
+
+const GAME = {
+  id: 'meister',
+  next: null,
+  review: () => `<div class="review c2">${Object.keys(RULES).map(k =>
+    `<div class="col ${RULES[k][1]}"><h3>${RULES[k][0]}</h3><ul>${all.filter(w => w.k === k).map(pairLi).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Mehrzahl-Meister ---------- */
+let all = [], queue = [], cur = null;
+const input = $('#answer');
+
+function startGame() {
+  all = WORDS.map(w => ({ ez: w[0], mz: w[1], k: w[2], noun: w[1].slice(4), misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Schreibe die Mehrzahl in das Feld. Überlege zuerst: Welche Regel passt zu dem Wort?');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#from').textContent = cur.ez;
+  input.value = ''; input.readOnly = false; input.classList.remove('good');
+  input.focus({ preventScroll: true });
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  let v = input.value.trim().replace(/\s+/g, ' ');
+  if (/^die /i.test(v)) v = v.slice(4);
+  if (!v) { say('Schreibe zuerst die Mehrzahl in das Feld.'); input.focus(); return; }
+  if (v !== cur.noun) {
+    if (v.toLowerCase() === cur.noun.toLowerCase()) {
+      wobble(input);
+      say('Fast richtig! Denk daran: Nomen schreibt man groß.', 'think');
+    } else {
+      miss(cur, input);
+      say(cur.misses === 1 ? 'Fast! Schau dir das Wortende genau an und probier es noch einmal.'
+        : cur.misses === 2 ? RULES[cur.k][2]
+        : `So ist es richtig: <span class="pill mz">${cur.mz}</span> Schreibe das Wort genau so ab.`, 'think');
+    }
+    input.focus();
+    return;
+  }
+  state.busy = true;
+  input.value = cur.noun; input.readOnly = true; input.classList.add('good');
+  solve(cur, input, 'die');
+  say(`${pick(PRAISE, 'praise')} <b>${cur.ez}</b> → <span class="pill mz">${cur.mz}</span>`, 'happy');
+  later(next, 1700);
+}
+
+$('#form').addEventListener('submit', e => { e.preventDefault(); check(); });
+$('#keys').addEventListener('click', e => {
+  const k = e.target.closest('.keycap');
+  if (!k || input.readOnly) return;
+  const a = input.selectionStart ?? input.value.length, b = input.selectionEnd ?? a;
+  input.value = input.value.slice(0, a) + k.textContent + input.value.slice(b);
+  input.focus();
+  input.setSelectionRange(a + 1, a + 1);
+});

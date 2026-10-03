@@ -1,0 +1,158 @@
+@@meta
+file: 5-perfekt-baukasten.html
+title: Perfekt-Baukasten
+level: Fortgeschrittene
+nr: 5
+total: 20
+subtitle: Baue das Perfekt: Brauchst du hat oder ist? Und wie heißt das Partizip?
+lead: Das Perfekt ist pink und hat immer zwei Teile:
+id: baukasten
+desc: Baue das Perfekt aus hat oder ist und dem Partizip.
+sample: 🧱 fliegt → ist … geflogen
+drag: no
+@@tipp
+Das <b>Perfekt</b> hat zwei Teile: <b>hat</b> oder <b>ist</b> und das <b>Partizip</b> (meistens mit ge-). Die meisten Verben brauchen <b>hat</b>. Bewegt sich jemand von einem Ort zum anderen oder verändert sich etwas, heißt es <b>ist</b>: Lea ist gelaufen. Das Eis ist getaut.
+@@examples
+      <div class="ex pf" style="--tilt:-1.5deg"><div class="ex-head"><b>hat</b></div><div class="ex-body">Lea lacht.<span class="arrow" aria-hidden="true">▼</span>Lea <span class="a">hat gelacht</span>.</div></div>
+      <div class="ex pf" style="--tilt:1deg"><div class="ex-head"><b>ist</b><span>Bewegung</span></div><div class="ex-body">Lea läuft.<span class="arrow" aria-hidden="true">▼</span>Lea <span class="a">ist gelaufen</span>.</div></div>
+      <div class="ex pf" style="--tilt:-.5deg"><div class="ex-head"><b>ist</b><span>Veränderung</span></div><div class="ex-body">Das Eis taut.<span class="arrow" aria-hidden="true">▼</span>Das Eis <span class="a">ist getaut</span>.</div></div>
+@@howto
+        <li>Lies den Satz im Präsens.</li>
+        <li><span>Wähle zuerst das Hilfsverb: <b>hat</b> oder <b>ist</b>? Sprich den Satz leise mit beiden Wörtern.</span></li>
+        <li>Wähle dann das richtige Partizip. Sind beide Teile eingebaut, ist dein Perfekt-Satz fertig.</li>
+@@board
+    <div class="bench">
+      <p class="lbl">Präsens</p>
+      <p class="from" id="from"></p>
+      <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M5 13l7 7 7-7"/></svg>
+      <p class="lbl">Perfekt</p>
+      <p class="build" id="build"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="kit" id="kit">
+        <div class="grp"><span class="glbl">1. Hilfsverb</span><div class="row" id="aux"></div></div>
+        <div class="grp"><span class="glbl">2. Partizip</span><div class="row" id="parts"></div></div>
+      </div>
+    </div>
+@@css
+/* ---------- Perfekt-Baukasten ---------- */
+.pf{--c:var(--die);--cd:var(--die-deep);--cs:var(--die-soft)}
+.ex-body{font-size:clamp(1rem,2.5vw,1.45rem)}
+.ex-body .arrow{display:block;color:var(--ink-soft);font-size:1rem;line-height:1.1}
+.bench .from{font-size:clamp(1.4rem,4vw,2rem)}
+.build{margin:0;font-weight:700;font-size:clamp(1.5rem,4.4vw,2.3rem);line-height:1.6}
+.slot{display:inline-grid;place-items:center;min-width:2.1em;height:1.3em;padding:0 .2em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);font-size:.9em;vertical-align:middle;line-height:1}
+.slot.filled{border-style:solid;border-color:var(--die-deep);background:var(--die);color:#fff;animation:slotpop .35s ease-out}
+.slot.now{border-color:var(--sun-deep);background:var(--sun-soft)}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.kit{display:grid;grid-template-columns:auto 1fr;gap:10px clamp(14px,3vw,34px);max-width:940px;margin:0 auto;align-items:end}
+.glbl{display:block;font-size:.95rem;font-weight:700;color:var(--ink-soft);margin:0 0 4px 4px}
+.kit .row{display:flex;flex-wrap:wrap;gap:clamp(8px,1.4vw,14px)}
+.kit button{appearance:none;position:relative;flex:1 1 auto;border:3px solid var(--card-edge);background:var(--card);color:var(--ink);border-radius:16px;min-height:62px;min-width:86px;padding:6px 16px;
+  font-weight:700;font-size:clamp(1.15rem,2.6vw,1.6rem);line-height:1.1;cursor:pointer;box-shadow:0 5px 0 var(--card-edge),0 12px 20px var(--lift);touch-action:manipulation;transition:transform .12s ease}
+.kit button:active{transform:translateY(4px);box-shadow:0 1px 0 var(--card-edge)}
+@media (hover:hover){.kit button:not(:disabled):hover{border-color:var(--sun)}}
+.kit button.no{opacity:.4;box-shadow:none;cursor:default}
+.kit button.off{opacity:.4;box-shadow:none;cursor:default}
+.kit button.yes{background:var(--die);border-color:var(--die-deep);color:#fff;box-shadow:0 5px 0 var(--die-deep);opacity:1}
+.kit button.hint{border-color:var(--sun);animation:glow 1.1s ease-in-out infinite}
+.kit .kbd{background:var(--card-edge);color:var(--ink-soft);top:3px;right:5px;font-size:.75rem}
+@media (max-width:700px){.kit{grid-template-columns:1fr;gap:6px}.kit button{min-height:54px;padding:4px 10px;min-width:72px}}
+.review li{font-size:1.05rem}
+@@data
+/* Aufbau: [Wer?, Verb im Präsens, Rest vom Satz, Hilfsverb, Partizip, [zwei falsche Formen]] */
+const SENTENCES = [
+  ['Der Vogel',      'fliegt',        'auf das Dach',         'ist', 'geflogen',     ['gefliegt', 'geflogt']],
+  ['Die Blume',      'wächst',        'sehr schnell',         'ist', 'gewachsen',    ['gewächst', 'gewuchsen']],
+  ['Die Schnecke',   'kriecht',       'über den Weg',         'ist', 'gekrochen',    ['gekriecht', 'gekriechen']],
+  ['Der Frosch',     'hüpft',         'in den Teich',         'ist', 'gehüpft',      ['gehüpfen', 'gehüpfet']],
+  ['Finn',           'rutscht',       'über das Eis',         'ist', 'gerutscht',    ['gerutschen', 'gerutsch']],
+  ['Anna',           'stolpert',      'über einen Stein',     'ist', 'gestolpert',   ['gestolpern', 'gestolpet']],
+  ['Das Flugzeug',   'landet',        'pünktlich',            'ist', 'gelandet',     ['gelanden', 'geländet']],
+  ['Der Zauberer',   'verschwindet',  'hinter dem Vorhang',   'ist', 'verschwunden', ['verschwindet', 'verschwandet']],
+  ['Der Schnee',     'schmilzt',      'in der Sonne',         'ist', 'geschmolzen',  ['geschmolzt', 'geschmilzt']],
+  ['Der Luftballon', 'platzt',        'mit einem Knall',      'ist', 'geplatzt',     ['geplatzen', 'geplatz']],
+  ['Oma',            'bringt',        'einen Kuchen',         'hat', 'gebracht',     ['gebringt', 'gebrungen']],
+  ['Papa',           'schneidet',     'das Brot',             'hat', 'geschnitten',  ['geschneidet', 'geschneiden']],
+  ['Jana',           'wäscht',        'ihre Hände',           'hat', 'gewaschen',    ['gewascht', 'gewuschen']],
+  ['Der Esel',       'trägt',         'einen schweren Sack',  'hat', 'getragen',     ['getragt', 'getrugen']],
+  ['Leo',            'gibt',          'mir einen Stift',      'hat', 'gegeben',      ['gegebt', 'gegaben']],
+  ['Unsere Klasse',  'gewinnt',       'das Spiel',            'hat', 'gewonnen',     ['gewinnt', 'gewannt']],
+  ['Ida',            'bastelt',       'eine Laterne',         'hat', 'gebastelt',    ['gebasteln', 'gebastlet']],
+  ['Max',            'lernt',         'ein Gedicht',          'hat', 'gelernt',      ['gelernen', 'gelernet']],
+  ['Der Lehrer',     'fragt',         'die Klasse',           'hat', 'gefragt',      ['gefragen', 'gefrägt']],
+  ['Mama',           'packt',         'den Koffer',           'hat', 'gepackt',      ['gepacken', 'gepäckt']]
+];
+const AUX = ['hat', 'ist'];
+/* Tipps nach zwei Fehlversuchen */
+const TIPS = {
+  hat: 'Tipp: Hier tut jemand etwas mit einer Sache oder einer Person (Wen oder was?). Dann heißt es <b>hat</b>.',
+  ist: 'Tipp: Hier bewegt sich jemand an einen anderen Ort oder etwas verändert sich. Dann heißt es <b>ist</b>.',
+  part: 'Tipp: Sprich den Satz leise mit jedem Wort. Dein Ohr hilft dir! Das leuchtende Partizip ist richtig.'
+};
+
+const GAME = {
+  id: 'baukasten',
+  unit: 'Sätze',
+  next: { href: '6-verb-meister.html', title: 'Verb-Meister' },
+  review: () => `<div class="review c2">${AUX.map(a =>
+    `<div class="col pf"><h3>Perfekt mit ${a}</h3><ul>${all.filter(s => s.aux === a).map(s => `<li><span><span>${s.verb} →</span> <b>${s.aux} ${s.part}</b></span></li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Perfekt-Baukasten ---------- */
+let all = [], queue = [], cur = null;
+
+function startGame() {
+  all = SENTENCES.map(r => ({ who: r[0], verb: r[1], rest: r[2], aux: r[3], part: r[4], wrong: r[5], misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Baue den Satz im Perfekt. Wähle zuerst <b>hat</b> oder <b>ist</b>, dann das Partizip.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  cur.auxOk = cur.partOk = false;
+  $('#from').textContent = `${cur.who} ${cur.verb} ${cur.rest}.`;
+  $('#build').innerHTML = `${cur.who} <span class="slot now" id="s1">?</span> ${cur.rest} <span class="slot" id="s2">?</span>.`;
+  $('#aux').innerHTML = AUX.map((a, i) => `<button data-t="aux" data-v="${a}">${a}<span class="kbd" aria-hidden="true">${i + 1}</span></button>`).join('');
+  $('#parts').innerHTML = shuffle([cur.part, ...cur.wrong]).map((p, i) => `<button data-t="part" data-v="${p}">${p}<span class="kbd" aria-hidden="true">${i + 3}</span></button>`).join('');
+}
+
+function choose(el) {
+  if (!el || state.busy || el.disabled || !cur) return;
+  const t = el.dataset.t, v = el.dataset.v, want = t === 'aux' ? cur.aux : cur.part;
+  if (v !== want) {
+    const hint = miss(cur, el);
+    el.disabled = true; el.classList.add('no');
+    if (hint) $(`#kit button[data-t="${t}"][data-v="${want}"]`).classList.add('hint');
+    say(hint ? (t === 'aux' ? TIPS[cur.aux] : TIPS.part)
+      : (t === 'aux' ? 'Fast! Sprich den Satz leise mit dem anderen Hilfsverb.' : 'Fast! Dieses Partizip klingt noch nicht richtig. Probier ein anderes.'), 'think');
+    return;
+  }
+  /* Richtiger Teil: in die Lücke einbauen */
+  $$(`#kit button[data-t="${t}"]`).forEach(b => { b.disabled = true; b.classList.remove('hint'); b.classList.add(b === el ? 'yes' : 'off'); });
+  const slot = $(t === 'aux' ? '#s1' : '#s2');
+  slot.textContent = v; slot.className = 'slot filled';
+  if (t === 'aux') cur.auxOk = true; else cur.partOk = true;
+  if (!(cur.auxOk && cur.partOk)) {
+    sfx.pick();
+    $(cur.auxOk ? '#s2' : '#s1').classList.add('now');
+    say(t === 'aux' ? `Genau, es heißt <b>${v}</b>. Jetzt fehlt noch das Partizip.` : `Genau, <b>${v}</b> ist das Partizip. Heißt es hat oder ist?`);
+    return;
+  }
+  state.busy = true;
+  solve(cur, $('#build'), 'die');
+  say(`${pick(PRAISE, 'praise')} ${cur.who} <span class="pill pf">${cur.aux}</span> ${cur.rest} <span class="pill pf">${cur.part}</span>.`, 'happy');
+  later(next, 2200);
+}
+
+$('#kit').addEventListener('click', e => choose(e.target.closest('button')));
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-5]$/.test(e.key)) return;
+  choose($$('#kit button')[+e.key - 1]);
+});

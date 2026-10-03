@@ -1,0 +1,157 @@
+@@meta
+file: 5-umlaut-zauber.html
+title: Umlaut-Zauber
+level: Fortgeschrittene
+nr: 5
+total: 20
+subtitle: Zaubere Pünktchen auf die Buchstaben. Aber Achtung: Nicht jedes Wort braucht sie!
+lead: Mit Umlaut oder ohne? So sieht das aus:
+id: umlaute
+desc: Zaubere Pünktchen auf a, o und u.
+sample: der Traum → die Träume
+drag: no
+@@tipp
+Viele Nomen bekommen in der Mehrzahl einen <b>Umlaut</b>: aus <b>a</b> wird <b>ä</b>, aus <b>o</b> wird <b>ö</b>, aus <b>u</b> wird <b>ü</b> und aus <b>au</b> wird <b>äu</b>. Sprich das Wort laut, dann hörst du es.
+@@examples
+      <div class="ex" style="--tilt:-1.5deg"><div class="ex-body"><span class="e1">der Traum</span><span class="arrow" aria-hidden="true">▼</span><span class="e2">die Tr<u>ä</u>ume</span></div></div>
+      <div class="ex" style="--tilt:1deg"><div class="ex-body"><span class="e1">der Kopf</span><span class="arrow" aria-hidden="true">▼</span><span class="e2">die K<u>ö</u>pfe</span></div></div>
+      <div class="ex" style="--tilt:-.5deg"><div class="ex-body"><span class="e1">der Arm</span><span class="arrow" aria-hidden="true">▼</span><span class="e2">die Arme</span></div></div>
+@@howto
+        <li>Lies die Einzahl und sprich die Mehrzahl laut: „viele …“.</li>
+        <li>Hörst du einen Umlaut? Dann tippe auf den Buchstaben, der Pünktchen bekommt. Tippst du noch einmal, verschwinden sie wieder.</li>
+        <li>Tippe auf „Fertig!“. Braucht das Wort keine Pünktchen, tippst du gleich auf „Fertig!“.</li>
+@@board
+    <div class="bench">
+      <p class="lbl">Einzahl</p>
+      <p class="from" id="from"></p>
+      <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M5 13l7 7 7-7"/></svg>
+      <p class="lbl">Mehrzahl</p>
+      <div class="spell" id="spell"></div>
+      <p class="help">Welcher Buchstabe bekommt Pünktchen? Oder bleibt alles so?</p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions"><button class="btn btn-primary big" id="check">Fertig!</button></div>
+    </div>
+@@css
+/* ---------- Umlaut-Zauber ---------- */
+.ex-body u{text-decoration:none;background:var(--die-soft);border-radius:6px;padding:0 3px}
+.spell{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:6px 14px;font-weight:700;font-size:clamp(1.7rem,6.4vw,3rem);line-height:1}
+.spell .letters{display:flex;gap:clamp(2px,.7vw,6px)}
+.lt{display:grid;place-items:center;min-width:1.02em;height:1.5em;padding:0 .08em;border-radius:12px;font:inherit;color:var(--ink)}
+button.lt{appearance:none;border:3px solid var(--sun);background:var(--sun-soft);cursor:pointer;min-width:1.25em;min-height:48px;box-shadow:0 4px 0 var(--sun-deep);
+  touch-action:manipulation;transition:transform .1s ease,background-color .15s ease}
+button.lt:active{transform:translateY(3px);box-shadow:0 1px 0 var(--sun-deep)}
+button.lt.on{background:var(--die);border-color:var(--die-deep);color:#fff;box-shadow:0 4px 0 var(--die-deep)}
+button.lt.hint{animation:glow 1.1s ease-in-out infinite}
+.spell.locked button.lt{pointer-events:none;box-shadow:none;border-color:transparent;background:transparent}
+.spell.locked button.lt.on{background:var(--die);color:#fff}
+@@data
+/* Aufbau: [Einzahl, Mehrzahl] – das Spiel erkennt selbst, ob die Mehrzahl einen Umlaut hat */
+const WORDS = [
+  ['der Traum',   'die Träume'],
+  ['die Nacht',   'die Nächte'],
+  ['der Kopf',    'die Köpfe'],
+  ['der Turm',    'die Türme'],
+  ['das Blatt',   'die Blätter'],
+  ['der Garten',  'die Gärten'],
+  ['der Bruder',  'die Brüder'],
+  ['die Tochter', 'die Töchter'],
+  ['das Dorf',    'die Dörfer'],
+  ['der Zug',     'die Züge'],
+  ['die Wand',    'die Wände'],
+  ['der Rock',    'die Röcke'],
+  ['der Arm',     'die Arme'],
+  ['der Monat',   'die Monate'],
+  ['das Jahr',    'die Jahre'],
+  ['die Burg',    'die Burgen'],
+  ['der Kuchen',  'die Kuchen'],
+  ['die Tasse',   'die Tassen'],
+  ['das Boot',    'die Boote'],
+  ['der Punkt',   'die Punkte']
+];
+
+const GAME = {
+  id: 'umlaute',
+  next: { href: '6-mehrzahl-meister.html', title: 'Mehrzahl-Meister' },
+  review: () => `<div class="review c2">
+    <div class="col mz"><h3>Mit Umlaut</h3><ul>${all.filter(w => w.need).map(pairLi).join('')}</ul></div>
+    <div class="col ez"><h3>Ohne Umlaut</h3><ul>${all.filter(w => !w.need).map(pairLi).join('')}</ul></div></div>`
+};
+@@js
+/* ---------- Spiel: Umlaut-Zauber ---------- */
+const UML = { a: 'ä', o: 'ö', u: 'ü', A: 'Ä', O: 'Ö', U: 'Ü' };
+const PLAIN = { 'ä': 'a', 'ö': 'o', 'ü': 'u', 'Ä': 'A', 'Ö': 'O', 'Ü': 'U' };
+const plain = s => s.replace(/[äöüÄÖÜ]/g, ch => PLAIN[ch]);
+let all = [], queue = [], cur = null, letters = [];
+
+function startGame() {
+  all = WORDS.map(w => { const noun = w[1].split(' ')[1]; return { ez: w[0], mz: w[1], noun, need: noun !== plain(noun), misses: 0 }; });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Sprich die Mehrzahl laut. Braucht ein Buchstabe Pünktchen? Dann tippe ihn an.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  letters = [...plain(cur.noun)].map((ch, i) => ({ base: ch, on: false, can: ch in UML, target: cur.noun[i] !== ch }));
+  $('#from').textContent = cur.ez;
+  $('#spell').classList.remove('locked');
+  renderLetters();
+}
+
+function renderLetters(hint) {
+  $('#spell').innerHTML = '<span>die</span><span class="letters">' + letters.map((l, i) => {
+    const ch = l.on ? UML[l.base] : l.base;
+    return l.can
+      ? `<button class="lt${l.on ? ' on' : ''}${hint && l.target ? ' hint' : ''}" data-i="${i}" aria-pressed="${l.on}" aria-label="Buchstabe ${ch}">${ch}</button>`
+      : `<span class="lt">${ch}</span>`;
+  }).join('') + '</span>';
+}
+
+/* Beschreibt den Wechsel, z. B. „au → äu“ */
+function change() {
+  const i = letters.findIndex(l => l.target), l = letters[i];
+  const au = l.base.toLowerCase() === 'a' && letters[i + 1] && letters[i + 1].base === 'u';
+  return au ? `Aus <b>${l.base}u</b> wird <b>${UML[l.base]}u</b>.` : `Aus <b>${l.base}</b> wird <b>${UML[l.base]}</b>.`;
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const built = letters.map(l => l.on ? UML[l.base] : l.base).join('');
+  const has = letters.some(l => l.on);
+  if (built !== cur.noun) {
+    const hint = miss(cur, $('#spell .letters'));
+    let msg;
+    if (hint) msg = cur.need ? `Tipp: ${change()} Tippe auf den leuchtenden Buchstaben.` : 'Tipp: Dieses Wort braucht keinen Umlaut. Nimm alle Pünktchen wieder weg.';
+    else if (cur.need && !has) msg = 'Hmm, hier fehlen noch Pünktchen. Sprich das Wort laut: Welcher Laut verändert sich?';
+    else if (!cur.need) msg = 'Fast! Sprich das Wort noch einmal laut. Braucht es wirklich Pünktchen?';
+    else msg = 'Fast! Ein anderer Buchstabe bekommt die Pünktchen.';
+    if (hint) renderLetters(true);
+    say(msg, 'think');
+    return;
+  }
+  state.busy = true;
+  renderLetters();
+  $('#spell').classList.add('locked');
+  solve(cur, $('#spell'), 'die');
+  say(`${pick(PRAISE, 'praise')} <b>${cur.ez}</b> → <span class="pill mz">${cur.mz}</span> ` +
+    (cur.need ? change() : 'Hier bleibt alles ohne Umlaut.'), 'happy');
+  later(next, 1900);
+}
+
+$('#spell').addEventListener('click', e => {
+  const b = e.target.closest('button.lt');
+  if (!b || state.busy) return;
+  const l = letters[+b.dataset.i];
+  l.on = !l.on;
+  sfx.pick();
+  renderLetters();
+  const again = $(`button.lt[data-i="${b.dataset.i}"]`);
+  if (again) again.focus({ preventScroll: true });
+});
+$('#check').addEventListener('click', check);
