@@ -1,0 +1,176 @@
+@@meta
+file: 4-artikel-jagd.html
+title: Artikel-Jagd
+level: Fortgeschrittene
+nr: 4
+total: 20
+subtitle: In jedem Satz versteckt sich ein Artikel. Finde ihn und sag, ob er bestimmt oder unbestimmt ist.
+lead: Bestimmte Artikel sind im Spiel lila, unbestimmte Artikel sind türkis:
+id: jagd
+desc: Finde den Artikel im Satz und bestimme ihn.
+sample: Dort kreist ein Adler. → unbestimmt
+drag: no
+@@tipp
+Artikel sind kleine Wörter, die ein Nomen begleiten. <b>der</b>, <b>die</b>, <b>das</b> sind <b>bestimmte Artikel</b>. <b>ein</b> und <b>eine</b> sind <b>unbestimmte Artikel</b>. Der Artikel steht vor seinem Nomen.
+@@examples
+      <div class="ex best" style="--tilt:-1.5deg"><div class="ex-head"><b>bestimmt</b></div><div class="ex-body"><span class="a">Der</span> Hahn kräht laut.</div></div>
+      <div class="ex unb" style="--tilt:1deg"><div class="ex-head"><b>unbestimmt</b></div><div class="ex-body">Dort kriecht <span class="a">eine</span> Raupe.</div></div>
+      <div class="ex unb" style="--tilt:-.5deg"><div class="ex-head"><b>unbestimmt</b></div><div class="ex-body">Hier steht <span class="a">ein</span> Regal.</div></div>
+@@howto
+        <li><span>Lies den Satz. Welches Wort ist der Artikel? Tippe es an.</span></li>
+        <li><span>Jetzt entscheidest du: Ist der Artikel <b>bestimmt</b> (der, die, das) oder <b>unbestimmt</b> (ein, eine)?</span></li>
+        <li><span>Stimmt beides, bekommt der Artikel seine Farbe. Stimmt etwas nicht, probierst du es einfach noch einmal.</span></li>
+@@board
+    <div class="bench">
+      <p class="lbl" id="step">1. Tippe den Artikel an</p>
+      <p class="sentence" id="sentence"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="tiles" id="tiles">
+        <button class="tile best" data-k="best" disabled><b>bestimmt</b><small>der, die, das</small><span class="kbd" aria-hidden="true">1</span></button>
+        <button class="tile unb" data-k="unb" disabled><b>unbestimmt</b><small>ein, eine</small><span class="kbd" aria-hidden="true">2</span></button>
+      </div>
+    </div>
+@@css
+/* ---------- Artikel: bestimmt = lila, unbestimmt = türkis ---------- */
+.best{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.unb{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-body{font-size:clamp(1rem,2.6vw,1.45rem)}
+.ex-head b{font-size:clamp(1rem,2.8vw,1.5rem)}
+/* ---------- Artikel-Jagd ---------- */
+.bench .lbl{margin-bottom:10px}
+.sentence{margin:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 6px}
+.wbtn{appearance:none;border:3px solid transparent;background:none;border-radius:14px;min-height:52px;min-width:48px;padding:2px 8px;cursor:pointer;
+  font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.2;color:var(--ink);transition:background-color .16s ease,border-color .16s ease}
+@media (hover:hover){.wbtn:not(:disabled):hover{background:var(--sun-soft)}}
+.wbtn.found{border-color:var(--sun);background:var(--sun-soft)}
+.wbtn.hint{animation:glow 1.1s ease-in-out infinite}
+.wbtn.solved{border-color:var(--c);background:var(--c);color:#fff}
+.wbtn:disabled{cursor:default}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,3vw,28px);max-width:720px;margin:0 auto}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:clamp(76px,10vw,96px);padding:6px 8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease,opacity .16s ease}
+.tile b{font-size:clamp(1.3rem,4.4vw,2rem);line-height:1.1}
+.tile small{font-size:clamp(.9rem,2.2vw,1.05rem);line-height:1.15}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile:disabled{opacity:.4;cursor:default}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.review h3{font-size:1.2rem;color:var(--c)}
+@@data
+/* Aufbau: ein Satz, der Artikel steht in eckigen Klammern. In jedem Satz gibt es genau einen Artikel. */
+const SENTENCES = [
+  '[Der] Wecker klingelt sehr laut.',
+  'Heute leuchtet [die] Laterne hell.',
+  '[Das] Küken piept ganz leise.',
+  'Draußen bellt [der] Dackel.',
+  '[Die] Ampel zeigt gerade Rot.',
+  'Morgen beginnt [das] Turnier.',
+  'Plötzlich wackelt [der] Turm.',
+  '[Die] Treppe knarrt schon wieder.',
+  'Endlich öffnet [das] Schwimmbad wieder.',
+  '[Die] Zwiebel riecht ziemlich scharf.',
+  'Dort oben kreist [ein] Adler.',
+  'Hier wächst [eine] Tanne.',
+  'Da vorne hüpft [ein] Frosch.',
+  'Draußen summt [eine] Hummel.',
+  'Dort hinten liegt [ein] Dorf.',
+  'Gleich startet [ein] Rennen.',
+  '[Eine] Glocke läutet laut.',
+  '[Ein] Kaninchen hoppelt vorbei.',
+  '[Ein] Sturm zieht auf.',
+  'Oben flattert [eine] Fahne.'
+];
+/* Aufbau: Kürzel: [Name, Farbe für die Funken, Merksatz] */
+const KINDS = {
+  best: ['bestimmt',   'bonus', '<b>der</b>, <b>die</b> und <b>das</b> sind bestimmte Artikel.'],
+  unb:  ['unbestimmt', 'teal',  '<b>ein</b> und <b>eine</b> sind unbestimmte Artikel.']
+};
+
+const GAME = {
+  id: 'jagd',
+  unit: 'Sätze',
+  next: { href: '5-neu-oder-bekannt.html', title: 'Neu oder bekannt?' },
+  review: () => `<div class="review c2">${Object.keys(KINDS).map(k =>
+    `<div class="col ${k}"><h3>${KINDS[k][0]}er Artikel</h3><ul>${all.filter(s => s.k === k).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Artikel-Jagd ---------- */
+let all = [], queue = [], cur = null, found = false;
+const full = s => s.words.map((w, i) => i === s.at ? `<b class="w ${s.k}">${w}</b>` : w).join(' ');
+const tileEl = k => $(`.tile[data-k="${k}"]`);
+
+function startGame() {
+  all = SENTENCES.map(text => {
+    const raw = text.split(' '), at = raw.findIndex(w => w[0] === '[');
+    const words = raw.map(w => w.replace(/[\[\]]/g, ''));
+    return { words, at, art: words[at], k: /^(der|die|das)$/i.test(words[at]) ? 'best' : 'unb', misses: 0 };
+  });
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('In jedem Satz steckt genau ein Artikel. Tippe ihn an!');
+  show('game');
+  next();
+}
+
+function setTiles(on) { $$('.tile').forEach(t => { t.disabled = !on; t.classList.remove('hint'); }); }
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false; found = false;
+  setTiles(false);
+  $('#step').textContent = '1. Tippe den Artikel an';
+  $('#sentence').innerHTML = cur.words.map((w, i) => `<button class="wbtn" data-i="${i}">${w}</button>`).join('');
+}
+
+function tapWord(i, el) {
+  if (state.busy || !cur || found) return;
+  if (i !== cur.at) {
+    const hint = miss(cur, el);
+    if (hint) $(`.wbtn[data-i="${cur.at}"]`).classList.add('hint');
+    say(hint ? 'Tipp: Artikel sind die kleinen Wörter <b>der</b>, <b>die</b>, <b>das</b>, <b>ein</b> und <b>eine</b>. Der Artikel leuchtet.'
+      : `<b>${el.textContent.replace(/[.!?]/, '')}</b> ist kein Artikel. Such das kleine Wort, das vor einem Nomen steht.`, 'think');
+    return;
+  }
+  found = true;
+  sfx.pick();
+  $$('.wbtn').forEach(b => { b.classList.remove('hint'); b.disabled = true; });
+  el.classList.add('found');
+  setTiles(true);
+  $('#step').textContent = '2. Bestimmt oder unbestimmt?';
+  say(`Gefunden! <b>${cur.art}</b> ist der Artikel. Ist er bestimmt oder unbestimmt?`, 'happy');
+}
+
+function choose(k) {
+  if (state.busy || !cur || !found) return;
+  if (k !== cur.k) {
+    const hint = miss(cur, tileEl(k));
+    if (hint) tileEl(cur.k).classList.add('hint');
+    say(hint ? `Tipp: ${KINDS[cur.k][2]}` : `Fast! Schau dir den Artikel noch einmal an: <b>${cur.art}</b>.`, 'think');
+    return;
+  }
+  state.busy = true;
+  setTiles(false);
+  const el = $(`.wbtn[data-i="${cur.at}"]`);
+  el.className = 'wbtn solved ' + cur.k;
+  solve(cur, el, KINDS[cur.k][1]);
+  say(`${pick(PRAISE, 'praise')} <span class="pill ${cur.k}">${cur.art}</span> ist ein ${KINDS[cur.k][0]}er Artikel: ${full(cur)}`, 'happy');
+  later(next, 1900);
+}
+
+$('#sentence').addEventListener('click', e => {
+  const b = e.target.closest('.wbtn');
+  if (b) tapWord(+b.dataset.i, b);
+});
+$('#tiles').addEventListener('click', e => {
+  const t = e.target.closest('.tile');
+  if (t && !t.disabled) choose(t.dataset.k);
+});
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[12]$/.test(e.key)) return;
+  choose(e.key === '1' ? 'best' : 'unb');
+});

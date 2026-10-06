@@ -1,0 +1,182 @@
+@@meta
+file: 1-drei-koerbe.html
+title: Drei Körbe
+level: Anfänger
+nr: 1
+total: 15
+subtitle: der, die oder das? Sortiere jede Bildkarte in den richtigen Korb.
+lead: Jeder Artikel hat im Spiel seine eigene Farbe:
+id: koerbe
+desc: Sortiere die Bildkarten in drei Körbe.
+sample: 🥄 Löffel → der
+drag: yes
+@@tipp
+Jedes Nomen hat seinen Artikel: <b>der</b>, <b>die</b> oder <b>das</b>. Sprich das Wort leise mit allen drei Artikeln. Was klingt richtig? Merk dir jedes Nomen immer zusammen mit seinem Artikel.
+@@examples
+      <div class="ex der" style="--tilt:-1.5deg"><div class="ex-head"><b>der</b></div><div class="ex-body"><span class="emo" aria-hidden="true">🥄</span><span class="a">der</span> Löffel</div></div>
+      <div class="ex die" style="--tilt:1deg"><div class="ex-head"><b>die</b></div><div class="ex-body"><span class="emo" aria-hidden="true">💡</span><span class="a">die</span> Lampe</div></div>
+      <div class="ex das" style="--tilt:-.5deg"><div class="ex-head"><b>das</b></div><div class="ex-body"><span class="emo" aria-hidden="true">🐑</span><span class="a">das</span> Schaf</div></div>
+@@howto
+        <li><span>Tippe eine Karte an und sprich das Wort leise mit <b>der</b>, <b>die</b> und <b>das</b>.</span></li>
+        <li><span>Tippe auf den Korb mit dem Artikel, der richtig klingt. Du kannst die Karte auch mit dem Finger in den Korb ziehen.</span></li>
+        <li><span>Passt es, verschwindet die Karte. Passt es nicht, probierst du einfach einen anderen Korb.</span></li>
+@@board
+    <p class="round" id="round">Runde 1 von 3</p>
+    <div class="words with-pics" id="words"></div>
+@@tray
+    <div class="tray">
+      <div class="baskets">
+        <button class="basket der" data-kind="der" aria-pressed="false"><b>der</b><span class="kbd" aria-hidden="true">1</span></button>
+        <button class="basket die" data-kind="die" aria-pressed="false"><b>die</b><span class="kbd" aria-hidden="true">2</span></button>
+        <button class="basket das" data-kind="das" aria-pressed="false"><b>das</b><span class="kbd" aria-hidden="true">3</span></button>
+      </div>
+    </div>
+@@css
+/* ---------- Drei Körbe ---------- */
+.with-pics .word-card{min-height:132px}
+.word-card .pic{font-size:2.7rem}
+.word-card .word{font-size:clamp(1.5rem,2.6vw,1.8rem);overflow-wrap:normal}
+@media (max-width:520px){
+  .with-pics .word-card{min-height:98px;padding:6px}
+  .word-card .pic{font-size:2.1rem}
+  .word-card.done{display:none}
+  .coach{position:sticky;bottom:calc(112px + env(safe-area-inset-bottom,0px));z-index:6;background:var(--paper);margin:0 -14px;padding:8px 14px 0}
+}
+.baskets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,3vw,32px);max-width:760px;margin:0 auto}
+.basket{appearance:none;border:none;position:relative;border-radius:14px 14px 30px 30px;background:var(--c);color:#fff;min-height:clamp(84px,12vw,108px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:inset 0 10px 0 rgba(255,255,255,.22),0 6px 0 var(--cd),0 12px 22px var(--lift);
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .16s ease,box-shadow .16s ease}
+.basket b{font-size:clamp(1.8rem,5vw,2.4rem);line-height:1.15}
+.basket .kbd{top:16px}
+.basket.selected,.basket.drop-over{transform:translateY(-6px);box-shadow:inset 0 10px 0 rgba(255,255,255,.22),0 0 0 5px var(--sun),0 14px 24px var(--lift)}
+.basket.hint{animation:glow 1.1s ease-in-out infinite}
+.review li{font-weight:400}
+@@data
+/* Aufbau: [Nomen, Artikel, Bild] – immer 5 Karten bilden eine Runde */
+const WORDS = [
+  ['Löffel',    'der', '🥄'],
+  ['Stuhl',     'der', '🪑'],
+  ['Mond',      'der', '🌙'],
+  ['Fisch',     'der', '🐟'],
+  ['Schlüssel', 'der', '🔑'],
+  ['Lampe',     'die', '💡'],
+  ['Ente',      'die', '🦆'],
+  ['Wolke',     'die', '☁️'],
+  ['Birne',     'die', '🍐'],
+  ['Gitarre',   'die', '🎸'],
+  ['Schaf',     'das', '🐑'],
+  ['Pferd',     'das', '🐴'],
+  ['Schiff',    'das', '🚢'],
+  ['Kleid',     'das', '👗'],
+  ['Ei',        'das', '🥚']
+];
+const CARDS_PER_ROUND = 5;
+const ARTICLES = ['der', 'die', 'das'];
+
+const GAME = {
+  id: 'koerbe',
+  next: { href: '2-artikel-zwillinge.html', title: 'Artikel-Zwillinge' },
+  review: () => `<div class="review">${ARTICLES.map(k =>
+    `<div class="col ${k}"><h3>${k}</h3><ul>${all.filter(w => w.k === k).map(w => `<li><b>${w.k}</b> ${w.noun}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Drei Körbe ---------- */
+let all = [], rounds = [], round = 0, left = 0, selCard = null, selKind = null;
+const byId = id => all.find(w => w.id === id);
+const cardEl = id => $(`.word-card[data-id="${id}"]`);
+const basketEl = k => $(`.basket[data-kind="${k}"]`);
+
+function startGame() {
+  all = WORDS.map((w, i) => ({ id: 'w' + i, noun: w[0], k: w[1], emoji: w[2], misses: 0, done: false }));
+  /* In jeder Runde liegen Karten für alle drei Körbe */
+  const n = Math.ceil(all.length / CARDS_PER_ROUND);
+  rounds = Array.from({ length: n }, () => []);
+  let r = 0;
+  ARTICLES.forEach(k => shuffle(all.filter(w => w.k === k)).forEach(w => { rounds[r % n].push(w); r++; }));
+  rounds.forEach(shuffle);
+  resetState(all.length);
+  round = 0;
+  startRound();
+  say('Tippe eine Karte an und dann den passenden Korb. Sprich das Wort leise mit <b>der</b>, <b>die</b> und <b>das</b>!');
+  show('game');
+}
+
+function startRound() {
+  selCard = selKind = null; left = rounds[round].length;
+  $('#round').textContent = `Runde ${round + 1} von ${rounds.length}`;
+  $('#words').innerHTML = rounds[round].map(w =>
+    `<button class="word-card" data-id="${w.id}" aria-pressed="false" style="--tilt:${(Math.random() * 3 - 1.5).toFixed(2)}deg">
+      <span class="pic" aria-hidden="true">${w.emoji}</span><span class="word">${w.noun}</span></button>`).join('');
+  renderSelection();
+}
+
+function renderSelection() {
+  $$('.word-card').forEach(el => {
+    const on = el.dataset.id === selCard;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+  });
+  $$('.basket').forEach(el => {
+    const on = el.dataset.kind === selKind;
+    el.classList.toggle('selected', on);
+    el.setAttribute('aria-pressed', String(on));
+    el.classList.remove('hint');
+  });
+  const w = selCard && byId(selCard);
+  if (w && w.misses >= 2) basketEl(w.k).classList.add('hint');
+}
+
+function tapCard(id) {
+  const w = byId(id);
+  if (!w || w.done || state.busy) return;
+  if (selKind) { attempt(id, selKind); return; }
+  selCard = selCard === id ? null : id;
+  sfx.pick(); renderSelection();
+  if (selCard) say(`Sprich leise: der ${w.noun}, die ${w.noun}, das ${w.noun}. Was klingt richtig?`);
+}
+function tapBasket(k) {
+  if (state.busy) return;
+  if (selCard) { attempt(selCard, k); return; }
+  selKind = selKind === k ? null : k;
+  sfx.pick(); renderSelection();
+  if (selKind) say(`Welches Wort gehört in den Korb <span class="pill ${k}">${k}</span>?`);
+}
+
+function attempt(id, k) {
+  const w = byId(id);
+  if (!w || w.done) return;
+  if (w.k !== k) {
+    miss(w, cardEl(id));
+    wobble(basketEl(k));
+    selCard = id; selKind = null;
+    renderSelection();
+    say(w.misses < 2 ? pick(RETRY, 'retry')
+      : `Tipp: Für den Artikel gibt es keine feste Regel. Du lernst ihn mit dem Nomen zusammen. Der richtige Korb leuchtet: <b>${w.k} ${w.noun}</b>.`, 'think');
+    return;
+  }
+  const card = cardEl(id);
+  selCard = selKind = null;
+  renderSelection();
+  card.classList.add('vanish');
+  later(() => { card.classList.remove('vanish'); card.classList.add('done'); card.disabled = true; }, 330);
+  solve(w, basketEl(k), k);
+  say(`${pick(PRAISE, 'praise')} Es heißt <span class="pill ${k}">${k} ${w.noun}</span>`, 'happy');
+  if (--left === 0) {
+    state.busy = true;
+    if (round < rounds.length - 1) later(() => { round++; startRound(); state.busy = false; say('Runde geschafft! Hier kommen neue Karten.', 'happy'); }, 1700);
+    else later(finish, 1500);
+  }
+}
+
+$('#words').addEventListener('click', e => {
+  if (suppressClick) return;
+  const c = e.target.closest('.word-card');
+  if (c) tapCard(c.dataset.id);
+});
+$$('.basket').forEach(b => b.addEventListener('click', () => { if (!suppressClick) tapBasket(b.dataset.kind); }));
+enableDrag('.word-card:not(.done)', '.basket', (card, basket) => attempt(card.dataset.id, basket.dataset.kind));
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-3]$/.test(e.key)) return;
+  tapBasket(ARTICLES[+e.key - 1]);
+});

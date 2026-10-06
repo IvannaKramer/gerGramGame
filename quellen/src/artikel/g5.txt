@@ -1,0 +1,175 @@
+@@meta
+file: 5-neu-oder-bekannt.html
+title: Neu oder bekannt?
+level: Fortgeschrittene
+nr: 5
+total: 20
+subtitle: Zwei Sätze, zwei Lücken: Erst ist das Nomen neu, dann kennst du es schon. Welche Artikel fehlen?
+lead: Erst unbestimmt (türkis), dann bestimmt (blau, pink oder grün):
+id: neubekannt
+desc: Setze erst ein oder eine ein, dann der, die oder das.
+sample: Dort steht ein Kran. Der Kran ist riesig.
+drag: no
+@@tipp
+Kommt etwas <b>zum ersten Mal</b> vor, steht der unbestimmte Artikel: <b>ein</b> oder <b>eine</b>. Ist es <b>schon bekannt</b>, steht der bestimmte Artikel: <b>der</b>, <b>die</b> oder <b>das</b>.
+@@examples
+      <div class="ex der" style="--tilt:-1.5deg"><div class="ex-body">Dort sitzt <span class="u">ein</span> Rabe.<br><span class="a">Der</span> Rabe krächzt.</div></div>
+      <div class="ex die" style="--tilt:1deg"><div class="ex-body">Hier steht <span class="u">eine</span> Vase.<br><span class="a">Die</span> Vase ist leer.</div></div>
+      <div class="ex das" style="--tilt:-.5deg"><div class="ex-body">Da liegt <span class="u">ein</span> Seil.<br><span class="a">Das</span> Seil ist lang.</div></div>
+@@howto
+        <li><span>Lies beide Sätze. Im ersten Satz ist das Nomen neu. Tippe auf <b>ein</b> oder <b>eine</b>.</span></li>
+        <li><span>Im zweiten Satz kennst du das Nomen schon. Tippe auf <b>der</b>, <b>die</b> oder <b>das</b>.</span></li>
+        <li><span>Sind beide Lücken gefüllt, kommt die nächste kleine Geschichte.</span></li>
+@@board
+    <div class="bench">
+      <p class="story" id="story"></p>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="tiles" id="tiles">
+        <div class="grp g2"><span class="glbl">unbestimmt</span>
+          <button class="tile unb" data-k="ein"><b>ein</b><span class="kbd" aria-hidden="true">1</span></button>
+          <button class="tile unb" data-k="eine"><b>eine</b><span class="kbd" aria-hidden="true">2</span></button>
+        </div>
+        <div class="grp g3"><span class="glbl">bestimmt</span>
+          <button class="tile der" data-k="der"><b>der</b><span class="kbd" aria-hidden="true">3</span></button>
+          <button class="tile die" data-k="die"><b>die</b><span class="kbd" aria-hidden="true">4</span></button>
+          <button class="tile das" data-k="das"><b>das</b><span class="kbd" aria-hidden="true">5</span></button>
+        </div>
+      </div>
+    </div>
+@@css
+/* ---------- Artikel: bestimmt = lila, unbestimmt = türkis ---------- */
+.best{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.unb{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-body{font-size:clamp(.95rem,2.5vw,1.4rem);line-height:1.45;padding-top:16px}
+.ex-body .u{color:var(--teal)}
+/* ---------- Neu oder bekannt? ---------- */
+.story{margin:0;font-weight:700;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.7}
+.story .s{display:block}
+.lgap{display:inline-block;min-width:2.8em;padding:0 .3em;border:3px dashed var(--ink-soft);border-radius:12px;color:var(--ink-soft);line-height:1.25;text-align:center}
+.lgap.cur{border-color:var(--sun-deep);background:var(--sun-soft)}
+.lgap.filled{border-style:solid;border-color:var(--c);background:var(--c);color:#fff;min-width:0;animation:slotpop .35s ease-out}
+@keyframes slotpop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.tiles{display:grid;grid-template-columns:2fr 3fr;gap:clamp(10px,3vw,30px);max-width:860px;margin:0 auto}
+.grp{position:relative;display:grid;gap:clamp(5px,1.4vw,14px);padding-top:22px}
+.grp.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grp.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.glbl{position:absolute;top:0;left:0;right:0;text-align:center;font-weight:700;font-size:.95rem;line-height:1.2;color:var(--ink-soft)}
+.tile{appearance:none;border:none;position:relative;border-radius:16px;background:var(--c);color:#fff;min-height:clamp(64px,9vw,88px);padding:4px 2px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 6px 0 var(--cd),0 12px 22px var(--lift);transition:transform .12s ease,box-shadow .12s ease}
+.tile b{font-size:clamp(1.2rem,4vw,2rem);line-height:1.1}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cd),0 6px 12px var(--lift)}
+.tile.hint{animation:glow 1.1s ease-in-out infinite}
+.review li{font-weight:400;font-size:1.05rem;line-height:1.35;margin-bottom:6px}
+.review h3{font-size:1.2rem;color:var(--c)}
+.review .u{color:var(--teal);font-weight:700}
+@media (max-width:860px){.review{grid-template-columns:1fr}}
+@@data
+/* Aufbau: [Nomen, bestimmter Artikel, erster Satz mit Lücke ___, zweiter Satz mit Lücke ___]
+   In die erste Lücke gehört ein oder eine, in die zweite der, die oder das. */
+const STORIES = [
+  ['Kran',    'der', 'Dort steht ___ Kran.',          '___ Kran ist riesig.'],
+  ['Bus',     'der', 'Draußen wartet ___ Bus.',       '___ Bus fährt gleich los.'],
+  ['Brief',   'der', 'Hier liegt ___ Brief.',         '___ Brief kommt von Oma.'],
+  ['Kaktus',  'der', 'Da hinten wächst ___ Kaktus.',  '___ Kaktus hat viele Stacheln.'],
+  ['Spiegel', 'der', 'Oben hängt ___ Spiegel.',       '___ Spiegel glänzt.'],
+  ['Delfin',  'der', 'Dort schwimmt ___ Delfin.',     '___ Delfin springt hoch.'],
+  ['Zug',     'der', 'Gleich kommt ___ Zug.',         '___ Zug hat zehn Wagen.'],
+  ['Rose',    'die', 'Dort blüht ___ Rose.',          '___ Rose duftet herrlich.'],
+  ['Kiste',   'die', 'Hier steht ___ Kiste.',         '___ Kiste ist sehr schwer.'],
+  ['Spinne',  'die', 'Dort oben sitzt ___ Spinne.',   '___ Spinne krabbelt langsam weiter.'],
+  ['Mütze',   'die', 'Hier hängt ___ Mütze.',         '___ Mütze gehört Emil.'],
+  ['Kutsche', 'die', 'Dort fährt ___ Kutsche.',       '___ Kutsche hat goldene Räder.'],
+  ['Robbe',   'die', 'Da vorne schwimmt ___ Robbe.',  '___ Robbe taucht plötzlich ab.'],
+  ['Münze',   'die', 'Hier liegt ___ Münze.',         '___ Münze glänzt golden.'],
+  ['Boot',    'das', 'Dort liegt ___ Boot.',          '___ Boot schaukelt leicht.'],
+  ['Glas',    'das', 'Hier steht ___ Glas.',          '___ Glas ist ganz voll.'],
+  ['Baby',    'das', 'Dort schläft ___ Baby.',        '___ Baby träumt bestimmt schön.'],
+  ['Feuer',   'das', 'Da hinten brennt ___ Feuer.',   '___ Feuer wärmt schön.'],
+  ['Bild',    'das', 'Oben hängt ___ Bild.',          '___ Bild zeigt hohe Berge.'],
+  ['Reh',     'das', 'Dort grast ___ Reh.',           '___ Reh ist ganz scheu.']
+];
+/* Aus der wird ein, aus die wird eine, aus das wird ein */
+const UNB = { der: 'ein', die: 'eine', das: 'ein' };
+const TILES = ['ein', 'eine', 'der', 'die', 'das'];
+
+const GAME = {
+  id: 'neubekannt',
+  unit: 'Geschichten',
+  next: { href: '6-woerterbuch-profi.html', title: 'Wörterbuch-Profi' },
+  review: () => `<div class="review">${['der', 'die', 'das'].map(k =>
+    `<div class="col ${k}"><h3>${UNB[k]} → ${k}</h3><ul>${all.filter(s => s.k === k).map(s => `<li>${full(s)}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Neu oder bekannt? ---------- */
+let all = [], queue = [], cur = null, step = 0;
+const cap = t => t[0].toUpperCase() + t.slice(1);
+const full = s => `${s.s1.replace('___', `<span class="u">${UNB[s.k]}</span>`)} ${s.s2.replace('___', `<b>${cap(s.k)}</b>`)}`;
+const tileEl = k => $(`.tile[data-k="${k}"]`);
+const gapEl = i => $(`.lgap[data-i="${i}"]`);
+const want = () => step === 0 ? UNB[cur.k] : cur.k;
+
+function startGame() {
+  all = STORIES.map(s => ({ noun: s[0], k: s[1], s1: s[2], s2: s[3], misses: 0 }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Lies beide Sätze. Welcher Artikel fehlt im ersten Satz? Dort ist das Nomen noch neu.');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false; step = 0;
+  $$('.tile').forEach(t => t.classList.remove('hint'));
+  const gap = i => `<span class="lgap${i === 0 ? ' cur' : ''}" data-i="${i}" role="img" aria-label="Lücke ${i + 1}">?</span>`;
+  $('#story').innerHTML = `<span class="s">${cur.s1.replace('___', gap(0))}</span><span class="s">${cur.s2.replace('___', gap(1))}</span>`;
+}
+
+function choose(t) {
+  if (state.busy || !cur) return;
+  const ok = want(), isUnb = x => x === 'ein' || x === 'eine';
+  if (t !== ok) {
+    const hint = miss(cur, tileEl(t));
+    $$('.tile').forEach(x => x.classList.remove('hint'));
+    if (hint) {
+      tileEl(ok).classList.add('hint');
+      say(step === 0
+        ? `Tipp: Hier ist das Nomen neu. Dann steht <b>ein</b> oder <b>eine</b>. Es heißt <b>${cur.k} ${cur.noun}</b>, also …?`
+        : `Tipp: Jetzt kennst du das Nomen schon. Dann steht <b>der</b>, <b>die</b> oder <b>das</b>. Aus <b>${UNB[cur.k]} ${cur.noun}</b> wird …?`, 'think');
+    } else if (isUnb(t) !== isUnb(ok)) {
+      say(step === 0
+        ? `Hier kommt <b>${cur.noun}</b> zum ersten Mal vor. Passt dann ein bestimmter oder ein unbestimmter Artikel?`
+        : `<b>${cur.noun}</b> kennst du schon aus dem ersten Satz. Passt dann ein bestimmter oder ein unbestimmter Artikel?`, 'think');
+    } else say(`Fast! Sprich es leise: Welcher Artikel klingt bei <b>${cur.noun}</b> richtig?`, 'think');
+    return;
+  }
+  $$('.tile').forEach(x => x.classList.remove('hint'));
+  const gap = gapEl(step);
+  gap.textContent = step === 0 ? ok : cap(ok);
+  gap.className = 'lgap filled ' + (step === 0 ? 'unb' : cur.k);
+  gap.removeAttribute('role'); gap.removeAttribute('aria-label');
+  if (step === 0) {
+    step = 1; sfx.pick();
+    gapEl(1).classList.add('cur');
+    say(`Genau! <span class="pill unb">${ok} ${cur.noun}</span> ist neu. Und was fehlt im zweiten Satz?`, 'happy');
+    return;
+  }
+  state.busy = true;
+  solve(cur, gap, cur.k);
+  say(`${pick(PRAISE, 'praise')} Erst <span class="pill unb">${UNB[cur.k]} ${cur.noun}</span>, dann <span class="pill ${cur.k}">${cur.k} ${cur.noun}</span>`, 'happy');
+  later(next, 2000);
+}
+
+$('#tiles').addEventListener('click', e => {
+  const t = e.target.closest('.tile');
+  if (t) choose(t.dataset.k);
+});
+document.addEventListener('keydown', e => {
+  if (!gameOn() || !/^[1-5]$/.test(e.key)) return;
+  choose(TILES[+e.key - 1]);
+});

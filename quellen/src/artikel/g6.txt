@@ -1,0 +1,209 @@
+@@meta
+file: 6-woerterbuch-profi.html
+title: Wörterbuch-Profi
+level: Profis
+nr: 6
+total: 20
+subtitle: Schwierige Nomen ohne Bild und ohne Hilfe: Schreibe jedes Nomen mit seinem Artikel auf.
+lead: So steht ein Nomen im Wörterbuch – und so schreibst du es auf:
+id: profi
+desc: Schreibe schwierige Nomen mit ihrem Artikel.
+sample: Abenteuer, das → das Abenteuer
+drag: no
+@@tipp
+Bist du beim Artikel unsicher? Dann schlag im <b>Wörterbuch</b> nach. Dort steht der Artikel hinter dem Nomen: <b>Rätsel, das</b>. Manche Endungen helfen dir: Nomen mit <b style="white-space:nowrap">-ung</b> und <b style="white-space:nowrap">-heit</b> haben fast immer <b>die</b>, Nomen mit <b style="white-space:nowrap">-chen</b> haben <b>das</b>.
+@@examples
+      <div class="ex der" style="--tilt:-1.5deg"><div class="ex-head"><b>Hunger, der</b></div><div class="ex-body"><span class="arrow" aria-hidden="true">▼</span><span class="a">der</span> Hunger</div></div>
+      <div class="ex die" style="--tilt:1deg"><div class="ex-head"><b>Idee, die</b></div><div class="ex-body"><span class="arrow" aria-hidden="true">▼</span><span class="a">die</span> Idee</div></div>
+      <div class="ex das" style="--tilt:-.5deg"><div class="ex-head"><b>Wetter, das</b></div><div class="ex-body"><span class="arrow" aria-hidden="true">▼</span><span class="a">das</span> Wetter</div></div>
+@@howto
+        <li><span>Lies das Nomen. Welcher Artikel gehört dazu: <b>der</b>, <b>die</b> oder <b>das</b>?</span></li>
+        <li><span>Schreibe den Artikel und das Nomen in das Feld, zum Beispiel <b>das Wetter</b>. Denk daran: Nomen schreibt man groß!</span></li>
+        <li><span>Unsicher? Tippe auf „Nachschlagen“. Dann zeigt dir das Wörterbuch den Artikel. Dafür gibt es 5 statt 10 Punkte.</span></li>
+@@board
+    <div class="bench">
+      <p class="lbl">Nomen</p>
+      <p class="from" id="from"></p>
+      <p class="dict" id="dict" hidden></p>
+      <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M5 13l7 7 7-7"/></svg>
+      <p class="lbl"><label for="answer">Artikel und Nomen</label></p>
+      <form class="write" id="form" autocomplete="off">
+        <input id="answer" type="text" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" maxlength="28">
+      </form>
+      <div class="keys" id="keys" aria-label="Besondere Buchstaben">
+        <button type="button" class="keycap">Ä</button><button type="button" class="keycap">Ü</button><button type="button" class="keycap">ä</button><button type="button" class="keycap">ö</button><button type="button" class="keycap">ü</button><button type="button" class="keycap">ß</button>
+      </div>
+    </div>
+@@tray
+    <div class="tray">
+      <div class="actions">
+        <button class="btn btn-secondary big" id="lookup" type="button"><span aria-hidden="true">📖</span> Nachschlagen</button>
+        <button class="btn btn-primary big" id="check" type="submit" form="form">Prüfen</button>
+      </div>
+    </div>
+@@css
+/* ---------- Wörterbuch-Profi ---------- */
+.ex-head b{font-size:clamp(.95rem,2.6vw,1.4rem)}
+.ex-body .arrow{display:block;color:var(--ink-soft);font-size:1rem;line-height:1.1}
+.bench .from{color:var(--ink)}
+.dict{display:inline-block;margin:6px 0 2px;padding:6px 16px;border:3px solid var(--card-edge);border-left:8px solid var(--sun);border-radius:10px;background:var(--paper);
+  font-size:clamp(1.3rem,3.6vw,1.6rem);text-align:left}
+.dict small{display:block;font-size:.9rem;font-weight:700;color:var(--ink-soft)}
+.dict i{font-style:italic}
+.write{display:flex;justify-content:center;align-items:center;font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem)}
+.write input{font:inherit;color:var(--ink);background:var(--paper);border:3px solid var(--card-edge);border-radius:14px;padding:4px 14px;width:min(100%,14em);min-height:60px;text-align:left}
+.write input:focus{outline:none;border-color:var(--sun);box-shadow:0 0 0 4px var(--sun-soft)}
+.write input.good{border-color:var(--c);background:var(--cs)}
+.keys{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:12px}
+.keycap{appearance:none;min-width:48px;min-height:48px;border:3px solid var(--card-edge);background:var(--card);border-radius:12px;font-weight:700;font-size:1.3rem;cursor:pointer;box-shadow:0 3px 0 var(--card-edge)}
+.keycap:active{transform:translateY(2px);box-shadow:0 1px 0 var(--card-edge)}
+.tray .btn.big{font-size:clamp(1.15rem,4vw,1.5rem);padding:10px clamp(14px,4vw,34px);min-height:62px}
+#lookup:disabled{opacity:.45;cursor:default}
+.review li{font-weight:400}
+@@data
+/* Aufbau: [Nomen, Artikel, Endungs-Hilfe oder ''] – die Endungs-Hilfen stehen darunter */
+const WORDS = [
+  ['Ärger',         'der', ''],
+  ['Hunger',        'der', ''],
+  ['Urlaub',        'der', ''],
+  ['Unterricht',    'der', ''],
+  ['Fehler',        'der', ''],
+  ['Streit',        'der', ''],
+  ['Gedanke',       'der', ''],
+  ['Angst',         'die', ''],
+  ['Idee',          'die', ''],
+  ['Antwort',       'die', ''],
+  ['Reise',         'die', ''],
+  ['Gefahr',        'die', ''],
+  ['Überraschung',  'die', 'ung'],
+  ['Gesundheit',    'die', 'heit'],
+  ['Abenteuer',     'das', ''],
+  ['Geheimnis',     'das', ''],
+  ['Gefühl',        'das', ''],
+  ['Wetter',        'das', ''],
+  ['Rätsel',        'das', ''],
+  ['Märchen',       'das', 'chen']
+];
+/* Endungs-Hilfen: Sie stimmen fast immer, aber nicht bei jedem Wort. */
+const ENDINGS = {
+  ung:  'Nomen mit der Endung <b>-ung</b> haben fast immer den Artikel <b>die</b>.',
+  heit: 'Nomen mit der Endung <b>-heit</b> haben fast immer den Artikel <b>die</b>.',
+  chen: 'Nomen mit der Endung <b>-chen</b> haben den Artikel <b>das</b>.'
+};
+
+const GAME = {
+  id: 'profi',
+  next: null,
+  note: () => {
+    const m = state.mistakes, n = all.filter(w => w.looked).length;
+    const a = m === 0 ? 'Kein einziger Fehlversuch.' : m === 1 ? 'Nur ein Fehlversuch.' : `Du hattest ${m} Fehlversuche.`;
+    return `${a} ${n === 0 ? 'Und du musstest kein Wort nachschlagen. Stark!' : n === 1 ? 'Ein Wort hast du nachgeschlagen. Das machen Profis so!' : `${n} Wörter hast du nachgeschlagen. Das machen Profis so!`}`;
+  },
+  review: () => `<div class="review">${['der', 'die', 'das'].map(k =>
+    `<div class="col ${k}"><h3>${k}</h3><ul>${all.filter(w => w.k === k).map(w => `<li><b>${w.k}</b> ${w.noun}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Wörterbuch-Profi ---------- */
+let all = [], queue = [], cur = null;
+const input = $('#answer'), lookupBtn = $('#lookup');
+const entry = w => `<small>Im Wörterbuch steht:</small>${w.noun}, <i>${w.k}</i>`;
+
+function startGame() {
+  all = WORDS.map(w => ({ noun: w[0], k: w[1], end: w[2], misses: 0, looked: false }));
+  queue = shuffle(all.slice());
+  resetState(all.length);
+  say('Schreibe das Nomen mit seinem Artikel in das Feld. Bist du unsicher? Dann schlag nach!');
+  show('game');
+  next();
+}
+
+function next() {
+  cur = queue.shift();
+  if (!cur) { finish(); return; }
+  state.busy = false;
+  $('#from').textContent = cur.noun;
+  $('#dict').hidden = true;
+  lookupBtn.disabled = false;
+  input.value = ''; input.readOnly = false; input.className = '';
+  input.focus({ preventScroll: true });
+}
+
+function showEntry() {
+  $('#dict').innerHTML = entry(cur);
+  $('#dict').hidden = false;
+  lookupBtn.disabled = true;
+}
+
+/* Nachschlagen ist kein Fehlversuch. Es gibt dann aber 5 statt 10 Punkte. */
+function lookup() {
+  if (state.busy || !cur || lookupBtn.disabled) return;
+  cur.looked = true;
+  if (cur.misses === 0) cur.misses = 1;
+  sfx.pick();
+  showEntry();
+  say(`Gut nachgeschlagen! Im Wörterbuch steht der Artikel hinter dem Nomen: <b>${cur.noun}, ${cur.k}</b>. Jetzt schreibst du ihn davor.`);
+  input.focus({ preventScroll: true });
+}
+
+function check() {
+  if (state.busy || !cur) return;
+  const v = input.value.trim().replace(/\s+/g, ' ');
+  const parts = v.split(' ');
+  input.focus({ preventScroll: true });
+  if (!v) { say('Schreibe zuerst den Artikel und das Nomen in das Feld.'); return; }
+  if (parts.length !== 2) {
+    wobble(input);
+    say(`Schreibe zwei Wörter: zuerst den Artikel, dann das Nomen <b>${cur.noun}</b>.`, 'think');
+    return;
+  }
+  const a = parts[0].toLowerCase(), n = parts[1];
+  if (n.toLowerCase() !== cur.noun.toLowerCase()) {
+    wobble(input);
+    say(`Schau genau hin: Das Nomen heißt <b>${cur.noun}</b>. Schreibe es genau so ab.`, 'think');
+    return;
+  }
+  if (/^(ein|eine)$/.test(a)) {
+    wobble(input);
+    say('Hier brauchst du den bestimmten Artikel: <b>der</b>, <b>die</b> oder <b>das</b>.', 'think');
+    return;
+  }
+  if (!/^(der|die|das)$/.test(a)) {
+    wobble(input);
+    say('Vor dem Nomen fehlt der Artikel: <b>der</b>, <b>die</b> oder <b>das</b>.', 'think');
+    return;
+  }
+  if (a !== cur.k) {
+    miss(cur, input);
+    if (cur.misses >= 2 && !cur.looked) {
+      showEntry();
+      say(`Tipp: ${cur.end ? ENDINGS[cur.end] + ' ' : ''}Ich habe das Wörterbuch für dich aufgeschlagen. Der Artikel steht hinter dem Nomen.`, 'think');
+    } else if (cur.looked) {
+      say(`Schau noch einmal ins Wörterbuch: <b>${cur.noun}, ${cur.k}</b>. Richtig heißt es <span class="pill ${cur.k}">${cur.k} ${cur.noun}</span>`, 'think');
+    } else {
+      say('Das passt noch nicht. Sprich das Nomen leise mit den anderen Artikeln. Oder schlag im Wörterbuch nach!', 'think');
+    }
+    return;
+  }
+  if (n !== cur.noun) {
+    wobble(input);
+    say('Fast richtig! Denk daran: Nomen schreibt man groß.', 'think');
+    return;
+  }
+  state.busy = true;
+  input.value = `${cur.k} ${cur.noun}`; input.readOnly = true; input.className = 'good ' + cur.k;
+  lookupBtn.disabled = true;
+  solve(cur, input, cur.k);
+  say(`${pick(PRAISE, 'praise')} <span class="pill ${cur.k}">${cur.k} ${cur.noun}</span>` + (cur.end ? ` ${ENDINGS[cur.end]}` : ''), 'happy');
+  later(next, cur.end ? 2600 : 1700);
+}
+
+$('#form').addEventListener('submit', e => { e.preventDefault(); check(); });
+lookupBtn.addEventListener('click', lookup);
+$('#keys').addEventListener('click', e => {
+  const k = e.target.closest('.keycap');
+  if (!k || input.readOnly) return;
+  const a = input.selectionStart ?? input.value.length, b = input.selectionEnd ?? a;
+  input.value = input.value.slice(0, a) + k.textContent + input.value.slice(b);
+  input.focus();
+  input.setSelectionRange(a + 1, a + 1);
+});

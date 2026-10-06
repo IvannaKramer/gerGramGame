@@ -1,0 +1,10 @@
+@@meta
+slug: artikel
+title: Artikel
+subtitle: Sechs Spiele rund um der, die, das, ein und eine. Such dir aus, wo du anfangen möchtest!
+lead1: Mit Bildern. Je 15 Wörter.
+lead2: Artikel in Sätzen. Je 20 Aufgaben.
+lead3: Schwierige Nomen zum Selberschreiben. 20 Wörter.
+sheets: Zu jedem Spiel gibt es ein Arbeitsblatt mit denselben Wörtern und Sätzen, dazu die Lösungen.
+@@tipp
+Jedes Nomen hat einen Artikel. <b>der</b>, <b>die</b> und <b>das</b> sind bestimmte Artikel. <b>ein</b> und <b>eine</b> sind unbestimmte Artikel: der Hase → ein Hase, die Ente → eine Ente, das Schaf → ein Schaf. Bist du unsicher? Dann schlag im Wörterbuch nach.

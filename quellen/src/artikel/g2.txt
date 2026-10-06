@@ -1,0 +1,166 @@
+@@meta
+file: 2-artikel-zwillinge.html
+title: Artikel-Zwillinge
+level: Anfänger
+nr: 2
+total: 15
+subtitle: Finde die Zwillinge: Welcher bestimmte Artikel gehört zu welchem unbestimmten Artikel?
+lead: Bestimmte Artikel sind im Spiel lila, unbestimmte Artikel sind türkis:
+id: zwillinge
+desc: Memory: der Igel und ein Igel gehören zusammen.
+sample: 🦔 der Igel + ein Igel
+drag: no
+@@tipp
+<b>der</b>, <b>die</b>, <b>das</b> heißen <b>bestimmte Artikel</b>. <b>ein</b> und <b>eine</b> heißen <b>unbestimmte Artikel</b>. Aus <b>der</b> wird <b>ein</b>, aus <b>die</b> wird <b>eine</b>, aus <b>das</b> wird <b>ein</b>.
+@@examples
+      <div class="ex" style="--tilt:-1.5deg"><div class="ex-body"><span class="emo" aria-hidden="true">🦔</span><span class="e1"><b class="der w">der</b> Igel</span><span class="arrow" aria-hidden="true">▼</span><span class="e2"><b class="der w">ein</b> Igel</span></div></div>
+      <div class="ex" style="--tilt:1deg"><div class="ex-body"><span class="emo" aria-hidden="true">🐝</span><span class="e1"><b class="die w">die</b> Biene</span><span class="arrow" aria-hidden="true">▼</span><span class="e2"><b class="die w">eine</b> Biene</span></div></div>
+      <div class="ex" style="--tilt:-.5deg"><div class="ex-body"><span class="emo" aria-hidden="true">⛺</span><span class="e1"><b class="das w">das</b> Zelt</span><span class="arrow" aria-hidden="true">▼</span><span class="e2"><b class="das w">ein</b> Zelt</span></div></div>
+@@howto
+        <li><span>Tippe eine lila Karte an. Sie dreht sich um und zeigt ein Nomen mit <b>der</b>, <b>die</b> oder <b>das</b>.</span></li>
+        <li><span>Tippe dann eine türkise Karte an. Sie zeigt ein Nomen mit <b>ein</b> oder <b>eine</b>.</span></li>
+        <li><span>Ist es dasselbe Nomen? Dann bleibt das Paar offen. Wenn nicht, drehen sich die Karten wieder um.</span></li>
+@@board
+    <p class="round" id="round">Runde 1 von 3</p>
+    <div class="memo" id="memo"></div>
+@@tray
+@@css
+/* ---------- Artikel: bestimmt = lila, unbestimmt = türkis ---------- */
+.best{--c:var(--bonus);--cd:var(--bonus-deep);--cs:var(--bonus-soft)}
+.unb{--c:var(--teal);--cd:var(--teal-deep);--cs:var(--teal-soft)}
+.w{color:var(--c);font-weight:700}
+.ex-body .e1,.ex-body .e2{color:var(--ink)}
+/* ---------- Memory ---------- */
+.memo{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:14px;perspective:1200px}
+@media (max-width:860px){.memo{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:520px){.memo{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}}
+.mcard{appearance:none;border:none;background:none;padding:0;height:clamp(132px,17vw,156px);cursor:pointer;border-radius:18px}
+.mcard .inner{position:relative;display:block;width:100%;height:100%;transition:transform .4s ease;transform-style:preserve-3d}
+.mcard.open .inner{transform:rotateY(180deg)}
+.mcard .back,.mcard .face{position:absolute;inset:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 4px 0 var(--cd),0 10px 18px var(--lift)}
+.mcard .back{background:var(--c);color:#fff}
+.mcard .back b{font-size:clamp(1.1rem,2.6vw,1.4rem);line-height:1.2;display:flex;flex-wrap:wrap;justify-content:center;gap:0 .45em;max-width:100%;padding:0 4px}
+.mcard .back small{font-size:clamp(.85rem,2vw,1rem);font-weight:700;opacity:.9}
+.mcard .face{background:var(--card);border:4px solid var(--c);transform:rotateY(180deg);padding:2px}
+.mcard .pic{font-size:clamp(1.7rem,4.4vw,2.4rem);line-height:1.15;white-space:nowrap}
+.mcard .word{font-weight:700;font-size:clamp(1.22rem,2.5vw,1.55rem);line-height:1.12;color:var(--ink);text-align:center}
+.mcard .word .w{display:block}
+.mcard.found{cursor:default}
+.mcard.found .face{background:var(--cs)}
+@media (hover:hover){.mcard:not(.open):hover .inner{transform:translateY(-3px)}}
+.review li{font-weight:400}
+@@data
+/* Aufbau: [Nomen, bestimmter Artikel, Bild] – der unbestimmte Artikel wird daraus gebildet.
+   Immer 5 Paare bilden eine Runde. */
+const WORDS = [
+  ['Igel',     'der', '🦔'],
+  ['Hase',     'der', '🐇'],
+  ['Stern',    'der', '⭐'],
+  ['Koffer',   'der', '🧳'],
+  ['Tiger',    'der', '🐅'],
+  ['Biene',    'die', '🐝'],
+  ['Kerze',    'die', '🕯️'],
+  ['Rakete',   'die', '🚀'],
+  ['Zitrone',  'die', '🍋'],
+  ['Trommel',  'die', '🥁'],
+  ['Schwein',  'das', '🐖'],
+  ['Zelt',     'das', '⛺'],
+  ['Flugzeug', 'das', '✈️'],
+  ['Geschenk', 'das', '🎁'],
+  ['Krokodil', 'das', '🐊']
+];
+const PAIRS_PER_ROUND = 5;
+/* Aus der wird ein, aus die wird eine, aus das wird ein */
+const UNB = { der: 'ein', die: 'eine', das: 'ein' };
+
+const GAME = {
+  id: 'zwillinge',
+  next: { href: '3-ein-oder-eine.html', title: 'Ein oder eine?' },
+  /* Sterne nach Versuchen: Jedes Paar braucht mindestens einen Versuch. */
+  stars: () => { const extra = tries - state.total; return extra <= 9 ? 3 : extra <= 18 ? 2 : 1; },
+  note: stars => stars === 3
+    ? `Du hast nur ${tries} Versuche gebraucht. Starkes Gedächtnis!`
+    : `Du hast ${tries} Versuche gebraucht. Spiel nochmal, dann findest du die Paare noch schneller!`,
+  review: () => `<div class="review">${['der', 'die', 'das'].map(k =>
+    `<div class="col ${k}"><h3>${k} → ${UNB[k]}</h3><ul>${rounds.flat().filter(w => w.k === k).map(w =>
+      `<li><b>${w.k}</b> ${w.noun} – <b>${UNB[w.k]}</b> ${w.noun}</li>`).join('')}</ul></div>`).join('')}</div>`
+};
+@@js
+/* ---------- Spiel: Artikel-Zwillinge ---------- */
+const KIND = { best: 'bestimmt', unb: 'unbestimmt' };
+const BACK = { best: '<span>der</span><span>die</span><span>das</span>', unb: '<span>ein</span><span>eine</span>' };
+const COLOR = { best: 'lila', unb: 'türkise' };
+let rounds = [], round = 0, cards = [], open = [], tries = 0, left = 0;
+const closedLabel = c => `Karte ${KIND[c.kind]}, verdeckt`;
+const art = c => c.kind === 'best' ? c.w.k : UNB[c.w.k];
+const both = w => `<span class="pill ${w.k}">${w.k} ${w.noun}</span> und <span class="pill ${w.k}">${UNB[w.k]} ${w.noun}</span>`;
+
+function startGame() {
+  const all = WORDS.map(w => ({ noun: w[0], k: w[1], emoji: w[2], misses: 0 }));
+  /* In jeder Runde kommen der, die und das vor */
+  const n = Math.ceil(all.length / PAIRS_PER_ROUND);
+  rounds = Array.from({ length: n }, () => []);
+  let r = 0;
+  ['der', 'die', 'das'].forEach(k => shuffle(all.filter(w => w.k === k)).forEach(w => { rounds[r % n].push(w); r++; }));
+  resetState(all.length);
+  round = 0; tries = 0;
+  startRound();
+  say('Dreh zwei Karten um: eine lila und eine türkise. Zeigen beide dasselbe Nomen?');
+  show('game');
+}
+
+function startRound() {
+  open = []; left = rounds[round].length;
+  cards = shuffle(rounds[round].flatMap(w => [{ w, kind: 'best' }, { w, kind: 'unb' }]));
+  $('#round').textContent = `Runde ${round + 1} von ${rounds.length}`;
+  $('#memo').innerHTML = cards.map((c, i) =>
+    `<button class="mcard ${c.kind}" data-i="${i}" aria-label="${closedLabel(c)}">
+      <span class="inner">
+        <span class="back" aria-hidden="true"><b>${BACK[c.kind]}</b><small>${KIND[c.kind]}</small></span>
+        <span class="face" aria-hidden="true"><span class="pic">${c.w.emoji}</span><span class="word"><span class="w ${c.w.k}">${art(c)}</span>${c.w.noun}</span></span>
+      </span></button>`).join('');
+}
+
+$('#memo').addEventListener('click', e => {
+  const el = e.target.closest('.mcard');
+  if (!el || state.busy) return;
+  const c = cards[+el.dataset.i];
+  if (c.open || c.found) return;
+  sfx.pick();
+  c.open = true;
+  el.classList.add('open');
+  el.setAttribute('aria-label', `${KIND[c.kind]}: ${art(c)} ${c.w.noun}`);
+  open.push({ c, el });
+  if (open.length < 2) return;
+
+  tries++;
+  const [a, b] = open; open = [];
+  state.busy = true;
+  if (a.c.w === b.c.w) {
+    a.c.found = b.c.found = true;
+    later(() => {
+      a.el.classList.add('found'); b.el.classList.add('found');
+      solve(a.c.w, b.el, a.c.w.k);
+      say(`${pick(PRAISE, 'praise')} ${both(a.c.w)} gehören zusammen. Aus <b>${a.c.w.k}</b> wird <b>${UNB[a.c.w.k]}</b>.`, 'happy');
+      state.busy = false;
+      if (--left === 0) roundDone();
+    }, 450);
+  } else {
+    const same = a.c.kind === b.c.kind;
+    say(same
+      ? `Das sind zwei ${COLOR[a.c.kind]} Karten. Dreh eine lila und eine türkise Karte um!`
+      : 'Das sind verschiedene Nomen. Merk dir, wo die Karten liegen!', 'think');
+    later(() => {
+      [a, b].forEach(o => { o.c.open = false; o.el.classList.remove('open'); o.el.setAttribute('aria-label', closedLabel(o.c)); });
+      state.busy = false;
+    }, 1700);
+  }
+});
+
+function roundDone() {
+  state.busy = true;
+  if (round < rounds.length - 1) {
+    later(() => { say('Runde geschafft! Hier kommen neue Karten.', 'happy'); round++; startRound(); state.busy = false; }, 1600);
+  } else later(finish, 1300);
+}
