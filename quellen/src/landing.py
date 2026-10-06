@@ -41,16 +41,19 @@ def meta(path):
     return out
 
 def topic(nr, slug, title, emoji, desc):
-    if slug == 'artikel':   # älteres Einzelspiel mit 5 Phasen, ohne Übungsblatt
-        return {'nr': nr, 'title': title, 'emoji': emoji, 'desc': desc, 'href': 'games/artikel-match.html', 'count': '1 Spiel',
-                'keys': ['artikel-match-v1'], 'max': 15, 'sheet': ''}
+    extra = ''
+    if slug == 'artikel':   # dazu gibt es das ältere Einzelspiel Artikel-Match mit 5 Phasen
+        extra = '<a class="sheet" href="games/artikel-match.html">Artikel-Match</a>'
+        if not (SRC / slug / 'topic.txt').exists():
+            return {'nr': nr, 'title': title, 'emoji': emoji, 'desc': desc, 'href': 'games/artikel-match.html', 'count': '1 Spiel',
+                    'keys': ['artikel-match-v1'], 'max': 15, 'sheet': '', 'extra': ''}
     d = SRC / slug
     if not (d / 'topic.txt').exists() or not (REPO / 'games' / slug / 'index.html').exists():
         return None
     sheet = f'arbeitsblaetter/{slug}.pdf'
     return {'nr': nr, 'title': title, 'emoji': emoji, 'desc': desc, 'href': f'games/{slug}/index.html', 'count': '6 Spiele',
             'keys': [f"{slug}-{meta(d / f'g{n}.txt')['id']}-v1" for n in range(1, 7)], 'max': 18,
-            'sheet': sheet if (REPO / sheet).exists() else ''}
+            'sheet': sheet if (REPO / sheet).exists() else '', 'extra': extra}
 
 parts = [('Grammatik', [t for t in (topic(*x) for x in GRAMMATIK) if t]),
          ('Rechtschreibung', [t for t in (topic(*x) for x in RECHTSCHREIBUNG) if t])]
@@ -155,7 +158,7 @@ def card(t):
       <h3>{t['title']}</h3>
       <p>{t['desc']}</p>
       <div class="got"></div>
-      <div class="links"><a class="play" href="{t['href']}">Spielen</a>{sheet}</div>
+      <div class="links"><a class="play" href="{t['href']}">Spielen</a>{sheet}{t['extra']}</div>
     </article>'''
 
 LEADS = {'Grammatik': 'Wortarten, Zeitformen und Satzbau.', 'Rechtschreibung': 'Tricks und Regeln für das richtige Schreiben.'}
